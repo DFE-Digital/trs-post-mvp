@@ -1,0 +1,82 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+
+<h1 class="govuk-heading-l">
+Search results and records overview iteration 1
+  </h1>
+
+  <p>28th July 2025</p>
+
+
+  <p>
+    <a href="" target="blank">Lucid link [to follow]</a>
+  </p>
+
+  
+  <table class="govuk-table">
+    
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+       
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Link</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+ <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="search-results-v2-h.html">Search results</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+          <p>
+           Old design from initial MVP+ proposal.
+         
+          </p>
+        </td>
+      </tr>
+
+
+      
+
+       <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="search-results-v2.html">Search results alternate</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+          <p>
+         Alternate option.
+         
+          </p>
+        </td>
+      </tr>
+
+       
+
+      
+</tbody>
+  </table>
+
+
+ 
+         
+  
+{% endblock %}

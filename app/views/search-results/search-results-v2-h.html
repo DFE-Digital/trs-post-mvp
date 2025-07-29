@@ -1,0 +1,284 @@
+{% extends "layouts/new-nav.html" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Search results</h1>
+    {% if data.roleSelect != "viewer" %}
+    <form action="records/new/create-new-record" novalidate>
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+      Create a record
+    </button>
+    {% endif %}
+
+    <!-- 
+<div class="app-search-form" style="display: flex; align-items: flex-end";>
+  <form id="searchForm">
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--s app-search-form__label" for="find-record">
+        Search
+      </label>
+      <div id="find-record-hint" class="govuk-hint">
+        For example TRN, name or date of birth
+      </div>
+      <input class="govuk-input" id="find-record" name="findRecord" type="text" aria-describedby="find-record-hint" value="">
+    </div>
+    
+    <button class="govuk-button app-search-form__button" data-module="govuk-button">
+      Search
+    </button>
+  </form>
+</div>-->
+</div>
+</div>
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-one-third">
+  <div class="moj-filter-layout">
+  <div class="moj-filter-layout__filter" style="width:280px!important;">
+    <div class="moj-filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+        <div class="moj-filter__header-action">
+        </div>
+      </div>
+
+      <div class="moj-filter__options">
+
+
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            Search
+          </label>
+          <div id="find-record-hint" class="govuk-hint">
+        For example TRN, name or date of birth
+      </div>
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text">
+
+        </div>
+
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="appt-date-hint">
+
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+
+              <h1 class="govuk-fieldset__heading">
+                Date range
+              </h1>
+
+            </legend>
+
+            <div class="govuk-date-input" id="appt-date">
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                    Day
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                    Month
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                    Year
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+              </div>
+
+           <p>
+            <h1 class="govuk-fieldset__heading">
+           to
+          </h1></p>
+
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="appt-date-hint">
+          <div class="govuk-date-input" id="appt-date">
+              
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                  Day
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day" name="appt-date-day" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                  Month
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month" name="appt-date-month" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                  Year
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year" name="appt-date-year" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+          </div>
+          
+        
+        </fieldset>
+      </fieldset>
+        </div>
+
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Apply filters
+          </button>
+
+          <div class="moj-filter__heading-action">
+            <p><a class="govuk-link govuk-link--no-visited-state" href="">Clear filters</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+<!-- Search results -->
+
+  <div class="govuk-grid-column-two-thirds">
+     <p class="govuk-body">
+        <strong>Sort by: </strong>
+         <a href="#" class="govuk-link">Date updated</a> |
+        <a href="#" class="govuk-link">Last name</a> | 
+        <a href="#" class="govuk-link">First name</a> | 
+        <a href="#" class="govuk-link">Date of birth</a>
+      </p>
+
+  <!-- Entry 1 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">Harry Taylor</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 4063484</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 April 1990</p>
+        <p class="govuk-body-s">National Insurance Number: 	QQ 123456 B</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--blue">QTS awarded</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>31 July 2024</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+  <!-- Entry 2 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">Harry James Taylor</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 3083414</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 22 October 1994</p>
+        <p class="govuk-body-s">National Insurance Number: 	AB 67890 Q</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--purple">Induction in progress</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>4 January 2023</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 3 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">Taylor Harry Smithson</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 2101199</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 	1 February 1950</p>
+        <p class="govuk-body-s">National Insurance Number: 	ST 182470 Y</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--red">Alert on file</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>2 February 2024</p>
+      </div>
+    </div>
+  </li>
+</ul>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+     function removePaginationIfLessThanTenItems() {
+            const pagination = document.querySelector('nav.govuk-pagination');
+            const resultItems = document.querySelectorAll('ol.app-search-results li.app-search-results__item');
+
+            if (resultItems.length < 10) {
+                if (pagination) {
+                    pagination.remove();
+                }
+            }
+        }
+
+        window.onload = removePaginationIfLessThanTenItems;
+
+</script>
+
+{% endblock %}
