@@ -1,3 +1,5 @@
+
+
 .app-record-list {
   list-style: none;
   margin: 0;
@@ -35,6 +37,15 @@
   font-size: 14px;
 }
 
+.app-record-tag {
+  background-color: #cce2d8;
+  color: #005a30;
+  padding: 4px 8px;
+  border-radius: 2px;
+  display: inline-block;
+  font-size: 14px;
+}
+
 @media (max-width: 640px) {
   .app-record-list__row {
     flex-direction: column;
@@ -44,4 +55,24 @@
     text-align: left;
     margin-top: 1rem;
   }
+}
+
+.record-header {
+  margin-bottom: 25px;
+}
+
+.record-header .govuk-tag {
+    position: relative;
+    top: -5px;
+}
+
+.record-header-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.record-header-updated {
+  text-align: right;
+  padding-top: 5px; // adjust if needed
 }

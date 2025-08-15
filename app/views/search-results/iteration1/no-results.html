@@ -1,0 +1,388 @@
+{% extends "layouts/new-nav.html" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Search results for "Harry Taylor" (0)</h1>
+    
+    <form action="records/new/create-new-record" novalidate>
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+      Create a record
+    </button>
+
+
+  
+</div>
+</div>
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-one-third">
+  <div class="moj-filter-layout">
+  <div class="moj-filter-layout__filter" style="width:280px!important;">
+    <div class="moj-filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+        <div class="moj-filter__header-action">
+        </div>
+      </div>
+
+      <div class="moj-filter__options">
+
+  <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            Name or previous name
+          </label>
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
+
+        </div>
+
+
+           <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            TRN
+          </label>          
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
+
+          </div>
+
+           <div class="govuk-form-group">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+
+              <h1 class="govuk-fieldset__heading">
+               Date of birth
+              </h1>
+
+            </legend>
+
+            <div class="govuk-date-input" id="appt-date">
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                    Day
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                    Month
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                    Year
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+                   </fieldset>
+              </div>
+              </div>
+
+              
+       <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              Professional status
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" checked>
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                  QTS awarded (0)
+                </label>
+              </div>
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register" checked>
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                Alert on file (0)
+                </label>
+              </div>
+
+                <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register" checked>
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                Induction in progress (0)
+                </label>
+              </div>
+        
+            </div>
+          </fieldset>
+        </div>
+
+
+
+
+          <div class="govuk-form-group">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+
+              <h1 class="govuk-fieldset__heading">
+                Last updated date range
+              </h1>
+
+            </legend>
+
+            <div class="govuk-date-input" id="appt-date">
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                    Day
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                    Month
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                    Year
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+              </div>
+
+           <p class="govuk-body">
+            <h1 class="govuk-fieldset__heading">
+           to
+          </h1></p>
+
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="appt-date-hint">
+          <div class="govuk-date-input" id="appt-date">
+              
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                  Day
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day" name="appt-date-day" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                  Month
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month" name="appt-date-month" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                  Year
+                </label>
+              
+              <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year" name="appt-date-year" type="text" value="" inputmode="numeric">
+              
+              </div>
+            </div>
+          
+          </div>
+          
+        
+        </fieldset>
+      </fieldset>
+        </div>
+
+
+       <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              Record state (0)
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" checked>
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                  Active (0)
+                </label>
+              </div>
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register" checked>
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                  Deactivated (0)
+                </label>
+              </div>
+        
+            </div>
+          </fieldset>
+        </div>
+
+
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Apply filters
+          </button>
+
+          <div class="moj-filter__heading-action">
+            <p><a class="govuk-link govuk-link--no-visited-state" href="">Clear filters</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+<div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+  
+
+    <!-- Keywords -->
+    <div class="govuk-form-group" style="margin-bottom: 20px;">
+      <label class="govuk-label" for="keywords">Keywords</label>
+      <input class="govuk-input" id="keywords" name="keywords" type="text" value="harry taylor" style="width: 100%;">
+    </div>
+
+    <!-- Search radius -->
+    <div class="govuk-form-group" style="margin-bottom: 10px;">
+      <label class="govuk-label" for="radius">Sort by</label>
+        <select class="govuk-select" id="radius" name="radius">
+          <option value="10" selected>Last updated</option>
+          <option value="20">First name</option>
+          <option value="30">Last name</option>
+          <option value="40">Date of birth</option>
+          <option value="40">Record status</option>
+        </select>
+    </div>
+
+    <!-- Search button on its own line -->
+    <div>
+      <button class="govuk-button" data-module="govuk-button" style="margin-top: 8px;">
+        Search
+      </button>
+    </div>
+
+</div>
+
+
+
+  <div class="govuk-grid-column-two-thirds">
+
+     <div class="app-records-actions">
+      <div class="app-records-actions__col">
+        
+<!-- <p class="govuk-visually-hidden">Records sorted by </p>
+<p class="govuk-body govuk-!-margin-bottom-3">
+  <span class="govuk-!-font-weight-bold" >Sort by:</span> 
+<span class="govuk-!-margin-left-1 govuk-!-margin-right-1">
+  
+    <span class="">Date updated</span>
+  
+</span>
+
+ | 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Last name</a>
+  
+</span>
+
+| 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Date of birth</a>
+  
+</span>
+
+| 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Record status</a>
+  
+</span>
+ 
+ 
+</p>
+    </div>
+  -->
+
+  <h2 class="govuk-heading-m">
+    No matching records have been found.
+  </h2>
+
+  <p>
+    Use the filters on the left to refine your search or start a new search instead.
+  </p>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+     function removePaginationIfLessThanTenItems() {
+            const pagination = document.querySelector('nav.govuk-pagination');
+            const resultItems = document.querySelectorAll('ol.app-search-results li.app-search-results__item');
+
+            if (resultItems.length < 10) {
+                if (pagination) {
+                    pagination.remove();
+                }
+            }
+        }
+
+        window.onload = removePaginationIfLessThanTenItems;
+
+</script>
+
+{% endblock %}

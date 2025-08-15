@@ -1,0 +1,206 @@
+{% extends "layouts/new-nav.html" %}
+
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/find-teacher"
+  }) }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-l">Harry Taylor</h1>
+
+      <nav class="x-govuk-secondary-navigation" aria-label="Secondary menu">
+        <ul class="x-govuk-secondary-navigation__list">
+          <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
+            <a class="x-govuk-secondary-navigation__link" href="#" aria-current=page>
+              General
+            </a>
+          </li>
+          <li class="x-govuk-secondary-navigation__list-item ">
+            <a class="x-govuk-secondary-navigation__link" href="routes" >
+             Routes and qualifications
+            </a>
+          </li>
+          <li class="x-govuk-secondary-navigation__list-item">
+            <a class="x-govuk-secondary-navigation__link" href="induction">
+             Induction
+            </a>
+          </li>
+          <li class="x-govuk-secondary-navigation__list-item">
+            <a class="x-govuk-secondary-navigation__link" href="alerts">
+             Alerts
+            </a>
+          </li>
+          <li class="x-govuk-secondary-navigation__list-item">
+            <a class="x-govuk-secondary-navigation__link" href="notes">
+           Notes
+            </a>
+          </li>
+          <li class="x-govuk-secondary-navigation__list-item ">
+            <a class="x-govuk-secondary-navigation__link" href="change-history">
+             Change history
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    <br><br>
+  
+      {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Personal details"
+          },
+          actions: {
+            items: [
+              {
+                href: "/create-record/add/reason",
+                text: "Change",
+                visuallyHiddenText: "Why I am creating this record"
+              }
+            ]
+          }
+        },
+        rows: [
+          {
+            key: {
+              text: "Name"
+            },
+            value: {
+              text: 'Harry Taylor'
+            }
+          },
+          {
+            key: {
+              text: "Date of birth"
+            },
+            value: {
+              text: "19 April 1990"
+            }
+          },
+          {
+            key: {
+              text: "Gender"
+            },
+            value: {
+              text: 'Male'
+            }
+          },
+          {
+            key: {
+              text: "Teacher reference number (TRN)"
+            },
+            value: {
+              text: '4063484'
+            }
+          },
+          {
+            key: {
+              text: "National Insurance number"
+            },
+            value: {
+              text: "QQ 123456 B"
+            }
+          },
+          {
+            key: {
+              text: "Email"
+            },
+            value: {
+               text: 'h.taylor@gmail.com'
+            }
+          },
+          {
+            key: {
+              text: "Mobile number"
+            },
+            value: {
+               text: "07151716301"
+            }
+          }
+        ]
+      }) }}
+
+     
+      
+    
+ {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Professional status details"
+          }
+        },
+        rows: [
+          {
+            key: {
+              text: "Qualified teacher status (QTS)"
+            },
+            value: {
+              text: 'Holds'
+            }
+          },
+          {
+            key: {
+              text: "QTS held since"
+            },
+            value: {
+              text: "14 May 2024"
+            }
+          },
+          {
+            key: {
+              text: "Qualified Teacher Learning and Skills status (QTLS)"
+            },
+            value: {
+              text: 'No'
+            }
+          },
+          {
+            key: {
+              text: "Induction status"
+            },
+            value: {
+              text: 'In progress'
+            }
+          },
+          {
+            key: {
+              text: "Early years teacher status"
+            },
+            value: {
+              text: "No"
+            }
+          },
+          {
+            key: {
+              text: "Early years professional status"
+            },
+            value: {
+               text: 'No'
+            }
+          },
+          {
+            key: {
+              text: "Partial qualified teacher status (PQTS)"
+            },
+            value: {
+               text: "No"
+            }
+          }
+        ]
+      }) }}
+
+     
+  </div>
+</div>
+
+{% endblock %}

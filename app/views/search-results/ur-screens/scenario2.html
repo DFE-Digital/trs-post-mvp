@@ -1,0 +1,697 @@
+{% extends "layouts/new-nav.html" %}
+{% set currentPage = "records" %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Search results for "John Smith" (4)</h1>
+    
+<!-- Inline row: Keywords, Sort by, Search button -->
+<div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 10px;">
+
+  <!-- Keywords -->
+  <div class="govuk-form-group" style="flex: 2; margin: 0;">
+    <label class="govuk-label" for="keywords">Keywords</label>
+    <input class="govuk-input" id="keywords" name="keywords" type="text" value="John Smith" style="width: 100%;">
+  </div>
+
+  <!-- Sort by -->
+  <div class="govuk-form-group" style="flex: 1; margin: 0;">
+    <label class="govuk-label" for="radius">Sort by</label>
+    <select class="govuk-select" id="radius" name="radius" style="width: 100%;">
+      <option value="10" selected>First name</option>
+      <option value="30">Last name</option>
+      <option value="">Last updated</option>
+      <option value="40">Date of birth</option>
+      <option value="40">Record status</option>
+    </select>
+  </div>
+
+  <!-- Search button -->
+  <button class="govuk-button" data-module="govuk-button"
+          type="submit"
+          style="margin: 2px; align-self: flex-end; white-space: nowrap;">
+    Search
+  </button>
+
+</div>
+   
+</div>
+</div>
+<br><br>
+ <h2 class="govuk-heading-s">Create a record</h2>
+
+
+<form action="records/new/create-new-record" novalidate>
+<button type="submit" class="govuk-button" data-module="govuk-button">
+  Create record
+</button>
+
+</form>
+
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-one-third">
+  <div class="moj-filter-layout">
+  <div class="moj-filter-layout__filter" style="width:280px!important;">
+    <div class="moj-filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+        <div class="moj-filter__header-action">
+        </div>
+      </div>
+
+      <div class="moj-filter__options">
+
+  <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            Name or previous name
+          </label>
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
+
+        </div>
+
+
+           <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            Teacher reference number (TRN)
+          </label>          
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
+
+          </div>
+
+           <div class="govuk-form-group">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+
+              <h1 class="govuk-fieldset__heading">
+               Date of birth
+              </h1>
+
+            </legend>
+
+            <div class="govuk-date-input" id="appt-date">
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                    Day
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                    Month
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                    Year
+                  </label>
+
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
+
+                </div>
+              </div>
+                   </fieldset>
+              </div>
+              </div>
+
+      <div id="subjects" class="app-checkbox-filter govuk-checkboxes--small">
+
+  <div class="govuk-form-group"><fieldset class="govuk-fieldset">
+  
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+  
+    Record details
+  
+  </legend>
+  
+<div class="app-checkbox-filter__container">
+
+        <div class="govuk-checkboxes app-checkbox-filter__container-inner">
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Accounting">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">QTS held</label>
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Art and design">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Assessment only</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Biology">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Mandatory qualifications</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Business studies">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Early Years ITT Graduate Employment Based</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Chemistry">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">International Qualified Teacher Status</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Citizenship">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Postgraduate Teaching Apprenticeship</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Classics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">QTLS and SET Membership</label>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Computing">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Teacher Degree Apprenticeship</label>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Dance">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Dance</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Design and technology">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Design and technology</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint">Includes Product design, Textiles and Systems and control</div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Drama">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Drama</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint">Includes Theatre studies and Performing arts</div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Economics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Economics</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Engineering">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Engineering</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="English">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">English</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint">Includes English language and literature</div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Food Technology">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Food Technology</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint">Includes Hospitality and catering</div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="French">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">French</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Geography">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Geography</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="German">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">German</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Health and social care">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Health and social care</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="History">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">History</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Humanities">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Humanities</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="ICT">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">ICT</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Law">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Law</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Mandarin">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Mandarin</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Mathematics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Mathematics</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Media studies">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Media studies</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Music">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Music</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Philosophy">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Philosophy</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Physical education">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Physical education</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Physics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Physics</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Politics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Politics</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Psychology">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Psychology</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Religious education">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Religious education</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint">Includes religious studies</div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Relationships and sex education">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Relationships and sex education</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Science">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Science</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Social sciences">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Social sciences</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Sociology">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Sociology</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Spanish">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Spanish</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="subjects-" name="filters[subjects]" type="checkbox" value="Statistics">
+              <label class="govuk-label govuk-checkboxes__label" for="subjects-">Statistics</label>
+
+              <div id="subjects--hint" class="govuk-hint govuk-checkboxes__hint"></div>
+
+            </div></div>
+
+      </div>
+
+</fieldset>
+</div>
+
+</div>
+
+
+            <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+             Alert on record
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" >
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                 Alert on record (1)
+                </label>
+              </div>
+            </fieldset>
+            </div>
+
+        
+
+
+       <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              Record state (4)
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" checked >
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                  Active (4)
+                </label>
+              </div>
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register" >
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                  Deactivated (0)
+                </label>
+              </div>
+        
+            </div>
+          </fieldset>
+        </div>
+
+       
+
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Apply filters
+          </button>
+
+          <div class="moj-filter__heading-action">
+            <p><a class="govuk-link govuk-link--no-visited-state" href="">Clear filters</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+
+
+
+
+  <div class="govuk-grid-column-two-thirds">
+
+     <div class="app-records-actions">
+      <div class="app-records-actions__col">
+        
+<!-- <p class="govuk-visually-hidden">Records sorted by </p>
+<p class="govuk-body govuk-!-margin-bottom-3">
+  <span class="govuk-!-font-weight-bold" >Sort by:</span> 
+<span class="govuk-!-margin-left-1 govuk-!-margin-right-1">
+  
+    <span class="">Date updated</span>
+  
+</span>
+
+ | 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Last name</a>
+  
+</span>
+
+| 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Date of birth</a>
+  
+</span>
+
+| 
+<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
+  
+    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Record status</a>
+  
+</span>
+ 
+ 
+</p>
+    </div>
+  -->
+
+  <!-- Entry 1 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4063484</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: John Henry Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 April 1990</p>
+        <p class="govuk-body-s">National Insurance Number: 	QQ 123456 B</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>31 July 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 3 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 2101199</a>
+        </h2>
+              <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 	1 February 1950</p>
+        <p class="govuk-body-s">National Insurance Number: 	ST 182470 Y</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--red">Alert on file</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>2 February 2024</p>
+           <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+  <!-- Entry 2 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3083414</a>
+        </h2>
+       <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 22 October 1994</p>
+        <p class="govuk-body-s">National Insurance Number: 	AB 67890 Q</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--purple">Induction in progress</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>4 January 2023</p>
+           <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 4 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3246182</a>
+            <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: Jonathan Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 17 March 1990</p>
+        <p class="govuk-body-s">National Insurance Number: 	AC 57290 Z</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+           <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>7 February 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+     function removePaginationIfLessThanTenItems() {
+            const pagination = document.querySelector('nav.govuk-pagination');
+            const resultItems = document.querySelectorAll('ol.app-search-results li.app-search-results__item');
+
+            if (resultItems.length < 10) {
+                if (pagination) {
+                    pagination.remove();
+                }
+            }
+        }
+
+        window.onload = removePaginationIfLessThanTenItems;
+
+</script>
+
+{% endblock %}

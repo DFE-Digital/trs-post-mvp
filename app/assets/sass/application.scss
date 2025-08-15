@@ -4,4 +4,55 @@
 // 
 
 // Add extra styles here
+@import "components/header.scss";
+@import "components/flat-card.scss";
+@import "components/column-card.scss";
+@import "components/checkbox-filter/checkbox-filter";
+@import "components/accessible-autocomplete";
+@import "components/app-search-results";
+
+@import "components/list";
+@import "components/hidden.scss";
+@import "components/action-bar.scss";
+@import "components/filter-layout.scss";
+@import "components/filter-panel.scss";
+
+@import "components/flex-table-row.scss";
+
+@import "components/radios-layout.scss";
+@import "components/status-grid.scss";
+@import "components/status-card.scss";
+@import "components/search-form.scss";
 @import "custom.css";
+
+body {
+  height: auto;
+}
+
+.flex-sort-by{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3rem;
+}
+
+body {
+  height: auto;
+}
+
+.flex-sort-by{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3rem;
+}
+
+
+.banner-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-right: 0; /* ensures link isn't cut off */
+}
