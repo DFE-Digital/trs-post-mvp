@@ -76,3 +76,27 @@
   text-align: right;
   padding-top: 5px; // adjust if needed
 }
+
+.pre-footer {
+  background-color: #f3f2f1;  /* light GOV.UK grey */
+  padding: 1rem 0;           /* tighter padding than content */
+  border-top: 1px solid #b1b4b6; /* subtle separator */
+}
+
+.pre-footer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.pre-footer__list a {
+  color: #1d70b8;   /* GOV.UK link blue */
+  text-decoration: none;
+}
+
+.pre-footer__list a:hover {
+  text-decoration: underline;
+}

@@ -295,40 +295,6 @@
      <div class="app-records-actions">
       <div class="app-records-actions__col">
         
-<!-- <p class="govuk-visually-hidden">Records sorted by </p>
-<p class="govuk-body govuk-!-margin-bottom-3">
-  <span class="govuk-!-font-weight-bold" >Sort by:</span> 
-<span class="govuk-!-margin-left-1 govuk-!-margin-right-1">
-  
-    <span class="">Date updated</span>
-  
-</span>
-
- | 
-<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
-  
-    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Last name</a>
-  
-</span>
-
-| 
-<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
-  
-    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Date of birth</a>
-  
-</span>
-
-| 
-<span class="govuk-!-margin-left-2 govuk-!-margin-right-1">
-  
-    <a href="/records?sortOrder=lastName" class="govuk-link govuk-link--no-visited-state">Record status</a>
-  
-</span>
- 
- 
-</p>
-    </div>
-  -->
 
   <!-- Entry 1 -->
   <ul class="app-record-list">
@@ -427,25 +393,22 @@
 
 
 </div>
+</div>
+  </div>
+</div>
+
+<div class="govuk-!-padding-bottom-9"></div>
+ <div class="pre-footer">
+    <div class="govuk-width-container" style="padding-left: 10px">
+      <p class="govuk-body" >Prototype controls</p>
+      <ul class="pre-footer__list">
+        <li><a href="scenario1">Scenario 1</a></li>
+        <li><a href="scenario3">Scenario 2</a></li>
+        <li><a href="scenario4">Scenario 3</a></li>
+        <li><a href="no-results">Scenario 4</a></li>
+      </ul>
+    </div>
+
 
 {% endblock %}
 
-{% block pageScripts %}
-
-<script>
-     function removePaginationIfLessThanTenItems() {
-            const pagination = document.querySelector('nav.govuk-pagination');
-            const resultItems = document.querySelectorAll('ol.app-search-results li.app-search-results__item');
-
-            if (resultItems.length < 10) {
-                if (pagination) {
-                    pagination.remove();
-                }
-            }
-        }
-
-        window.onload = removePaginationIfLessThanTenItems;
-
-</script>
-
-{% endblock %}
