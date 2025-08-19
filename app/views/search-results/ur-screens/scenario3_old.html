@@ -11,7 +11,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l">Search results for "Mary Smith 20/04/1990 4063484" (0)</h1>
+    <h1 class="govuk-heading-l">Search results for "19/09/1990" (174)</h1>
     
 <!-- Inline row: Keywords, Sort by, Search button -->
 <div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 10px;">
@@ -19,7 +19,7 @@
   <!-- Keywords -->
   <div class="govuk-form-group" style="flex: 2; margin: 0;">
     <label class="govuk-label" for="keywords">Keywords</label>
-    <input class="govuk-input" id="keywords" name="keywords" type="text" value="Mary Smith 20/04/1990 4063484" style="width: 100%;">
+    <input class="govuk-input" id="keywords" name="keywords" type="text" value="19/09/1990" style="width: 100%;">
   </div>
 
   <!-- Sort by -->
@@ -77,7 +77,7 @@
             Name or previous name
           </label>
 
-          <input class="govuk-input" id="keywords" name="keywords" type="text" value="Mary Smith">
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
 
         </div>
 
@@ -87,7 +87,7 @@
             Teacher reference number (TRN)
           </label>          
 
-          <input class="govuk-input" id="keywords" name="keywords" type="text" value="4063484">
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
 
           </div>
 
@@ -109,7 +109,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
-                    name="appt-date-day" type="text" value="20" inputmode="numeric">
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -121,7 +121,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
-                    name="appt-date-month" type="text" value="04" inputmode="numeric">
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -133,7 +133,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
-                    name="appt-date-year" type="text" value="1990" inputmode="numeric">
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -141,7 +141,7 @@
               </div>
               </div>
 
-         <div id="subjects" class="app-checkbox-filter govuk-checkboxes--small">
+      <div id="subjects" class="app-checkbox-filter govuk-checkboxes--small">
 
   <div class="govuk-form-group"><fieldset class="govuk-fieldset">
   
@@ -479,33 +479,34 @@
               <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" >
                 <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
-                 Alert on record (0)
+                 Alert on record (2)
                 </label>
               </div>
             </fieldset>
             </div>
 
+        
 
 
        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              Record state (0)
+              Record state (174)
             </legend>
         
             <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
         
               <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" >
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" checked >
                 <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
-                  Active (0)
+                  Active (160)
                 </label>
               </div>
         
               <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register" >
                 <label class="govuk-label govuk-checkboxes__label" for="source-register">
-                  Deactivated (0)
+                  Deactivated (14)
                 </label>
               </div>
         
@@ -575,14 +576,346 @@
     </div>
   -->
 
-  <h2 class="govuk-heading-m">
-    No matching records have been found.
-  </h2>
+  <!-- Entry 1 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 6784312</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Aaron Blake</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: A. Blake</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: QX 293847 C</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>15 June 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
 
-  <p>
-    Use the filters on the left to refine your search or start a new search instead.
-  </p>
+<!-- Entry 2 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3246182</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Daisy Morris</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: AC 57290 Z</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>7 February 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 3 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 2563913</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Ellie Jordan</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: AX 57890 D</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>5 March 2021</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 4 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4063484</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Jamie Byrne</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: James Byrne</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: QQ 123456 B</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>31 July 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 5 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4325166</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Jessie Parry</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: ST 671190 E</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>1 February 2023</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 6 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 5142671</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: QW 98765 X</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>10 April 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 7 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3083414</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Macie Stevens</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: AB 67890 Q</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>4 January 2023</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 8 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4739201</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Maria Lopez</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: BB 112233 D</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>21 August 2023</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 9 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 5684319</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Mark Johnson</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: CC 445566 E</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>2 May 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 10 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4728301</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Matthew Price</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: DD 778899 F</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>18 October 2023</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 11 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 6738201</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Oliver Harris</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: EE 990011 G</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>22 November 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 12 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 5928304</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Paul Wright</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: FF 223344 H</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>3 March 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 13 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 6728309</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Rachel Adams</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: GG 556677 I</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>9 May 2021</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 14 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 6728310</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Sophie Turner</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: HH 889900 J</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>17 July 2023</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<!-- Entry 15 -->
+<ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 6728311</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: Thomas Green</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 September 1990</p>
+        <p class="govuk-body-s">National Insurance Number: II 334455 K</p>
+      </div>
+      <div class="app-record-list__column app-record-list__column--right">
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>12 December 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
 </div>
+
+<div class="govuk-!-padding-bottom-4"></div>
+          <!-- pagination -->
+          <nav class="govuk-pagination" role="navigation" aria-label="results" style="justify-content: center;">
+            <div class="govuk-pagination__prev">
+                <a class="govuk-link govuk-pagination__link" href="#" rel="prev">
+                    <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                        <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                    </svg>
+                    <span class="govuk-pagination__link-title">Previous</span></a>
+            </div>
+            <ul class="govuk-pagination__list">
+                <li class="govuk-pagination__item">
+                    <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1">
+                        1
+                    </a>
+                </li>
+                <li class="govuk-pagination__item govuk-pagination__item--current">
+                    <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2" aria-current="page">
+                        2
+                    </a>
+                </li>
+                <li class="govuk-pagination__item">
+                    <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">
+                        3
+                    </a>
+                </li>
+            </ul>
+            <div class="govuk-pagination__next">
+                <a class="govuk-link govuk-pagination__link" href="#" rel="next"> <span class="govuk-pagination__link-title">Next</span> <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                </svg></a>
+            </div>
+        </nav>
 </div>
 </div>
     </div>
@@ -601,7 +934,7 @@
 {% endblock %}
 
 {% block pageScripts %}
-
+<!-- 
 <script>
      function removePaginationIfLessThanTenItems() {
             const pagination = document.querySelector('nav.govuk-pagination');
@@ -617,5 +950,5 @@
         window.onload = removePaginationIfLessThanTenItems;
 
 </script>
-
+-->
 {% endblock %}

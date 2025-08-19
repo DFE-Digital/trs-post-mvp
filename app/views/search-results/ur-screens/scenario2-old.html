@@ -11,7 +11,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l">Search results for "Mary Smith 20/04/1990" (10)</h1>
+    <h1 class="govuk-heading-l">Search results for "John Smith" (4)</h1>
     
 <!-- Inline row: Keywords, Sort by, Search button -->
 <div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 10px;">
@@ -19,7 +19,7 @@
   <!-- Keywords -->
   <div class="govuk-form-group" style="flex: 2; margin: 0;">
     <label class="govuk-label" for="keywords">Keywords</label>
-    <input class="govuk-input" id="keywords" name="keywords" type="text" value="Mary Smith" style="width: 100%;">
+    <input class="govuk-input" id="keywords" name="keywords" type="text" value="John Smith" style="width: 100%;">
   </div>
 
   <!-- Sort by -->
@@ -77,7 +77,7 @@
             Name or previous name
           </label>
 
-          <input class="govuk-input" id="keywords" name="keywords" type="text" value="Mary Smith">
+          <input class="govuk-input" id="keywords" name="keywords" type="text" value=" ">
 
         </div>
 
@@ -109,7 +109,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day"
-                    name="appt-date-day" type="text" value="20" inputmode="numeric">
+                    name="appt-date-day" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -121,7 +121,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month"
-                    name="appt-date-month" type="text" value="04" inputmode="numeric">
+                    name="appt-date-month" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -133,7 +133,7 @@
                   </label>
 
                   <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year"
-                    name="appt-date-year" type="text" value="1990" inputmode="numeric">
+                    name="appt-date-year" type="text" value=" " inputmode="numeric">
 
                 </div>
               </div>
@@ -141,7 +141,7 @@
               </div>
               </div>
 
-         <div id="subjects" class="app-checkbox-filter govuk-checkboxes--small">
+      <div id="subjects" class="app-checkbox-filter govuk-checkboxes--small">
 
   <div class="govuk-form-group"><fieldset class="govuk-fieldset">
   
@@ -479,18 +479,19 @@
               <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" >
                 <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
-                 Alert on record (0)
+                 Alert on record (1)
                 </label>
               </div>
             </fieldset>
             </div>
 
+        
 
 
        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              Record state (10)
+              Record state (4)
             </legend>
         
             <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
@@ -498,7 +499,7 @@
               <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts" checked >
                 <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
-                  Active (10)
+                  Active (4)
                 </label>
               </div>
         
@@ -575,228 +576,106 @@
     </div>
   -->
 
-<!-- Entry 1 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <!-- Column 1 -->
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 4063484</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: QQ 123456 B</p>
+  <!-- Entry 1 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 4063484</a>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: John Henry Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 19 April 1990</p>
+        <p class="govuk-body-s">National Insurance Number: 	QQ 123456 B</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>31 July 2024</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
     </div>
-    <!-- Status column -->
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>31 July 2024</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
-
-<!-- Entry 2 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 2101199</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: ST 182470 Y</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>2 February 2024</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
+  </li>
 </ul>
 
 <!-- Entry 3 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 3083414</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: AB 67890 Q</p>
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 2101199</a>
+        </h2>
+              <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 	1 February 1950</p>
+        <p class="govuk-body-s">National Insurance Number: 	ST 182470 Y</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--red">Alert on file</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>2 February 2024</p>
+           <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
     </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <strong class="govuk-tag govuk-tag--purple">Induction in progress</strong>
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>4 January 2023</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+  </li>
+</ul>
+
+
+  <!-- Entry 2 -->
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3083414</a>
+        </h2>
+       <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 22 October 1994</p>
+        <p class="govuk-body-s">National Insurance Number: 	AB 67890 Q</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+        <strong class="govuk-tag govuk-tag--purple">Induction in progress</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>4 January 2023</p>
+           <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
     </div>
-  </div>
-</li>
+  </li>
 </ul>
 
 <!-- Entry 4 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-3">Previous name: Maria Smith</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 3246182</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: AC 57290 Z</p>
+  <ul class="app-record-list">
+  <li class="app-record-list__item">
+    <div class="app-record-list__row">
+      <!-- Column 1 -->
+      <div class="app-record-list__column">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+          <a href="#" class="govuk-link">TRN: 3246182</a>
+            <p class="govuk-body-s govuk-!-margin-bottom-3">Name: John Smith</p>
+        </h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Previous name: Jonathan Smith</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 17 March 1990</p>
+        <p class="govuk-body-s">National Insurance Number: 	AC 57290 Z</p>
+      </div>
+      <!-- Status column -->
+      <div class="app-record-list__column app-record-list__column--right">
+           <strong class="govuk-tag govuk-tag--blue">QTS held</strong>
+        <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>7 February 2022</p>
+        <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
+      </div>
     </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>7 February 2022</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
+  </li>
 </ul>
 
-<!-- Entry 5 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 4509821</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: XY 983210 K</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>15 March 2021</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
 
-<!-- Entry 6 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 5172046</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: JK 540278 F</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>22 November 2023</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
-
-<!-- Entry 7 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 6081327</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: LM 231546 T</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>9 June 2022</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
-
-<!-- Entry 8 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-3">Previous name: M. J. Smith</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 7204815</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: OP 874521 G</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>14 January 2024</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
-
-<!-- Entry 9 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 8359214</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: QR 659872 L</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>30 August 2023</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
-
-<!-- Entry 10 -->
-<ul class="app-record-list">
-<li class="app-record-list__item">
-  <div class="app-record-list__row">
-    <div class="app-record-list__column">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-        <a href="#" class="govuk-link">Mary Smith</a>
-      </h2>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">TRN: 9485730</p>
-      <p class="govuk-body-s govuk-!-margin-bottom-1">Date of birth: 20 April 1990</p>
-      <p class="govuk-body-s">National Insurance Number: ST 435981 M</p>
-    </div>
-    <div class="app-record-list__column app-record-list__column--right">
-      <p class="govuk-body-s govuk-!-margin-top-2">Record last updated:<br>12 May 2022</p>
-      <p class="govuk-body-s govuk-!-margin-top-7">Record status: Active</p>
-    </div>
-  </div>
-</li>
-</ul>
 </div>
-</div>
-</div>
-    </div>
-    
-    <div class="govuk-!-padding-bottom-9"></div>
- <div class="pre-footer">
-    <div class="govuk-width-container" style="padding-left: 10px">
-      <p class="govuk-body" >Prototype controls</p>
-        <ul class="pre-footer__list">
-        <li><a href="scenario1">Scenario 1</a></li>
-        <li><a href="scenario2">Scenario 2</a></li>
-        <li><a href="scenario3">Scenario 3</a></li>
-        <li><a href="scenario4">Scenario 4</a></li>
-        <li><a href="scenario5">Scenario 5</a></li>
-      </ul>
-    </div>
+
 {% endblock %}
+
 {% block pageScripts %}
 
 <script>
