@@ -1,0 +1,64 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+        
+          <span class="govuk-caption-l">Capita Import</span>
+          <h1 class="govuk-heading-l">Row details</h1>
+
+        
+           <p class="govuk-body govuk-!-padding-bottom-4">
+            Row ID: <b>1</b>
+            <br>
+            Status: <b>Failure</b>
+          <br>
+            Linked record: <b><a class=govuk-link href="../general/itr-record">4063484</a></b>
+          
+          </p>
+      
+      
+
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Row data
+              </dt>
+              <dd class="govuk-summary-list__value">
+                4063484;1;Joseph;Stubbersfield;;16851218;JR499242C;;;;;;;;;;;;;;;;;;;;;
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Failure message
+              </dt>
+              <dd class="govuk-summary-list__value">
+                General error: Date is less than the minimum value support by CrmDateTime. Actual value: 12/18/1685, Minimum value supported: 01/01/1753 00:00:00
+              </dd>
+            </div>
+          
+      
+          </dl>
+
+
+          <p class="govuk-body">
+            <a href="itr" class="govuk-link">Back to file details</a>
+          </p>
+        
+
+    </div>
+  </div>
+</main>
+</div>
+{% endblock %}

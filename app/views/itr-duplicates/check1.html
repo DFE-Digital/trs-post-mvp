@@ -1,0 +1,78 @@
+{% extends "layouts/new-nav.html" %}
+
+{% set serviceNavId = "supportTasks" %}
+{% set secondaryNavId = "createRecord" %}
+{% set pageName = "Check details and merge records" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <span class="govuk-caption-l"> Add an alert - Jenny Another Bob</span>
+      <h1 class="govuk-heading-l"> Check details and add alert</h1>
+
+
+
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Alert type</dt>
+      <dd class="govuk-summary-list__value">Interim prohibition by the Secretary of State</dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> alert type</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Details</dt>
+      <dd class="govuk-summary-list__value">This person did a bad thing</dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> details</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Link</dt>
+      <dd class="govuk-summary-list__value"><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">www.google.com (opens in new tab)</a></dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> link</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Start date</dt>
+      <dd class="govuk-summary-list__value">1 January 2000</dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> start date</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Reason for adding</dt>
+      <dd class="govuk-summary-list__value">Another reason</dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> reason</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Reason details</dt>
+      <dd class="govuk-summary-list__value">Here are some more details</dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> reason details</span></a></dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Evidence</dt>
+      <dd class="govuk-summary-list__value"><a href="#">Annotation 2023-11-01 180955.png (opens in new tab)</a></dd>
+      <dd class="govuk-summary-list__actions"><a href="#">Change<span class="govuk-visually-hidden"> evidence</span></a></dd>
+    </div>
+  </dl>
+
+  <div class="govuk-button-group">
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+      Add alert
+    </button>
+
+    <a class="govuk-button govuk-button--secondary" href="#">
+      Cancel and return to record
+    </a>
+  </div>
+{% endblock %}
+  

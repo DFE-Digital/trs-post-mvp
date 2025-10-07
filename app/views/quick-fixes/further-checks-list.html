@@ -1,0 +1,227 @@
+{% extends "layouts/new-nav.html" %}
+
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Support tasks</span>
+    <h1 class="govuk-heading-l">Matched records: manual checks needed</h1>
+
+  <p class="govuk-body govuk-!-padding-bottom-3">
+      These TRN requests match existing records with QTS, EYTS or an alert. You’ll need to do further checks outside this service before completing each request.
+    </p>
+
+
+<div class="moj-filter-layout">
+
+  <div class="moj-filter-layout__filter" style="width:280px!important;">
+
+    <div class="moj-filter">
+
+      <div class="moj-filter__header">
+
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+
+        <div class="moj-filter__header-action">
+
+        </div>
+
+      </div>
+
+      <div class="moj-filter__options">
+
+
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--s" for="keywords">
+            Search
+          </label>
+
+          <input class="govuk-input" id="keywords" name="keywords" type="text">
+
+        </div>
+
+        <!-- 
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              Flag
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts">
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                  QTS (9)
+                </label>
+              </div>
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register">
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                  Alert (9)
+                </label>
+              </div>
+
+               <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-register" name="source" type="checkbox" value="register">
+                <label class="govuk-label govuk-checkboxes__label" for="source-register">
+                  EYTS (9)
+                </label>
+              </div>
+        
+            </div>
+          </fieldset>
+        </div>-->
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              Sources
+            </legend>
+        
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="source-afqts" name="source" type="checkbox" value="afqts">
+                <label class="govuk-label govuk-checkboxes__label" for="source-afqts">
+                  Apply for qualified teacher status (QTS) in England (0)
+                </label>
+              </div>
+        
+
+
+        
+            </div>
+          </fieldset>
+        </div>
+
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="appt-date-hint">
+            
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            
+              <h1 class="govuk-fieldset__heading">
+                Date created
+              </h1>
+            
+            </legend>
+          
+            <div class="govuk-date-input" id="appt-date">
+              
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-day">
+                    Day
+                  </label>
+                
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="appt-date-day" name="appt-date-day" type="text" value=" " inputmode="numeric">
+                
+                </div>
+              </div>
+            
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-month">
+                    Month
+                  </label>
+                
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="appt-date-month" name="appt-date-month" type="text" value=" " inputmode="numeric">
+                
+                </div>
+              </div>
+            
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="appt-date-year">
+                    Year
+                  </label>
+                
+                <input class="govuk-input govuk-date-input__input govuk-input--width-3" id="appt-date-year" name="appt-date-year" type="text" value=" " inputmode="numeric">
+                
+                </div>
+              </div>
+            
+            </div>
+            
+          
+          </fieldset>
+          
+        
+        </fieldset>
+        
+        
+        </div>
+   
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+           Apply filters
+          </button>
+
+          <div class="moj-filter__heading-action">
+            <p><a class="govuk-link govuk-link--no-visited-state" href="">Clear filters</a></p>
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+<div class="moj-filter-layout__content">
+  <h2 class="govuk-heading-m">
+    No records found.
+  </h2>
+
+  <p>
+    Check the details you entered or adjust your filters.
+  </p>
+
+</tbody>
+
+</table>
+</div>
+</div>  
+
+<br><br>
+<!-- 
+{{ govukPagination({
+  next: {
+    href: "#"
+  },
+  items: [
+    {
+      number: 1,
+      current: true,
+      href: "#"
+    },
+    {
+      number: 2,
+      href: "#"
+    },
+    {
+      number: 3,
+      href: "#"
+    }
+  ]
+}) }}-->
+ 
+  {% endblock %}

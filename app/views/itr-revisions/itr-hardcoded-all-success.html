@@ -1,0 +1,224 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+  
+{% block content %}
+
+
+
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+
+      
+         
+          <span class="govuk-caption-l">Integration Transactions</span>
+          <h1 class="govuk-heading-l">Capita Import &ndash; File details</h1>
+          </div>
+         <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+              <h2 class="govuk-summary-card__title">
+              Record information
+              </h2>
+            </div>
+            <div class="govuk-summary-card__content">
+              <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Date and time
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    17 March 2025 4:30am
+                  </dd>
+                
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   File name
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    traout-210615.txt
+                  </dd>
+                 
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Interface ID
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    115141
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                 Total count
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                   100
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Successes
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    80
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Warnings
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                  0
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Failures
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                  0
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Duplicates
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                   5
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+          </div>
+          
+ 
+
+          <div class="govuk-grid-column-full">
+               <button type="submit" class="govuk-button" data-module="govuk-button">
+            Export failures
+          </button>
+          <div class="govuk-!-padding-bottom-2"></div>
+
+          <table class="govuk-table" data-module="moj-sortable-table" style="table-layout: autp; govuk-table__row:hover {
+            background-color: #f3f2f1;
+          }" >
+            <thead>
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header" aria-sort="none">Row ID</th>
+                <th scope="col" class="govuk-table__header" aria-sort="none">Person</th>
+                <th scope="col" class="govuk-table__header" aria-sort="none">Duplicate</th>
+                <th scope="col" class="govuk-table__header moj-sortable-table__header" aria-sort="descending">Status</th>
+                
+              </tr>
+            </thead>
+           <tbody>
+  
+  <!-- Successes with Duplicates 23–27 -->
+   <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">1</td><td class="govuk-table__cell"><a href="detail">Joe Stubbersfield</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">23</td><td class="govuk-table__cell"><a href="detail">Harold Johnson</a></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--orange">Duplicate</strong></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">24</td><td class="govuk-table__cell"><a href="detail">Mary Williams</a></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--orange">Duplicate</strong></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">25</td><td class="govuk-table__cell"><a href="detail">Amanda Brown</a></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--orange">Duplicate</strong></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">26</td><td class="govuk-table__cell"><a href="detail">Carol Jones</a></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--orange">Duplicate</strong></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">27</td><td class="govuk-table__cell"><a href="detail">Anna Miller</a></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--orange">Duplicate</strong></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+
+  <!-- Plain Successes 28–40 -->
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">28</td><td class="govuk-table__cell"><a href="detail">Lisa Davis</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">29</td><td class="govuk-table__cell"><a href="detail">Nancy Garcia</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">30</td><td class="govuk-table__cell"><a href="detail">Alice Rodriguez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">31</td><td class="govuk-table__cell"><a href="detail">Bob Martinez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">32</td><td class="govuk-table__cell"><a href="detail">Charlie Weber</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">33</td><td class="govuk-table__cell"><a href="detail">David Black</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">34</td><td class="govuk-table__cell"><a href="detail">Emma Egger</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">35</td><td class="govuk-table__cell"><a href="detail">Fiona Aliyev</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">36</td><td class="govuk-table__cell"><a href="detail">George Dupont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">37</td><td class="govuk-table__cell"><a href="detail">Hannah Martin</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">38</td><td class="govuk-table__cell"><a href="detail">Ian Dumont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">39</td><td class="govuk-table__cell"><a href="detail">Julia Wiese</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">40</td><td class="govuk-table__cell"><a href="detail">James Horvat</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+
+  <!-- Plain Successes 41–70 -->
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">41</td><td class="govuk-table__cell"><a href="detail">Michael Newman</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">42</td><td class="govuk-table__cell"><a href="detail">Robert Olsen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">43</td><td class="govuk-table__cell"><a href="detail">Daniel Mortensen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">44</td><td class="govuk-table__cell"><a href="detail">Anthony Smith</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">45</td><td class="govuk-table__cell"><a href="detail">Mark Johnson</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">46</td><td class="govuk-table__cell"><a href="detail">George Williams</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">47</td><td class="govuk-table__cell"><a href="detail">Edward Brown</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">48</td><td class="govuk-table__cell"><a href="detail">Patrick Jones</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">49</td><td class="govuk-table__cell"><a href="detail">Nathan Miller</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">50</td><td class="govuk-table__cell"><a href="detail">Aaron Davis</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">51</td><td class="govuk-table__cell"><a href="detail">Sean Garcia</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">52</td><td class="govuk-table__cell"><a href="detail">Harold Rodriguez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">53</td><td class="govuk-table__cell"><a href="detail">Mary Martinez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">54</td><td class="govuk-table__cell"><a href="detail">Amanda Weber</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">55</td><td class="govuk-table__cell"><a href="detail">Carol Black</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">56</td><td class="govuk-table__cell"><a href="detail">Anna Egger</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">57</td><td class="govuk-table__cell"><a href="detail">Lisa Aliyev</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">58</td><td class="govuk-table__cell"><a href="detail">Nancy Dupont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">59</td><td class="govuk-table__cell"><a href="detail">Alice Martin</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">60</td><td class="govuk-table__cell"><a href="detail">Bob Dumont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">61</td><td class="govuk-table__cell"><a href="detail">Charlie Wiese</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">62</td><td class="govuk-table__cell"><a href="detail">David Horvat</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">63</td><td class="govuk-table__cell"><a href="detail">Emma Newman</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">64</td><td class="govuk-table__cell"><a href="detail">Fiona Olsen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">65</td><td class="govuk-table__cell"><a href="detail">George Mortensen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">66</td><td class="govuk-table__cell"><a href="detail">Hannah Smith</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">67</td><td class="govuk-table__cell"><a href="detail">Ian Johnson</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">68</td><td class="govuk-table__cell"><a href="detail">Julia Williams</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">69</td><td class="govuk-table__cell"><a href="detail">James Brown</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">70</td><td class="govuk-table__cell"><a href="detail">Michael Jones</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+
+    <!-- Plain Successes 71–100 -->
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">71</td><td class="govuk-table__cell"><a href="detail">Robert Miller</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">72</td><td class="govuk-table__cell"><a href="detail">Daniel Davis</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">73</td><td class="govuk-table__cell"><a href="detail">Anthony Garcia</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">74</td><td class="govuk-table__cell"><a href="detail">Mark Rodriguez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">75</td><td class="govuk-table__cell"><a href="detail">George Martinez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">76</td><td class="govuk-table__cell"><a href="detail">Edward Weber</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">77</td><td class="govuk-table__cell"><a href="detail">Patrick Black</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">78</td><td class="govuk-table__cell"><a href="detail">Nathan Egger</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">79</td><td class="govuk-table__cell"><a href="detail">Aaron Aliyev</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">80</td><td class="govuk-table__cell"><a href="detail">Sean Dupont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">81</td><td class="govuk-table__cell"><a href="detail">Harold Martin</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">82</td><td class="govuk-table__cell"><a href="detail">Mary Dumont</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">83</td><td class="govuk-table__cell"><a href="detail">Amanda Wiese</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">84</td><td class="govuk-table__cell"><a href="detail">Carol Horvat</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">85</td><td class="govuk-table__cell"><a href="detail">Anna Newman</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">86</td><td class="govuk-table__cell"><a href="detail">Lisa Olsen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">87</td><td class="govuk-table__cell"><a href="detail">Nancy Mortensen</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">88</td><td class="govuk-table__cell"><a href="detail">Alice Smith</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">89</td><td class="govuk-table__cell"><a href="detail">Bob Johnson</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">90</td><td class="govuk-table__cell"><a href="detail">Charlie Williams</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">91</td><td class="govuk-table__cell"><a href="detail">David Brown</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">92</td><td class="govuk-table__cell"><a href="detail">Emma Jones</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">93</td><td class="govuk-table__cell"><a href="detail">Fiona Miller</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">94</td><td class="govuk-table__cell"><a href="detail">George Davis</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">95</td><td class="govuk-table__cell"><a href="detail">Hannah Garcia</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">96</td><td class="govuk-table__cell"><a href="detail">Ian Rodriguez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">97</td><td class="govuk-table__cell"><a href="detail">Julia Martinez</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">98</td><td class="govuk-table__cell"><a href="detail">James Weber</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">99</td><td class="govuk-table__cell"><a href="detail">Michael Black</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+  <tr class="govuk-table__row govuk-task-list__item--with-link"><td class="govuk-table__cell">100</td><td class="govuk-table__cell"><a href="detail">Robert Egger</a></td><td class="govuk-table__cell"></td><td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--green">Success</strong></td></tr>
+</tbody>
+         
+          </table>
+          
+       
+          
+          
+    </div>
+  </div>
+</main>
+</div>
+{% endblock %}

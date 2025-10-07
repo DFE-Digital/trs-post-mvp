@@ -1,0 +1,111 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+  
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Compare NPQ request with potential matches</h1>
+
+
+   
+      
+      {{ govukInsetText({
+        html: '<p class="govuk-body">This request is no longer flagged as a potential duplicate. You can now create a new record.'
+      }) }}
+      </div>
+       
+          <div class="govuk-grid-column-one-half">
+            
+      
+
+
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "NPQ request"
+                }
+                },
+              rows: [
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "Not yet assigned" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "19 April 1990" }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { text: "daniel.wright@gmail.com" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "ST 5220249 D" }
+                }
+              ]
+            }) }}
+          </div>
+  
+      
+
+        
+        <div class="govuk-grid-column-two-thirds">
+        {# <p>{{ record.id }}</p> #}
+     
+
+       
+      <form method="post" action="/select-option" novalidate>
+       {{ govukRadios({
+          name: "mergeRecord",
+          fieldset: {
+            legend: {
+              text: "Create a record from this request?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes"
+            }
+          ]
+        }) }}
+        
+      
+          <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
+        
+            {{ govukButton({
+              text: "Cancel",
+              classes: "govuk-button--secondary",
+              href: "javascript:window.history.back()"
+            }) }}
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

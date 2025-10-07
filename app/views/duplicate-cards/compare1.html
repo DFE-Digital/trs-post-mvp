@@ -1,0 +1,174 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+  
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Compare NPQ request with potential matches</h1>
+
+
+   
+      
+      {{ govukInsetText({
+        html: '<p class="govuk-body">Differences are <mark class="hods-highlight"><strong>highlighted</strong></mark> on the existing record</p>',
+        classes: "govuk-!-width-two-thirds"
+      }) }}
+      </div>
+       
+          <div class="govuk-grid-column-one-half">
+            
+      
+
+
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "NPQ request"
+                }
+                },
+              rows: [
+                {
+                  key: { text: "Status" },
+                  value: { text: "Not applicable" }
+                },
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "Not yet assigned" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "19 April 1990" }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { text: "daniel.wright@gmail.com" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "ST 5220249 D" }
+                }
+              ]
+            }) }}
+          </div>
+  
+      
+
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record A"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+                {
+                    key: { text: "Status" },
+                    value: {
+                      html: govukTag({
+                        text: "QTS",
+                        classes: "govuk-tag--blue"
+                      })
+                    }
+                  },
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + '1092235' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "19 April 1990" }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'dan_wright@icloud.com' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'Not provided' + '</strong></mark>' }
+                }
+                
+              ]
+            }) }}
+          </div>
+        
+        <div class="govuk-grid-column-two-thirds">
+        {# <p>{{ record.id }}</p> #}
+     
+
+       
+      <form method="post" action="/select-option" novalidate>
+       {{ govukRadios({
+          name: "mergeRecord",
+          fieldset: {
+            legend: {
+              text: "Create a record from this request?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes"
+            },
+            {
+              value: "No, reject this request",
+              text: "No, reject this request"
+            }
+          ]
+        }) }}
+        
+      
+          <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
+        
+            {{ govukButton({
+              text: "Cancel",
+              classes: "govuk-button--secondary",
+              href: "javascript:window.history.back()"
+            }) }}
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

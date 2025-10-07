@@ -1,0 +1,94 @@
+{% extends "layouts/new-nav.html" %}
+
+{% set serviceNavId = "supportTasks" %}
+{% set secondaryNavId = "createRecord" %}
+{% set pageName = "Check details and merge records" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Check details before merging records</h1>
+
+
+    
+
+      {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Details of the merged record"
+          },
+          actions: {
+            items: [
+              {
+                href: "/deactivate/show/" + match.id,
+                text: "Change",
+                visuallyHiddenText: "view record"
+              }
+            ]
+          }
+        },
+        rows: [
+          {
+            key: { text: "First name" },
+            value: { text: "Daniel" }
+          },
+          {
+            key: { text: "Last Name" },
+            value: { text: "Wright" }
+          },
+           {
+            key: { text: "TRN" },
+            value: { text: "1092235" }
+          },
+          {
+            key: { text: "Date of birth" },
+            value: { text: "19 Apirl 1990" }
+          },
+          {
+            key: { text: "Email" },
+            value: { text: "dan_wright@icloud.com" }
+          },
+          {
+            key: { text: "NI number" },
+            value: { text: "	ST 5220249 D" }
+          },
+          {
+            key: { text: "Evidence" },
+            value: { html: '<a href="#" class="govuk-link">' + record.providedEvidence + ' (opens in a new tab)</a>' or "None"} 
+          } if record.providedEvidence
+        ]
+      }) }}
+      <form method="post" action="list-success">
+        <div class="govuk-button-group">
+    
+        
+       
+      
+        {{ govukButton({
+          text: "Confirm and merge records"
+        }) }}  
+        
+        {{ govukButton({
+            text: "Cancel",
+            classes: "govuk-button--secondary",
+            href: "javascript:window.history.back()"
+          }) }}
+      </form>  
+        </div>
+
+      
+    </div>
+  </div>
+{% endblock %}

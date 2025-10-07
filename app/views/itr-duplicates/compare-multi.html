@@ -1,0 +1,222 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+  
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Compare Teachers' Pensions record with potential matches</h1>
+
+
+
+      {{ govukInsetText({
+        html: '<p class="govuk-body">Differences are <mark class="hods-highlight"><strong>highlighted</strong></mark> in the matched record</p>',
+        classes: "govuk-!-width-two-thirds"
+      }) }}
+      </div>
+       
+          <div class="govuk-grid-column-one-half">
+            
+            {# <p class="govuk-body">This is a paragraph inside a one half column</p> #}
+
+
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Teachers' Pensions record"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+                },
+              rows: [
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "0097643" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "19 April 1990" }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { text: "daniel.wright@gmail.com" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "ST 5220249 D" }
+                }
+              ]
+            }) }}
+          </div>
+  
+   
+          </div>   <br>
+          <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record A"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + '1092235' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "19 April 1990" }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'dan_wright@icloud.com' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'Not provided' + '</strong></mark>' }
+                }
+                
+              ]
+            }) }}
+          </div>   
+          </div>
+          <br><div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record B"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+                {
+                  key: { text: "First name" },
+                  value: { text: "Daniel" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Wright" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + '1378943' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value:  { html: '<mark class="hods-highlight"><strong>' + '20 September 1990' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "Email" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'danielwright@gmail.com' + '</strong></mark>' }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { html: '<mark class="hods-highlight"><strong>' + 'Not provided' + '</strong></mark>' }
+                }
+                
+              ]
+            }) }}
+          </div>
+        
+        <div class="govuk-grid-column-two-thirds">
+        {# <p>{{ record.id }}</p> #}
+     
+
+       
+      <form method="post" action="/select-option" novalidate>
+       {{ govukRadios({
+          name: "mergeRecord",
+          fieldset: {
+            legend: {
+              text: "What do you want to do with the Teachers' Pensions record?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Merge it with Record A",
+              text: "Merge it with Record A"
+            },
+            {
+              value: "Merge it with Record B",
+              text: "Merge it with Record B"
+            },
+            {
+              value: "Keep it as a separate record",
+              text: "Keep it as a separate record"
+            }
+          ]
+        }) }}
+        
+      
+          <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
+        
+            {{ govukButton({
+              text: "Cancel",
+              classes: "govuk-button--secondary",
+              href: "javascript:window.history.back()"
+            }) }}
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+
+<h1 class="govuk-heading-l">
+ITR revisions
+  </h1>
+
+  <p>
+    This is to revise how ITRs deal with field level failures. We have called these 'warnings'.
+  </p>
+
+
+  <p>
+    <a href="https://lucid.app/lucidspark/bfc7e982-9d47-4fe5-ae99-2a66173de942/edit?invitationId=inv_2a0e0b2a-2e7b-44e5-be3c-59b66a320a48&page=0_0#" target="blank">OLD Lucid board (reference only)</a>
+  <br>
+  <a href="https://lucid.app/lucidspark/2600b1f6-349c-40ef-9ac4-f8be0b0d4497/edit?invitationId=inv_f0ae9bd1-a9c6-44dc-919e-0b583b30e8cc&page=0_0#" target="blank">NEW board with duplicate journeys</a>
+  </p>
+
+  <p>August 2025</p>
+
+  <table class="govuk-table">
+    
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+       
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Link</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+     <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="interfaces">Interfaces</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Interfaces overview</li>
+          <li>Content updated to include 'warning' column</li>
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="itr-hardcoded">File details</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>File details</li>
+          <li>Content updated to include 'warning' tags</li>
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="detail-warning">Detail: warning</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Row details</li>
+          <li>Content updated to include 'warning'</li>
+          <li>Updated to include link to record</li>
+          <li>New inset text to warn of field level failures</li>
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="detail-success-new">Detail: success</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Row details</li>
+          <li>Updated to include link to record</li>
+          <li>New inset text to warn of field level failures</li>
+        </ul>
+        </td>
+      </tr>
+
+              <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="detail-failure">Detail: failure</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Row details</li>
+            <li>No link to record as none will be created upon import failure</li>
+          <li>New inset text to warn of field level failures</li>
+        </ul>
+        </td>
+      </tr>
+
+
+      
+ 
+</tbody>
+  </table>
+
+
+ 
+         
+  
+{% endblock %}

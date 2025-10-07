@@ -1,0 +1,128 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+  
+{% block content %}
+
+
+
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+
+          <!-- 
+          <nav class="govuk-breadcrumbs govuk-!-padding-bottom-4" aria-label="Breadcrumb">
+            <ol class="govuk-breadcrumbs__list">
+              <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="../support-tasks">Support tasks</a>
+              </li>
+              <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="interfaces">Interfaces</a>
+              </li>
+              
+            </ol>
+          </nav>
+         -->
+         
+          <span class="govuk-caption-l">Integration Transactions</span>
+          <h1 class="govuk-heading-l">Capita Import &ndash; File details</h1>
+          </div>
+         <div class="govuk-grid-column-two-thirds">
+
+          <div class="hods-alert hods-alert--error">
+            <h2 class="hods-alert__heading">
+              Upload unsuccessful
+            </h2>
+            <p>
+              The file loaded incorrectly due to invalid formatting.
+              </p>
+              <p>
+                You need to fix the formatting and re-upload the file.
+            </p>
+          </div>
+
+          <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+              <h2 class="govuk-summary-card__title">
+              Record information
+              </h2>
+            </div>
+            <div class="govuk-summary-card__content">
+              <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Date and time
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    17 March 2025 4:30am
+                  </dd>
+                
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   File name
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    traout-210615.txt
+                  </dd>
+                 
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Interface ID
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    115141
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                 Total count
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                   --
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Successes
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    --
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Failures
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                  --
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                   Duplicates
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                   --
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+          </div>
+          
+ 
+
+          
+          
+
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "layouts/new-nav.html" %}
+
+{% set serviceNavId = "supportTasks" %}
+{% set secondaryNavId = "createRecord" %}
+{% set pageName = "Check details and merge records" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Check details</h1>
+
+       <h2 class="govuk-heading-m">Why are you keeping the records separate?</h2>
+
+
+      <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+     Reason
+    </dt>
+    <dd class="govuk-summary-list__value">
+      The records do not match
+          
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> rejection reason</span></a>
+    </dd>
+  </div>
+</dl>
+    
+
+      <form method="post" action="list-rejected">
+        <div class="govuk-button-group">
+    
+        
+       
+      
+        {{ govukButton({
+          text: "Confirm and keep record separate"
+        }) }}  
+        
+        {{ govukButton({
+            text: "Cancel",
+            classes: "govuk-button--secondary",
+            href: "javascript:window.history.back()"
+          }) }}
+      </form>  
+        </div>
+
+      
+    </div>
+  </div>
+{% endblock %}

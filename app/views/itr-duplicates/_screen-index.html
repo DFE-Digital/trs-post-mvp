@@ -1,0 +1,193 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+
+<h1 class="govuk-heading-l">
+ITR revisions - duplicates
+  </h1>
+
+  <p>
+    This is to include the new ITRs duplicates journeys.
+  </p>
+
+
+  <p>
+    <a href="https://lucid.app/lucidspark/bfc7e982-9d47-4fe5-ae99-2a66173de942/edit?invitationId=inv_2a0e0b2a-2e7b-44e5-be3c-59b66a320a48&page=0_0#" target="blank">OLD Lucid board (reference only)</a>
+  <br>
+  <a href="https://lucid.app/lucidspark/2600b1f6-349c-40ef-9ac4-f8be0b0d4497/edit?viewport_loc=17794%2C20783%2C10509%2C5112%2C0_0&invitationId=inv_f0ae9bd1-a9c6-44dc-919e-0b583b30e8cc" target="blank">NEW board with duplicate journeys</a>
+  </p>
+
+  <p>August 2025</p>
+
+  <table class="govuk-table">
+    
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+       
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Link</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+     <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="support-tasks-index">Support task index</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>New tile for Duplicates from Teachers' Pensions</li>
+          <li>No other changes</li>
+         
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="list">List</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>List of duplicates</li>
+          <li>List as per requirements - no filter or search in prototype</li>
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="compare">Compare</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>The existing screen</li>
+          <li>Content update only</li>
+       
+        </ul>
+        </td>
+      </tr>
+
+       <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="compare-multi">Compare multiple records</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>The existing screen</li>
+          <li>Content update only</li>
+       
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="select">Select</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+         <li>The existing screen</li>
+        </ul>
+        </td>
+      </tr>
+
+              <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="check">Check details</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>After selecting to merge: Check details</li>
+            <li><b>OCTOBER 2025 UPDATE</b> NOTE THAT THIS IS NOW OUTDATED after UCD has agreed on keeping this a summary list</li>
+         
+        </ul>
+        </td>
+      </tr>
+
+
+         <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="keep-separate-reasons">Keep separate reasons</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>After selecting to merge: Check details</li>
+           
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="check-keep-separate">Check your answers: keep separate</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>After selecting to keep separate: Check details</li>
+            <li>Finalised Check your answers pattern</li>
+         
+        </ul>
+        </td>
+      </tr>
+
+         <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="list-success">List: success</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Shows banner after successful merge</li>
+            
+        </ul>
+        </td>
+      </tr>
+
+      
+ 
+</tbody>
+  </table>
+
+
+ 
+         
+  
+{% endblock %}
