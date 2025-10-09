@@ -1,0 +1,125 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+
+<h1 class="govuk-heading-l">
+Change history: missing events
+  </h1>
+  <p>October 2025</p>
+  <p>
+   Creation of new change history for the following events:  </p>
+    <ul class="govuk-list govuk-list--bullet">
+          <li>PII migration</li>
+          <li>DQT Pull / Field level import</li>
+          <li>Change requests</li>
+          <li>Deactivated record via Teachers' Pensions duplicate resolve</li>
+        </ul>
+
+
+
+  <p>
+    <a href="https://lucid.app/lucidspark/38a7aca1-6fcb-4e35-86e9-e256d278d5a8/edit?viewport_loc=34804%2C1104%2C7680%2C3736%2C0_0&invitationId=inv_73e851ac-2ed6-48a7-b975-db2c3c330547" target="blank">Finalised designs</a>
+  <br><br>
+    The above board also contains a screen index of all change histories currently present on the service, as well as high-level ideation for redesigning change history.
+  </p>
+
+
+
+  <table class="govuk-table">
+    
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+       
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Link</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+     <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="pii-migration">PII migration</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Using existing change history structure to show PII migrated into TRS from DQT</li>
+          <li>Introduction of 'data imported' section showing all possible PII that can be imported</li>
+          <li>"Import details" label</li>
+         
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="dqt-pull">DQT pull / Field level import</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Using existing change history structure to show individual data fields imported from DQT into TRS</li>
+          <li>Event to show that a field change occurred in DQT, not in TRS</li>
+        </ul>
+        </td>
+      </tr>
+
+        <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="change-request">Change request</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Adding summary list labels that show 'request type' and 'date of request'</li>
+          <li>Addition of timeline event name</li>
+          <li>All other design elements match existing structure on TRS</li>
+       
+        </ul>
+        </td>
+      </tr>
+
+       <tr class="govuk-table__row">
+       
+        <td class="govuk-table__cell">
+          
+          <p><a href="pensions-deactivation">Deactivated record via Teachers' Pensions duplicate resolve</a></p>
+          
+        </td>
+        <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Uses existing structure already present in TRS for manual deactivation</li>
+          <li>No new CD or IxD</li>
+       
+        </ul>
+        </td>
+      </tr>
+
+      
+      
+ 
+</tbody>
+  </table>
+
+
+ 
+         
+  
+{% endblock %}
