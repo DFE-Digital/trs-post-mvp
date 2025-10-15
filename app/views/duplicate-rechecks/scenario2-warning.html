@@ -1,0 +1,46 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+  
+
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Compare Register trainee teachers request with potential matches</h1>
+
+
+   
+      
+      {{ govukInsetText({
+        html: '<p class="govuk-body">This request matches an existing record. To complete the task, you need to merge the request with the record.'
+      }) }}
+    
+       
+        
+      
+          <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button" type="submit">Merge this request with the record</button>
+        
+            {{ govukButton({
+              text: "Cancel",
+              classes: "govuk-button--secondary",
+              href: "javascript:window.history.back()"
+            }) }}
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

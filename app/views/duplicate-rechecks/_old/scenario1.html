@@ -74,11 +74,28 @@
         {# <p>{{ record.id }}</p> #}
      
 
-    
+       
+      <form method="post" action="/select-option" novalidate>
+       {{ govukRadios({
+          name: "mergeRecord",
+          fieldset: {
+            legend: {
+              text: "Create a record from this request?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes"
+            }
+          ]
+        }) }}
         
       
           <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button" type="submit">Create a record from this request</button>
+            <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
         
             {{ govukButton({
               text: "Cancel",

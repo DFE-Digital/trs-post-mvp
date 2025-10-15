@@ -118,11 +118,28 @@
         {# <p>{{ record.id }}</p> #}
      
 
-    
+       
+      <form method="post" action="/select-option" novalidate>
+       {{ govukRadios({
+          name: "mergeRecord",
+          fieldset: {
+            legend: {
+              text: "What do you want to do with the Register trainee teachers request?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Merge it with Record A",
+              text: "Merge it with Record A"
+            }
+          ]
+        }) }}
         
       
           <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button" type="submit">Merge this request with Record A</button>
+            <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
         
             {{ govukButton({
               text: "Cancel",
