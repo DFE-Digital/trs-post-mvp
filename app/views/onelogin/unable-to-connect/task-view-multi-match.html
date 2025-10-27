@@ -1,0 +1,274 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+  Failed GOV.UK One Login identity verification – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+  <span class="govuk-caption-l">Connect to a record – CAS-010008-Z4YN0</span>
+      <h1 class="govuk-heading-l"> Unable to connect GOV.UK One Login to a teaching record</h1>
+
+
+<p class="govuk-body">
+ The user was able to sign in a verify their identity with GOV.UK One Login, but we haven’t been able to connect these details automatically to a teaching record,
+</p>
+
+
+
+<h2 class="govuk-heading-l">Support request details</h2>
+
+<h3 class="govuk-heading-m govuk-!-margin-bottom-4">GOV.UK One Login verified</h3>
+
+<dl class="govuk-summary-list govuk-!-margin-top-5">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Email address</dt>
+    <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+  </div>
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Previous names</dt>
+    <dd class="govuk-summary-list__value">Dennis Blueford</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of birth</dt>
+    <dd class="govuk-summary-list__value">15 August 1990</dd>
+  </div>
+</dl>
+
+<h3 class="govuk-heading-m">Additional</h3>
+<dl class="govuk-summary-list govuk-!-margin-top-5">
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">TRN</dt>
+    <dd class="govuk-summary-list__value">Not provided</dd>
+  </div>
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">NI number</dt>
+    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+  </div>
+
+
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Proof of identity</dt>
+    <dd class="govuk-summary-list__value">
+      <a class="govuk-link" href="#">my_passport.png</a>
+      <div class="govuk-!-margin-top-2">
+        <img src="/public/images/test-passport.png" 
+             alt="Uploaded proof of identity"
+             class="govuk-!-width-three-quarters govuk-!-margin-top-1">
+        <p class="govuk-body-s">
+          <a href="#" class="govuk-link" target="_blank" rel="noopener noreferrer">Open image in new tab</a>
+        </p>
+      </div>
+    </dd>
+  </div>
+</dl>
+
+<div class="govuk-!-padding-bottom-5"></div>
+
+<h2 class="govuk-heading-m">Suggested matches</h2>
+
+<div class="govuk-summary-card govuk-!-margin-bottom-6">
+  <div class="govuk-summary-card__title-wrapper">
+    <h3 class="govuk-summary-card__title">Dennis Berkamp</h3>
+    <a href="#" class="govuk-link govuk-summary-card__actions" target="_blank">Open record in new tab</a>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Previous names</dt>
+        <dd class="govuk-summary-list__value">Dennis Blueford</dd>
+      </div> 
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">TRN</dt>
+        <dd class="govuk-summary-list__value">Not provided</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of birth</dt>
+        <dd class="govuk-summary-list__value">15 August 1990</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">NI number</dt>
+        <dd class="govuk-summary-list__value">Not provided</dd>
+      </div>
+     
+    </dl>
+  </div>
+  </div>
+
+  <div class="govuk-summary-card govuk-!-margin-bottom-6">
+  <div class="govuk-summary-card__title-wrapper">
+    <h3 class="govuk-summary-card__title">John Smith</h3>
+    <a href="#" class="govuk-link govuk-summary-card__actions" target="_blank">Open record in new tab</a>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">john.smith@test.gov.uk</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Previous names</dt>
+        <dd class="govuk-summary-list__value">John Smith</dd>
+      </div> 
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">TRN</dt>
+        <dd class="govuk-summary-list__value">0123456</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of birth</dt>
+        <dd class="govuk-summary-list__value">1 June 1987</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">NI number</dt>
+        <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+      </div>
+     
+    </dl>
+  </div>
+  </div>
+
+  <div class="govuk-summary-card govuk-!-margin-bottom-6">
+  <div class="govuk-summary-card__title-wrapper">
+    <h3 class="govuk-summary-card__title">Laura Jenkins</h3>
+    <a href="#" class="govuk-link govuk-summary-card__actions" target="_blank">Open record in new tab</a>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">laura.jenkins@test.gov.uk</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Previous names</dt>
+        <dd class="govuk-summary-list__value">Laura Jenkins</dd>
+      </div> 
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">TRN</dt>
+        <dd class="govuk-summary-list__value">9457882</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of birth</dt>
+        <dd class="govuk-summary-list__value">28 May 2001</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">NI number</dt>
+        <dd class="govuk-summary-list__value">Not provided</dd>
+      </div>
+     
+    </dl>
+  </div>
+
+</div>
+
+<form method="post" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      Which record do you want to connect?
+    </legend>
+
+    <div class="govuk-radios" data-module="govuk-radios">
+
+      <!-- YES option (no conditional reveal) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="connect-yes"
+          name="connect"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="connect-yes">Dennis Berkamp</label>
+      </div>
+
+       <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="connect-yes"
+          name="connect"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="connect-yes">John Smith</label>
+      </div>
+
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="connect-yes"
+          name="connect"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="connect-yes">Laura Jenkins</label>
+      </div>
+
+      <!-- NO option (reveals form + paragraph) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="connect-no"
+          name="connect"
+          type="radio"
+          value="no"
+          data-aria-controls="conditional-connect-no"
+        >
+        <label class="govuk-label govuk-radios__label" for="connect-no">None of the above</label>
+      </div>
+
+      <!-- Conditional section shown only when “No” is selected -->
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-connect-no">
+        <div class="govuk-form-group govuk-!-margin-top-4">
+          <label class="govuk-label" for="connect-trn">Connect to TRN (optional)</label>
+          <input class="govuk-input govuk-input--width-10" id="connect-trn" name="connect-trn" type="text">
+        </div>
+
+        <p class="govuk-body govuk-!-margin-top-2">
+          <a class="govuk-link" href="#" target="_blank" rel="noopener noreferrer">Find a record (opens in a new tab)</a>
+        </p>
+      </div>
+
+    </div>
+  </fieldset>
+
+
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Continue</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		<form class="form" action="enter-password" method="post">
+
+      
+
+
+			<div class="govuk-form-group">
+			  <h1 class="govuk-label-wrapper">
+				<label class="govuk-label govuk-label--l" for="sign-in-email">
+				  Enter your email address to sign in to your GOV.UK One Login
+				</label>
+			  </h1>
+			
+			
+			  <input class="govuk-input" id="sign-in-email" name="sign-in-email" type="email" spellcheck="false" autocomplete="email">
+			
+			</div>
+			
+			
+					<button class="govuk-button" data-module="govuk-button">
+					  Continue
+					</button>
+			
+				  </form>
+	  
+		  </div>
+		</div>
+	  
+			  </main>
+			</div>
+		  
+	  
+	</div>
+</div>
+
+{% endblock %}

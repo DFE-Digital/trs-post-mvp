@@ -1,0 +1,116 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		
+		<form class="form" action="/oli-security-code" method="post">
+        
+        
+
+
+
+			<div class="govuk-form-group">
+			
+			  <fieldset class="govuk-fieldset" aria-describedby="choose-security-codes-hint">
+				
+				<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+				
+				  <h1 class="govuk-fieldset__heading">
+					Choose how to get security codes
+				  </h1>
+				
+				</legend>
+				
+			  
+				<div id="choose-security-codes-hint" class="govuk-hint">
+				  You&#39;ll need to enter a security code when you sign in to GOV.UK One Login.
+				</div>
+			  
+			  
+				<div class="govuk-radios" data-module="govuk-radios">
+				  
+				  
+					
+				
+				  
+				  
+				  
+				  <div class="govuk-radios__item">
+					<input class="govuk-radios__input" id="choose-security-codes" name="choose-security-codes" type="radio" value="Text message">
+					<label class="govuk-label govuk-radios__label" for="choose-security-codes">
+					  Text message
+					</label>
+					
+				  </div>
+				  
+				
+				  
+					
+				
+				  
+				  
+				  
+				  <div class="govuk-radios__item">
+					<input class="govuk-radios__input" id="choose-security-codes-2" name="choose-security-codes" type="radio" value="Authenticator app for smartphone, tablet or computer">
+					<label class="govuk-label govuk-radios__label" for="choose-security-codes-2">
+					  Authenticator app for smartphone, tablet or computer
+					</label>
+					
+				  </div>
+				  
+				
+				  
+				  
+				</div>
+			  
+			  </fieldset>
+			
+			</div>
+			
+					
+					
+					<details class="govuk-details" data-module="govuk-details">
+					  <summary class="govuk-details__summary">
+						<span class="govuk-details__summary-text">
+						  What is an authenticator app?
+						</span>
+					  </summary>
+					  <div class="govuk-details__text">
+						<p class="govuk-body">An authenticator app creates security codes that you can use to sign in to websites or online services.</p>
+						<p class="govuk-body">You can use an authenticator app on your smartphone, tablet or desktop computer. Download an authenticator app for your smartphone or tablet from your app store or search online for an authenticator app for your computer.</p>
+					  </div>
+					</details>
+			
+					<button class="govuk-button" data-module="govuk-button">
+					  Continue
+					</button>
+			
+				  </form>
+		  </div>
+		</div>
+	  
+			  </main>
+			</div>
+		  
+	  
+	</div>
+</div>
+
+{% endblock %}

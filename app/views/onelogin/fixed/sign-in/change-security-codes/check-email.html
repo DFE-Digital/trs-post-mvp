@@ -1,0 +1,74 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		<form class="form" action="choose-security-code" method="post">
+
+			<h1 class="govuk-heading-l">Check your email</h1>
+	  
+			<p class="govuk-body">We need to make sure this is your GOV.UK One Login before you can change how you get security codes.</p>
+	  
+			<div class="govuk-inset-text">We have sent an email to: <span class="govuk-body govuk-!-font-weight-bold permit-reflow">email@address.com</span></div>
+	  
+			<p class="govuk-body">The email contains a 6 digit security code. After you enter the code, you'll be able to change how you get security codes when you sign in.</p>
+	  
+			<p class="govuk-body">Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.</p>
+	  
+			<p class="govuk-body">The code will expire after 15 minutes.</p>
+	  
+			<div class="govuk-form-group">
+			  <label class="govuk-label" for="code">
+				  Enter the 6 digit security code
+			  </label>
+			  <input class="govuk-input govuk-input--width-10" id="code" name="code" type="text" spellcheck="false" autocomplete="one-time-code" inputmode="numeric">
+		  </div>
+	   
+		  <button class="govuk-button" data-module="govuk-button">
+			Continue
+		  </button>
+	  
+		  <details class="govuk-details" data-module="govuk-details">
+			<summary class="govuk-details__summary">
+			  <span class="govuk-details__summary-text">
+				Problems with the code?
+			  </span>
+			</summary>
+			<div class="govuk-details__text">
+			  
+			  <p class="govuk-body">
+				We can <a href="resend-code" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener">send the code again</a> if the code is not working or you did not receive it.
+			   
+			  </p>
+			  
+			</div>
+		  </details>
+	  
+			</form>
+		  </div>
+		</div>
+	  
+			  </main>
+			</div>
+		  
+	  
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+  Failed GOV.UK One Login identity verification – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+  <span class="govuk-caption-l">Connect to a record – CAS-010008-Z4YN0</span>
+      <h1 class="govuk-heading-l"> Unable to connect GOV.UK One Login to a teaching record</h1>
+
+
+<p class="govuk-body">
+ The user was able to sign in a verify their identity with GOV.UK One Login, but we haven’t been able to connect these details automatically to a teaching record,
+</p>
+
+
+
+<h2 class="govuk-heading-l">Support request details</h2>
+
+<h3 class="govuk-heading-m govuk-!-margin-bottom-4">GOV.UK One Login verified</h3>
+
+<dl class="govuk-summary-list govuk-!-margin-top-5">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Email address</dt>
+    <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+  </div>
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Previous names</dt>
+    <dd class="govuk-summary-list__value">Dennis Blueford</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of birth</dt>
+    <dd class="govuk-summary-list__value">15 August 1990</dd>
+  </div>
+</dl>
+
+<h3 class="govuk-heading-m">Additional</h3>
+
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">TRN</dt>
+    <dd class="govuk-summary-list__value">Not provided</dd>
+  </div>
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">NI number</dt>
+    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+  </div>
+</dl>
+
+<div class="govuk-!-padding-bottom-5"></div>
+
+<h2 class="govuk-heading-m">No suggested matches</h2>
+
+<h2 class="govuk-heading-s">Connect a record manually</h2>
+
+  <p class="govuk-body govuk-!-margin-top-2">
+    <a class="govuk-link" href="#" target="_blank" rel="noopener noreferrer">
+      Find a record
+    </a> (opens in a new tab)
+  </p>
+
+<form method="post" novalidate>
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="connect-trn">
+      Connect to TRN (optional)
+    </label>
+    <input
+      class="govuk-input govuk-input--width-10"
+      id="connect-trn"
+      name="connect-trn"
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]*"
+    >
+  </div>
+
+
+
+
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Continue</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

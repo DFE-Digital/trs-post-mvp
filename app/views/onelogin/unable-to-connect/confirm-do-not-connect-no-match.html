@@ -1,0 +1,71 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm connect – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-full">
+
+ <span class="govuk-caption-l">Connect to a record – CAS-010008-Z4YN0</span>
+      <h1 class="govuk-heading-l">Confirm do not connect</h1>
+
+        <h2 class="govuk-heading-m">Support request details</h2>
+
+             <h2 class="govuk-heading-s">GOV.UK OneLogin verified</h2>
+
+      <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+    dennis.berkamp@test.gov.uk
+    </dd>
+    
+  </div>
+  </dl>
+
+
+
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Reason for not connecting
+    </dt>
+    <dd class="govuk-summary-list__value">
+      No teaching rcord with these details
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> name</span></a>
+    </dd>
+  </div>
+  </dl>
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Confirm</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

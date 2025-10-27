@@ -1,0 +1,92 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm connect – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-full">
+
+ 
+ <span class="govuk-caption-l">Connect to a record – CAS-010008-Z4YN0</span>
+      <h1 class="govuk-heading-l">Confirm connect</h1>
+
+        <h2 class="govuk-heading-m">Support request details</h2>
+
+             <h2 class="govuk-heading-s">GOV.UK OneLogin verified</h2>
+
+      <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+    dennis.berkamp@test.gov.uk
+    </dd>
+    
+  </div>
+  </dl>
+
+
+<div class="govuk-summary-card govuk-!-margin-bottom-6">
+  <div class="govuk-summary-card__title-wrapper">
+    <h3 class="govuk-summary-card__title">Dennis Berkamp</h3>
+    <a href="#" class="govuk-link govuk-summary-card__actions" target="_blank">Open record in new tab</a>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Previous names</dt>
+        <dd class="govuk-summary-list__value">Dennis Blueford</dd>
+      </div> 
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">TRN</dt>
+        <dd class="govuk-summary-list__value">09765421</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of birth</dt>
+        <dd class="govuk-summary-list__value">15 August 1990</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">NI number</dt>
+        <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+      </div>
+     
+    </dl>
+  </div>
+</div>
+
+
+
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Connect record</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

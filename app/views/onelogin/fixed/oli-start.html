@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		
+		<form class="form" method="post">
+
+			<h1 class="govuk-heading-l">Create your GOV.UK One Login or <br class="auth-heading">sign in</h1>
+	  
+			<p class="govuk-body">You can use your GOV.UK One Login to access some government services.</p>
+	  
+			<p class="govuk-body">In the future, you’ll be able to use it to access all services on GOV.UK.</p>
+	  
+			<p class="govuk-body">You’ll need:</p>
+			<ul class="govuk-list govuk-list--bullet">
+			  <li>an email address</li>
+			  <li>a way to get security codes - this can be a mobile phone number or an authenticator app</li>
+			</ul>
+	  
+			<div class="govuk-inset-text">
+			  You can also <a href="#" class="govuk-link govuk-link--no-visited-state">use GOV.UK One Login in Welsh (Cymraeg)</a>.
+			</div>
+	  
+			  <button value="create" name="optionSelected" class="govuk-button govuk-!-margin-right-3" data-module="govuk-button" id="create-account-link" formaction="create-account/enter-email">
+				Create your GOV.UK One Login
+			  </button>
+	  
+			  <div>
+			
+			  <button class="govuk-button govuk-button--secondary" data-module="govuk-button" id="sign-in-button" formaction="sign-in/enter-email">
+				Sign in
+			  </button>
+	  
+			
+	  
+			</form>
+		  </div>
+		</div>
+	  
+			  </main>
+			</div>
+		  
+	  
+	</div>
+</div>
+
+{% endblock %}

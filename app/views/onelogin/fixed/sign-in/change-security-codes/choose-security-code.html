@@ -1,0 +1,115 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		<form class="form" action="/choose-security-code-answer" method="post">
+        
+        
+
+
+
+			<div class="govuk-form-group">
+			
+			  <fieldset class="govuk-fieldset" aria-describedby="choose-security-codes-hint">
+				
+				<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+				
+				  <h1 class="govuk-fieldset__heading">
+					How do you want to get security codes?
+				  </h1>
+				
+				</legend>
+				
+			  
+				<div id="choose-security-codes-hint" class="govuk-hint">
+				  Choose how you&#39;ll get security codes when signing in to your GOV.UK One Login. This will remove your old phone number or authenticator app from your GOV.UK One Login.
+				</div>
+			  
+			  
+				<div class="govuk-radios" data-module="govuk-radios">
+				  
+				  
+					
+				
+				  
+				  
+				  
+				  <div class="govuk-radios__item">
+					<input class="govuk-radios__input" id="choose-security-codes" name="choose-security-codes" type="radio" value="Text message">
+					<label class="govuk-label govuk-radios__label" for="choose-security-codes">
+					  Text message
+					</label>
+					
+				  </div>
+				  
+				
+				  
+					
+				
+				  
+				  
+				  
+				  <div class="govuk-radios__item">
+					<input class="govuk-radios__input" id="choose-security-codes-2" name="choose-security-codes" type="radio" value="Authenticator app for smartphone, tablet or computer">
+					<label class="govuk-label govuk-radios__label" for="choose-security-codes-2">
+					  Authenticator app for smartphone, tablet or computer
+					</label>
+					
+				  </div>
+				  
+				
+				  
+				  
+				</div>
+			  
+			  </fieldset>
+			
+			</div>
+			
+					
+					
+					<details class="govuk-details" data-module="govuk-details">
+					  <summary class="govuk-details__summary">
+						<span class="govuk-details__summary-text">
+						  What is an authenticator app?
+						</span>
+					  </summary>
+					  <div class="govuk-details__text">
+						<p class="govuk-body">An authenticator app creates a security code that helps confirm it’s you when you sign in.</p>
+						<p class="govuk-body">You can use an authenticator app on your smartphone, tablet or desktop computer. Download an authenticator app for your smartphone or tablet from your app store or search online for an authenticator app for your computer.</p>
+					  </div>
+					</details>
+			
+					<button class="govuk-button" data-module="govuk-button">
+					  Continue
+					</button>
+			
+				  </form>
+		  </div>
+		</div>
+	  
+			  </main>
+			</div>
+		  
+	  
+	</div>
+</div>
+
+{% endblock %}
