@@ -1,0 +1,90 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm connect – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+ <span class="govuk-caption-l">Reject request</span>
+<h1 class="govuk-heading-l">Why are you rejecting this request?</h1>
+
+<form method="post" action="confirm-reject-verification">
+
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset" aria-describedby="reject-reason-hint">
+    
+
+    <div class="govuk-radios" data-module="govuk-radios">
+
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="reason-mismatch" name="rejectReason" type="radio" value="mismatch">
+        <label class="govuk-label govuk-radios__label" for="reason-mismatch">
+         Name and date of birth on document don't match One Login details
+        </label>
+      </div>
+
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="reason-no-record" name="rejectReason" type="radio" value="no-record">
+        <label class="govuk-label govuk-radios__label" for="reason-no-record">
+        Document not legible
+        </label>
+      </div>
+
+ 
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="reason-no-record" name="rejectReason" type="radio" value="no-record">
+        <label class="govuk-label govuk-radios__label" for="reason-no-record">
+        Document not permitted type
+        </label>
+      </div>
+
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="reason-other" name="rejectReason" type="radio" value="other" data-aria-controls="conditional-reason-other">
+        <label class="govuk-label govuk-radios__label" for="reason-other">
+          Another reason
+        </label>
+      </div>
+
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-reason-other">
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="otherReasonText">
+           Provide more detail
+          </label>
+          <textarea class="govuk-textarea" id="otherReasonText" name="otherReasonText" rows="7"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </fieldset>
+</div>
+
+
+  <div class="govuk-button-group">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+
+</form>
+
+
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

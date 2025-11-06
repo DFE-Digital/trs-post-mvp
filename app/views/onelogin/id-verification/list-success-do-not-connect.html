@@ -16,225 +16,171 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
 
-  
-    <span class="govuk-caption-l">Support tasks</span>
-    <h1 class="govuk-heading-l">Change details requests</h1>
 
-
-<div class="moj-filter-layout">
-
-  <div class="moj-filter-layout__filter" style="width:280px!important;">
-
-    <div class="moj-filter">
-
-      <div class="moj-filter__header">
-
-        <div class="moj-filter__header-title">
-          <h2 class="govuk-heading-m">Filter</h2>
-        </div>
-
-        <div class="moj-filter__header-action">
-
-        </div>
-
-      </div>
-
-      <div class="moj-filter__options">
-
-
-        <div class="govuk-form-group">
-          <label class="govuk-label govuk-label--s" for="keywords">
-            Search
-          </label>
-
-          <input class="govuk-input" id="keywords" name="keywords" type="text">
-
-        </div>
-
-        <div class="govuk-form-group">
-
-          <fieldset class="govuk-fieldset">
-
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-
-             Type of request
-
-            </legend>
-
-            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-              
-
-              <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="type" name="type" type="checkbox" value="1">
-                <label class="govuk-label govuk-checkboxes__label" for="type">
-                DOB (14)
-                </label>
-              </div>
-
-              <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="type" name="type" type="checkbox" value="1">
-                <label class="govuk-label govuk-checkboxes__label" for="type">
-                Name (15)
-                </label>
-              </div>
-
-               <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="type" name="type" type="checkbox" value="1">
-                <label class="govuk-label govuk-checkboxes__label" for="type">
-                OneLogin (15)
-                </label>
-              </div>
-
-          </fieldset>
-        </div>
-
-
-        
-        <div class="govuk-button-group">
-          <button type="submit" class="govuk-button" data-module="govuk-button">
-           Apply filters
-          </button>
-
-          <div class="moj-filter__heading-action">
-            <p><a class="govuk-link govuk-link--no-visited-state" href="">Clear filters</a></p>
-          </div>
-        </div>
-
-
-
-      </div>
-
-    </div>
-
+ <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Success
+    </h2>
   </div>
 
+  <div class="govuk-notification-banner__content">
+    <h3 class="govuk-notification-banner__heading">
+   Teaching record not connected
+    </h3>
+    <p class="govuk-body">Request closed for Dennis Berkamp.</p>
+  </div>
+</div>
+</div>
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Support tasks</span>
+    <h1 class="govuk-heading-l">GOV.UK One Login &ndash; ID verification</h1>
 
 
-  <div class="moj-filter-layout__content">
-  <table class="govuk-table" data-module="moj-sortable-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
-        <th scope="col" class="govuk-table__header" aria-sort="none">Requested on</th>
-        <th scope="col" class="govuk-table__header" aria-sort="none">Type</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
+<div class="app-search-form">
+  <form id="searchForm">
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--s app-search-form__label" for="find-record">
+        Search
+      </label>
+      <div id="find-record-hint" class="govuk-hint">
+       Enter a name, email address or request date, for example 31 3 2025
+      </div>
+      <input class="govuk-input" id="find-record" name="findRecord" type="text" aria-describedby="find-record-hint" value="">
+    </div>
+    
+    
+    <button class="govuk-button app-search-form__button" data-module="govuk-button">
+      Search
+    </button>
+  </form>
+
+</div>
+
+</div>
+  <div class="govuk-grid-column-full">
+  
+<table class="govuk-table" data-module="moj-sortable-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Requested on</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Email address</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
 
 
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="task-view-1-match" class="govuk-link">Dennis Berkamp</a></td>
-  <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">4 Sep 2025</td>
-  <td class="govuk-table__cell">OneLogin</td>
-</tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Richard Porter</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">27 Nov 2024</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">richard.porter@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Emilie Jean Autumn</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">15 Jan 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">emilie.autumn@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Olivia Chen</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">19 Dec 2024</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">olivia.chen@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Liam O'Reilly</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">08 Mar 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">liam.oreilly@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Chloe Ahmed</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">22 Apr 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">chloe.ahmed@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Olivia Evans</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">27 Nov 2024</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">olivia.evans@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Charlotte Evans</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">12 Mar 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">charlotte.evans@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Jacob Moore</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">09 Apr 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">jacob.moore@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Grace Hall</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">03 May 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">grace.hall@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Logan White</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">11 Mar 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">logan.white@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Ella Green</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">26 Apr 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">ella.green@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Harper Mitchell</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">14 Jan 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">harper.mitchell@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Leo Bennett</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">20 Feb 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">leo.bennett@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Zoe Carter</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">06 Mar 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">zoe.carter@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Nathan Brooks</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">11 Mar 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">nathan.brooks@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Layla Scott</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">27 Apr 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">layla.scott@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Max Robinson</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">08 May 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">max.robinson@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Aria Davis</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">16 May 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">aria.davis@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Oscar Hughes</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">18 May 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">oscar.hughes@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Mila Harrison</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">21 May 2025</td>
-  <td class="govuk-table__cell">DOB</td>
+  <td class="govuk-table__cell">mila.harrison@example.gov.uk</td>
 </tr>
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Theodore Bell</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">24 May 2025</td>
-  <td class="govuk-table__cell">Name</td>
+  <td class="govuk-table__cell">theodore.bell@example.gov.uk</td>
 </tr>
 
-    </tbody>
-  </table>
+  </tbody>
+</table>
 </div>
 </div>
 

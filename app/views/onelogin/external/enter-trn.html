@@ -1,0 +1,117 @@
+{% extends "layouts/main.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+ Access your teaching qualifications
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+
+      <h1 class="govuk-heading-l"> Teacher reference number</h1>
+
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      About teacher reference numbers
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+  <p>You'll have a TRN if you:</p>
+  
+  <ul class="govuk-list govuk-list--bullet">
+  <li>hold qualified teacher status (QTS) in England or Wales</li>
+  <li>hold early years teacher status (EYTS) in England</li>
+  <li>already hold a national professional qualification (NPQ)</li>
+  <li>are working towards QTS or a EYTS</li>
+</ul>
+<p>
+<a href="#">Learn about TRNs</a> including how to check if you have one or request one.
+</p>
+
+<p>
+  You may not have one yet if you work in early years, further education or qualified as a teacher outside of
+</p>
+  </div>
+</details>
+
+<p class="govuk-body">
+Do you have a teacher reference number??
+</p>
+
+<form method="post" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+   
+
+
+    <div class="govuk-radios" data-module="govuk-radios">
+
+        <!-- Yes option (reveals form + paragraph) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="trn-yes"
+          name="trn"
+          type="radio"
+          value="yes"
+          data-aria-controls="conditional-trn-yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="trn-yes">Yes</label>
+      </div>
+      
+      <!-- Conditional section shown only when “No” is selected -->
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-trn-yes">
+        <div class="govuk-form-group govuk-!-margin-top-4">
+          <label class="govuk-label" for="trn-yes">Teacher reference number</label>
+          <input class="govuk-input govuk-input--width-10" id="trn-yes" name="trn-input" type="text">
+        </div>
+
+       
+      </div>
+
+
+
+      <!-- No option (no conditional reveal) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="trn-no"
+          name="trn"
+          type="trn"
+          value="no"
+        >
+        <label class="govuk-label govuk-radios__label" for="trn-no">No</label>
+      </div>
+
+     
+    </div>
+  </fieldset>
+
+
+      
+  
+     <button type="submit" class="govuk-button">Continue</button>
+         
+ 
+    </form>
+    </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

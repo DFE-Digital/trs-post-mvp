@@ -1,0 +1,92 @@
+{% extends "layouts/main.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+ Access your teaching qualifications
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+
+      <h1 class="govuk-heading-l"> National insurance number</h1>
+
+
+<p class="govuk-body">
+Do you have a national insurance number?
+</p>
+
+<form method="post" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+   
+
+
+    <div class="govuk-radios" data-module="govuk-radios">
+
+        <!-- Yes option (reveals form + paragraph) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="nino-yes"
+          name="nino"
+          type="radio"
+          value="yes"
+          data-aria-controls="conditional-nino-no"
+        >
+        <label class="govuk-label govuk-radios__label" for="nino-no">Yes</label>
+      </div>
+      
+      <!-- Conditional section shown only when “No” is selected -->
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-nino-no">
+        <div class="govuk-form-group govuk-!-margin-top-4">
+          <label class="govuk-label" for="nino-yes">National insurance number</label>
+          <input class="govuk-input govuk-input--width-10" id="nino-yes" name="nino-input" type="text">
+        </div>
+
+       
+      </div>
+
+
+
+      <!-- No option (no conditional reveal) -->
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="nino-no"
+          name="nino"
+          type="radio"
+          value="no"
+        >
+        <label class="govuk-label govuk-radios__label" for="nino-yes">No</label>
+      </div>
+
+     
+    </div>
+  </fieldset>
+
+
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Continue</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

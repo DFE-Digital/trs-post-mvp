@@ -1,0 +1,77 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm verification
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+ 
+      <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Check details before finding a matching record</h1>
+
+
+      <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Email address</dt>
+    <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of birth</dt>
+    <dd class="govuk-summary-list__value">15 August 1990</dd>
+  </div>
+
+  
+
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">TRN</dt>
+    <dd class="govuk-summary-list__value">Not provided</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">National Insurance number</dt>
+    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Proof of identity</dt>
+    <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">my_passport.png</a></dd>
+  </div>
+</dl>
+
+
+
+      <form action="task-view-match">
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Confirm and find matching record</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

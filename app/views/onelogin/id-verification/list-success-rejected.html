@@ -14,11 +14,28 @@
 
 
 <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+
+ <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Success
+    </h2>
+  </div>
+
+  <div class="govuk-notification-banner__content">
+    <h3 class="govuk-notification-banner__heading">
+   The GOV.UK One Login request was rejected
+    </h3>
+  </div>
+</div>
+</div>
+
   <div class="govuk-grid-column-two-thirds">
 
-  
     <span class="govuk-caption-l">Support tasks</span>
-    <h1 class="govuk-heading-l">OneLogin: unable to connect</h1>
+    <h1 class="govuk-heading-l">GOV.UK One Login &ndash; ID verification</h1>
 
 
 <div class="app-search-form">
@@ -28,7 +45,7 @@
         Search
       </label>
       <div id="find-record-hint" class="govuk-hint">
-       By name, email or request date, for example 4/3/1975
+       Enter a name, email address or request date, for example 31 3 2025
       </div>
       <input class="govuk-input" id="find-record" name="findRecord" type="text" aria-describedby="find-record-hint" value="">
     </div>
@@ -49,16 +66,12 @@
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
       <th scope="col" class="govuk-table__header" aria-sort="none">Requested on</th>
-      <th scope="col" class="govuk-table__header" aria-sort="none">Email</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Email address</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
 
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="task-view-1-match" class="govuk-link">Dennis Berkamp</a></td>
-  <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">4 Sep 2025</td>
-  <td class="govuk-table__cell">dennis.berkamp@example.gov.uk</td>
-</tr>
+
 <tr class="govuk-table__row">
   <td class="govuk-table__cell"><a href="name-change" class="govuk-link">Richard Porter</a></td>
   <td class="govuk-table__cell" data-sort-value="{{req.dateOfTrnRequest}}">27 Nov 2024</td>
