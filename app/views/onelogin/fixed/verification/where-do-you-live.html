@@ -1,0 +1,97 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – GOV.UK OneLogin – GOV.UK Prototype Kit
+{% endblock %}
+
+
+{% block header %}
+  <!-- Blank header with no service name for this page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+<a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+		
+		<div class="govuk-form-group">
+
+  <fieldset class="govuk-fieldset" aria-describedby="journey-hint">
+    
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+    
+      <h1 class="govuk-fieldset__heading">
+        Where do you live?
+      </h1>
+    
+    </legend>
+    
+  
+    <div id="journey-hint" class="govuk-hint">
+      How you can prove your identity depends on where you live.
+    </div>
+  
+  
+    <div class="govuk-radios" data-module="govuk-radios">
+      
+      
+        
+    
+      
+      
+      
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="journey" name="journey" type="radio" value="uk">
+        <label class="govuk-label govuk-radios__label" for="journey">
+          UK, Channel Islands or Isle of Man
+        
+      </div>
+      
+    
+      
+        
+    
+      
+      
+      
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="journey-2" name="journey" type="radio" value="international">
+        <label class="govuk-label govuk-radios__label" for="journey-2">
+          Another country
+        </label>
+        
+      </div>
+      
+    
+      
+      
+    </div>
+  
+  </fieldset>
+
+</div>
+
+    
+  
+    
+  
+
+<button type="submit" class="govuk-button" data-module="govuk-button" id="submitButton">
+  Continue
+</button>
+
+  </form>
+
+                    </div>
+                </div>
+      
+        </div>
+
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+GOV.UK One Login - ID check failed
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+  <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l"> GOV.UK One Login &ndash; identity verification</h1>
+
+
+<!-- 
+<p class="govuk-body">
+ The user could not verify their identity through GOV.UK One Login. 
+ Check their details and proof of identity to see if they match an existing teaching record.
+</p>
+-->
+
+
+<h2 class="govuk-heading-m">Request details</h2>
+
+<dl class="govuk-summary-list govuk-!-margin-top-5">
+
+
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of birth</dt>
+    <dd class="govuk-summary-list__value">15 August 1990</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Email address</dt>
+    <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+  </div>
+
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">TRN</dt>
+    <dd class="govuk-summary-list__value">Not provided</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">National Insurance number</dt>
+    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+  </div>
+
+
+
+ <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Proof of identity</dt>
+    <dd class="govuk-summary-list__value">
+      <a class="govuk-link" href="#">my_passport.png</a>
+      <div class="govuk-!-margin-top-2">
+        <img src="/public/images/test-passport.png" 
+             alt="Uploaded proof of identity"
+             class="govuk-!-width-three-quarters govuk-!-margin-top-1">
+        <p class="govuk-body-s">
+          <a href="#" class="govuk-link" target="_blank" rel="noopener noreferrer">Open image in new tab</a>
+        </p>
+      </div>
+    </dd>
+  </div>
+</dl>
+
+<div class="govuk-!-padding-bottom-5"></div>
+
+
+<form method="post" action="/verify-teacher-id" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+     Can you verify this person’s ID? 
+    </legend>
+
+    <div class="govuk-radios">
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="verify-yes"
+          name="verify"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-yes">
+          Yes, find a matching record
+        </label>
+      </div>
+
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="verify-no"
+          name="verify"
+          type="radio"
+          value="no"
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-no">
+          No, reject this request
+        </label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="govuk-button-group">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+ GOV.UK One Login &ndash; Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+  <span class="govuk-caption-l">Support tasks</span>
+     <h1 class="govuk-heading-l"> Check if the GOV.UK One Login account matches an existing record</h1>
+
+
+
+</div>
+
+          <div class="govuk-grid-column-one-half">
+
+
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "GOV.UK One Login"
+                }
+                },
+              rows: [
+              {
+                  key: { text: "Email address" },
+                  value: { text: "dennis.berkamp@test.gov.uk" }
+                },
+                {
+                  key: { text: "First name" },
+                  value: { text: "Dennis" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Berkamp" }
+                },
+                {
+                  key: { text: "Previous names" },
+                  value: { text: "Not applicable" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "Not provided" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "15 August 1990" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "QQ 12 34 56 C" }
+                }
+              ]
+            }) }}
+          </div>
+  </div>
+
+      
+
+          <h2 class="govuk-heading-m">Potential matches</h2>
+    <div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record A"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record (opens in a new tab)",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+               {
+                  key: { text: "Email address" },
+                  value: { text: "dennis.berkamp@test.gov.uk" }
+                },  
+              {
+                  key: { text: "First name" },
+                  value: { text: "Dennis" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Berkamp" }
+                },
+                {
+                  key: { text: "Previous names" },
+                  value: { text: "Dennis Blueford" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "09765421" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "15 August 1990" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "QQ 12 34 56 C" }
+                }
+                
+              ]
+            }) }}
+          </div>
+       </div>
+    <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record B"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record (opens in a new tab)",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+               {
+                  key: { text: "Email address" },
+                  value: { text: "d.berkamp@icloud.com" }
+                },  
+              {
+                  key: { text: "First name" },
+                  value: { text: "Dennis" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Blueford" }
+                },
+                {
+                  key: { text: "Previous names" },
+                  value: { text: "Not applicable" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "1234575" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "15 August 1990" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "UU 98 76 54 E" }
+                }
+                
+              ]
+            }) }}
+          </div>
+          <div class="govuk-grid-column-two-thirds">
+
+<form method="post" novalidate action="/match-teacher-id">
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with the GOV.UK One Login account? </legend>
+
+    <div class="govuk-radios" data-module="govuk-radios">
+       <!-- YES option - connect to suggested match -->
+     
+     
+      <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
+          value="yes">
+           <label class="govuk-label govuk-radios__label" for="connect-yes"> 
+           Connect it to Record A
+        </label>
+     </div> 
+
+     <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes2" name="connect" type="radio"
+          value="b">
+           <label class="govuk-label govuk-radios__label" for="connect-yes2"> 
+            Connect it to Record B
+        </label>
+     </div> 
+     
+    <!-- NO option - connect manually -->
+    <div class="govuk-radios__item"> 
+      <input class="govuk-radios__input" id="connect-manual" name="connect" type="radio"
+        value="manual" data-aria-controls="conditional-connect-manual"> 
+        <label class="govuk-label govuk-radios__label" for="connect-manual"> 
+         Connect it to another record
+      </label>
+    </div> 
+    
+    <!-- Conditional section shown only when “manual” is selected -->
+    <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-connect-manual">
+      <div class="govuk-form-group govuk-!-margin-top-4">
+        <label class="govuk-label" for="connect-trn">
+          Enter a TRN
+        </label> 
+        <input class="govuk-input govuk-input--width-10" id="connect-trn" name="connect-trn"
+          type="text"> 
+      </div>
+      
+      <p class="govuk-body govuk-!-margin-top-2">
+        <a class="govuk-link" href="#" target="_blank" rel="noopener noreferrer">
+          Find a record (opens in a new tab)</a>
+        </p>
+    </div> 
+    
+    <!-- NO option - don't connect at all -->
+    <div class="govuk-radios__item">
+      <input class="govuk-radios__input" id="connect-no" name="connect" type="radio" value="no">
+      <label class="govuk-label govuk-radios__label" for="connect-no">
+      Do not connect it to a record
+      </label>
+    </div>
+    </div>
+    </fieldset>
+ 
+
+
+      
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Continue</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+    </div>
+</form>
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

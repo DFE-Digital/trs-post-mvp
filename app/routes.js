@@ -24,3 +24,36 @@ router.post('/select-option', (req, res) => {
     res.redirect('/itr-duplicates/select');
   }
 });
+
+
+/// OneLogin verify
+router.post("/verify-teacher-id", function (req, res) {
+  var userChoice = req.session.data["verify"]; 
+
+  if (userChoice === "yes") {
+    res.redirect("onelogin/id-verification/confirm-verification");
+  } 
+  else if (userChoice === "no") {
+    res.redirect("onelogin/id-verification/reject-request");
+  } else {
+    res.redirect("onelogin/id-verification/task-view-match"); // nothing selected
+  }
+});
+
+
+/// OneLogin match
+router.post("/match-teacher-id", function (req, res) {
+  var userChoice = req.session.data["connect"]; 
+
+  if (userChoice === "yes") {
+    res.redirect("onelogin/id-verification/confirm-connect");
+  } 
+    else if (userChoice === "manual") {
+    res.redirect("onelogin/id-verification/manual-connect");
+    }
+  else if (userChoice === "no") {
+    res.redirect("onelogin/id-verification/do-not-connect-reason");
+  } else {
+    res.redirect("onelogin/id-verification/confirm-connect"); // nothing selected
+  }
+});

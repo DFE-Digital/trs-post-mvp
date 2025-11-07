@@ -1,0 +1,84 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm connect – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+ <span class="govuk-caption-l">Connect to a record</span>
+<h1 class="govuk-heading-l">Enter the TRN of the record you want to connect</h1>
+
+<div class="govuk-inset-text">
+  You are connecting the record detailed below. You will be able to review the request before connecting.
+</div>
+  <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+    dennis.berkamp@test.gov.uk
+    </dd>
+    
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of birth</dt>
+    <dd class="govuk-summary-list__value">15 August 1990</dd>
+  </div>
+
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">TRN</dt>
+    <dd class="govuk-summary-list__value"><a href="#">09765421 (opens in a new tab)</a></dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">National Insurance number</dt>
+    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+  </div>
+
+</dl>
+
+ <div class="govuk-form-group">
+  
+ 
+  <input class="govuk-input govuk-input--width-10" id="account-number" name="accountNumber" type="text" spellcheck="false" aria-describedby="account-number-hint" inputmode="numeric">
+</div>
+   
+
+
+<form action="/match-teacher-id" novalidate>
+  <div class="govuk-button-group">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+
+</form>
+
+
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}

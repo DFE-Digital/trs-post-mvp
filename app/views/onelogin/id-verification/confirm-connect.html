@@ -1,0 +1,109 @@
+{% extends "layouts/new-nav.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+Confirm connect – Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+ <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Check details before connecting the GOV.UK One Login account</h1>
+
+
+       <h2 class="govuk-heading-s">GOV.UK OneLogin details</h2>
+           
+<dl class="govuk-summary-list govuk-!-padding-bottom-2">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+    dennis.berkamp@test.gov.uk
+    </dd>
+    
+  </div>
+</dl>   
+
+<div class="govuk-!-margin-bottom-4"></div>
+         
+         
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Details of the connected record"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record (opens in a new tab)",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+               {
+                  key: { text: "Email address" },
+                  value: { text: "dennis.berkamp@test.gov.uk" }
+                },  
+              {
+                  key: { text: "First name" },
+                  value: { text: "Dennis" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Berkamp" }
+                },
+                {
+                  key: { text: "Previous names" },
+                  value: { text: "Dennis Blueford" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "09765421" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "15 August 1990" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "QQ 12 34 56 C" }
+                }
+                
+              ]
+            }) }}
+          </div>
+
+<div class="govuk-grid-column-two-thirds">
+
+
+  <form action="list-success">
+  <div class="govuk-button-group">
+     <button type="submit" class="govuk-button">Confirm and connect account</button>
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    
+    </div>
+</form>
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+{% endblock %}
