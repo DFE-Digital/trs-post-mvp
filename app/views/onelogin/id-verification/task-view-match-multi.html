@@ -21,158 +21,282 @@
   <span class="govuk-caption-l">Support tasks</span>
      <h1 class="govuk-heading-l"> Check if the GOV.UK One Login account matches an existing record</h1>
 
+<div class="govuk-inset-text govuk-!-width-two-thirds">
+  <p class="govuk-body">Differences are <mark class="hods-highlight"><strong>highlighted</strong></mark> in the existing record</p>
+</div>
+
+</div>
+
+  </div>
+
+         <div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-one-half">
+            <div class="govuk-summary-card trs-potential-duplicates__item" data-testid="match" data-personid="2c7b6ab6-6af4-4a1c-8f92-8b7dd6bea853">
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        GOV.UK One Login account
+      </h2>
+    
+    </div>
+
+  <div id="record-A" class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email adress
+        </dt>
+        <dd class="govuk-summary-list__value">
+          	dennis.berkamp@test.gov.uk
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          First name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Dennis
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Last name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Berkamp
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Previous names
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Not applicable
+        </dd>
+      </div>
+            <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          TRN
+        </dt>
+        <dd class="govuk-summary-list__value">
+          09765421
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          15 August 1990
+        </dd>
+      </div>
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          NI number
+        </dt>
+        <dd class="govuk-summary-list__value">
+         QQ 12 34 56 C 
+        </dd>
+      </div>
+    </dl>
+  </div>
 
 
 </div>
 
-          <div class="govuk-grid-column-one-half">
 
-
-            {{ govukSummaryList({
-              card: {
-                title: {
-                  text: "GOV.UK One Login"
-                }
-                },
-              rows: [
-              {
-                  key: { text: "Email address" },
-                  value: { text: "dennis.berkamp@test.gov.uk" }
-                },
-                {
-                  key: { text: "First name" },
-                  value: { text: "Dennis" }
-                },
-                {
-                  key: { text: "Last Name" },
-                  value: { text: "Berkamp" }
-                },
-                {
-                  key: { text: "Previous names" },
-                  value: { text: "Not applicable" }
-                },
-                {
-                  key: { text: "TRN" },
-                  value: { text: "Not provided" }
-                },
-                {
-                  key: { text: "Date of birth" },
-                  value: { text: "15 August 1990" }
-                },
-                {
-                  key: { text: "NI number" },
-                  value: { text: "QQ 12 34 56 C" }
-                }
-              ]
-            }) }}
+          
           </div>
+    </div> 
+
+          
+    <div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-m">Potential matches</h2>
+            <div id="record-A" class="govuk-summary-card trs-potential-duplicates__item" data-testid="match" data-personid="2c7b6ab6-6af4-4a1c-8f92-8b7dd6bea853">
+              
+
+              
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        Record A
+      </h2>
+      <div class="govuk-summary-card__actions">
+        <a class="govuk-link" href="/persons/2c7b6ab6-6af4-4a1c-8f92-8b7dd6bea853" target="_blank">
+                                          View record (opens in a new tab)
+                                      <span class="govuk-visually-hidden"> (
+                                        Record A
+                                    )</span></a>
+      </div>
+    </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email adress
+        </dt>
+        <dd class="govuk-summary-list__value">
+          	dennis.berkamp@test.gov.uk
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          First name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Dennis
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Last name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Berkamp
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Previous names
+        </dt>
+        <dd class="govuk-summary-list__value">
+           <mark class="hods-highlight">
+            <strong>Dennis Blueford</strong>
+          </mark>
+        </dd>
+      </div>
+            <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          TRN
+        </dt>
+        <dd class="govuk-summary-list__value">
+          09765421
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          15 August 1990
+        </dd>
+      </div>
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          NI number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          QQ 12 34 56 C 
+          <mark class="hods-highlight">
+            <strong></strong></mark>
+        </dd>
+      </div>
+    </dl>
   </div>
 
+</div>
+
+            <div id="record-B" class="govuk-summary-card trs-potential-duplicates__item" data-testid="match" data-personid="2c7b6ab6-6af4-4a1c-8f92-8b7dd6bea853">
+              
+
+              
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        Record B
+      </h2>
+      <div class="govuk-summary-card__actions">
+        <a class="govuk-link" href="/persons/2c7b6ab6-6af4-4a1c-8f92-8b7dd6bea853" target="_blank">
+        View record (opens in a new tab)
+        <span class="govuk-visually-hidden"> (
+          Record A
+      )</span></a>
+      </div>
+    </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email adress
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <mark class="hods-highlight">
+            <strong>d.berkamp@icloud.com</strong>
+          </mark>
+          	
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          First name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Dennis
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Last name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <mark class="hods-highlight">
+            <strong>Blueford</strong>
+          </mark>
+          
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Previous names
+        </dt>
+        <dd class="govuk-summary-list__value">
+         Not applicable
+        </dd>
+      </div>
+            <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          TRN
+        </dt>
+        <dd class="govuk-summary-list__value">
+             <mark class="hods-highlight">
+            <strong>1234575</strong>
+          </mark>
+          
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          15 August 1990
+        </dd>
+      </div>
       
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          NI number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <mark class="hods-highlight">
+            <strong>UU 98 76 54 E </strong></mark>
+        </dd>
+      </div>
+    </dl>
+  </div>
 
-          <h2 class="govuk-heading-m">Potential matches</h2>
-    <div class="govuk-grid-row">
+</div>
 
-          <div class="govuk-grid-column-one-half">
-            {{ govukSummaryList({
-              card: {
-                title: {
-                  text: "Record A"
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/deactivate/show/" + match.id,
-                      text: "View record (opens in a new tab)",
-                      visuallyHiddenText: "view record"
-                    }
-                  ]
-                }
-              },
-              rows: [
-               {
-                  key: { text: "Email address" },
-                  value: { text: "dennis.berkamp@test.gov.uk" }
-                },  
-              {
-                  key: { text: "First name" },
-                  value: { text: "Dennis" }
-                },
-                {
-                  key: { text: "Last Name" },
-                  value: { text: "Berkamp" }
-                },
-                {
-                  key: { text: "Previous names" },
-                  value: { text: "Dennis Blueford" }
-                },
-                {
-                  key: { text: "TRN" },
-                  value: { text: "09765421" }
-                },
-                {
-                  key: { text: "Date of birth" },
-                  value: { text: "15 August 1990" }
-                },
-                {
-                  key: { text: "NI number" },
-                  value: { text: "QQ 12 34 56 C" }
-                }
-                
-              ]
-            }) }}
+
+  
           </div>
-       </div>
+    </div>
     <div class="govuk-grid-row">
-          <div class="govuk-grid-column-one-half">
-            {{ govukSummaryList({
-              card: {
-                title: {
-                  text: "Record B"
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/deactivate/show/" + match.id,
-                      text: "View record (opens in a new tab)",
-                      visuallyHiddenText: "view record"
-                    }
-                  ]
-                }
-              },
-              rows: [
-               {
-                  key: { text: "Email address" },
-                  value: { text: "d.berkamp@icloud.com" }
-                },  
-              {
-                  key: { text: "First name" },
-                  value: { text: "Dennis" }
-                },
-                {
-                  key: { text: "Last Name" },
-                  value: { text: "Blueford" }
-                },
-                {
-                  key: { text: "Previous names" },
-                  value: { text: "Not applicable" }
-                },
-                {
-                  key: { text: "TRN" },
-                  value: { text: "1234575" }
-                },
-                {
-                  key: { text: "Date of birth" },
-                  value: { text: "15 August 1990" }
-                },
-                {
-                  key: { text: "NI number" },
-                  value: { text: "UU 98 76 54 E" }
-                }
-                
-              ]
-            }) }}
-          </div>
+  
           <div class="govuk-grid-column-two-thirds">
 
 <form method="post" novalidate action="/match-teacher-id">
@@ -197,14 +321,14 @@
         </label>
      </div> 
      
-    <!-- NO option - connect manually -->
+    <!-- NO option - connect manually 
     <div class="govuk-radios__item"> 
       <input class="govuk-radios__input" id="connect-manual" name="connect" type="radio"
         value="manual" data-aria-controls="conditional-connect-manual"> 
         <label class="govuk-label govuk-radios__label" for="connect-manual"> 
          Connect it to another record
       </label>
-    </div> 
+    </div> -->
     
     <!-- Conditional section shown only when “manual” is selected -->
     <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-connect-manual">

@@ -18,8 +18,15 @@ Confirm connect – Connect to a record
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
 
- <span class="govuk-caption-l">Connect to a record</span>
-      <h1 class="govuk-heading-l">Why are you not connecting the GOV.UK One Login account?</h1>
+ <span class="govuk-caption-l">Support tasks</span>
+      <h1 class="govuk-heading-l">Why are you not connecting this GOV.UK One Login account to a record?</h1>
+      <div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-visually-hidden">Warning</span>
+    There are multiple records that might match this GOV.UK One Login account. Only continue if you’re sure it should not be connected.
+  </strong>
+</div>
 
 
      <div class="govuk-form-group">
@@ -29,14 +36,14 @@ Confirm connect – Connect to a record
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="reason-mismatch" name="rejectReason" type="radio" value="mismatch">
         <label class="govuk-label govuk-radios__label" for="reason-mismatch">
-          Request and proof don't match
+          There is no matching record
         </label>
       </div>
 
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="reason-no-record" name="rejectReason" type="radio" value="no-record">
         <label class="govuk-label govuk-radios__label" for="reason-no-record">
-          No teaching record with these details
+          The details only partly match a record
         </label>
       </div>
 
@@ -51,7 +58,7 @@ Confirm connect – Connect to a record
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-reason-other">
         <div class="govuk-form-group">
           <label class="govuk-label" for="otherReasonText">
-            Provide more detail
+           Enter details
           </label>
           <textarea class="govuk-textarea" id="otherReasonText" name="otherReasonText" rows="7"></textarea>
         </div>

@@ -21,6 +21,8 @@
   <span class="govuk-caption-l">Support tasks</span>
      <h1 class="govuk-heading-l">Check if the GOV.UK One Login account matches an existing record</h1>
 
+
+<h2 class="govuk-heading-m">Potential match</h2>
 </div>
 
           <div class="govuk-grid-column-one-half">
@@ -29,7 +31,7 @@
             {{ govukSummaryList({
               card: {
                 title: {
-                  text: "GOV.UK One Login account"
+                  text: "GOV.UK One Login Account"
                 }
                 },
               rows: [
@@ -64,11 +66,63 @@
               ]
             }) }}
           </div>
-          
-<div class="govuk-grid-column-two-thirds">
   
-        <h2 class="govuk-heading-m govuk-!-padding-top-3">No potential matches</h2>
-        <div class="govuk-!-padding-bottom-3"></div>
+      
+
+          <div class="govuk-grid-column-one-half">
+            {{ govukSummaryList({
+              card: {
+                title: {
+                  text: "Record A"
+                },
+                actions: {
+                  items: [
+                    {
+                      href: "/deactivate/show/" + match.id,
+                      text: "View record (opens in a new tab)",
+                      visuallyHiddenText: "view record"
+                    }
+                  ]
+                }
+              },
+              rows: [
+               {
+                  key: { text: "Email address" },
+                  value: { text: "dennis.berkamp@test.gov.uk" }
+                },  
+              {
+                  key: { text: "First name" },
+                  value: { text: "Dennis" }
+                },
+                {
+                  key: { text: "Last Name" },
+                  value: { text: "Berkamp" }
+                },
+                {
+                  key: { text: "Previous names" },
+                  value: { text: "Dennis Blueford" }
+                },
+                {
+                  key: { text: "TRN" },
+                  value: { text: "09765421" }
+                },
+                {
+                  key: { text: "Date of birth" },
+                  value: { text: "15 August 1990" }
+                },
+                {
+                  key: { text: "NI number" },
+                  value: { text: "QQ 12 34 56 C" }
+                }
+                
+              ]
+            }) }}
+          </div>
+
+
+
+          
+        <div class="govuk-grid-column-two-thirds">
 
 <form method="post" novalidate action="/match-teacher-id">
   <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
@@ -76,6 +130,14 @@
 
     <div class="govuk-radios" data-module="govuk-radios">
        <!-- YES option - connect to suggested match -->
+     
+     
+      <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
+          value="yes">
+           <label class="govuk-label govuk-radios__label" for="connect-yes"> 
+            Connect it to Record A
+        </label>
+     </div> 
      
     <!-- NO option - connect manually 
     <div class="govuk-radios__item"> 
