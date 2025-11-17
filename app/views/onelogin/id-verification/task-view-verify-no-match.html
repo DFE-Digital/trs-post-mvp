@@ -16,17 +16,21 @@ GOV.UK One Login - ID check failed
 {% block content %}
 
 
+
+
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
-<p>
-    ID verified? {{ data['Verified'] }}
-<br>
-    Record matched? {{ data['Matched'] }}
-</p>
 
   <span class="govuk-caption-l">Support tasks</span>
       <h1 class="govuk-heading-l"> GOV.UK One Login &ndash; identity verification</h1>
 
+
+<!-- 
+<p class="govuk-body">
+ The user could not verify their identity through GOV.UK One Login. 
+ Check their details and proof of identity to see if they match an existing teaching record.
+</p>
+-->
 
 
 <h2 class="govuk-heading-m">Request details</h2>
@@ -81,49 +85,13 @@ GOV.UK One Login - ID check failed
 <div class="govuk-!-padding-bottom-5"></div>
 
 
-<form method="post" action="/verify-teacher-id-match" novalidate>
+<form method="post" action="/verify-teacher-id-no-match" novalidate>
   <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
      Can you verify this person's identity? 
     </legend>
 
-
-        
-{% if (data['Verified'] == "yes") %}
-
-      <div class="govuk-radios">
-      <div class="govuk-radios__item">
-        <input
-          class="govuk-radios__input"
-          id="verify-yes"
-          name="verify"
-          type="radio"
-          value="yes"
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-yes">
-          Yes, find a matching record
-        </label>
-      </div>
-
-      <div class="govuk-radios__item" disabled>
-        <input
-          class="govuk-radios__input"
-          id="verify-no"
-          name="verify"
-          type="radio"
-          value="no"  
-          disabled
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-no" >
-          No, reject this request
-        </label>
-      </div>
-    </div>
-{% endif %}
-
-{% if (data['Verified'] == "no") %}
-
-   <div class="govuk-radios">
+    <div class="govuk-radios">
       <div class="govuk-radios__item">
         <input
           class="govuk-radios__input"
@@ -131,31 +99,27 @@ GOV.UK One Login - ID check failed
           name="verify"
           type="radio"
           value="yes"
-          disabled
         >
         <label class="govuk-label govuk-radios__label" for="verify-yes">
           Yes, find a matching record
         </label>
       </div>
 
-      <div class="govuk-radios__item" disabled>
+      <div class="govuk-radios__item">
         <input
           class="govuk-radios__input"
           id="verify-no"
           name="verify"
           type="radio"
-          value="no"  
+          value="no"
+          disabled
+          
         >
-        <label class="govuk-label govuk-radios__label" for="verify-no">
+        <label class="govuk-label govuk-radios__label" for="verify-no" >
           No, reject this request
         </label>
       </div>
     </div>
-
-{% endif %}
-
-
-   
   </fieldset>
 
   <div class="govuk-button-group">

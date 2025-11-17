@@ -27,7 +27,33 @@ GOV.UK OneLogin - revision of existing screens
     <a href="https://www.figma.com/design/jyjMrGDo6Af79dPXkGwh4t/TRS-Console?node-id=3329-733&p=f&t=CXn9hN2JdMGAG0eD-0" target="blank">Original Figma file</a>
   </p>
 
+  <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Link</th>
+      <th scope="col" class="govuk-table__header">Description</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
 
+    <!-- ONELOGIN -->
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell" colspan="2"><strong>Fixed screens from OneLogin - for reference</strong></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="fixed/oli-start">Start page</a></td>
+      <td class="govuk-table__cell">Start page of OneLogin</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="fixed/create-account/check-email">Create account journey</a></td>
+      <td class="govuk-table__cell">Create account</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="fixed/sign-in/enter-password">Sign into OneLogin</a></td>
+      <td class="govuk-table__cell">Sign in journey</td>
+    </tr>
+    </tbody>
+    </table>
    
 <br><br>
      <p>
@@ -37,112 +63,77 @@ GOV.UK OneLogin - revision of existing screens
      All screens are in place but may need some CD changes pending confirmation on requirements on change reasons.
     </p>
     <!-- ID VERIFICATION -->
-     <table class="govuk-table ">
+     <table class="govuk-table">
      <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <td class="govuk-table__cell" colspan="2"><strong>ID verification</strong></td>
     </tr>
-
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=yes">Scenario 1: ID verified and record matched (internal users 'Area 3')</a></td>
-      <td class="govuk-table__cell">
-        
-        In this scenario person's ID can be verified, includes both connect and not connect journeys from <a href="id-verification/task-view-match-multi?">this screen.</a>
-      <p class="govuk-!-margin-top-2">
-      Updated design for page displaying only <a href="id-verification/task-view-match">one potential match</a>, to bring consistency with multiple matches sccenario.
-      </p>
+      <td class="govuk-table__cell"><a href="id-verification/list">List</a></td>
+      <td class="govuk-table__cell">List of change request
+        <br>
+        Request is set up for "Dennis Berkamp"
       </td>
     </tr>
-
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=no">Scenario 2: ID verified but no record matched (internal users 'Area 4')</a></td>
-      <td class="govuk-table__cell">In this scenario person's ID can be verified but there are no records that match the OneLogin account</td>
+      <td class="govuk-table__cell"><a href="id-verification/task-view-verify">Verify</a></td>
+      <td class="govuk-table__cell">Verify the person's ID</td>
+    </tr>
+        <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/confirm-verification">Confirm verification</a></td>
+      <td class="govuk-table__cell">Check your answers: Confirm verification</td>
+    </tr>
+
+     <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/reject-request">Reject reasons</a></td>
+      <td class="govuk-table__cell">Reasons for rejecting verification request</td>
     </tr>
 
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">
-        <a href="id-verification/console-dashboard?Verified=no&Matched=no">Scenario 3: ID can't be verified (internal users 'Area 5')</a></td>
-      <td class="govuk-table__cell">In this scenario ID cannot be verified so request is rejected </td>
+      <td class="govuk-table__cell"><a href="id-verification/confirm-reject-verification">Confirm reject</a></td>
+      <td class="govuk-table__cell">Check your answers: Reject request</td>
     </tr>
-
-</table>
-
-
-<!-- <table>
-<tr class="govuk-table__row govuk-!-margin-top-8">
-  <td class="govuk-table__cell " colspan="2">
-      <p class="govuk-!-margin-top-2">
-    <strong>Individual pages</strong>
-  </p>
-  </td>
-</tr>
-
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/list">List</a></td>
-  <td class="govuk-table__cell">List of change request
-    <br>
-    Request is set up for "Dennis Berkamp"
-  </td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/task-view-verify">Verify</a></td>
-  <td class="govuk-table__cell">Verify the person's ID</td>
-</tr>
-    <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/confirm-verification">Confirm verification</a></td>
-  <td class="govuk-table__cell">Check your answers: Confirm verification</td>
-</tr>
-
-  <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/reject-request">Reject reasons</a></td>
-  <td class="govuk-table__cell">Reasons for rejecting verification request</td>
-</tr>
-
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/confirm-reject-verification">Confirm reject</a></td>
-  <td class="govuk-table__cell">Check your answers: Reject request</td>
-</tr>
-
-    <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/list-success-rejected">List (confirm reject)</a></td>
-  <td class="govuk-table__cell">List of tasks with success banner for rejecting verification request</td>
-</tr>
-
 
         <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/task-view-match">Review match</a></td>
-  <td class="govuk-table__cell">Review match: 1 matching record found</td>
-</tr>
-  <tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/task-view-match-multi">Review match multi</a></td>
-  <td class="govuk-table__cell">Review match: multiple matching records found</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/task-view-no-match">no match</a></td>
-  <td class="govuk-table__cell">Task view when no match is found</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/confirm-connect">Confirm connect</a></td>
-  <td class="govuk-table__cell">Confirm connecting record</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/confirm-do-not-connect">Confirm do not connect</a></td>
-  <td class="govuk-table__cell">Confirm choosing not to connect record</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/do-not-connect-reason">Do not connect reason</a></td>
-  <td class="govuk-table__cell">Selecting reason for not connecting record</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/list-success">List (success)</a></td>
-  <td class="govuk-table__cell">Shows success banner after completing connect</td>
-</tr>
-<tr class="govuk-table__row">
-  <td class="govuk-table__cell"><a href="id-verification/list-success-do-not-connect">List success (do not connect)</a></td>
-  <td class="govuk-table__cell">List view after confirming not to connect record</td>
-</tr>
+      <td class="govuk-table__cell"><a href="id-verification/list-success-rejected">List (confirm reject)</a></td>
+      <td class="govuk-table__cell">List of tasks with success banner for rejecting verification request</td>
+    </tr>
+
+
+            <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/task-view-match">Review match</a></td>
+      <td class="govuk-table__cell">Review match: 1 matching record found</td>
+    </tr>
+     <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/task-view-match-multi">Review match multi</a></td>
+      <td class="govuk-table__cell">Review match: multiple matching records found</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/task-view-no-match">no match</a></td>
+      <td class="govuk-table__cell">Task view when no match is found</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/confirm-connect">Confirm connect</a></td>
+      <td class="govuk-table__cell">Confirm connecting record</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/confirm-do-not-connect">Confirm do not connect</a></td>
+      <td class="govuk-table__cell">Confirm choosing not to connect record</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/do-not-connect-reason">Do not connect reason</a></td>
+      <td class="govuk-table__cell">Selecting reason for not connecting record</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/list-success">List (success)</a></td>
+      <td class="govuk-table__cell">Shows success banner after completing connect</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><a href="id-verification/list-success-do-not-connect">List success (do not connect)</a></td>
+      <td class="govuk-table__cell">List view after confirming not to connect record</td>
+    </tr>
 </tbody>
-</table> -->
+    </table>
 
     <br>
     <br>
@@ -155,7 +146,7 @@ GOV.UK OneLogin - revision of existing screens
       These designs have been discussed with the team but need to be revised following latest requirements.
     </p>
     <!-- UNABLE TO CONNECT -->
-<table class="govuk-table">
+     <table class="govuk-table">
      <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <td class="govuk-table__cell" colspan="2"><strong>Unable to connect</strong></td>

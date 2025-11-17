@@ -1,0 +1,193 @@
+{% extends "layouts/new-nav.html.html" %}
+{% set currentPage = "records" %}
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+<p>
+    ID verified? {{ data['Verified'] }}
+<br>
+    Record matched? {{ data['Matched'] }}
+</p>
+
+ <h1 class="govuk-heading-m">Records</h1>
+
+
+<div class="app-search-form">
+  <form id="searchForm">
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--s app-search-form__label" for="find-record">
+        Search for a record
+      </label>
+      <div id="find-record-hint" class="govuk-hint">
+        For example TRN, name or date of birth
+      </div>
+      <input class="govuk-input" id="find-record" name="findRecord" type="text" aria-describedby="find-record-hint" value="">
+    </div>
+    
+    
+    <button class="govuk-button app-search-form__button" data-module="govuk-button">
+      Search
+    </button>
+  </form>
+
+</div>
+ 
+
+ <h2 class="govuk-heading-s">Create a record</h2>
+
+
+<form action="records/new/create-new-record" novalidate>
+<button type="submit" class="govuk-button" data-module="govuk-button">
+  Create record
+</button>
+
+</form>
+  
+</div>
+</div>
+
+
+
+    <div class="govuk-grid-row">
+  
+      <div class="govuk-grid-column-full">
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h2 class="govuk-heading-m">TRN requests</h2>
+        <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+          
+          
+
+          {# TRN request #}
+          <a href="" class="status-card status-card--in-training">
+            <span class="status-card__count">135</span>
+            <span class="status-card__status">New requests</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+  
+        
+
+  
+          {# Duplicates (general) #}
+          
+          <a href="" class="status-card status-card--in-training">
+            <span class="status-card__count">40</span>
+            <span class="status-card__status">Duplicates via API</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+
+         
+
+          {# Further checks #}
+          
+          <a href="" class="status-card status-card--in-training">
+            <span class="status-card__count">12</span>
+            <span class="status-card__status">Matched records &ndash; manual checks needed</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+         
+          </div>
+
+
+
+           
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h2 class="govuk-heading-m">Record management</h2>
+        <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+          
+
+            {# Change details request #}
+          
+          <a href="" class="status-card status-card--in-training">
+            <span class="status-card__count">27</span>
+            <span class="status-card__status">Change details requests</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+     
+
+
+           {# OLI unable to connect #}
+          
+          <a href="" class="status-card status-card--in-training">
+            <span class="status-card__count">12</span>
+            <span class="status-card__status">GOV.UK One Login &ndash; record not found</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+         
+
+          {# OLI failed ID verification #}
+          
+          <a href="list" class="status-card status-card--in-training">
+            <span class="status-card__count">18</span>
+            <span class="status-card__status">GOV.UK One Login &ndash; identity verification</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+          </div>
+
+
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+           <h2 class="govuk-heading-m">Third-party tasks</h2>
+        <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+          
+
+          {# ITRs #}
+  
+          <a href="" class="status-card status-card--incomplete">
+            <span class="status-card__status">Integration transaction records (ITRs)</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+      
+
+        <a href="" class="status-card status-card--incomplete">
+          <span class="status-card__count">6</span>
+            <span class="status-card__status">Potential duplicates via Teachers' Pensions</span><span class="govuk-visually-hidden">View these records.</span>
+          </a>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </div>
+    </div>
+
+
+  {% endblock %}
+
+
+{% block scripts %}
+  {{super()}}
+  <script>
+    new AppFrontend.FilterToggleButton({
+      bigModeMediaQuery: '(min-width: 48.063em)',
+      startHidden: false,
+      toggleButton: {
+        container: $('.app-action-bar__filter'),
+        showText: 'Show filter',
+        hideText: 'Hide filter',
+        classes: 'govuk-button--secondary govuk-!-margin-bottom-3'
+      },
+      closeButton: {
+        container: $('.app-filter__header-action'),
+        text: 'Close'
+      },
+      filter: {
+        container: $('.app-filter-layout__filter')
+      }
+    })
+  </script>
+
+<script>
+  document.getElementById("searchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const input = document.getElementById("find-record").value.trim().toLowerCase();
+
+    if (input === "harry taylor") {
+      window.location.href = "search-results-a.html";
+    }
+    else if (input === "charlie williams") {
+      window.location.href = "search-results-b.html";
+    }
+    else if (input === "olivia evans") {
+      window.location.href = "search-results-c.html";
+    }
+     else {
+      window.location.href = "search-results-none.html";
+    }
+  });
+</script>
+
+{% endblock %}

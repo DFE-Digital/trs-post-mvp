@@ -18,6 +18,10 @@
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
 
+    Record matched? {{ data['Matched'] }}
+</p>
+
+
   <span class="govuk-caption-l">Support tasks</span>
      <h1 class="govuk-heading-l"> Check if the GOV.UK One Login account matches an existing record</h1>
 
@@ -297,16 +301,25 @@
     </div>
     <div class="govuk-grid-row">
   
-          <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-column-two-thirds">
 
+      
+
+<!-- Foram action set on routes.js -->
 <form method="post" novalidate action="/match-teacher-id">
   <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with the GOV.UK One Login account? </legend>
 
+    <p>
+    ID verified? {{ data['Verified'] }}
+<br>
+    Record matched? {{ data['Matched'] }}
+</p>
+
     <div class="govuk-radios" data-module="govuk-radios">
-       <!-- YES option - connect to suggested match -->
-     
-     
+
+      
+         <!-- YES option - connect to suggested match -->
       <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
           value="yes">
            <label class="govuk-label govuk-radios__label" for="connect-yes"> 
@@ -320,32 +333,7 @@
             Connect it to Record B
         </label>
      </div> 
-     
-    <!-- NO option - connect manually 
-    <div class="govuk-radios__item"> 
-      <input class="govuk-radios__input" id="connect-manual" name="connect" type="radio"
-        value="manual" data-aria-controls="conditional-connect-manual"> 
-        <label class="govuk-label govuk-radios__label" for="connect-manual"> 
-         Connect it to another record
-      </label>
-    </div> -->
-    
-    <!-- Conditional section shown only when “manual” is selected -->
-    <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-connect-manual">
-      <div class="govuk-form-group govuk-!-margin-top-4">
-        <label class="govuk-label" for="connect-trn">
-          Enter a TRN
-        </label> 
-        <input class="govuk-input govuk-input--width-10" id="connect-trn" name="connect-trn"
-          type="text"> 
-      </div>
-      
-      <p class="govuk-body govuk-!-margin-top-2">
-        <a class="govuk-link" href="#" target="_blank" rel="noopener noreferrer">
-          Find a record (opens in a new tab)</a>
-        </p>
-    </div> 
-    
+   
     <!-- NO option - don't connect at all -->
     <div class="govuk-radios__item">
       <input class="govuk-radios__input" id="connect-no" name="connect" type="radio" value="no">
@@ -353,7 +341,9 @@
       Do not connect it to a record
       </label>
     </div>
+  
     </div>
+   
     </fieldset>
  
 
@@ -366,6 +356,8 @@
     </form>
     </div>
 </form>
+
+
 
 <!-- Ensure GOV.UK Frontend JS is initialised -->
 <script src="/govuk-frontend/govuk/all.js"></script>

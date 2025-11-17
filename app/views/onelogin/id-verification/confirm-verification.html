@@ -17,7 +17,11 @@ Confirm verification
 
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
-
+  <p>
+    ID verified? {{ data['Verified'] }}
+<br>
+    Record matched? {{ data['Matched'] }}
+</p>
  
       <span class="govuk-caption-l">Support tasks</span>
       <h1 class="govuk-heading-l">Check details before finding a matching record</h1>
@@ -57,14 +61,29 @@ Confirm verification
   </div>
 </dl>
 
-
-
-      <form action="task-view-match">
+  {% if (data['Matched'] != "yes") %}
+    <form action="task-view-no-match">
   <div class="govuk-button-group">
+  
      <button type="submit" class="govuk-button">Confirm and find matching record</button>
+     
          <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
     </div>
     </form>
+
+    {% else %}
+ <form action="task-view-match-multi">
+  <div class="govuk-button-group">
+  
+     <button type="submit" class="govuk-button">Confirm and find matching record</button>
+     
+         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+    </div>
+    </form>
+
+    {% endif %} 
+
+    
     </div>
 </form>
 
