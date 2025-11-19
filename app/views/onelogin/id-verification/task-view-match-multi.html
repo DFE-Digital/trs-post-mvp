@@ -18,11 +18,15 @@
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
 
+<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index
+<p>
+    ID verified? {{ data['Verified'] }}
+<br>
     Record matched? {{ data['Matched'] }}
 </p>
+ -->
 
-
-  <span class="govuk-caption-l">Support tasks</span>
+  <span class="govuk-caption-l">Record management</span>
      <h1 class="govuk-heading-l"> Check if this GOV.UK One Login account matches an existing record</h1>
 
 <div class="govuk-inset-text govuk-!-width-two-thirds">
@@ -70,14 +74,7 @@
           Berkamp
         </dd>
       </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Previous names
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Not applicable
-        </dd>
-      </div>
+
             <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           TRN
@@ -310,11 +307,13 @@
   <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with the GOV.UK One Login account? </legend>
 
-    <p>
+<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index
+<p>
     ID verified? {{ data['Verified'] }}
 <br>
     Record matched? {{ data['Matched'] }}
 </p>
+ -->
 
     <div class="govuk-radios" data-module="govuk-radios">
 

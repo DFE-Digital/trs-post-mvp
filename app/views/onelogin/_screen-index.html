@@ -44,18 +44,35 @@ GOV.UK OneLogin - revision of existing screens
     </tr>
 
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=yes">Scenario 1: ID verified and record matched (internal users 'Area 3')</a></td>
+      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=yes">Scenario 1: ID verified, potential record matches returned (internal users 'Area 3')</a></td>
       <td class="govuk-table__cell">
-        
-        In this scenario person's ID can be verified, includes both connect and not connect journeys from <a href="id-verification/task-view-match-multi?">this screen.</a>
+          <p class="govuk-!-margin-top-2">
+        In this scenario a person's ID is verified, and it covers both users chosing to connect or not connect to record matches available.
+        <br>On the ID verification screen under 'Can you verify this person's identity?' user selects ‘Yes, find a matching record’ > proceeds to viewing matching records available
+        </p>
+      <strong>Subscenario: user choses to connect record:</strong>
       <p class="govuk-!-margin-top-2">
-      Updated design for page displaying only <a href="id-verification/task-view-match">one potential match</a>, to bring consistency with multiple matches sccenario.
+        On the <a href="id-verification/task-view-match-multi?">matching records page</a> user selects ‘Connect it to [Record A]’  
+       </p>
+    
+
+   <strong>Subscenario: user choses not to connect record:</strong>
+      <p class="govuk-!-margin-top-2">
+      On the <a href="id-verification/task-view-match-multi?">matching records page</a> user selects ‘Do not connect it to a record’  
+       </p>
+  
+       <br>
+      <strong>Updated design for page displaying only 1 match </strong>
+      
+      <p class="govuk-!-margin-top-2">
+      Stacked up layout for when there's only <a href="id-verification/task-view-match">one potential match</a>, to bring consistency with multiple matches sccenario.
       </p>
+
       </td>
     </tr>
 
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=no">Scenario 2: ID verified but no record matched (internal users 'Area 4')</a></td>
+      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=no">Scenario 2: ID verified, no potential record matches (internal users 'Area 4')</a></td>
       <td class="govuk-table__cell">In this scenario person's ID can be verified but there are no records that match the OneLogin account</td>
     </tr>
 
@@ -147,6 +164,8 @@ GOV.UK OneLogin - revision of existing screens
     <br>
     <br>
 
+    <br>
+    <br>
 
     <p>
       <i>6 Nov 20205</i>
@@ -155,7 +174,7 @@ GOV.UK OneLogin - revision of existing screens
       These designs have been discussed with the team but need to be revised following latest requirements.
     </p>
     <!-- UNABLE TO CONNECT -->
-<table class="govuk-table">
+<!-- <table class="govuk-table">
      <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <td class="govuk-table__cell" colspan="2"><strong>Unable to connect</strong></td>
@@ -201,7 +220,7 @@ GOV.UK OneLogin - revision of existing screens
       <td class="govuk-table__cell">List view showing success after not connecting a record</td>
     </tr>
   </tbody>
-</table>
+</table> -->
 
 <br><br>
 
