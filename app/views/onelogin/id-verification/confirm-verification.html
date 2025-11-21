@@ -21,7 +21,7 @@ Confirm verification
 <p>
     ID verified? {{ data['Verified'] }}
 <br>
-    Record matched? {{ data['Matched'] }}
+    Matches returned? {{ data['MatchReturned'] }}
 </p>
  -->
       <span class="govuk-caption-l">Record management</span>
@@ -62,7 +62,7 @@ Confirm verification
   </div>
 </dl>
 
-  {% if (data['Matched'] != "yes") %}
+  {% if (data['MatchReturned'] != "yes") %}
     <form action="task-view-no-match">
   <div class="govuk-button-group">
   

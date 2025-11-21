@@ -42,20 +42,7 @@ router.post("/verify-teacher-id-match", function (req, res) {
 });
 
 
-/// OneLogin verify
-router.post("/verify-teacher-id-no-match", function (req, res) {
-  var userChoice = req.session.data["verify"]; 
 
-  if (userChoice === "yes") {
-   // res.redirect("onelogin/id-verification/confirm-verification");
-  } 
-  else if (userChoice === "no") {
-   res.redirect("onelogin/id-verification/reject-request");
-  } 
-  else {
-    res.redirect("onelogin/id-verification/task-view-match"); // nothing selected
-  }
-});
 
 
 

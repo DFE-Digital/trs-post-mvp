@@ -13,6 +13,18 @@
 
 {% block content %}
 
+{% set Verified = "" %}
+{% set MatchReturned = "" %}
+{% set Connect = "" %}
+
+
+<p>
+    ID verified? {{ data['Verified'] }}
+<br>
+    Matches returned? {{ data['MatchReturned'] }}
+</p>
+
+
 
 <h1 class="govuk-heading-l">
 GOV.UK OneLogin - revision of existing screens
@@ -44,7 +56,7 @@ GOV.UK OneLogin - revision of existing screens
     </tr>
 
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=yes">Scenario 1: ID verified, potential record matches returned (internal users 'Area 3')</a></td>
+      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&MatchReturned=yes">Scenario 1: ID verified, potential record matches returned (internal users 'Area 3')</a></td>
       <td class="govuk-table__cell">
           <p class="govuk-!-margin-top-2">
         In this scenario a person's ID is verified, and it covers both users chosing to connect or not connect to record matches available.
@@ -72,13 +84,13 @@ GOV.UK OneLogin - revision of existing screens
     </tr>
 
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&Matched=no">Scenario 2: ID verified, no potential record matches (internal users 'Area 4')</a></td>
+      <td class="govuk-table__cell"><a href="id-verification/console-dashboard?Verified=yes&MatchReturned=no">Scenario 2: ID verified, no potential record matches (internal users 'Area 4')</a></td>
       <td class="govuk-table__cell">In this scenario person's ID can be verified but there are no records that match the OneLogin account</td>
     </tr>
 
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
-        <a href="id-verification/console-dashboard?Verified=no&Matched=no">Scenario 3: ID can't be verified (internal users 'Area 5')</a></td>
+        <a href="id-verification/console-dashboard?Verified=no&MatchReturned=no">Scenario 3: ID can't be verified (internal users 'Area 5')</a></td>
       <td class="govuk-table__cell">In this scenario ID cannot be verified so request is rejected </td>
     </tr>
 

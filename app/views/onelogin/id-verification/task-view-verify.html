@@ -18,13 +18,15 @@ GOV.UK One Login - ID check failed
 
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
-<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index
+<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index -->
 <p>
     ID verified? {{ data['Verified'] }}
 <br>
-    Record matched? {{ data['Matched'] }}
+    Matches returned? {{ data['MatchReturned'] }}
+    <br>
+    Matches want to connect? {{ data['Connect'] }}
 </p>
- -->
+
   <span class="govuk-caption-l">Record management</span>
       <h1 class="govuk-heading-l"> GOV.UK One Login &ndash; identity verification</h1>
 
@@ -78,7 +80,7 @@ GOV.UK One Login - ID check failed
 <div class="govuk-!-padding-bottom-5"></div>
 
 
-<form method="post" action="/verify-teacher-id-match" novalidate>
+<!-- <form method="post" action="/verify-teacher-id-match" novalidate>
   <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
      Can you verify this person's identity? 
@@ -157,7 +159,148 @@ GOV.UK One Login - ID check failed
     <button type="submit" class="govuk-button">Continue</button>
     <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
   </div>
+</form> -->
+
+{% if (data['Verified'] == "yes" and data['MatchReturned'] == "yes") %}
+<form method="post" action="task-view-match-multi" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+     Can you verify this person's identity? 
+    </legend>
+
+      <div class="govuk-radios">
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="verify-yes"
+          name="verify"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-yes">
+          Yes, find a matching record
+        </label>
+      </div>
+
+      <div class="govuk-radios__item" disabled>
+        <input
+          class="govuk-radios__input"
+          id="verify-no"
+          name="verify"
+          type="radio"
+          value="no"  
+          disabled
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-no" >
+          No, reject this request
+        </label>
+      </div>
+    </div>
+
+  <div class="govuk-button-group govuk-!-margin-top-6">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+  </fieldset>
+
+
 </form>
+{% endif %}
+
+{% if (data['Verified'] == "yes" and data['MatchReturned'] == "no") %}
+<form method="post" action="task-view-no-match" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+     Can you verify this person's identity? 
+    </legend>
+
+      <div class="govuk-radios">
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="verify-yes"
+          name="verify"
+          type="radio"
+          value="yes"
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-yes">
+          Yes, find a matching record
+        </label>
+      </div>
+
+      <div class="govuk-radios__item" disabled>
+        <input
+          class="govuk-radios__input"
+          id="verify-no"
+          name="verify"
+          type="radio"
+          value="no"  
+          disabled
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-no" >
+          No, reject this request
+        </label>
+      </div>
+    </div>
+
+    <div class="govuk-button-group govuk-!-margin-top-6">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+  </fieldset>
+
+
+</form>
+{% endif %}
+
+{% if (data['Verified'] == "no") %}
+<form method="post" action="reject-request" novalidate>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+     Can you verify this person's identity? 
+    </legend>
+
+      <div class="govuk-radios">
+      <div class="govuk-radios__item">
+        <input
+          class="govuk-radios__input"
+          id="verify-yes"
+          name="verify"
+          type="radio"
+          value="yes"
+          disabled
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-yes">
+          Yes, find a matching record
+        </label>
+      </div>
+
+      <div class="govuk-radios__item" disabled>
+        <input
+          class="govuk-radios__input"
+          id="verify-no"
+          name="verify"
+          type="radio"
+          value="no"  
+          
+        >
+        <label class="govuk-label govuk-radios__label" for="verify-no" >
+          No, reject this request
+        </label>
+      </div>
+    </div>
+
+  <div class="govuk-button-group govuk-!-margin-top-6">
+    <button type="submit" class="govuk-button">Continue</button>
+    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+  </div>
+  </fieldset>
+
+
+</form>
+{% endif %}
+
+
 
 <!-- Ensure GOV.UK Frontend JS is initialised -->
 <script src="/govuk-frontend/govuk/all.js"></script>
