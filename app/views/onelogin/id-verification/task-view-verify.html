@@ -61,8 +61,6 @@ GOV.UK One Login - ID check failed
     <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
   </div>
 
-
-
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Proof of identity</dt>
     <dd class="govuk-summary-list__value">
@@ -87,9 +85,7 @@ GOV.UK One Login - ID check failed
     </legend>
 
 
-        
-{% if (data['Verified'] == "yes") %}
-
+    {% if (data['Verified'] == "yes" or data['Verified'] == undefined) %}
       <div class="govuk-radios">
       <div class="govuk-radios__item">
         <input
