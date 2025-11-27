@@ -36,56 +36,83 @@ Confirm connect – Connect to a record
   </div>
 </dl>   
 
-<div class="govuk-!-margin-bottom-4"></div>
-         
-         
-            {{ govukSummaryList({
-              card: {
-                title: {
-                  text: "Record details"
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/deactivate/show/" + match.id,
-                      text: "View record (opens in a new tab)",
-                      visuallyHiddenText: "view record"
-                    }
-                  ]
-                }
-              },
-              rows: [
-               {
-                  key: { text: "Email address" },
-                  value: { text: "dennis.berkamp@test.gov.uk" }
-                },  
-              {
-                  key: { text: "First name" },
-                  value: { text: "Dennis" }
-                },
-                {
-                  key: { text: "Last Name" },
-                  value: { text: "Berkamp" }
-                },
-                {
-                  key: { text: "Previous names" },
-                  value: { text: "Dennis Blueford" }
-                },
-                {
-                  key: { text: "TRN" },
-                  value: { text: "09765421" }
-                },
-                {
-                  key: { text: "Date of birth" },
-                  value: { text: "15 August 1990" }
-                },
-                {
-                  key: { text: "NI number" },
-                  value: { text: "QQ 12 34 56 C" }
-                }
-                
-              ]
-            }) }}
+        <!-- Record A -->
+        <div id="Record A summary" class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+             Record details
+            </h2>
+          <ul class="govuk-summary-card__actions">
+              <li class="govuk-summary-card__action">
+                <a class="govuk-link" href="#">View record (opens in a new tab)<span class="govuk-visually-hidden">Record A</span></a>
+              </li>  
+            </ul> 
+          </div>
+          <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            Dennis Berkamp
+          </dd>
+        </div>
+      
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Previous names
+          </dt>
+          <dd class="govuk-summary-list__value">
+           Dennis Blueford
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Email adress
+          </dt>
+          <dd class="govuk-summary-list__value">
+              dennis.berkamp@test.gov.uk
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Date of birth
+          </dt>
+          <dd class="govuk-summary-list__value">
+            15 August 1990
+          </dd>
+        </div>
+
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            TRN
+          </dt>
+          <dd class="govuk-summary-list__value">
+            09765421
+          </dd>
+        </div>
+
+
+        
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            NI number
+          </dt>
+          <dd class="govuk-summary-list__value">
+            QQ 12 34 56 C 
+            <mark class="hods-highlight">
+              <strong></strong></mark>
+          </dd>
+        </div>
+      </dl>
+          </div>
+        </div>
+
           </div>
 
 <div class="govuk-grid-column-two-thirds">
