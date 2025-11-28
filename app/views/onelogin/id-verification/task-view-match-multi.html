@@ -29,68 +29,22 @@
   <span class="govuk-caption-l">Record management</span>
      <h1 class="govuk-heading-l"> Check if this GOV.UK One Login account matches an existing record</h1>
 
-<div class="govuk-inset-text govuk-!-width-two-thirds">
-  <p class="govuk-body">Differences are <mark class="hods-highlight"><strong>highlighted</strong></mark> in the existing record</p>
+<div class="govuk-inset-text">
+  <p class="govuk-body">Details that do not match are <mark class="hods-highlight"><strong>highlighted</strong></mark> in the existing record</p>
 </div>
 
 </div>
 
   </div>
-
-
-<!-- <div class="govuk-summary-card">
-  <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title">
-      University of Bristol
-    </h2>
-    <ul class="govuk-summary-card__actions">
-      <li class="govuk-summary-card__action">
-        <a class="govuk-link" href="#">Delete choice<span class="govuk-visually-hidden"> of University of Bristol (University of Bristol)</span></a>
-      </li>
-      <li class="govuk-summary-card__action">
-        <a class="govuk-link" href="#">Withdraw<span class="govuk-visually-hidden"> from University of Bristol (University of Bristol)</span></a>
-      </li>
-    </ul>
-  </div>
-  <div class="govuk-summary-card__content">
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Course
-        </dt>
-        <dd class="govuk-summary-list__value">
-          English (Q3X1)<br>PGCE with QTS full time
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Location
-        </dt>
-        <dd class="govuk-summary-list__value">
-          School name<br>Road, City, SW2 1AA
-        </dd>
-      </div>
-    </dl>
-  </div>
-</div> -->
-
-
 
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half">
+      <div class="govuk-grid-column-two-thirds">
           <div id="OneLogin summary" class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
               <h2 class="govuk-summary-card__title">
                 Request details
               </h2>
-            <!--  <ul class="govuk-summary-card__actions">
-                <li class="govuk-summary-card__action">
-                  <a class="govuk-link" href="#">Delete choice<span class="govuk-visually-hidden"> of Request details</span></a>
-                </li>
-                <li class="govuk-summary-card__action">
-                  <a class="govuk-link" href="#">Withdraw<span class="govuk-visually-hidden"> from University of Bristol (University of Bristol)</span></a>
-                </li>
-              </ul> -->
+    
             </div>
             <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
@@ -133,7 +87,7 @@
 
                 <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    NI number
+                    National Insurance number
                   </dt>
                   <dd class="govuk-summary-list__value">
                   QQ 12 34 56 C 
@@ -148,8 +102,8 @@
 
           
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half">
-        <h2 class="govuk-heading-m">Potential matches</h2>
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m govuk-!-margin-top-2">Potential matches</h2>
         <!-- Record A -->
         <div id="Record A summary" class="govuk-summary-card">
           <div class="govuk-summary-card__title-wrapper">
@@ -217,7 +171,7 @@
         
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            NI number
+            National Insurance number
           </dt>
           <dd class="govuk-summary-list__value">
             QQ 12 34 56 C 
@@ -299,7 +253,7 @@
       
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          NI number
+          National Insurance number
         </dt>
         <dd class="govuk-summary-list__value">
           <mark class="hods-highlight">
@@ -315,64 +269,52 @@
     </div>
 
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <!-- Foram action set on routes.js -->
+      <form method="post" novalidate action="/match-teacher-id">
+        <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with this GOV.UK One Login account? </legend>
 
+          <div class="govuk-radios" data-module="govuk-radios">
+            
+              <!-- YES option - connect to suggested match -->
+            <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
+                value="yes">
+                <label class="govuk-label govuk-radios__label" for="connect-yes"> 
+                Connect it to Record A
+              </label>
+          </div> 
+
+          <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes2" name="connect" type="radio"
+                value="b">
+                <label class="govuk-label govuk-radios__label" for="connect-yes2"> 
+                  Connect it to Record B
+              </label>
+          </div> 
+        
+          <!-- NO option - don't connect at all -->
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="connect-no" name="connect" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="connect-no">
+            Do not connect it to a record
+            </label>
+          </div>
+        
+          </div>
+        
+          </fieldset>
       
 
-<!-- Foram action set on routes.js -->
-<form method="post" novalidate action="/match-teacher-id">
-  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with this GOV.UK One Login account? </legend>
 
-<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index
-<p>
-    ID verified? {{ data['Verified'] }}
-<br>
-    Matches returned? {{ data['MatchReturned'] }}
-</p>
- -->
-
-    <div class="govuk-radios" data-module="govuk-radios">
-
-      
-         <!-- YES option - connect to suggested match -->
-      <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
-          value="yes">
-           <label class="govuk-label govuk-radios__label" for="connect-yes"> 
-           Connect it to Record A
-        </label>
-     </div> 
-
-     <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes2" name="connect" type="radio"
-          value="b">
-           <label class="govuk-label govuk-radios__label" for="connect-yes2"> 
-            Connect it to Record B
-        </label>
-     </div> 
-   
-    <!-- NO option - don't connect at all -->
-    <div class="govuk-radios__item">
-      <input class="govuk-radios__input" id="connect-no" name="connect" type="radio" value="no">
-      <label class="govuk-label govuk-radios__label" for="connect-no">
-      Do not connect it to a record
-      </label>
+            
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button">Continue</button>
+              <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
+          </div>
+      </form>
     </div>
-  
-    </div>
-   
-    </fieldset>
- 
 
-
-      
-  <div class="govuk-button-group">
-     <button type="submit" class="govuk-button">Continue</button>
-         <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
-    </div>
-    </form>
-    </div>
-</form>
 
 
 

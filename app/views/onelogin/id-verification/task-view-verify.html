@@ -28,138 +28,52 @@ GOV.UK One Login - ID check failed
 </p> -->
 
   <span class="govuk-caption-l">Record management</span>
-      <h1 class="govuk-heading-l"> GOV.UK One Login &ndash; identity verification</h1>
+  <h1 class="govuk-heading-l"> GOV.UK One Login &ndash; identity verification</h1>
 
+    <h2 class="govuk-heading-m">Request details</h2>
+    <dl class="govuk-summary-list govuk-!-margin-top-5">
 
+        <div id="name" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+        </div>
 
-<h2 class="govuk-heading-m">Request details</h2>
+        <div id="email" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+        </div>
 
-<dl class="govuk-summary-list govuk-!-margin-top-5">
+          <div id="dob" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value">15 August 1990</dd>
+        </div>
+        
+      <div id="trn" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">TRN</dt>
+          <dd class="govuk-summary-list__value">Not provided</dd>
+        </div>
 
+        <div id="NI" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">National Insurance number</dt>
+          <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+        </div>
 
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Name</dt>
-    <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Email address</dt>
-    <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
-  </div>
-
-    <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Date of birth</dt>
-    <dd class="govuk-summary-list__value">15 August 1990</dd>
-  </div>
-  
-<div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">TRN</dt>
-    <dd class="govuk-summary-list__value">Not provided</dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">National Insurance number</dt>
-    <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
-  </div>
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Proof of identity</dt>
-    <dd class="govuk-summary-list__value">
-      <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
-      <div class="govuk-!-margin-top-2">
-        <img src="/public/images/test-passport.png" 
-             alt="Uploaded proof of identity"
-             class="govuk-!-width-three-quarters govuk-!-margin-top-1">
-       
+        <div id="proof-id" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Proof of identity</dt>
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
+            <div class="govuk-!-margin-top-2">
+              <img src="/public/images/test-passport.png" 
+                  alt="Uploaded proof of identity"
+                  class="govuk-!-width-three-quarters govuk-!-margin-top-1">
+            
+            </div>
+          </dd>
       </div>
-    </dd>
- </div>
-</dl>
-
-<div class="govuk-!-padding-bottom-5"></div>
+    </dl>
+    <div class="govuk-!-padding-bottom-5"></div>
 
 
-<!-- <form method="post" action="/verify-teacher-id-match" novalidate>
-  <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-     Can you verify this person's identity? 
-    </legend>
-
-
-    {% if (data['Verified'] == "yes" or data['Verified'] == undefined) %}
-      <div class="govuk-radios">
-      <div class="govuk-radios__item">
-        <input
-          class="govuk-radios__input"
-          id="verify-yes"
-          name="verify"
-          type="radio"
-          value="yes"
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-yes">
-          Yes, find a matching record
-        </label>
-      </div>
-
-      <div class="govuk-radios__item" disabled>
-        <input
-          class="govuk-radios__input"
-          id="verify-no"
-          name="verify"
-          type="radio"
-          value="no"  
-          disabled
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-no" >
-          No, reject this request
-        </label>
-      </div>
-    </div>
-{% endif %}
-
-{% if (data['Verified'] == "no") %}
-
-   <div class="govuk-radios">
-      <div class="govuk-radios__item">
-        <input
-          class="govuk-radios__input"
-          id=""
-          name="verify"
-          type="radio"
-          value="yes"
-          disabled
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-yes">
-          Yes, find a matching record
-        </label>
-      </div>
-
-      <div class="govuk-radios__item" disabled>
-        <input
-          class="govuk-radios__input"
-          id="verify-no"
-          name="verify"
-          type="radio"
-          value="no"  
-        >
-        <label class="govuk-label govuk-radios__label" for="verify-no">
-          No, reject this request
-        </label>
-      </div>
-    </div>
-
-{% endif %}
-
-
-   
-  </fieldset>
-
-  <div class="govuk-button-group">
-    <button type="submit" class="govuk-button">Continue</button>
-    <a href="javascript:window.history.back()" class="govuk-button govuk-button--secondary">Cancel</a>
-  </div>
-</form> -->
 
 {% if (data['Verified'] == "yes" and data['MatchReturned'] == "yes") %}
 <form method="post" action="task-view-match-multi" novalidate>
