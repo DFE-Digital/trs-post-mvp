@@ -1,0 +1,270 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<main class="govuk-main-wrapper">
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-xl">Bulk assign from rota</h1>
+  <p class="govuk-body">Select tasks from the list and assign them to one agent.</p>
+
+  <form>
+
+    
+
+
+
+   <style>
+  /* Light grey highlight when selected */
+  .selected-row {
+    background-color: #f3f2f1; /* GOV.UK light grey */
+  }
+</style>
+
+<table class="govuk-table" id="bulkAssignTable">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Select</th>
+      <th class="govuk-table__header">Task</th>
+      <th class="govuk-table__header">Number of tasks</th>
+      <th class="govuk-table__header">Date</th>
+      <th class="govuk-table__header">Current owner</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input row-checkbox" type="checkbox">
+            <label class="govuk-label govuk-checkboxes__label"></label>
+          </div>
+        </div>
+      </td>
+      <td class="govuk-table__cell">TRN requests</td>
+      <td class="govuk-table__cell">
+        <select class="govuk-select">
+          <option value="">Select</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </td>
+      <td class="govuk-table__cell">10 Nov</td>
+      <td class="govuk-table__cell">Unassigned</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input row-checkbox" type="checkbox">
+            <label class="govuk-label govuk-checkboxes__label"></label>
+          </div>
+        </div>
+      </td>
+      <td class="govuk-table__cell">Potential duplicate records from APIs</td>
+      <td class="govuk-table__cell">
+        <select class="govuk-select">
+          <option value="">Select</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </td>
+      <td class="govuk-table__cell">11 Nov</td>
+      <td class="govuk-table__cell">Unassigned</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input row-checkbox" type="checkbox">
+            <label class="govuk-label govuk-checkboxes__label"></label>
+          </div>
+        </div>
+      </td>
+      <td class="govuk-table__cell">Potential duplicates via teacher pension  </td>
+      <td class="govuk-table__cell">
+        <select class="govuk-select">
+          <option value="">Select</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </td>
+      <td class="govuk-table__cell">12 Nov</td>
+      <td class="govuk-table__cell">Unassigned</td>
+    </tr>
+
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input row-checkbox" type="checkbox">
+            <label class="govuk-label govuk-checkboxes__label"></label>
+          </div>
+        </div>
+      </td>
+      <td class="govuk-table__cell">Change details</td>
+      <td class="govuk-table__cell">
+        <select class="govuk-select">
+          <option value="">Select</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </td>
+      <td class="govuk-table__cell">12 Nov</td>
+      <td class="govuk-table__cell">Unassigned</td>
+    </tr>
+  
+
+  </tbody>
+</table>
+
+<script>
+  const checkboxes = document.querySelectorAll('.row-checkbox');
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      const row = this.closest('tr');
+      if (this.checked) {
+        row.classList.add('selected-row');
+      } else {
+        row.classList.remove('selected-row');
+      }
+    });
+  });
+</script>
+
+
+    <!-- <div class="govuk-form-group">
+      <label class="govuk-label" for="agent3">Assign selected to</label>
+      <select class="govuk-select" id="agent3" name="agent3">
+        <option value="">Select an agent</option>
+        <option>AA</option><option>AM</option><option>CM</option><option>DW</option><option>EH</option><option>JT</option>
+      </select>
+    </div> -->
+
+    
+  </form>
+</div>
+
+
+
+
+ <h2 class="govuk-heading-m">Who do you want to assign these tasks to?</h2>
+
+      <select class="govuk-select">
+        <option>Ferdinand Brown</option>
+        <option>Patricia Miles</option>
+        <option>Maurice Villard</option>
+        <option>Alessandra Morais</option>
+      </select>
+<p></p>
+      <button class="govuk-button">Assign selected tasks</button>
+
+
+  <h2 class="govuk-heading-m govuk-!-margin-top-6">Allocation snapshot</h2>
+
+      <div class="allocation-card">
+
+        <!-- Person 1 -->
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <strong class="govuk-body govuk-!-font-weight-bold">
+            Ferdinand Brown
+          </strong>
+          <span class="task-count govuk-body">12 tasks</span>
+        </div>
+
+        <details class="govuk-details govuk-!-margin-top-2" open>
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Tasks breakdown by type
+            </span>
+          </summary>
+
+          <div class="govuk-details__text">
+            <ul class="govuk-list govuk-list--bullet">
+              <li><strong>2</strong> TRN requests</li>
+              <li><strong>3</strong> Potential duplicates via API</li>
+              <li><strong>1</strong> otential duplicates via teacher pension</li>
+              <li><strong>2</strong> Change details</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+        <!-- Person 2 -->
+            <div class="allocation-item">
+        <div class="allocation-header">
+          <strong class="govuk-body govuk-!-font-weight-bold">
+            Patricia Miles
+          </strong>
+          <span class="task-count govuk-body">12 tasks</span>
+        </div>
+
+        <details class="govuk-details govuk-!-margin-top-2" open>
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Tasks breakdown by type
+            </span>
+          </summary>
+
+          <div class="govuk-details__text">
+            <ul class="govuk-list govuk-list--bullet">
+              <li><strong>2</strong> TRN requests</li>
+              <li><strong>3</strong> Potential duplicates via API</li>
+              <li><strong>1</strong> otential duplicates via teacher pension</li>
+              <li><strong>2</strong> Change details</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+        <!-- Person 3 -->
+        <div class="allocation-item">
+          <div class="allocation-header">
+            <strong>Maurice Villard</strong>
+            <span class="task-count">6 tasks</span>
+          </div>
+          <button class="toggle">▶ Tasks breakdown by type</button>
+        </div>
+
+        <!-- Person 4 -->
+        <div class="allocation-item">
+          <div class="allocation-header">
+            <strong>Alessandra Morais</strong>
+            <span class="task-count">2 tasks</span>
+          </div>
+          <button class="toggle">▶ Tasks breakdown by type</button>
+        </div>
+
+      </div>
+
+      <div class="button-group">
+        <button class="govuk-button">Continue</button>
+        <a href="#" class="cancel-link">Cancel</a>
+      </div>
+
+
+
+</main>
+
+ 
+  {% endblock %}

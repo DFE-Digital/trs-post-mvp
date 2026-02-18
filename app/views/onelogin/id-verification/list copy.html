@@ -1,0 +1,270 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+<!-- Detects which scenarion user clicked on from https://trs-post-mvp-6853f9a5ac29.herokuapp.com/onelogin/_screen-index
+<p>
+    ID verified? {{ data['Verified'] }}
+<br>
+    Matches returned? {{ data['MatchReturned'] }}
+</p>
+ -->
+  
+    <span class="govuk-caption-l">Search for a record</span>
+
+    <h1 class="govuk-heading-l">Search results</h1>
+
+    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+      Create a record
+    </button>
+
+
+
+<!-- // Search//  -->
+<div class="app-search-form">
+  <form id="searchForm">
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--s app-search-form__label" for="find-record">
+        Search
+      </label>
+      <div id="find-record-hint" class="govuk-hint">
+       Enter a name, email address or request date, for example 31 3 2025
+      </div>
+      <input class="govuk-input" id="find-record" name="findRecord" type="text" aria-describedby="find-record-hint" value="">
+    </div>
+    
+    
+    <button class="govuk-button app-search-form__button" data-module="govuk-button">
+      Search
+    </button>
+  </form>
+
+</div>
+
+</div>
+  <div class="govuk-grid-column-full">
+  
+
+<!-- // Filter //  -->
+<div class="container-filter govuk-!-margin-bottom-6" style="background:#f3f2f1; padding: 20px;">
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-3">Filter by</h2>
+
+  <form id="filterForm">
+    <div class="govuk-grid-row">
+      
+      <!-- Filters -->
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-checkboxes govuk-checkboxes--small" style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+
+          <div class="govuk-checkboxes__item" style="margin-bottom: 0;">
+            <input class="govuk-checkboxes__input" id="filter-active" name="status" type="checkbox" value="Active">
+        <label class="govuk-label govuk-checkboxes__label" for="filter-active" style="white-space: nowrap;">
+  Active (<span id="count-active">0</span>)
+</label>
+          </div>
+
+          <div class="govuk-checkboxes__item" style="margin-bottom: 0;">
+            <input class="govuk-checkboxes__input" id="filter-deactivated" name="status" type="checkbox" value="Deactivated">
+            <label class="govuk-label govuk-checkboxes__label" for="filter-deactivated" style="white-space: nowrap;">
+              Deactivated (<span id="count-deactivated">0</span>)
+            </label>
+          </div>
+
+          <div class="govuk-checkboxes__item" style="margin-bottom: 0;">
+            <input class="govuk-checkboxes__input" id="filter-onelogin" name="onelogin" type="checkbox" value="govuk">
+            <label class="govuk-label govuk-checkboxes__label" for="filter-onelogin" style="white-space: nowrap;">
+              GOV.UK One Login (<span id="count-onelogin">0</span>)
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="govuk-grid-column-one-third" style="display: flex; align-items: center; justify-content: flex-end;">
+        <div class="govuk-button-group govuk-!-margin-bottom-0">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Apply filters
+          </button>
+          <a href="#" id="clearFilters" class="govuk-link">
+            Clear all
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+
+<!-- // Data table //  -->
+
+<table class="govuk-table" data-module="moj-sortable-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row" data-status="Active" data-provider="onelogin">
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="0">Name</button>
+      </th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="1">One Login email address</button>
+      </th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="2">Date of birth</button>
+      </th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="3">TRN</button>
+      </th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="4">National Insurance number</button>
+      </th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">
+        <button type="button" data-index="5">Record status</button>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+
+    <tr class="govuk-table__row" data-status="Active" data-provider="onelogin">
+      <td class="govuk-table__cell">
+        <a href="task-view-verify" class="govuk-link">Dennis Bergkamp</a>
+      </td>
+      <td class="govuk-table__cell">dennis.bergkamp@example.gov.uk</td>
+      <td class="govuk-table__cell" data-sort-value="1958-06-06">6 June 1958</td>
+      <td class="govuk-table__cell" data-sort-value="3011880">3011880</td>
+      <td class="govuk-table__cell">QQ123456A</td>
+      <td class="govuk-table__cell">Active</td>
+    </tr>
+
+  <tr class="govuk-table__row" data-status="Active" data-provider="onelogin">
+      <td class="govuk-table__cell">
+        <a href="name-change" class="govuk-link">Mila Harrison</a>
+      </td>
+      <td class="govuk-table__cell">mila.harrison@example.gov.uk</td>
+      <td class="govuk-table__cell" data-sort-value="1992-11-14">14 November 1992</td>
+      <td class="govuk-table__cell" data-sort-value="8742301">8742301</td>
+      <td class="govuk-table__cell">QQ654321B</td>
+      <td class="govuk-table__cell">Active</td>
+    </tr>
+
+    <tr class="govuk-table__row" data-status="Deactivated" data-provider="onelogin">
+      <td class="govuk-table__cell">
+        <a href="name-change" class="govuk-link">Oscar Hughes</a>
+      </td>
+      <td class="govuk-table__cell">oscar.hughes@example.gov.uk</td>
+      <td class="govuk-table__cell" data-sort-value="1984-02-03">3 February 1984</td>
+      <td class="govuk-table__cell" data-sort-value="4920176">4920176</td>
+      <td class="govuk-table__cell">QQ789012C</td>
+      <td class="govuk-table__cell">Deactivated</td>
+    </tr>
+
+    <tr class="govuk-table__row" data-status="Active" data-provider="onelogin">
+      <td class="govuk-table__cell">
+        <a href="name-change" class="govuk-link">Chloe Ahmed</a>
+      </td>
+      <td class="govuk-table__cell">chloe.ahmed@example.gov.uk</td>
+      <td class="govuk-table__cell" data-sort-value="1976-09-27">27 September 1976</td>
+      <td class="govuk-table__cell" data-sort-value="6109923">6109923</td>
+      <td class="govuk-table__cell">QQ246810D</td>
+      <td class="govuk-table__cell">Active</td>
+    </tr>
+
+    <tr class="govuk-table__row" data-status="Deactivated" data-provider="onelogin">
+      <td class="govuk-table__cell">
+        <a href="name-change" class="govuk-link">Liam O'Reilly</a>
+      </td>
+      <td class="govuk-table__cell">liam.oreilly@example.gov.uk</td>
+      <td class="govuk-table__cell" data-sort-value="1969-01-09">9 January 1969</td>
+      <td class="govuk-table__cell" data-sort-value="9834102">9834102</td>
+      <td class="govuk-table__cell">QQ135790A</td>
+      <td class="govuk-table__cell">Deactivated</td>
+    </tr>
+
+  </tbody>
+</table>
+
+</div>
+</div>
+
+
+ 
+  {% endblock %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('filterForm')
+    const clearBtn = document.getElementById('clearFilters')
+    const rows = document.querySelectorAll('.govuk-table__body .govuk-table__row')
+
+    const countActive = document.getElementById('count-active')
+    const countDeactivated = document.getElementById('count-deactivated')
+    const countOnelogin = document.getElementById('count-onelogin')
+
+    function updateCounts () {
+      let active = 0
+      let deactivated = 0
+      let onelogin = 0
+
+      rows.forEach(row => {
+        if (row.dataset.status === 'Active') active++
+        if (row.dataset.status === 'Deactivated') deactivated++
+        if (row.dataset.provider === 'onelogin') onelogin++
+      })
+
+      countActive.textContent = active
+      countDeactivated.textContent = deactivated
+      countOnelogin.textContent = onelogin
+    }
+
+    function applyFilters () {
+      const activeChecked = document.getElementById('filter-active').checked
+      const deactivatedChecked = document.getElementById('filter-deactivated').checked
+      const oneloginChecked = document.getElementById('filter-onelogin').checked
+
+      rows.forEach(row => {
+        let show = true
+
+        // Status filter
+        if (activeChecked || deactivatedChecked) {
+          show = false
+          if (activeChecked && row.dataset.status === 'Active') show = true
+          if (deactivatedChecked && row.dataset.status === 'Deactivated') show = true
+        }
+
+        // Provider filter
+        if (oneloginChecked && row.dataset.provider !== 'onelogin') {
+          show = false
+        }
+
+        row.style.display = show ? '' : 'none'
+      })
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault()
+      applyFilters()
+    })
+
+    clearBtn.addEventListener('click', function (e) {
+      e.preventDefault()
+      form.reset()
+      rows.forEach(row => (row.style.display = ''))
+    })
+
+    updateCounts()
+  })
+</script>

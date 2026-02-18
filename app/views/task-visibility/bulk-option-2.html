@@ -1,0 +1,87 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<html lang="en" class="govuk-template">
+<head>
+  <meta charset="utf-8">
+  <title>Option 2 – Guided wizard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.1/govuk/all.min.css">
+</head>
+<body class="govuk-template__body">
+<script src="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.1/govuk/all.min.js"></script>
+<script>window.GOVUKFrontend.initAll()</script>
+<main class="govuk-main-wrapper">
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-xl">Batch assign – guided steps</h1>
+
+  <ol class="govuk-list govuk-list--number">
+    <li>Select an agent</li>
+    <li>Choose task type</li>
+    <li>Confirm number of tasks</li>
+  </ol>
+
+  <form>
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        Step 1: Choose an agent
+      </legend>
+      <div class="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="a1" name="agent" type="radio" value="AA">
+          <label class="govuk-label govuk-radios__label" for="a1">AA</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="a2" name="agent" type="radio" value="JT">
+          <label class="govuk-label govuk-radios__label" for="a2">JT</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="a3" name="agent" type="radio" value="DW">
+          <label class="govuk-label govuk-radios__label" for="a3">DW</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="govuk-fieldset govuk-!-margin-top-6">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        Step 2: Choose task type
+      </legend>
+      <div class="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="t1" name="task" type="radio" value="Stand-ups">
+          <label class="govuk-label govuk-radios__label" for="t1">Stand-ups</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="t2" name="task" type="radio" value="Register">
+          <label class="govuk-label govuk-radios__label" for="t2">Register</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="govuk-form-group govuk-!-margin-top-6">
+      <label class="govuk-label" for="count2">Step 3: Number of tasks</label>
+      <input class="govuk-input govuk-input--width-5" id="count2" name="count2" type="number" min="1" value="3">
+    </div>
+
+    <button class="govuk-button">Confirm and assign</button>
+  </form>
+</div>
+
+</main>
+</body>
+</html>
+
+ 
+  {% endblock %}

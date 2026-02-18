@@ -1,0 +1,75 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<html lang="en" class="govuk-template">
+<head>
+  <meta charset="utf-8">
+  <title>Option 1 – Quick batch assign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.1/govuk/all.min.css">
+</head>
+<body class="govuk-template__body">
+<script src="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.1/govuk/all.min.js"></script>
+<script>window.GOVUKFrontend.initAll()</script>
+<main class="govuk-main-wrapper">
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-xl">Quick batch assign</h1>
+  <p class="govuk-body">Assign multiple tasks to one agent in one go.</p>
+
+  <form>
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="agent">Support agent</label>
+      <select class="govuk-select" id="agent" name="agent">
+        <option value="">Select an agent</option>
+        <option>AA</option><option>AM</option><option>CM</option><option>DW</option><option>EH</option><option>JT</option>
+      </select>
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="task">Task type</label>
+      <select class="govuk-select" id="task" name="task">
+        <option value="">Select a task</option>
+        <option>Supply duplicates</option>
+        <option>Stand-ups</option>
+        <option>Register</option>
+        <option>Claim</option>
+        <option>International</option>
+      </select>
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="count">Number of tasks</label>
+      <input class="govuk-input govuk-input--width-5" id="count" name="count" type="number" min="1" value="1">
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button">Assign tasks</button>
+  </form>
+
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">What happens next?</span>
+    </summary>
+    <div class="govuk-details__text">
+      The system will allocate the selected number of tasks to the chosen agent and update the rota.
+    </div>
+  </details>
+</div>
+
+</main>
+</body>
+</html>
+
+ 
+  {% endblock %}
