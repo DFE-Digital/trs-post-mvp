@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Do you know your National Insurance number? – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-aytq .govuk-button { margin-top: 24px; }
+</style>
+
+<div class="onelogin-aytq">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Do you know your National Insurance number?</h1>
+
+    <form method="post" action="have-trn">
+
+      <div class="govuk-radios" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="nino-yes" name="nino-known" type="radio" value="yes" data-aria-controls="nino-yes-reveal">
+          <label class="govuk-label govuk-radios__label" for="nino-yes">Yes</label>
+
+          <div id="nino-yes-reveal" class="govuk-radios__conditional">
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="nino-input">National Insurance number</label>
+              <div class="govuk-hint">It’s on your National Insurance card, benefit letter, payslip or P60 – for example, ‘QQ 12 34 56 C’</div>
+              <input class="govuk-input" id="nino-input" name="nino" type="text">
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="nino-no" name="nino-known" type="radio" value="no">
+          <label class="govuk-label govuk-radios__label" for="nino-no">No</label>
+        </div>
+      </div>
+
+      <button class="govuk-button">Continue</button>
+
+    </form>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

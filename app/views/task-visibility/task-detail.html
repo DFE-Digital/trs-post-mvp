@@ -1,0 +1,222 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Task detail" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "#"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      var addBtn = document.getElementById('add-note');
+      var form = document.getElementById('add-note-form');
+      var cancelBtn = document.getElementById('cancel-note');
+      var saveBtn = document.getElementById('save-note');
+      var textarea = document.getElementById('new-note');
+      var timeline = document.getElementById('notes-timeline');
+      var author = 'K. Haidinger';
+
+      function formatDate(d) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      }
+
+      if (addBtn) {
+        addBtn.addEventListener('click', function () {
+          form.style.display = '';
+          textarea.focus();
+        });
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function () {
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          var text = textarea.value.trim();
+          if (!text) return;
+
+          var li = document.createElement('li');
+          li.className = 'govuk-timeline__item govuk-!-margin-bottom-3';
+
+          var row = document.createElement('div'); row.className = 'govuk-grid-row';
+          var colDate = document.createElement('div'); colDate.className = 'govuk-grid-column-one-quarter';
+          var colContent = document.createElement('div'); colContent.className = 'govuk-grid-column-three-quarters';
+
+          var dateP = document.createElement('p'); dateP.className = 'govuk-body-s govuk-!-font-weight-bold';
+          dateP.textContent = formatDate(new Date());
+          colDate.appendChild(dateP);
+
+          var ul = document.createElement('ul'); ul.className = 'govuk-list govuk-list--bullet govuk-!-margin-bottom-0';
+          var item = document.createElement('li');
+          var p = document.createElement('p'); p.className = 'govuk-body-s';
+          p.innerHTML = text + ' — <strong>By ' + author + '</strong>';
+          item.appendChild(p);
+          ul.appendChild(item);
+          colContent.appendChild(ul);
+
+          row.appendChild(colDate);
+          row.appendChild(colContent);
+          li.appendChild(row);
+
+          // insert new note at top
+          if (timeline.firstChild) {
+            timeline.insertBefore(li, timeline.firstChild);
+          } else {
+            timeline.appendChild(li);
+          }
+
+          // reset form
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+    })();
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <h1 class="govuk-heading-l">Dennis Berkamp</h1>
+
+    <div class="govuk-!-margin-bottom-3">
+      <span class="govuk-tag govuk-tag--grey">In progress</span>
+      <span class="govuk-!-margin-left-2">Assigned to Patricia Miles</span>
+      <a class="govuk-link govuk-!-margin-left-2" href="#">Manage task</a>
+    </div>
+
+    <button id="add-note" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-3" type="button">Add a note to this task</button>
+
+    <section id="notes-section" class="govuk-!-margin-bottom-6">
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">View notes</span>
+        </summary>
+        <div class="govuk-details__text">
+          <div class="govuk-timeline">
+            <ol id="notes-timeline" class="govuk-timeline__list govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+              <li class="govuk-timeline__item govuk-!-margin-bottom-3">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-quarter">
+                    <p class="govuk-body-s govuk-!-font-weight-bold">19 Feb 2026</p>
+                  </div>
+                  <div class="govuk-grid-column-three-quarters">
+                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+                      <li><p class="govuk-body-s">Requested further documents — <strong>By K. Haidinger</strong></p></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="govuk-timeline__item govuk-!-margin-bottom-3">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-quarter">
+                    <p class="govuk-body-s govuk-!-font-weight-bold">18 Feb 2026</p>
+                  </div>
+                  <div class="govuk-grid-column-three-quarters">
+                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+                      <li><p class="govuk-body-s">Initial check complete — <strong>By A. Smith</strong></p></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="govuk-timeline__item">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-quarter">
+                    <p class="govuk-body-s govuk-!-font-weight-bold">05 Feb 2026</p>
+                  </div>
+                  <div class="govuk-grid-column-three-quarters">
+                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+                      <li><p class="govuk-body-s">Followed up with customer — <strong>By F. Brown</strong></p></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </details>
+
+      <div id="add-note-form" class="govuk-!-margin-top-3" style="display:none;">
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="new-note">Add a note</label>
+          <textarea class="govuk-textarea" id="new-note" name="new-note" rows="4"></textarea>
+        </div>
+        <div class="govuk-button-group">
+          <button id="save-note" class="govuk-button" type="button">Save note</button>
+          <button id="cancel-note" class="govuk-button govuk-button--secondary" type="button">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="govuk-!-margin-top-6" aria-labelledby="request-details-heading">
+      <h2 id="request-details-heading" class="govuk-heading-m">Request details</h2>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value">15 August 1990</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">TRN</dt>
+          <dd class="govuk-summary-list__value">Not provided</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">National Insurance number</dt>
+          <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Proof of identity</dt>
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
+            <img class="govuk-!-margin-top-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAklEQVR4AewaftIAAATGSURBVO3BQY4cSRAEQc7/7+XK2pQ2W6jQvQkCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAv4r0N3Z7vje+X7nq6r5e9wAAQIECBAgQIAAAQIECBAgQIAAAQIECBAYG8C6gAAQIECBAgQIAAAQIECBAgQIAAAQIECBAg8G8AABAgQIECBAgAABAgQIECBAgAABAgQIEBhvwLqAAECBAgQIECAAAECBAgQIECAAAECBAgQIPBvAAAECBAgQIECAAAECBAgQIECAAAECBAgQG/G8AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQG/Bv/d2W8p9rBQgQIECAAAECBAgQIECAAAECBAgQIECAAAECL4E8DAgQIECAAAECBAgQIECAAAECBAgQIECAwG4FQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBUJAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIDAaAUNAQIECBAgQIAAAQIECBAgQIAAAQIECBAgMG4FQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBoBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBoBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBD4D2wABAgQIECBAgAABAgQIECBAgAABAgQIECBAYwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AALp6X9wAAAABJRU5ErkJggg==" alt="passport thumbnail" style="max-width:300px; border:1px solid #e5e7eb; padding:6px;">
+          </dd>
+        </div>
+      </dl>
+
+      <fieldset class="govuk-fieldset" role="group" aria-labelledby="verify-heading">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" id="verify-heading">
+          Can you verify this person's identity?
+        </legend>
+
+        <div class="govuk-radios govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-yes" name="verify" type="radio" value="yes">
+            <label class="govuk-label govuk-radios__label" for="verify-yes">Yes, find a matching record</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-no" name="verify" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="verify-no">No, reject this request</label>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        <button class="govuk-button govuk-button--primary" type="button">Continue</button>
+        <button class="govuk-button govuk-button--secondary" type="button">Save and come back later</button>
+        <a class="govuk-link" href="#">Cancel</a>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+{% endblock %}

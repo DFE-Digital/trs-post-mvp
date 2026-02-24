@@ -1,0 +1,194 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Task management" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Task management</h1>
+
+    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-1">Dennis Berkamp</p>
+    <p class="govuk-body govuk-!-margin-bottom-6">TRS-0000000</p>
+
+    <form method="post" action="#">
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Task details</h2>
+
+      <dl class="govuk-summary-list govuk-!-margin-bottom-6">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Owner
+          </dt>
+          <dd class="govuk-summary-list__value">
+            Ferdinand Brown
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Reassign task</a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Status
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="status-in-progress" name="status" type="radio" value="in-progress" checked>
+                <label class="govuk-label govuk-radios__label" for="status-in-progress">
+                  In progress
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="status-blocked" name="status" type="radio" value="blocked">
+                <label class="govuk-label govuk-radios__label" for="status-blocked">
+                  Blocked
+                </label>
+              </div>
+            </div>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Notes
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View notes</span>
+              </summary>
+              <div class="govuk-details__text">
+
+                <div class="moj-timeline">
+                    <div class="moj-timeline__item govuk-!-padding-bottom-6" data-testid="timeline-item-details-updated-event">
+                        <div class="moj-timeline__header">
+                            <h2 class="moj-timeline__title">By Ben MITCHELL added a note</h2><p class="moj-timeline__date">
+      <time datetime="2019-06-14T14:01:00.000Z">14 November 2025 at 2:01pm</time>
+    </p>
+                        </div>
+                       
+                        <div class="moj-timeline__description">Check complete </div>
+                    </div>
+                    <div class="moj-timeline__item govuk-!-padding-bottom-6" data-testid="timeline-item-details-updated-event">
+                        <div class="moj-timeline__header">
+                            <h2 class="moj-timeline__title">By Ben MITCHELL added a note</h2><p class="moj-timeline__date">
+      <time datetime="2019-06-14T14:01:00.000Z">14 November 2025 at 2:01pm</time>
+    </p>
+                        </div>
+                       
+                        <div class="moj-timeline__description">Further checks needed</div>
+                    </div>
+                    <div class="moj-timeline__item govuk-!-padding-bottom-6" data-testid="timeline-item-details-updated-event">
+                        <div class="moj-timeline__header">
+                            <h2 class="moj-timeline__title">By Ben MITCHELL added a note</h2>
+                        </div>
+                        <p class="moj-timeline__date">
+                            <span data-testid="raised-by">By Ben MITCHELL on</span>
+                            <time datetime="2025-11-14T10:36:30.5422470" data-testid="timeline-item-time">14 November 2025 at 10:36 am</time>
+                        </p>
+                        <div class="moj-timeline__description">Initial check complete, further checks needed</div>
+                    </div>
+
+                </div>
+
+                <!-- 
+                <ul class="govuk-list govuk-list--bullet">
+                  <li>
+                    <p class="govuk-body-s">Initial check complete — <strong>By A. Smith</strong> on 18 Feb 2026</p>
+                  </li>
+                  <li>
+                    <p class="govuk-body-s">Requested further documents — <strong>By K. Haidinger</strong> on 19 Feb 2026</p>
+                  </li>
+                  <li>
+                    <p class="govuk-body-s">Followed up with customer — <strong>By F. Brown</strong> on 19 Feb 2026</p>
+                  </li>
+                </ul> -->
+
+
+              </div>
+            </details>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Add note</h2>
+
+      <div class="govuk-form-group govuk-!-margin-bottom-6">
+        <label class="govuk-label" for="note">
+        </label>
+        <textarea class="govuk-textarea" id="note" name="note" rows="5" aria-describedby="note-hint"></textarea>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Add links to ZenDesk tickets</h2>
+
+      <div class="govuk-form-group govuk-!-margin-bottom-3" id="ticket-fields-container">
+        <div class="govuk-form-group govuk-!-margin-bottom-3" data-ticket-index="1">
+          <label class="govuk-label" for="ticket-1">
+            Link to ticket 1
+          </label>
+          <input class="govuk-input" id="ticket-1" name="ticket-1" type="text" value="zenDesk.com/ticket#12ThY34999">
+        </div>
+        <div class="govuk-form-group govuk-!-margin-bottom-3" data-ticket-index="2">
+          <label class="govuk-label" for="ticket-2">
+            Link to ticket 2
+          </label>
+          <input class="govuk-input" id="ticket-2" name="ticket-2" type="text" value="zenDesk.com/ticket#12aBL5151778">
+        </div>
+      </div>
+      <button type="button" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-6" id="add-another-ticket">
+        Add another
+      </button>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        <button class="govuk-button" data-module="govuk-button" type="submit">
+          Update task details
+        </button>
+        <a class="govuk-link" href="javascript:window.history.back()">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var addAnotherButton = document.getElementById('add-another-ticket');
+    var container = document.getElementById('ticket-fields-container');
+    var ticketCount = 2;
+
+    if (addAnotherButton && container) {
+      addAnotherButton.addEventListener('click', function () {
+        ticketCount++;
+        var newField = document.createElement('div');
+        newField.className = 'govuk-form-group govuk-!-margin-bottom-3';
+        newField.setAttribute('data-ticket-index', ticketCount);
+        
+        var label = document.createElement('label');
+        label.className = 'govuk-label';
+        label.setAttribute('for', 'ticket-' + ticketCount);
+        label.textContent = 'Link to ticket ' + ticketCount;
+        
+        var input = document.createElement('input');
+        input.className = 'govuk-input';
+        input.id = 'ticket-' + ticketCount;
+        input.name = 'ticket-' + ticketCount;
+        input.type = 'text';
+        
+        newField.appendChild(label);
+        newField.appendChild(input);
+        container.appendChild(newField);
+      });
+    }
+  });
+</script>
+
+{% endblock %}

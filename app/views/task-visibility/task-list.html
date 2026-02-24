@@ -1,0 +1,465 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "GOV.UK One Login – identity verification" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-m">Record management</span>
+    <h1 class="govuk-heading-l">GOV.UK One Login – identity verification</h1>
+
+    <h2 class="govuk-heading-s govuk-!-margin-top-6">Search</h2>
+
+    <form class="govuk-!-margin-bottom-6">
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="search">
+          Enter a name, email address or request date, for example 31 3 2025
+        </label>
+        <div class="govuk-input__wrapper">
+          <input class="govuk-input govuk-!-width-two-thirds" id="search" name="search" type="search">
+          <button class="govuk-button" data-module="govuk-button" type="submit">
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="govuk-tabs govuk-!-margin-bottom-4" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">Tasks</h2>
+      <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="#open-tasks">Open tasks</a>
+        </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="#completed-tasks">Completed tasks</a>
+        </li>
+      </ul>
+
+      <section class="govuk-tabs__panel" id="open-tasks">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Open tasks</h2>
+
+        <div class="govuk-!-margin-bottom-4 govuk-!-padding-3" style="background-color: #f3f2f1;">
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Filter by</h3>
+          <div class="govuk-checkboxes govuk-checkboxes--small one-login-task-filters" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item trs-nowrap">
+              <input class="govuk-checkboxes__input" id="filter-assigned" name="filter-assigned" type="checkbox" value="assigned">
+
+              
+              <label class="govuk-label govuk-checkboxes__label" for="filter-assigned">
+                Assigned to me
+              </label>
+            </div>
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="filter-unassigned" name="filter-unassigned" type="checkbox" value="unassigned">
+              <label class="govuk-label govuk-checkboxes__label" for="filter-unassigned">
+                Unassigned
+              </label>
+            </div>
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="filter-all" name="filter-all" type="checkbox" value="all">
+              <label class="govuk-label govuk-checkboxes__label" for="filter-all">
+                All
+              </label>
+            </div>
+          </div>
+          <p class="govuk-body govuk-!-margin-top-2">
+            <a class="govuk-link" href="#" id="clear-filters-link">Clear all</a>
+          </p>
+        </div>
+
+        <table class="govuk-table" id="open-tasks-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header" data-sort-key="name">Name and task ID</th>
+              <th scope="col" class="govuk-table__header" data-sort-key="requested">Requested on</th>
+              <th scope="col" class="govuk-table__header" data-sort-key="updated">Updated on</th>
+              <th scope="col" class="govuk-table__header" data-sort-key="status">Status</th>
+              <th scope="col" class="govuk-table__header" data-sort-key="owner">Owner</th>
+              <th scope="col" class="govuk-table__header">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="open-tasks-tbody">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="task-detail">Dennis Berkamo</a><br>
+                <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
+              </td>
+              <td class="govuk-table__cell">14 Jan 2025</td>
+              <td class="govuk-table__cell">2 Dec 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--yellow">Not started</strong>
+              </td>
+              <td class="govuk-table__cell">Unassigned</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Manage task</a>
+              </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Theodore Bell</a><br>
+                <span class="govuk-hint">TRS-0013000</span>
+              </td>
+              <td class="govuk-table__cell">15 Jan 2025</td>
+              <td class="govuk-table__cell">2 Dec 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+              </td>
+              <td class="govuk-table__cell">Ferdinand Brown</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="manage-task">Manage task</a>
+              </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Millie Harrison</a><br>
+                <span class="govuk-hint">TRS-0004002</span>
+              </td>
+              <td class="govuk-table__cell">20 Feb 2025</td>
+              <td class="govuk-table__cell">3 Dec 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--yellow">Not started</strong>
+              </td>
+              <td class="govuk-table__cell">Unassigned</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Manage task</a>
+              </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Oscar Hughes</a><br>
+                <span class="govuk-hint">TRS-0000005</span>
+              </td>
+              <td class="govuk-table__cell">1 Mar 2025</td>
+              <td class="govuk-table__cell">6 Mar 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+              </td>
+              <td class="govuk-table__cell">Patricia Miles</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Manage task</a>
+              </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Ari Davis</a><br>
+                <span class="govuk-hint">TRS-0000100</span>
+              </td>
+              <td class="govuk-table__cell">6 Mar 2025</td>
+              <td class="govuk-table__cell">22 Nov 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+              </td>
+              <td class="govuk-table__cell">Patricia Miles</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Manage task</a>
+              </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Nia Davis</a><br>
+                <span class="govuk-hint">TRS-0000101</span>
+              </td>
+              <td class="govuk-table__cell">12 Mar 2025</td>
+              <td class="govuk-table__cell">2 Nov 2025</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--red">Blocked</strong>
+              </td>
+              <td class="govuk-table__cell">Patricia Miles</td>
+              <td class="govuk-table__cell">
+                <a class="govuk-link" href="#">Manage task</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav class="govuk-pagination" role="navigation" aria-label="results">
+          <ul class="govuk-pagination__list">
+            <li class="govuk-pagination__item govuk-pagination__item--current">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-current="page">
+                1
+              </a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#">
+                2
+              </a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#">
+                3
+              </a>
+            </li>
+            <li class="govuk-pagination__item govuk-pagination__item--next">
+              <a class="govuk-link govuk-pagination__link" href="#">
+                Next<span class="govuk-visually-hidden"> page</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+
+      <section class="govuk-tabs__panel govuk-tabs__panel--hidden" id="completed-tasks">
+        <h2 class="govuk-heading-m">Completed tasks</h2>
+        <p class="govuk-body">There are no completed tasks in this example screen.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<style>
+  .one-login-task-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+  }
+
+  .one-login-task-filters .govuk-checkboxes__item {
+    margin-right: 0;
+  }
+
+  #open-tasks-table thead th[data-sort-key] {
+    cursor: pointer;
+  }
+
+  #open-tasks-table thead th[data-sort-key][aria-sort="ascending"]::after {
+    content: " ▲";
+    font-size: 0.9em;
+  }
+
+  #open-tasks-table thead th[data-sort-key][aria-sort="descending"]::after {
+    content: " ▼";
+    font-size: 0.9em;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var currentUserName = 'Patricia Miles';
+
+    var searchForm = document.querySelector('form');
+    var searchInput = document.getElementById('search');
+
+    var filterAssigned = document.getElementById('filter-assigned');
+    var filterUnassigned = document.getElementById('filter-unassigned');
+    var filterAll = document.getElementById('filter-all');
+    var clearFiltersLink = document.getElementById('clear-filters-link');
+
+    var table = document.getElementById('open-tasks-table');
+    var tbody = document.getElementById('open-tasks-tbody');
+    if (!table || !tbody) {
+      return;
+    }
+
+    var allRows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+    var currentSortKey = null;
+    var currentSortDirection = 'ascending'; // or 'descending'
+
+    function getRowData(row) {
+      var cells = row.querySelectorAll('td');
+      return {
+        name: cells[0] ? cells[0].innerText.trim() : '',
+        requested: cells[1] ? cells[1].innerText.trim() : '',
+        updated: cells[2] ? cells[2].innerText.trim() : '',
+        status: cells[3] ? cells[3].innerText.trim() : '',
+        owner: cells[4] ? cells[4].innerText.trim() : ''
+      };
+    }
+
+    function matchesSearch(row, term) {
+      if (!term) return true;
+      var text = row.innerText.toLowerCase();
+      return text.indexOf(term) !== -1;
+    }
+
+    function matchesFilters(row) {
+      var data = getRowData(row);
+      var owner = (data.owner || '').toLowerCase();
+
+      if (filterAll && filterAll.checked) {
+        return true;
+      }
+
+      var assignedChecked = filterAssigned && filterAssigned.checked;
+      var unassignedChecked = filterUnassigned && filterUnassigned.checked;
+
+      if (!assignedChecked && !unassignedChecked) {
+        return true;
+      }
+
+      var isAssignedToMe = data.owner === currentUserName;
+      var isUnassigned = owner === 'unassigned';
+
+      if (assignedChecked && isAssignedToMe) {
+        return true;
+      }
+
+      if (unassignedChecked && isUnassigned) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function parseDate(text) {
+      var date = new Date(text);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
+    function compareRows(a, b) {
+      if (!currentSortKey) return 0;
+
+      var dataA = getRowData(a);
+      var dataB = getRowData(b);
+
+      var valA, valB;
+
+      if (currentSortKey === 'requested') {
+        valA = parseDate(dataA.requested);
+        valB = parseDate(dataB.requested);
+      } else if (currentSortKey === 'updated') {
+        valA = parseDate(dataA.updated);
+        valB = parseDate(dataB.updated);
+      } else if (currentSortKey === 'name') {
+        valA = dataA.name.toLowerCase();
+        valB = dataB.name.toLowerCase();
+      } else if (currentSortKey === 'status') {
+        valA = dataA.status.toLowerCase();
+        valB = dataB.status.toLowerCase();
+      } else if (currentSortKey === 'owner') {
+        valA = dataA.owner.toLowerCase();
+        valB = dataB.owner.toLowerCase();
+      }
+
+      if (valA === null && valB === null) return 0;
+      if (valA === null) return currentSortDirection === 'ascending' ? 1 : -1;
+      if (valB === null) return currentSortDirection === 'ascending' ? -1 : 1;
+
+      if (valA < valB) return currentSortDirection === 'ascending' ? -1 : 1;
+      if (valA > valB) return currentSortDirection === 'ascending' ? 1 : -1;
+      return 0;
+    }
+
+    function updateSortIndicators() {
+      var headers = table.querySelectorAll('thead th[data-sort-key]');
+      Array.prototype.forEach.call(headers, function (th) {
+        if (th.getAttribute('data-sort-key') === currentSortKey) {
+          th.setAttribute('aria-sort', currentSortDirection);
+        } else {
+          th.setAttribute('aria-sort', 'none');
+        }
+      });
+    }
+
+    function renderTable() {
+      var searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      var visibleRows = allRows.filter(function (row) {
+        return matchesSearch(row, searchTerm) && matchesFilters(row);
+      });
+
+      if (currentSortKey) {
+        visibleRows.sort(compareRows);
+      }
+
+      while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+      }
+
+      visibleRows.forEach(function (row) {
+        tbody.appendChild(row);
+      });
+    }
+
+    var sortableHeaders = table.querySelectorAll('thead th[data-sort-key]');
+    Array.prototype.forEach.call(sortableHeaders, function (th) {
+      th.setAttribute('tabindex', '0');
+      th.setAttribute('aria-sort', 'none');
+
+      th.addEventListener('click', function () {
+        var sortKey = th.getAttribute('data-sort-key');
+        if (currentSortKey === sortKey) {
+          currentSortDirection = currentSortDirection === 'ascending' ? 'descending' : 'ascending';
+        } else {
+          currentSortKey = sortKey;
+          currentSortDirection = 'ascending';
+        }
+        updateSortIndicators();
+        renderTable();
+      });
+
+      th.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          th.click();
+        }
+      });
+    });
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        renderTable();
+      });
+    }
+
+    function clearFilters() {
+      if (filterAssigned) filterAssigned.checked = false;
+      if (filterUnassigned) filterUnassigned.checked = false;
+      if (filterAll) filterAll.checked = false;
+      renderTable();
+    }
+
+    if (clearFiltersLink) {
+      clearFiltersLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        clearFilters();
+      });
+    }
+
+    if (filterAll) {
+      filterAll.addEventListener('change', function () {
+        if (filterAll.checked) {
+          if (filterAssigned) filterAssigned.checked = false;
+          if (filterUnassigned) filterUnassigned.checked = false;
+        }
+        renderTable();
+      });
+    }
+
+    if (filterAssigned) {
+      filterAssigned.addEventListener('change', function () {
+        if (filterAssigned.checked && filterAll) {
+          filterAll.checked = false;
+        }
+        renderTable();
+      });
+    }
+
+    if (filterUnassigned) {
+      filterUnassigned.addEventListener('change', function () {
+        if (filterUnassigned.checked && filterAll) {
+          filterAll.checked = false;
+        }
+        renderTable();
+      });
+    }
+
+    renderTable();
+  });
+</script>
+
+{% endblock %}
+

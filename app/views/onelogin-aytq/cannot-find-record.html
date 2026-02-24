@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  We cannot find your teaching record or you might not have one – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-aytq .govuk-button { margin-top: 24px; }
+  .interruption-card { background: #1d70b8; color: #fff; padding: 2rem; margin-top: 1rem; border-radius: 2px; }
+  .interruption-card__heading { color: #fff; margin-top: 0; }
+  .interruption-card__content p { color: #fff; margin-bottom: 0.75rem; }
+  .interruption-card__actions { margin-top: 1.5rem; }
+  .interruption-card__button { background: #fff; color: #1d70b8; border: 0; padding: 0.5rem 1rem; text-decoration: none; display: inline-block; }
+  @media (min-width: 40rem) { .interruption-card { padding: 2.5rem; } }
+</style>
+
+<div class="onelogin-aytq">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="interruption-card" role="region" aria-labelledby="cannot-find-heading">
+        <h1 id="cannot-find-heading" class="govuk-heading-xl interruption-card__heading">We cannot find your teaching record or you might not have one</h1>
+
+        <div class="interruption-card__content">
+          <p class="govuk-body">We could not match your details to a teaching record.</p>
+          <h2 class="govuk-heading-m">What you can do next</h2>
+          <p class="govuk-body">Check your answers. If they are correct, you can send a support request to help us find your teaching record.</p>
+          <p class="govuk-body">We’ll review your details and contact you if we need more information.</p>
+
+          <div class="govuk-button-group interruption-card__actions">
+            <a href="check-your-details-support-request.html" role="button" draggable="false" class="govuk-button govuk-button--inverse" data-module="govuk-button">Check your answers</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

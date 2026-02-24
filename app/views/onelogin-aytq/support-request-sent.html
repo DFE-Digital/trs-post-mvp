@@ -1,0 +1,42 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Support request sent – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-aytq .panel-green { background:#0b7a3f; color:#fff; padding:32px; text-align:center; }
+  .onelogin-aytq .panel-green h1{ color:#fff; margin:0 0 8px 0; }
+  .onelogin-aytq .panel-green p { color:#fff; margin:8px 0; }
+</style>
+
+<div class="onelogin-aytq">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="panel-green govuk-!-margin-bottom-6">
+        <h1 class="govuk-heading-xl">Support request sent</h1>
+        <p class="govuk-heading-m">We’ll contact you within 5 working days</p>
+        <p class="govuk-heading-l">Your reference number is:<br><strong>HDJ2123F</strong></p>
+      </div>
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+      <p class="govuk-body">We’ll contact you when we have an update.</p>
+      <p class="govuk-body">You’ll need your reference number if you need to contact support about your request.</p>
+      <p class="govuk-body">We’ll email you once your request is completed. Please do not submit another support request before then.</p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

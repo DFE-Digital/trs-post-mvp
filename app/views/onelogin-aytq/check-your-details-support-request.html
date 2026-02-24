@@ -1,0 +1,61 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Check your details before sending support request – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="onelogin-aytq">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Check your details before sending support request</h1>
+
+      <h2 class="govuk-heading-m">GOV.UK One Login details</h2>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value">15 August 1990</dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Additional details</h2>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">National Insurance number</dt>
+          <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">Change</a></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">TRN</dt>
+          <dd class="govuk-summary-list__value">09765421</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">Change</a></dd>
+        </div>
+      </dl>
+
+      <a class="govuk-button govuk-button" href="support-request-sent.html">Send support request</a>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

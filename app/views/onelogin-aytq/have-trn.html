@@ -1,0 +1,85 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Do you have a teacher reference number (TRN)? – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-aytq .govuk-button { margin-top: 24px; }
+</style>
+
+<div class="onelogin-aytq">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Do you have a teacher reference number (TRN)?</h1>
+
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">About TRNs</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p>You'll have a TRN if you've ever trained, worked or been registered to teach in England or Wales.</p>
+        <p><a class="govuk-link" href="#">Find out more about TRNs</a> or <a class="govuk-link" href="#">find a lost TRN</a>.</p>
+      </div>
+    </details>
+
+    <form method="post" action="cannot-find-record">
+  <div class="govuk-form-group">
+  <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+    
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="contact" name="contact" type="radio" value="email" data-aria-controls="conditional-contact">
+        <label class="govuk-label govuk-radios__label" for="contact">
+          Yes
+        </label>
+      </div>
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact">
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-by-email">
+            Teacher reference number
+          </label>
+          <input class="govuk-input govuk-!-width-one-third" id="contact-by-email" name="contactByEmail" type="email" spellcheck="false" autocomplete="email">
+        </div>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="contact-2" name="contact" type="radio" value="phone" data-aria-controls="">
+        <label class="govuk-label govuk-radios__label" for="contact-2">
+          No
+        </label>
+      </div>
+ <!--      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-contact-2">
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-by-phone">
+            Phone number
+          </label>
+          <input class="govuk-input govuk-!-width-one-third" id="contact-by-phone" name="contactByPhone" type="tel" autocomplete="tel">
+        </div>
+      </div> -->
+  
+    </div>
+  </fieldset>
+</div>
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+</form>
+
+  </div>
+</div>
+</div>
+
+
+
+{% endblock %}
