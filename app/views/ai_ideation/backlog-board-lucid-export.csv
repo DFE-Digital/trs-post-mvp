@@ -1,0 +1,58 @@
+Text,Group,Notes,Labels
+Improve change log/history on TRS console,Change History,,Low priority
+Add statuses to change history alongside change reasons,Change History,,
+Remove 'Previous data' in change history when not relevant,Change History,,
+Review what items would / would not be in change history,Change History,,
+Redesign for better search/findability,Change History,,
+Review impact of displaying notes/change history in different tabs,Change History,,
+Explore updating change history event for completing change name/DoB task,Change History,,Legacy
+Review relationship between user access permissions and change history,Change History,Tie more closely to user permissions | ↳ Dependency: Access Permissions column,
+Add change history for deactivated record in Teach Pensions duplication resolution task,Change History (Blocked),↳ Blocked until new Event Model work is completed,Blocked | To check
+Review matched record journey and how triggered from other tasks,Record Merging (Priority),Make clearer why 'further checks required' TRN req was flagged and what's needed,To check | 3 duplicate tickets
+"Merging record — on check answers, review use of 'change'",Record Merging (Priority),,
+Merge duplicate journeys across console,Record Merging (Priority),Do users need to see if something WASN'T merged?,Legacy
+Update manual checks — merging records is sometimes the required action,Record Merging (Priority),"May involve tweaking API dups journey. Not a huge priority, workarounds exist.",Low priority
+Examine what happens when users update records at the same time,Record Merging (Priority),,
+Displaying routes/pro status data on compare records page,Record Merging (Priority),,
+Confirm how we should approach delete record function in TRS,Record Deletion,"Would have serious repercussions across users. Unless a serious use-case arises, park this.",Parked | To check
+"Understand blocked/in-progress requests, scope & unknowns",Task Visibility,,Priority
+Search results — iterate designs from UR findings,Task Visibility,,In progress
+Review/redesign filters across console,Task Visibility,Thought to be done — tackled as part of task visibility work so far. | ↳ Covered by Task Visibility work,Done (check)
+Review adding ability to identify access manager for a user / all users,Access Permissions,↳ Can be covered by Task Visibility work,
+Review impact of users holding multiple roles in TRS,Access Permissions,,
+General/vague managing of access permissions & opportunities,Access Permissions,Another ticket on this — quite general.,To check
+Use the term 'deactivated' over 'inactive' when managing user permissions,Access Permissions,,To put into refinement
+Exception thrown when creating route that removes QTS from in-progress person,Routes & Professional Statuses,,Legacy | To check
+Routes — updates to dropdown list pages,Routes & Professional Statuses,Better communication of active data items for subject specialisms and training providers,
+Routes — review content in change history,Routes & Professional Statuses,'Person professional status' reads as derived from data fields instead of bespoke,
+Review ordering of summary card on routes and qualifications tab,Routes & Professional Statuses,"By pro status type, date, created on",
+"Remove additional questions in journey to add ""QTLS + SET membership"" route to a record",Routes & Professional Statuses,,Needs to happen — to refine
+Review Alert scenarios where we show the 'get in touch with TRA' banner and block the action,Alerts,,To check | 2 tickets
+Dynamic reason for deleting alert choices,Alerts,Kinda vague,To check
+Review create alert journey and implementation of conditional logic,Alerts,"Some do, some don't need description added",Legacy | To check
+Review names of alert types — do we need to update them?,Alerts,,Legacy
+Review making it clearer if removing end date reopens alerts,Alerts,,Legacy | To check
+Design for DBS notes — redesign,Notes,,Active
+General/vague notes area,Notes,Kinda vague — needs scoping,To check
+Some services across TS need additional data not in teaching record — explore other data sources,Data Integration,Similar notes on Claims and TPS,To check
+Make legacy data available in TRS console,Data Integration,,Legacy | To check
+Make TRS central database for teacher workforce data in DfE,Data Integration,,Legacy
+Create .Net library for Google BigQuery integration,Data Integration,,Legacy | DONE / IN PROGRESS
+Provide data to BigQuery & decommission Reporting DB,Data Integration,,Legacy | DONE / IN PROGRESS
+Add rate limiting to web request events,Data Integration,,Legacy | DONE / IN PROGRESS
+Review prev names migrated from DQT to TRS — clean/streamline data,Legacy — Names & Aliases,,Legacy
+Review how to handle aliases,Legacy — Names & Aliases,,Legacy
+Design to allow record manager users to delete/add prev name in console,Legacy — Names & Aliases,,Legacy
+Update potential duplicates to show prev names,Legacy — Names & Aliases,,Being worked on
+Add missing H2 headers to options selection pages,General/Internal,Needs to happen but not a priority. To refine.,Low priority
+Determine frequency of explanatory text on use of 'Another Reason',General/Internal,When/if to provide popup text box. Should 'Another Reason' be mandatory for more info? Query TRS DB to see how often users already do this.,
+Review/redesign how back link works across console,General/Internal,Quite difficult to implement unless users specify.,
+Post-MVP source of truth maps — missing designs and small changes required,General/Internal,Check with UCD,3 duplicate tickets
+Review term 'end date' used in MQ journey — keep or replace?,General/Internal,,To check
+Console improvements — general,General/Internal,Linked to task visibility and search results work | ↳ Dependency: Task Visibility column,
+Explore impact of allowing all fields to be edited on single page in personal details,General/Internal,Not sure this is a validated need — 2 tickets that may be the same issue,Parked | Possible duplicate
+Investigate UR/UCD avenues — what feedback channels to provide,General UR Improvements,Make it as effortless as possible for users to raise feedback.,Legacy
+Review users' understanding of checks outside of service,General UR Improvements,Provide guidance from console for manual checks,3 duplicate tickets
+Do we need to add authentication to TRS console sign-in process?,General UR Improvements,,Legacy | Done (check)
+Content audit recommendations,General UR Improvements,Spreadsheet attached in Trello,Being covered by Jim
+Iterate Deactivate record to include date of death field,Done — Design Changes (Deactivate Record),,Done

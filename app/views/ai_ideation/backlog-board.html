@@ -32,6 +32,7 @@
     --col-ur:                #c07a80;
     --col-legacy:            #9f7dba;
     --col-deactivate:        #3f9b4a;
+    --col-done-group:        #2f8a45;
   }
 
   body {
@@ -142,6 +143,12 @@
     font-family: 'DM Mono', monospace;
   }
 
+  .col-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
+  }
+
   .col-body {
     background: #f4f6f9;
     border: 1px solid var(--border);
@@ -238,7 +245,7 @@
     text-transform: uppercase;
   }
 
-  .tag-legacy    { background: #f3e8d0; color: #7a5a20; border: 1px solid #e0c87a; }
+  .tag-legacy    { background: #d9dee5; color: #3f4752; border: 1px solid #a3adba; }
   .tag-done      { background: #d4edda; color: #1d6b35; border: 1px solid #6dbf85; }
   .tag-blocked   { background: #fde8e8; color: #9b2020; border: 1px solid #e88a8a; }
   .tag-priority  { background: #fde8c0; color: #8b5a10; border: 1px solid #e8b860; }
@@ -248,6 +255,7 @@
   .tag-duplicate { background: #fce4ec; color: #880e4f; border: 1px solid #f48fb1; }
   .tag-park      { background: #ede7f6; color: #512da8; border: 1px solid #b39ddb; }
   .tag-dep       { background: #e8f4fd; color: #1565c0; border: 1px solid #90caf9; }
+  .tag-custom    { background: #eceff3; color: #2f3a4a; border: 1px solid #b7c0cd; }
 
   .dep-line {
     font-size: 0.6rem;
@@ -681,7 +689,7 @@
         <div class="card-title">Create .Net library for Google BigQuery integration</div>
         <div class="tags">
           <span class="tag tag-legacy">Legacy</span>
-          <span class="tag tag-done">All done / in progress</span>
+          <span class="tag tag-done">DONE / IN PROGRESS</span>
         </div>
       </div>
 
@@ -689,7 +697,7 @@
         <div class="card-title">Provide data to BigQuery &amp; decommission Reporting DB</div>
         <div class="tags">
           <span class="tag tag-legacy">Legacy</span>
-          <span class="tag tag-done">All done / in progress</span>
+          <span class="tag tag-done">DONE / IN PROGRESS</span>
         </div>
       </div>
 
@@ -697,7 +705,7 @@
         <div class="card-title">Add rate limiting to web request events</div>
         <div class="tags">
           <span class="tag tag-legacy">Legacy</span>
-          <span class="tag tag-done">All done / in progress</span>
+          <span class="tag tag-done">DONE / IN PROGRESS</span>
         </div>
       </div>
 
@@ -854,6 +862,8 @@
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
+    const DONE_COLUMN_ID = 'done-in-progress-column';
+    const DONE_LABEL = 'done / in progress';
     let draggedCard = null;
 
     const measureAndPlace = () => {
@@ -880,6 +890,51 @@
       });
     };
 
+    const ensureDoneColumnExists = () => {
+      if (board.querySelector('#' + DONE_COLUMN_ID)) return;
+
+      const column = document.createElement('div');
+      column.className = 'column';
+      column.id = DONE_COLUMN_ID;
+      column.innerHTML = [
+        '<div class="col-header" style="background:var(--col-done-group)">',
+        '<h2>Done/In progress</h2>',
+        '<div class="col-meta">Grouped from cards tagged DONE / IN PROGRESS</div>',
+        '<div class="count-badge">0 tickets</div>',
+        '</div>',
+        '<div class="col-body"></div>'
+      ].join('');
+      board.append(column);
+    };
+
+    const isDoneInProgressCard = (card) => {
+      return [...card.querySelectorAll('.tag')].some((tag) => {
+        return (tag.textContent || '').trim().toLowerCase() === DONE_LABEL;
+      });
+    };
+
+    const groupDoneInProgressCards = () => {
+      const doneColumn = board.querySelector('#' + DONE_COLUMN_ID);
+      if (!doneColumn) return;
+
+      const doneBody = doneColumn.querySelector('.col-body');
+      if (!doneBody) return;
+
+      const addBtn = doneBody.querySelector('.add-card-btn');
+      const cards = [...board.querySelectorAll('.column .col-body .card')];
+
+      cards.forEach((card) => {
+        if (!isDoneInProgressCard(card)) return;
+        if (doneBody.contains(card)) return;
+
+        if (addBtn) {
+          doneBody.insertBefore(card, addBtn);
+        } else {
+          doneBody.append(card);
+        }
+      });
+    };
+
     const afterDragTarget = (container, y) => {
       const cards = [...container.querySelectorAll('.card:not(.dragging)')];
       return cards.reduce((closest, card) => {
@@ -890,12 +945,14 @@
       }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
     };
 
+    const makeElementEditable = (el) => {
+      el.classList.add('editable');
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'true');
+    };
+
     const makeEditable = (card) => {
-      card.querySelectorAll('.card-title, .card-note, .dep-line, .tag').forEach((el) => {
-        el.classList.add('editable');
-        el.setAttribute('contenteditable', 'true');
-        el.setAttribute('spellcheck', 'true');
-      });
+      card.querySelectorAll('.card-title, .card-note, .dep-line, .tag').forEach(makeElementEditable);
     };
 
     const ensureControls = (card) => {
@@ -910,17 +967,78 @@
       dragBtn.textContent = 'Drag';
       dragBtn.setAttribute('aria-label', 'Drag card');
 
+      const labelBtn = document.createElement('button');
+      labelBtn.type = 'button';
+      labelBtn.className = 'card-btn';
+      labelBtn.textContent = 'Add label';
+      labelBtn.setAttribute('aria-label', 'Add custom label');
+
       const delBtn = document.createElement('button');
       delBtn.type = 'button';
       delBtn.className = 'card-btn';
       delBtn.textContent = 'Delete';
       delBtn.setAttribute('aria-label', 'Delete card');
 
-      controls.append(dragBtn, delBtn);
+      controls.append(dragBtn, labelBtn, delBtn);
       card.prepend(controls);
 
+      labelBtn.addEventListener('click', () => {
+        const input = window.prompt('Enter label text');
+        const labelText = (input || '').trim();
+        if (!labelText) return;
+
+        let tags = card.querySelector('.tags');
+        if (!tags) {
+          tags = document.createElement('div');
+          tags.className = 'tags';
+          card.append(tags);
+        }
+
+        const tag = document.createElement('span');
+        tag.className = 'tag tag-custom';
+        tag.textContent = labelText;
+        makeElementEditable(tag);
+        tags.append(tag);
+
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
       delBtn.addEventListener('click', () => {
+        if (!window.confirm('Delete this card?')) return;
         card.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const ensureColumnControls = (column) => {
+      const colHeader = column.querySelector('.col-header');
+      if (!colHeader || colHeader.querySelector('.col-controls')) return;
+
+      const controls = document.createElement('div');
+      controls.className = 'col-controls';
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'card-btn';
+      delBtn.textContent = 'Delete column';
+      delBtn.setAttribute('aria-label', 'Delete column');
+      controls.append(delBtn);
+      colHeader.append(controls);
+
+      delBtn.addEventListener('click', () => {
+        const title = (colHeader.querySelector('h2')?.textContent || 'this column').trim();
+        const count = column.querySelectorAll('.col-body .card').length;
+        const cardText = count === 1 ? 'card' : 'cards';
+        if (!window.confirm(`Delete column "${title}" and its ${count} ${cardText}?`)) return;
+
+        column.remove();
+        groupDoneInProgressCards();
         updateCounts();
         measureAndPlace();
         saveBoardState();
@@ -950,12 +1068,14 @@
         card.classList.remove('dragging');
         board.querySelectorAll('.col-body').forEach((colBody) => colBody.classList.remove('drag-over'));
         draggedCard = null;
+        groupDoneInProgressCards();
         updateCounts();
         measureAndPlace();
         saveBoardState();
       });
 
       card.addEventListener('input', () => {
+        groupDoneInProgressCards();
         measureAndPlace();
         saveBoardState();
       });
@@ -975,6 +1095,7 @@
     const setupColumn = (column) => {
       const colBody = column.querySelector('.col-body');
       if (!colBody) return;
+      ensureColumnControls(column);
 
       if (!colBody.querySelector('.add-card-btn')) {
         const addBtn = document.createElement('button');
@@ -986,6 +1107,7 @@
           colBody.append(card);
           const title = card.querySelector('.card-title');
           if (title) title.focus();
+          groupDoneInProgressCards();
           updateCounts();
           measureAndPlace();
           saveBoardState();
@@ -1030,6 +1152,7 @@
 
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) board.innerHTML = saved;
+    ensureDoneColumnExists();
 
     const rafMeasure = () => requestAnimationFrame(measureAndPlace);
     window.addEventListener('load', rafMeasure);
@@ -1043,6 +1166,10 @@
     board.querySelectorAll('.column').forEach((column) => observer.observe(column));
     board.addEventListener('input', rafMeasure);
     initializeBoard();
+    groupDoneInProgressCards();
+    updateCounts();
+    measureAndPlace();
+    saveBoardState();
   })();
 </script>
 
