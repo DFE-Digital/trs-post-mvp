@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Teaching qualifications – Access your teaching qualifications</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #0b0c0c;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .govuk-header {
+      background: #0b0c0c;
+      border-bottom: 10px solid #fff;
+    }
+    .govuk-header__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 30px;
+      border-bottom: 1px solid #2e3133;
+    }
+    .govuk-header__logotype {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .govuk-header__logotype-text {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+    .govuk-header__nav {
+      display: flex;
+      align-items: center;
+    }
+    .govuk-header__nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 16px;
+      padding: 0 20px;
+      border-right: 1px solid #2e3133;
+    }
+    .govuk-header__nav-item:last-child { border-right: none; }
+    .govuk-header__nav-item a { color: #fff; text-decoration: none; font-weight: 700; }
+    .govuk-header__nav-item a:hover { text-decoration: underline; }
+    .govuk-header__nav-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #1d70b8;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .govuk-header__nav-avatar svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* SERVICE NAME BAR */
+    .govuk-service-bar {
+      background: #f3f2f1;
+      border-bottom: 1px solid #b1b4b6;
+    }
+    .govuk-service-bar__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 30px;
+    }
+    .govuk-service-bar__name {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0b0c0c;
+    }
+
+    /* BLUE STRIPE */
+    .govuk-blue-stripe { height: 6px; background: #1d70b8; }
+
+    /* PROTOTYPE BANNER */
+    .govuk-prototype-banner {
+      border-bottom: 1px solid #b1b4b6;
+      padding: 10px 0;
+    }
+    .govuk-prototype-banner__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+    }
+    .govuk-tag {
+      background: #1d70b8;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 2px 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* MAIN */
+    .govuk-main-wrapper {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 30px 60px;
+      width: 100%;
+    }
+    .govuk-grid-row {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .govuk-grid-column-two-thirds { flex: 1; min-width: 0; }
+    .govuk-grid-column-one-third { width: 280px; flex-shrink: 0; }
+
+    /* HEADINGS */
+    .govuk-caption-l {
+      font-size: 19px;
+      color: #505a5f;
+      margin-bottom: 4px;
+    }
+    .govuk-heading-xl {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 30px;
+    }
+
+    /* QUALIFICATION CARDS */
+    .qual-card {
+      border: 1px solid #b1b4b6;
+      margin-bottom: 20px;
+    }
+    .qual-card__header {
+      background: #f3f2f1;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 19px;
+      border-bottom: 1px solid #b1b4b6;
+    }
+    .qual-card__body { padding: 0; }
+    .qual-row {
+      display: flex;
+      border-bottom: 1px solid #b1b4b6;
+      padding: 12px 20px;
+    }
+    .qual-row:last-child { border-bottom: none; }
+    .qual-row__key {
+      font-weight: 700;
+      font-size: 19px;
+      width: 180px;
+      flex-shrink: 0;
+    }
+    .qual-row__value {
+      font-size: 19px;
+      flex: 1;
+    }
+    .qual-row__value a {
+      color: #1d70b8;
+      text-decoration: underline;
+    }
+    .qual-row__value a:hover { color: #003078; }
+
+    /* DISCLOSURE / DETAILS */
+    .govuk-details {
+      padding: 12px 20px;
+      border-bottom: none;
+    }
+    .govuk-details__summary {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 19px;
+      color: #1d70b8;
+      text-decoration: underline;
+      list-style: none;
+      user-select: none;
+    }
+    .govuk-details__summary::before {
+      content: "▶";
+      font-size: 12px;
+      color: #1d70b8;
+    }
+
+    /* SIDEBAR */
+    .govuk-sidebar-heading {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #b1b4b6;
+    }
+    .govuk-sidebar-row {
+      margin-bottom: 16px;
+    }
+    .govuk-sidebar-label {
+      font-size: 16px;
+      color: #0b0c0c;
+      margin-bottom: 2px;
+    }
+    .govuk-sidebar-value {
+      font-size: 19px;
+      font-weight: 700;
+    }
+    .govuk-sidebar-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 19px;
+      color: #1d70b8;
+      text-decoration: underline;
+    }
+    .govuk-sidebar-link:hover { color: #003078; }
+
+    /* FOOTER */
+    .govuk-footer {
+      background: #f3f2f1;
+      border-top: 6px solid #1d70b8;
+      padding: 30px 0 20px;
+      margin-top: auto;
+    }
+    .govuk-footer__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .govuk-footer__ogl {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .govuk-footer__ogl-logo {
+      font-size: 14px;
+      font-weight: 700;
+      border: 2px solid #0b0c0c;
+      padding: 1px 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .govuk-footer__ogl-text { font-size: 16px; color: #0b0c0c; }
+    .govuk-footer__ogl-text a { color: #0b0c0c; }
+    .govuk-footer__crest { text-align: right; }
+    .govuk-footer__crest-image { height: 100px; }
+    .govuk-footer__crest-text { font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="govuk-header">
+    <div class="govuk-header__container">
+      <a href="/" class="govuk-header__logotype">
+        <span class="govuk-header__logotype-text">GOV.UK</span>
+      </a>
+      <nav class="govuk-header__nav">
+        <div class="govuk-header__nav-item">
+          <a href="#">GOV.UK One Login</a>
+          <div class="govuk-header__nav-avatar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+          </div>
+        </div>
+        <div class="govuk-header__nav-item">
+          <a href="#">Sign out</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SERVICE NAME -->
+  <div class="govuk-service-bar">
+    <div class="govuk-service-bar__inner">
+      <span class="govuk-service-bar__name">Access your teaching qualifications</span>
+    </div>
+  </div>
+
+  <!-- BLUE STRIPE -->
+  <div class="govuk-blue-stripe"></div>
+
+  <!-- PROTOTYPE BANNER -->
+  <div class="govuk-prototype-banner">
+    <div class="govuk-prototype-banner__inner">
+      <span class="govuk-tag">Prototype</span>
+      <span>This is not a live service.</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="govuk-main-wrapper" id="main-content">
+    <div class="govuk-grid-row">
+
+      <!-- LEFT: Qualifications -->
+      <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-caption-l">Victoria Smith's</p>
+        <h1 class="govuk-heading-xl">Teaching qualifications</h1>
+
+        <!-- Induction card -->
+        <div class="qual-card">
+          <div class="qual-card__header">Induction</div>
+          <div class="qual-card__body">
+            <div class="qual-row">
+              <span class="qual-row__key">Status</span>
+              <span class="qual-row__value">Pass</span>
+            </div>
+            <div class="qual-row">
+              <span class="qual-row__key">Completed</span>
+              <span class="qual-row__value">1 November 2015</span>
+            </div>
+            <div class="qual-row">
+              <span class="qual-row__key">Certificate</span>
+              <span class="qual-row__value"><a href="#">Download induction certificate</a></span>
+            </div>
+            <div class="govuk-details">
+              <summary class="govuk-details__summary">Induction history</summary>
+            </div>
+          </div>
+        </div>
+
+        <!-- MQ card 1 -->
+        <div class="qual-card">
+          <div class="qual-card__header">Mandatory Qualification (MQ) : specialist teacher</div>
+          <div class="qual-card__body">
+            <div class="qual-row">
+              <span class="qual-row__key">Awarded</span>
+              <span class="qual-row__value">30 September 2015</span>
+            </div>
+            <div class="qual-row">
+              <span class="qual-row__key">Specialism</span>
+              <span class="qual-row__value">Visual impairment</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MQ card 2 -->
+        <div class="qual-card">
+          <div class="qual-card__header">Mandatory Qualification (MQ) : specialist teacher</div>
+          <div class="qual-card__body">
+            <div class="qual-row">
+              <span class="qual-row__key">Awarded</span>
+              <span class="qual-row__value">30 September 2015</span>
+            </div>
+            <div class="qual-row">
+              <span class="qual-row__key">Specialism</span>
+              <span class="qual-row__value">Visual impairment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Your details -->
+      <aside class="govuk-grid-column-one-third">
+        <h2 class="govuk-sidebar-heading">Your details</h2>
+
+        <div class="govuk-sidebar-row">
+          <p class="govuk-sidebar-label">Name on certificates</p>
+          <p class="govuk-sidebar-value">Victoria Smith</p>
+        </div>
+        <div class="govuk-sidebar-row">
+          <p class="govuk-sidebar-label">Date of birth</p>
+          <p class="govuk-sidebar-value">14 June 1991</p>
+        </div>
+        <div class="govuk-sidebar-row">
+          <p class="govuk-sidebar-label">Teacher Reference Number (TRN)</p>
+          <p class="govuk-sidebar-value">1851018</p>
+        </div>
+
+        <a href="#" class="govuk-sidebar-link">View and change details</a>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="govuk-footer">
+    <div class="govuk-footer__inner">
+      <div>
+        <div class="govuk-footer__ogl">
+          <span class="govuk-footer__ogl-logo">OGL</span>
+          <p class="govuk-footer__ogl-text">
+            All content is available under the
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>,
+            except where otherwise stated
+          </p>
+        </div>
+      </div>
+      <div class="govuk-footer__crest">
+        <svg class="govuk-footer__crest-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 246 204" aria-hidden="true" focusable="false">
+          <path d="M98.3 0l2.8 2.5-2.3 4.6 2.3-1.1 2.1 4.2-3.5 1.7 2.7 5.5-3.3 1.5 2.1 5.5-4 1.3 1.6 5.5-3.4.7.5 4.1-3.9.3v4.3l-3.9-.3.5-4.1-3.3-.7 1.6-5.5-4-1.3 2.1-5.5-3.3-1.5 2.7-5.5-3.5-1.7 2.1-4.2 2.3 1.1-2.3-4.6 2.8-2.5 2.6 2.3L98.3 0z"/>
+        </svg>
+        <p class="govuk-footer__crest-text">© Crown copyright</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

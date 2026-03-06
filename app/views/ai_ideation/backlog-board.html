@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feb 2026 – Remapping Ideas & Priorities</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ece4;
+    --surface: #e8e3d9;
+    --border: #cdc8bc;
+    --text: #2a2520;
+    --muted: #7a7368;
+    --tag-bg: #2a2520;
+    --tag-fg: #f0ece4;
+
+    /* Muted sticky-note palette closer to the PDF board */
+    --col-change-history:    #c642be;
+    --col-change-blocked:    #ab52c6;
+    --col-record-merging:    #c96c39;
+    --col-record-deletion:   #cb7e56;
+    --col-routes:            #c7ad63;
+    --col-alerts:            #807461;
+    --col-notes:             #aca583;
+    --col-task-vis:          #5762cf;
+    --col-access:            #5a8cd3;
+    --col-data:              #bfb78e;
+    --col-content:           #8fa3c2;
+    --col-ur:                #c07a80;
+    --col-legacy:            #9f7dba;
+    --col-deactivate:        #3f9b4a;
+  }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 20px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--border);
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+
+  header span {
+    font-size: 0.75rem;
+    color: #9a9288;
+    font-style: italic;
+  }
+
+  .legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.65rem;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-auto-flow: dense;
+    grid-auto-rows: 8px;
+    gap: 16px;
+    width: min(100%, 2500px);
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+    align-items: flex-start;
+    min-height: calc(100vh - 110px);
+  }
+
+  /* Readjust column count once the board reaches 2500px width */
+  @media (min-width: 2564px) {
+    .board {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  .column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    grid-row-end: span 1;
+  }
+
+  .col-header {
+    border-radius: 6px 6px 0 0;
+    padding: 10px 14px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .col-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .col-header .col-meta {
+    font-size: 0.6rem;
+    opacity: 0.8;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .col-body {
+    background: #f4f6f9;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card {
+    background: #f0f3f7;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 12px 12px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    position: relative;
+    transition: box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+
+  .card:hover {
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+
+  .card.dragging {
+    opacity: 0.45;
+    transform: rotate(1deg);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  .card-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .card-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+    border-radius: 4px;
+    font-size: 0.58rem;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+  }
+
+  .card-btn:hover {
+    color: var(--text);
+    border-color: #a9a39a;
+  }
+
+  .drag-handle {
+    cursor: grab;
+  }
+
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+
+  .card-title {
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .card-note {
+    font-size: 0.63rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .tag {
+    font-size: 0.55rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .tag-legacy    { background: #f3e8d0; color: #7a5a20; border: 1px solid #e0c87a; }
+  .tag-done      { background: #d4edda; color: #1d6b35; border: 1px solid #6dbf85; }
+  .tag-blocked   { background: #fde8e8; color: #9b2020; border: 1px solid #e88a8a; }
+  .tag-priority  { background: #fde8c0; color: #8b5a10; border: 1px solid #e8b860; }
+  .tag-tocheck   { background: #e8eaf6; color: #3949ab; border: 1px solid #9fa8da; }
+  .tag-inprog    { background: #e0f2f1; color: #00695c; border: 1px solid #80cbc4; }
+  .tag-lowpri    { background: #f3f3f3; color: #666; border: 1px solid #ccc; }
+  .tag-duplicate { background: #fce4ec; color: #880e4f; border: 1px solid #f48fb1; }
+  .tag-park      { background: #ede7f6; color: #512da8; border: 1px solid #b39ddb; }
+  .tag-dep       { background: #e8f4fd; color: #1565c0; border: 1px solid #90caf9; }
+
+  .dep-line {
+    font-size: 0.6rem;
+    color: #1565c0;
+    background: #e8f4fd;
+    border-left: 3px solid #90caf9;
+    padding: 4px 8px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  .divider {
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 4px 2px;
+    border-top: 1px dashed var(--border);
+    margin-top: 4px;
+  }
+
+  .count-badge {
+    font-size: 0.6rem;
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 1px 7px;
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  .editable[contenteditable="true"] {
+    border-radius: 3px;
+    outline: 1px dashed transparent;
+    transition: outline-color 0.12s, background-color 0.12s;
+  }
+
+  .editable[contenteditable="true"]:focus {
+    outline-color: #a9a39a;
+    background: #fffef8;
+  }
+
+  .col-body.drag-over {
+    background: #f8f5ee;
+    border-color: #b8b0a3;
+  }
+
+  .add-card-btn {
+    border: 1px dashed #b8b0a3;
+    border-radius: 5px;
+    background: transparent;
+    color: #5f584d;
+    padding: 8px 10px;
+    font-size: 0.62rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .add-card-btn:hover {
+    background: #f6f2ea;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Feb 2026 — Remapping Ideas &amp; Priorities</h1>
+  <span>TRS Console · Backlog review</span>
+</header>
+
+<div class="legend">
+  <strong style="font-size:0.65rem;margin-right:4px;">Tags:</strong>
+  <div class="legend-item"><div class="legend-dot" style="background:#e0c87a;border:1px solid #c9a830"></div><span>Legacy</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6dbf85"></div><span>Done</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e88a8a"></div><span>Blocked</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e8b860"></div><span>Priority</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9fa8da"></div><span>To check</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#80cbc4"></div><span>In progress</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div><span>Low priority</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f48fb1"></div><span>Duplicate tickets</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#b39ddb"></div><span>Parked</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#90caf9"></div><span>Dependency</span></div>
+</div>
+
+<div class="board">
+
+  <!-- CHANGE HISTORY (LOW PRIORITY) -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-change-history)">
+      <h2>Change History</h2>
+      <div class="col-meta">Low priority · some aspects worked on</div>
+      <div class="count-badge">8 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Improve change log/history on TRS console</div>
+        <div class="tags"><span class="tag tag-lowpri">Low priority</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Add statuses to change history alongside change reasons</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Remove 'Previous data' in change history when not relevant</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review what items would / would not be in change history</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Redesign for better search/findability</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review impact of displaying notes/change history in different tabs</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Explore updating change history event for completing change name/DoB task</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review relationship between user access permissions and change history</div>
+        <div class="card-note">Tie more closely to user permissions</div>
+        <div class="dep-line">↳ Dependency: Access Permissions column</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHANGE HISTORY BLOCKED -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-change-blocked)">
+      <h2>Change History <em style="font-style:italic;font-weight:300">(Blocked)</em></h2>
+      <div class="col-meta">Blocked until Event Model is complete</div>
+      <div class="count-badge">1 ticket</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Add change history for deactivated record in Teach Pensions duplication resolution task</div>
+        <div class="tags">
+          <span class="tag tag-blocked">Blocked</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+        <div class="dep-line">↳ Blocked until new Event Model work is completed</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECORD MERGING -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-record-merging)">
+      <h2>Record Merging (Priority)</h2>
+      <div class="col-meta">Low priority · some aspects worked on</div>
+      <div class="count-badge">6 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Review matched record journey and how triggered from other tasks</div>
+        <div class="card-note">Make clearer why 'further checks required' TRN req was flagged and what's needed</div>
+        <div class="tags">
+          <span class="tag tag-tocheck">To check</span>
+          <span class="tag tag-duplicate">3 duplicate tickets</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Merging record — on check answers, review use of 'change'</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Merge duplicate journeys across console</div>
+        <div class="card-note">Do users need to see if something WASN'T merged?</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Update manual checks — merging records is sometimes the required action</div>
+        <div class="card-note">May involve tweaking API dups journey. Not a huge priority, workarounds exist.</div>
+        <div class="tags"><span class="tag tag-lowpri">Low priority</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Examine what happens when users update records at the same time</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Displaying routes/pro status data on compare records page</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECORD DELETION -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-record-deletion)">
+      <h2>Record Deletion</h2>
+      <div class="col-meta">Serious repercussions — needs scoping</div>
+      <div class="count-badge">1 ticket</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Confirm how we should approach delete record function in TRS</div>
+        <div class="card-note">Would have serious repercussions across users. Unless a serious use-case arises, park this.</div>
+        <div class="tags">
+          <span class="tag tag-park">Parked</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TASK VISIBILITY -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-task-vis)">
+      <h2>Task Visibility</h2>
+      <div class="col-meta">Active area of work</div>
+      <div class="count-badge">3 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Understand blocked/in-progress requests, scope &amp; unknowns</div>
+        <div class="tags"><span class="tag tag-priority">Priority</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Search results — iterate designs from UR findings</div>
+        <div class="tags"><span class="tag tag-inprog">In progress</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review/redesign filters across console</div>
+        <div class="card-note">Thought to be done — tackled as part of task visibility work so far.</div>
+        <div class="tags"><span class="tag tag-done">Done (check)</span></div>
+        <div class="dep-line">↳ Covered by Task Visibility work</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ACCESS PERMISSIONS -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-access)">
+      <h2>Access Permissions</h2>
+      <div class="col-meta">Ongoing</div>
+      <div class="count-badge">4 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Review adding ability to identify access manager for a user / all users</div>
+        <div class="dep-line">↳ Can be covered by Task Visibility work</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review impact of users holding multiple roles in TRS</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">General/vague managing of access permissions &amp; opportunities</div>
+        <div class="card-note">Another ticket on this — quite general.</div>
+        <div class="tags"><span class="tag tag-tocheck">To check</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Use the term 'deactivated' over 'inactive' when managing user permissions</div>
+        <div class="tags"><span class="tag tag-priority">To put into refinement</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROUTES & PROFESSIONAL STATUSES -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-routes);color:#fff">
+      <h2>Routes &amp; Professional Statuses</h2>
+      <div class="col-meta">Low priority · some aspects worked on</div>
+      <div class="count-badge">6 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Exception thrown when creating route that removes QTS from in-progress person</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Routes — updates to dropdown list pages</div>
+        <div class="card-note">Better communication of active data items for subject specialisms and training providers</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Routes — review content in change history</div>
+        <div class="card-note">'Person professional status' reads as derived from data fields instead of bespoke</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review ordering of summary card on routes and qualifications tab</div>
+        <div class="card-note">By pro status type, date, created on</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Remove additional questions in journey to add "QTLS + SET membership" route to a record</div>
+        <div class="tags"><span class="tag tag-priority">Needs to happen — to refine</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-alerts)">
+      <h2>Alerts</h2>
+      <div class="col-meta">Mix of legacy &amp; active</div>
+      <div class="count-badge">7 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="divider">Active</div>
+
+      <div class="card">
+        <div class="card-title">Review Alert scenarios where we show the 'get in touch with TRA' banner and block the action</div>
+        <div class="tags">
+          <span class="tag tag-tocheck">To check</span>
+          <span class="tag tag-duplicate">2 tickets</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Dynamic reason for deleting alert choices</div>
+        <div class="tags">
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+        <div class="card-note">Kinda vague</div>
+      </div>
+
+      <div class="divider">Legacy</div>
+
+      <div class="card">
+        <div class="card-title">Review create alert journey and implementation of conditional logic</div>
+        <div class="card-note">Some do, some don't need description added</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review names of alert types — do we need to update them?</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review making it clearer if removing end date reopens alerts</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-notes)">
+      <h2>Notes</h2>
+      <div class="col-meta">Active design work</div>
+      <div class="count-badge">2 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Design for DBS notes — redesign</div>
+        <div class="tags"><span class="tag tag-priority">Active</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">General/vague notes area</div>
+        <div class="tags"><span class="tag tag-tocheck">To check</span></div>
+        <div class="card-note">Kinda vague — needs scoping</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DATA INTEGRATION -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-data)">
+      <h2>Data Integration</h2>
+      <div class="col-meta">Mostly legacy / all done or in progress</div>
+      <div class="count-badge">5 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Some services across TS need additional data not in teaching record — explore other data sources</div>
+        <div class="card-note">Similar notes on Claims and TPS</div>
+        <div class="tags"><span class="tag tag-tocheck">To check</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Make legacy data available in TRS console</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-tocheck">To check</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Make TRS central database for teacher workforce data in DfE</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Create .Net library for Google BigQuery integration</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-done">All done / in progress</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Provide data to BigQuery &amp; decommission Reporting DB</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-done">All done / in progress</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Add rate limiting to web request events</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-done">All done / in progress</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LEGACY — ACCESS/NAMES -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-legacy)">
+      <h2>Legacy — Names &amp; Aliases</h2>
+      <div class="col-meta">Console access / prev names cleanup</div>
+      <div class="count-badge">4 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Review prev names migrated from DQT to TRS — clean/streamline data</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review how to handle aliases</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Design to allow record manager users to delete/add prev name in console</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Update potential duplicates to show prev names</div>
+        <div class="tags">
+          <span class="tag tag-inprog">Being worked on</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GENERAL CONTENT & IxD -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-content)">
+      <h2>General/Internal</h2>
+      <div class="col-meta">General content &amp; IxD backlog</div>
+      <div class="count-badge">7 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Add missing H2 headers to options selection pages</div>
+        <div class="tags"><span class="tag tag-lowpri">Low priority</span></div>
+        <div class="card-note">Needs to happen but not a priority. To refine.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Determine frequency of explanatory text on use of 'Another Reason'</div>
+        <div class="card-note">When/if to provide popup text box. Should 'Another Reason' be mandatory for more info? Query TRS DB to see how often users already do this.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review/redesign how back link works across console</div>
+        <div class="card-note">Quite difficult to implement unless users specify.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Post-MVP source of truth maps — missing designs and small changes required</div>
+        <div class="tags"><span class="tag tag-duplicate">3 duplicate tickets</span></div>
+        <div class="card-note">Check with UCD</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review term 'end date' used in MQ journey — keep or replace?</div>
+        <div class="tags"><span class="tag tag-tocheck">To check</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Console improvements — general</div>
+        <div class="card-note">Linked to task visibility and search results work</div>
+        <div class="dep-line">↳ Dependency: Task Visibility column</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Explore impact of allowing all fields to be edited on single page in personal details</div>
+        <div class="tags"><span class="tag tag-park">Parked</span></div>
+        <div class="card-note">Not sure this is a validated need — 2 tickets that may be the same issue</div>
+        <div class="tags"><span class="tag tag-duplicate">Possible duplicate</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GENERAL UR -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-ur)">
+      <h2>General UR Improvements</h2>
+      <div class="col-meta">Legacy &amp; active feedback avenues</div>
+      <div class="count-badge">4 tickets</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Investigate UR/UCD avenues — what feedback channels to provide</div>
+        <div class="tags"><span class="tag tag-legacy">Legacy</span></div>
+        <div class="card-note">Make it as effortless as possible for users to raise feedback.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Review users' understanding of checks outside of service</div>
+        <div class="card-note">Provide guidance from console for manual checks</div>
+        <div class="tags">
+          <span class="tag tag-duplicate">3 duplicate tickets</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Do we need to add authentication to TRS console sign-in process?</div>
+        <div class="tags">
+          <span class="tag tag-legacy">Legacy</span>
+          <span class="tag tag-done">Done (check)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Content audit recommendations</div>
+        <div class="card-note">Spreadsheet attached in Trello</div>
+        <div class="tags"><span class="tag tag-inprog">Being covered by Jim</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DESIGN CHANGES: DEACTIVATE RECORD -->
+  <div class="column">
+    <div class="col-header" style="background:var(--col-deactivate)">
+      <h2>Done — Design Changes (Deactivate Record)</h2>
+      <div class="col-meta">Recently completed</div>
+      <div class="count-badge">1 ticket</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card">
+        <div class="card-title">Iterate Deactivate record to include date of death field</div>
+        <div class="tags"><span class="tag tag-done">Done</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    const board = document.querySelector('.board');
+    if (!board) return;
+    const STORAGE_KEY = 'trs.backlog.board.v1';
+    let draggedCard = null;
+
+    const measureAndPlace = () => {
+      const style = getComputedStyle(board);
+      const rowSize = parseFloat(style.getPropertyValue('grid-auto-rows')) || 8;
+      const gap = parseFloat(style.getPropertyValue('row-gap')) || 0;
+
+      board.querySelectorAll('.column').forEach((column) => {
+        const height = column.getBoundingClientRect().height;
+        const span = Math.max(1, Math.ceil((height + gap) / (rowSize + gap)));
+        column.style.gridRowEnd = 'span ' + span;
+      });
+    };
+
+    const saveBoardState = () => {
+      localStorage.setItem(STORAGE_KEY, board.innerHTML);
+    };
+
+    const updateCounts = () => {
+      board.querySelectorAll('.column').forEach((column) => {
+        const count = column.querySelectorAll('.col-body .card').length;
+        const badge = column.querySelector('.count-badge');
+        if (badge) badge.textContent = count + (count === 1 ? ' ticket' : ' tickets');
+      });
+    };
+
+    const afterDragTarget = (container, y) => {
+      const cards = [...container.querySelectorAll('.card:not(.dragging)')];
+      return cards.reduce((closest, card) => {
+        const box = card.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) return { offset, element: card };
+        return closest;
+      }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+    };
+
+    const makeEditable = (card) => {
+      card.querySelectorAll('.card-title, .card-note, .dep-line, .tag').forEach((el) => {
+        el.classList.add('editable');
+        el.setAttribute('contenteditable', 'true');
+        el.setAttribute('spellcheck', 'true');
+      });
+    };
+
+    const ensureControls = (card) => {
+      if (card.querySelector('.card-controls')) return;
+
+      const controls = document.createElement('div');
+      controls.className = 'card-controls';
+
+      const dragBtn = document.createElement('button');
+      dragBtn.type = 'button';
+      dragBtn.className = 'card-btn drag-handle';
+      dragBtn.textContent = 'Drag';
+      dragBtn.setAttribute('aria-label', 'Drag card');
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'card-btn';
+      delBtn.textContent = 'Delete';
+      delBtn.setAttribute('aria-label', 'Delete card');
+
+      controls.append(dragBtn, delBtn);
+      card.prepend(controls);
+
+      delBtn.addEventListener('click', () => {
+        card.remove();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const setupCard = (card) => {
+      makeEditable(card);
+      ensureControls(card);
+      card.draggable = true;
+
+      card.addEventListener('dragstart', (event) => {
+        const active = document.activeElement;
+        const editingThisCard = active && active.closest && active.closest('.card') === card && active.isContentEditable;
+        if (editingThisCard) {
+          event.preventDefault();
+          return;
+        }
+
+        draggedCard = card;
+        card.classList.add('dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', 'card');
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        board.querySelectorAll('.col-body').forEach((colBody) => colBody.classList.remove('drag-over'));
+        draggedCard = null;
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
+      card.addEventListener('input', () => {
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const createCard = () => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = [
+        '<div class="card-title">New card title</div>',
+        '<div class="card-note">Add details...</div>'
+      ].join('');
+      setupCard(card);
+      return card;
+    };
+
+    const setupColumn = (column) => {
+      const colBody = column.querySelector('.col-body');
+      if (!colBody) return;
+
+      if (!colBody.querySelector('.add-card-btn')) {
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'add-card-btn';
+        addBtn.textContent = '+ Add a card';
+        addBtn.addEventListener('click', () => {
+          const card = createCard();
+          colBody.append(card);
+          const title = card.querySelector('.card-title');
+          if (title) title.focus();
+          updateCounts();
+          measureAndPlace();
+          saveBoardState();
+        });
+        colBody.append(addBtn);
+      }
+
+      colBody.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        colBody.classList.add('drag-over');
+        if (!draggedCard) return;
+
+        const nextCard = afterDragTarget(colBody, event.clientY);
+        const addBtn = colBody.querySelector('.add-card-btn');
+
+        if (nextCard) {
+          colBody.insertBefore(draggedCard, nextCard);
+        } else if (addBtn) {
+          colBody.insertBefore(draggedCard, addBtn);
+        } else {
+          colBody.append(draggedCard);
+        }
+      });
+
+      colBody.addEventListener('dragleave', (event) => {
+        if (!colBody.contains(event.relatedTarget)) {
+          colBody.classList.remove('drag-over');
+        }
+      });
+
+      colBody.addEventListener('drop', () => {
+        colBody.classList.remove('drag-over');
+      });
+    };
+
+    const initializeBoard = () => {
+      board.querySelectorAll('.card').forEach(setupCard);
+      board.querySelectorAll('.column').forEach(setupColumn);
+      updateCounts();
+      measureAndPlace();
+    };
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) board.innerHTML = saved;
+
+    const rafMeasure = () => requestAnimationFrame(measureAndPlace);
+    window.addEventListener('load', rafMeasure);
+    window.addEventListener('resize', rafMeasure);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(rafMeasure);
+    }
+
+    const observer = new ResizeObserver(rafMeasure);
+    board.querySelectorAll('.column').forEach((column) => observer.observe(column));
+    board.addEventListener('input', rafMeasure);
+    initializeBoard();
+  })();
+</script>
+
+</body>
+</html>
