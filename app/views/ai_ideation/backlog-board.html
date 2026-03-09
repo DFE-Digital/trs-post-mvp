@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feb 2026 – Remapping Ideas & Priorities</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -36,7 +35,9 @@
   }
 
   body {
-    font-family: 'DM Mono', monospace;
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: calc(19px + 3px);
+    line-height: 1.31579;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -57,14 +58,14 @@
   }
 
   header h1 {
-    font-family: 'Fraunces', serif;
+    font-family: "GDS Transport", arial, sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: calc(1.4rem + 3px);
     letter-spacing: -0.02em;
   }
 
   header span {
-    font-size: 0.75rem;
+    font-size: calc(0.75rem + 3px);
     color: #9a9288;
     font-style: italic;
   }
@@ -76,7 +77,7 @@
     padding: 12px 32px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    font-size: 0.65rem;
+    font-size: calc(0.65rem + 3px);
     align-items: center;
   }
 
@@ -120,6 +121,10 @@
     grid-row-end: span 1;
   }
 
+  .column.column-dragging {
+    opacity: 0.55;
+  }
+
   .col-header {
     border-radius: 6px 6px 0 0;
     padding: 10px 14px;
@@ -127,26 +132,69 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    cursor: grab;
+  }
+
+  .col-header:active {
+    cursor: grabbing;
+  }
+
+  .col-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
   }
 
   .col-header h2 {
-    font-family: 'Fraunces', serif;
+    font-family: "GDS Transport", arial, sans-serif;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: calc(0.95rem + 3px);
     letter-spacing: -0.01em;
     line-height: 1.2;
   }
 
   .col-header .col-meta {
-    font-size: 0.6rem;
+    font-size: calc(0.6rem + 3px);
     opacity: 0.8;
-    font-family: 'DM Mono', monospace;
+    font-family: "GDS Transport", arial, sans-serif;
+  }
+
+  @media (max-width: 40.0525em) {
+    body {
+      font-size: calc(16px + 3px);
+      line-height: 1.25;
+    }
   }
 
   .col-controls {
     display: flex;
     justify-content: flex-end;
-    margin-top: 2px;
+    margin-top: 0;
+    gap: 8px;
+  }
+
+  .col-action-link {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .col-action-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .col-action-link svg {
+    width: 14px;
+    height: 14px;
+    display: block;
   }
 
   .col-body {
@@ -165,7 +213,7 @@
     border: 1px solid var(--border);
     border-radius: 5px;
     padding: 10px 12px 12px;
-    font-size: 0.72rem;
+    font-size: calc(0.72rem + 3px);
     line-height: 1.5;
     position: relative;
     transition: box-shadow 0.15s, transform 0.15s;
@@ -195,7 +243,7 @@
     background: #fff;
     color: var(--muted);
     border-radius: 4px;
-    font-size: 0.58rem;
+    font-size: calc(0.58rem + 3px);
     line-height: 1;
     padding: 4px 6px;
     cursor: pointer;
@@ -204,6 +252,29 @@
   .card-btn:hover {
     color: var(--text);
     border-color: #a9a39a;
+  }
+
+  .card-action-link {
+    color: #5e6c84;
+    text-decoration: none;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .card-action-link:hover {
+    color: #5e6c84;
+    background: rgba(9, 30, 66, 0.08);
+  }
+
+  .card-action-link svg {
+    width: 14px;
+    height: 14px;
+    display: block;
   }
 
   .drag-handle {
@@ -222,7 +293,7 @@
   }
 
   .card-note {
-    font-size: 0.63rem;
+    font-size: calc(0.63rem + 3px);
     color: var(--muted);
     font-style: italic;
     margin-top: 4px;
@@ -237,12 +308,25 @@
   }
 
   .tag {
-    font-size: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: calc(0.55rem + 1px);
     padding: 2px 6px;
     border-radius: 3px;
     font-weight: 500;
     letter-spacing: 0.03em;
     text-transform: uppercase;
+  }
+
+  .tag-remove {
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9em;
+    line-height: 1;
+    padding: 0;
   }
 
   .tag-legacy    { background: #d9dee5; color: #3f4752; border: 1px solid #a3adba; }
@@ -258,7 +342,7 @@
   .tag-custom    { background: #eceff3; color: #2f3a4a; border: 1px solid #b7c0cd; }
 
   .dep-line {
-    font-size: 0.6rem;
+    font-size: calc(0.6rem + 3px);
     color: #1565c0;
     background: #e8f4fd;
     border-left: 3px solid #90caf9;
@@ -266,10 +350,29 @@
     border-radius: 0 4px 4px 0;
     margin-top: 5px;
     font-style: italic;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .dep-line-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dep-remove {
+    border: none;
+    background: transparent;
+    color: #1565c0;
+    cursor: pointer;
+    font-size: 0.9em;
+    line-height: 1;
+    padding: 0;
   }
 
   .divider {
-    font-size: 0.6rem;
+    font-size: calc(0.6rem + 3px);
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -279,7 +382,7 @@
   }
 
   .count-badge {
-    font-size: 0.6rem;
+    font-size: calc(0.6rem + 3px);
     background: rgba(255,255,255,0.25);
     border-radius: 10px;
     padding: 1px 7px;
@@ -309,13 +412,82 @@
     background: transparent;
     color: #5f584d;
     padding: 8px 10px;
-    font-size: 0.62rem;
+    font-size: calc(0.62rem + 3px);
     text-align: left;
     cursor: pointer;
   }
 
   .add-card-btn:hover {
     background: #f6f2ea;
+  }
+
+  .board-actions {
+    width: min(100%, 2500px);
+    margin: 0 auto;
+    padding: 0 32px 8px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .add-column-btn {
+    border: 1px dashed #b8b0a3;
+    border-radius: 5px;
+    background: transparent;
+    color: #5f584d;
+    margin-top: 24px;
+    padding: 8px 10px;
+    font-size: calc(0.62rem + 3px);
+    cursor: pointer;
+  }
+
+  .add-column-btn:hover {
+    background: #f6f2ea;
+  }
+
+  .label-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+
+  .label-dialog {
+    width: min(420px, 100%);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .label-dialog h3 {
+    font-size: calc(0.95rem + 3px);
+    margin: 0;
+  }
+
+  .label-dialog label {
+    display: grid;
+    gap: 4px;
+    font-size: calc(0.62rem + 3px);
+  }
+
+  .label-dialog select,
+  .label-dialog input {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    font: inherit;
+  }
+
+  .label-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
   }
 </style>
 </head>
@@ -327,7 +499,7 @@
 </header>
 
 <div class="legend">
-  <strong style="font-size:0.65rem;margin-right:4px;">Tags:</strong>
+  <strong style="font-size: calc(0.65rem + 3px);margin-right:4px;">Tags:</strong>
   <div class="legend-item"><div class="legend-dot" style="background:#e0c87a;border:1px solid #c9a830"></div><span>Legacy</span></div>
   <div class="legend-item"><div class="legend-dot" style="background:#6dbf85"></div><span>Done</span></div>
   <div class="legend-item"><div class="legend-dot" style="background:#e88a8a"></div><span>Blocked</span></div>
@@ -425,7 +597,6 @@
         <div class="card-note">Make clearer why 'further checks required' TRN req was flagged and what's needed</div>
         <div class="tags">
           <span class="tag tag-tocheck">To check</span>
-          <span class="tag tag-duplicate">3 duplicate tickets</span>
         </div>
       </div>
 
@@ -773,7 +944,6 @@
 
       <div class="card">
         <div class="card-title">Post-MVP source of truth maps — missing designs and small changes required</div>
-        <div class="tags"><span class="tag tag-duplicate">3 duplicate tickets</span></div>
         <div class="card-note">Check with UCD</div>
       </div>
 
@@ -817,7 +987,6 @@
         <div class="card-title">Review users' understanding of checks outside of service</div>
         <div class="card-note">Provide guidance from console for manual checks</div>
         <div class="tags">
-          <span class="tag tag-duplicate">3 duplicate tickets</span>
         </div>
       </div>
 
@@ -864,7 +1033,33 @@
     const STORAGE_KEY = 'trs.backlog.board.v1';
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
+    const TAG_COLORS = {
+      default: { bg: '#eceff3', border: '#b7c0cd', text: '#2f3a4a' },
+      green: { bg: '#d4edda', border: '#6dbf85', text: '#1d6b35' },
+      blue: { bg: '#e8f4fd', border: '#90caf9', text: '#1565c0' },
+      amber: { bg: '#fde8c0', border: '#e8b860', text: '#8b5a10' },
+      pink: { bg: '#fce4ec', border: '#f48fb1', text: '#880e4f' },
+      purple: { bg: '#ede7f6', border: '#b39ddb', text: '#512da8' },
+      grey: { bg: '#f3f3f3', border: '#ccc', text: '#555' }
+    };
+    const PRESET_LABEL_COLORS = {
+      'done': 'green',
+      'in progress': 'green',
+      'done / in progress': 'green',
+      'blocked': 'pink',
+      'priority': 'amber',
+      'to check': 'blue',
+      'low priority': 'amber',
+      'duplicate tickets': 'pink',
+      'parked': 'purple',
+      'dependency': 'blue',
+      'legacy': 'grey'
+    };
     let draggedCard = null;
+    let draggedColumn = null;
+    let activeLabelDialog = null;
+    let activeColumnDialog = null;
+    let resizeObserver = null;
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
@@ -907,9 +1102,172 @@
       board.append(column);
     };
 
+    const createColumn = (titleText, backgroundColor) => {
+      const title = (titleText || '').trim() || 'New column';
+      const bg = (backgroundColor || 'var(--col-notes)').trim();
+      const column = document.createElement('div');
+      column.className = 'column';
+      column.innerHTML = [
+        `<div class="col-header" style="background:${bg}">`,
+        `<h2>${title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h2>`,
+        '<div class="col-meta">New column</div>',
+        '<div class="count-badge">0 tickets</div>',
+        '</div>',
+        '<div class="col-body"></div>'
+      ].join('');
+      return column;
+    };
+
+    const rgbToHex = (rgb) => {
+      const match = (rgb || '').match(/\d+/g);
+      if (!match || match.length < 3) return '#aca583';
+      const [r, g, b] = match.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0'));
+      return `#${r}${g}${b}`;
+    };
+
+    const normalizeHex = (value, fallback) => {
+      const clean = (value || '').trim();
+      const withHash = clean.startsWith('#') ? clean : `#${clean}`;
+      if (/^#[0-9a-fA-F]{6}$/.test(withHash)) return withHash.toLowerCase();
+      return fallback || '#aca583';
+    };
+
+    const closeColumnDialog = () => {
+      if (!activeColumnDialog) return;
+      activeColumnDialog.remove();
+      activeColumnDialog = null;
+    };
+
+    const openColumnDialog = (column) => {
+      closeColumnDialog();
+      const isEditing = Boolean(column);
+      const header = column?.querySelector('.col-header');
+      const initialTitle = (column?.querySelector('.col-header h2')?.textContent || '').trim();
+      const initialColor = normalizeHex(
+        header?.style?.backgroundColor || rgbToHex(getComputedStyle(header || document.body).backgroundColor),
+        '#aca583'
+      );
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'label-dialog-backdrop';
+      const dialog = document.createElement('div');
+      dialog.className = 'label-dialog';
+
+      const title = document.createElement('h3');
+      title.textContent = isEditing ? 'Edit column' : 'Add column';
+
+      const titleWrap = document.createElement('label');
+      titleWrap.textContent = 'Column title';
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.value = initialTitle;
+      titleWrap.append(titleInput);
+
+      const colorWrap = document.createElement('label');
+      colorWrap.textContent = 'Background colour';
+      const colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.value = initialColor;
+      const hexInput = document.createElement('input');
+      hexInput.type = 'text';
+      hexInput.value = initialColor;
+      hexInput.setAttribute('aria-label', 'Hex colour');
+      colorWrap.append(colorInput, hexInput);
+
+      const actions = document.createElement('div');
+      actions.className = 'label-dialog-actions';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'card-btn';
+      cancelBtn.textContent = 'Cancel';
+      const saveBtn = document.createElement('button');
+      saveBtn.type = 'button';
+      saveBtn.className = 'card-btn';
+      saveBtn.textContent = isEditing ? 'Save column' : 'Add column';
+      actions.append(cancelBtn, saveBtn);
+
+      dialog.append(title, titleWrap, colorWrap, actions);
+      backdrop.append(dialog);
+      document.body.append(backdrop);
+      activeColumnDialog = backdrop;
+
+      colorInput.addEventListener('input', () => {
+        hexInput.value = colorInput.value;
+      });
+
+      hexInput.addEventListener('input', () => {
+        const normalized = normalizeHex(hexInput.value, colorInput.value);
+        if (normalized) colorInput.value = normalized;
+      });
+
+      const closeAndFocus = () => {
+        closeColumnDialog();
+      };
+
+      cancelBtn.addEventListener('click', closeAndFocus);
+      backdrop.addEventListener('click', (event) => {
+        if (event.target === backdrop) closeAndFocus();
+      });
+
+      saveBtn.addEventListener('click', () => {
+        const titleText = (titleInput.value || '').trim();
+        if (!titleText) return;
+        const color = normalizeHex(hexInput.value, colorInput.value);
+
+        if (isEditing && column) {
+          const heading = column.querySelector('.col-header h2');
+          if (heading) heading.textContent = titleText;
+          const colHeader = column.querySelector('.col-header');
+          if (colHeader) colHeader.style.background = color;
+          ensureColumnControls(column);
+        } else {
+          const newColumn = createColumn(titleText, color);
+          const doneColumn = board.querySelector('#' + DONE_COLUMN_ID);
+          if (doneColumn) {
+            board.insertBefore(newColumn, doneColumn);
+          } else {
+            board.append(newColumn);
+          }
+          setupColumn(newColumn);
+          if (resizeObserver) resizeObserver.observe(newColumn);
+        }
+
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        closeAndFocus();
+      });
+
+      titleInput.focus();
+      titleInput.select();
+    };
+
+    const ensureBoardActions = () => {
+      let actions = document.querySelector('.board-actions');
+      if (!actions) {
+        actions = document.createElement('div');
+        actions.className = 'board-actions';
+        board.parentNode.insertBefore(actions, board);
+      }
+
+      let addColumnBtn = actions.querySelector('.add-column-btn');
+      if (!addColumnBtn) {
+        addColumnBtn = document.createElement('button');
+        addColumnBtn.type = 'button';
+        addColumnBtn.className = 'add-column-btn';
+        addColumnBtn.textContent = '+ Add a column';
+        actions.append(addColumnBtn);
+      }
+
+      bindOnce(addColumnBtn, 'AddColumn', 'click', () => {
+        openColumnDialog();
+      });
+    };
+
     const isDoneInProgressCard = (card) => {
       return [...card.querySelectorAll('.tag')].some((tag) => {
-        return (tag.textContent || '').trim().toLowerCase() === DONE_LABEL;
+        const text = (tag.querySelector('.tag-text')?.textContent || tag.textContent || '').trim().toLowerCase();
+        return text === DONE_LABEL;
       });
     };
 
@@ -952,62 +1310,353 @@
     };
 
     const makeEditable = (card) => {
-      card.querySelectorAll('.card-title, .card-note, .dep-line, .tag').forEach(makeElementEditable);
+      card.querySelectorAll('.card-title, .card-note').forEach(makeElementEditable);
+      card.querySelectorAll('.dep-line').forEach(setupDepLine);
+      card.querySelectorAll('.tag').forEach(setupTag);
     };
 
-    const ensureControls = (card) => {
-      if (card.querySelector('.card-controls')) return;
+    const bindOnce = (el, key, type, handler) => {
+      if (!el) return;
+      const flag = type + ':' + key;
+      if (!el.__boundHandlers) el.__boundHandlers = Object.create(null);
+      if (el.__boundHandlers[flag]) return;
+      el.addEventListener(type, handler);
+      el.__boundHandlers[flag] = true;
+    };
 
-      const controls = document.createElement('div');
-      controls.className = 'card-controls';
+    const applyTagColor = (tag, colorKey) => {
+      const key = colorKey || 'default';
+      const color = TAG_COLORS[key] || TAG_COLORS.default;
+      tag.dataset.colorKey = key;
+      tag.style.background = color.bg;
+      tag.style.borderColor = color.border;
+      tag.style.color = color.text;
+    };
 
-      const dragBtn = document.createElement('button');
-      dragBtn.type = 'button';
-      dragBtn.className = 'card-btn drag-handle';
-      dragBtn.textContent = 'Drag';
-      dragBtn.setAttribute('aria-label', 'Drag card');
+    const normalizedLabel = (label) => (label || '').trim().toLowerCase();
 
-      const labelBtn = document.createElement('button');
-      labelBtn.type = 'button';
-      labelBtn.className = 'card-btn';
-      labelBtn.textContent = 'Add label';
-      labelBtn.setAttribute('aria-label', 'Add custom label');
+    const collectExistingLabels = () => {
+      const labels = new Map();
+      board.querySelectorAll('.tag').forEach((tag) => {
+        const value = (tag.querySelector('.tag-text')?.textContent || '').trim();
+        if (!value) return;
+        const key = normalizedLabel(value);
+        if (!labels.has(key)) {
+          labels.set(key, {
+            text: value,
+            colorKey: PRESET_LABEL_COLORS[key] || tag.dataset.colorKey || 'default'
+          });
+        }
+      });
+      return [...labels.values()].sort((a, b) => a.text.localeCompare(b.text));
+    };
 
-      const delBtn = document.createElement('button');
-      delBtn.type = 'button';
-      delBtn.className = 'card-btn';
-      delBtn.textContent = 'Delete';
-      delBtn.setAttribute('aria-label', 'Delete card');
+    const closeLabelDialog = () => {
+      if (!activeLabelDialog) return;
+      activeLabelDialog.remove();
+      activeLabelDialog = null;
+    };
 
-      controls.append(dragBtn, labelBtn, delBtn);
-      card.prepend(controls);
+    const openLabelDialog = (card, tag) => {
+      closeLabelDialog();
+      const labels = collectExistingLabels();
+      const initialText = (tag?.querySelector('.tag-text')?.textContent || '').trim();
+      const initialColor = PRESET_LABEL_COLORS[normalizedLabel(initialText)] || tag?.dataset.colorKey || 'default';
+      const isEditing = Boolean(tag);
 
-      labelBtn.addEventListener('click', () => {
-        const input = window.prompt('Enter label text');
-        const labelText = (input || '').trim();
+      const backdrop = document.createElement('div');
+      backdrop.className = 'label-dialog-backdrop';
+
+      const dialog = document.createElement('div');
+      dialog.className = 'label-dialog';
+
+      const title = document.createElement('h3');
+      title.textContent = isEditing ? 'Edit label' : 'Add label';
+
+      const labelSelectWrap = document.createElement('label');
+      labelSelectWrap.textContent = 'Choose existing label';
+      const labelSelect = document.createElement('select');
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = '-- Select --';
+      labelSelect.append(placeholder);
+      labels.forEach((label) => {
+        const option = document.createElement('option');
+        option.value = label.text;
+        option.textContent = label.text;
+        labelSelect.append(option);
+      });
+      labelSelectWrap.append(labelSelect);
+
+      const textWrap = document.createElement('label');
+      textWrap.textContent = 'Label text';
+      const textInput = document.createElement('input');
+      textInput.type = 'text';
+      textInput.value = initialText;
+      textWrap.append(textInput);
+
+      const colorWrap = document.createElement('label');
+      colorWrap.textContent = 'Label color';
+      const colorSelect = document.createElement('select');
+      Object.keys(TAG_COLORS).forEach((key) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = key[0].toUpperCase() + key.slice(1);
+        colorSelect.append(option);
+      });
+      colorSelect.value = TAG_COLORS[initialColor] ? initialColor : 'default';
+      colorWrap.append(colorSelect);
+
+      const actions = document.createElement('div');
+      actions.className = 'label-dialog-actions';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'card-btn';
+      cancelBtn.textContent = 'Cancel';
+      const saveBtn = document.createElement('button');
+      saveBtn.type = 'button';
+      saveBtn.className = 'card-btn';
+      saveBtn.textContent = isEditing ? 'Save label' : 'Add label';
+      actions.append(cancelBtn, saveBtn);
+
+      dialog.append(title, labelSelectWrap, textWrap, colorWrap, actions);
+      backdrop.append(dialog);
+      document.body.append(backdrop);
+      activeLabelDialog = backdrop;
+
+      if (initialText) labelSelect.value = initialText;
+      labelSelect.addEventListener('change', () => {
+        if (!labelSelect.value) return;
+        textInput.value = labelSelect.value;
+        const match = labels.find((item) => item.text === labelSelect.value);
+        if (match && TAG_COLORS[match.colorKey]) colorSelect.value = match.colorKey;
+      });
+
+      const closeAndFocus = () => {
+        closeLabelDialog();
+        const titleEl = card.querySelector('.card-title');
+        if (titleEl) titleEl.focus();
+      };
+
+      cancelBtn.addEventListener('click', closeAndFocus);
+      backdrop.addEventListener('click', (event) => {
+        if (event.target === backdrop) closeAndFocus();
+      });
+
+      saveBtn.addEventListener('click', () => {
+        const labelText = (textInput.value || '').trim();
         if (!labelText) return;
+        const forcedColor = PRESET_LABEL_COLORS[normalizedLabel(labelText)];
+        const selectedColor = forcedColor || colorSelect.value;
 
-        let tags = card.querySelector('.tags');
-        if (!tags) {
-          tags = document.createElement('div');
-          tags.className = 'tags';
-          card.append(tags);
+        let targetTag = tag;
+        if (!targetTag) {
+          let tags = card.querySelector('.tags');
+          if (!tags) {
+            tags = document.createElement('div');
+            tags.className = 'tags';
+            card.append(tags);
+          }
+          targetTag = document.createElement('span');
+          targetTag.className = 'tag tag-custom';
+          tags.append(targetTag);
         }
 
-        const tag = document.createElement('span');
-        tag.className = 'tag tag-custom';
-        tag.textContent = labelText;
-        makeElementEditable(tag);
-        tags.append(tag);
+        const textEl = ensureTagStructure(targetTag);
+        textEl.textContent = labelText;
+        setupTag(targetTag);
+        applyTagColor(targetTag, selectedColor);
 
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        closeAndFocus();
+      });
+
+      textInput.focus();
+      textInput.select();
+    };
+
+    const ensureTagStructure = (tag) => {
+      let textEl = tag.querySelector('.tag-text');
+      if (textEl) return textEl;
+
+      textEl = document.createElement('span');
+      textEl.className = 'tag-text';
+      textEl.textContent = (tag.textContent || '').trim();
+      tag.textContent = '';
+      tag.append(textEl);
+      return textEl;
+    };
+
+    const ensureDepLineStructure = (depLine) => {
+      let textEl = depLine.querySelector('.dep-line-text');
+      if (textEl) return textEl;
+
+      textEl = document.createElement('span');
+      textEl.className = 'dep-line-text';
+      textEl.textContent = (depLine.textContent || '').trim();
+      depLine.textContent = '';
+      depLine.append(textEl);
+      return textEl;
+    };
+
+    const setupDepLine = (depLine) => {
+      const textEl = ensureDepLineStructure(depLine);
+      makeElementEditable(textEl);
+
+      let removeBtn = depLine.querySelector('.dep-remove');
+      if (!removeBtn) {
+        removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'dep-remove';
+        removeBtn.setAttribute('aria-label', 'Delete note');
+        removeBtn.textContent = '×';
+        depLine.append(removeBtn);
+      }
+
+      removeBtn.draggable = false;
+      bindOnce(removeBtn, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      bindOnce(removeBtn, 'DeleteNote', 'click', () => {
+        depLine.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const addOrEditNote = (card) => {
+      const existing = card.querySelector('.dep-line');
+      const existingText = (existing?.querySelector('.dep-line-text')?.textContent || existing?.textContent || '').trim();
+      const input = window.prompt('Add or edit note', existingText || '↳ ');
+      if (input === null) return;
+      const noteText = (input || '').trim();
+
+      if (!noteText) {
+        if (existing) existing.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        return;
+      }
+
+      let depLine = existing;
+      if (!depLine) {
+        depLine = document.createElement('div');
+        depLine.className = 'dep-line';
+        card.append(depLine);
+      }
+
+      const textEl = ensureDepLineStructure(depLine);
+      textEl.textContent = noteText;
+      setupDepLine(depLine);
+      groupDoneInProgressCards();
+      updateCounts();
+      measureAndPlace();
+      saveBoardState();
+    };
+
+    const setupTag = (tag) => {
+      const textEl = ensureTagStructure(tag);
+      makeElementEditable(textEl);
+
+      if (tag.dataset.colorKey) applyTagColor(tag, tag.dataset.colorKey);
+
+      let removeBtn = tag.querySelector('.tag-remove');
+      if (!removeBtn) {
+        removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'tag-remove';
+        removeBtn.setAttribute('aria-label', 'Delete tag');
+        removeBtn.textContent = '×';
+        tag.append(removeBtn);
+      }
+
+      removeBtn.draggable = false;
+      bindOnce(removeBtn, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      bindOnce(removeBtn, 'DeleteTag', 'click', (event) => {
+        event.stopPropagation();
+        const tags = tag.closest('.tags');
+        tag.remove();
+        if (tags && !tags.querySelector('.tag')) tags.remove();
         groupDoneInProgressCards();
         updateCounts();
         measureAndPlace();
         saveBoardState();
       });
 
-      delBtn.addEventListener('click', () => {
-        if (!window.confirm('Delete this card?')) return;
+      bindOnce(tag, 'EditTag', 'dblclick', (event) => {
+        if (event.target && event.target.closest('.tag-remove')) return;
+        event.preventDefault();
+        const card = tag.closest('.card');
+        if (!card) return;
+        openLabelDialog(card, tag);
+      });
+    };
+
+    const ensureControls = (card) => {
+      let controls = card.querySelector('.card-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.className = 'card-controls';
+        card.prepend(controls);
+      }
+
+      controls.innerHTML = '';
+
+      const dragBtn = document.createElement('a');
+      dragBtn.href = '#';
+      dragBtn.className = 'card-action-link drag-handle';
+      dragBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Drag icon"><path d="M12 3v18"/><path d="M12 3l-3 3"/><path d="M12 3l3 3"/><path d="M12 21l-3-3"/><path d="M12 21l3-3"/><path d="M3 12h18"/><path d="M3 12l3-3"/><path d="M3 12l3 3"/><path d="M21 12l-3-3"/><path d="M21 12l-3 3"/></svg>';
+      dragBtn.setAttribute('aria-label', 'Drag card');
+      dragBtn.title = 'Drag card';
+
+      const labelBtn = document.createElement('a');
+      labelBtn.href = '#';
+      labelBtn.className = 'card-action-link';
+      labelBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Label icon"><path d="M20 10l-8.5 8.5a2 2 0 0 1-2.8 0L3 12.8V4h8.8L20 10z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
+      labelBtn.setAttribute('aria-label', 'Add custom label');
+      labelBtn.title = 'Add label';
+
+      const noteBtn = document.createElement('a');
+      noteBtn.href = '#';
+      noteBtn.className = 'card-action-link';
+      noteBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Note icon"><path d="M4 5h16v12H9l-5 4V5z"/></svg>';
+      noteBtn.setAttribute('aria-label', 'Add or edit note');
+      noteBtn.title = 'Add or edit note';
+
+      const delBtn = document.createElement('a');
+      delBtn.href = '#';
+      delBtn.className = 'card-action-link';
+      delBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Delete icon"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';
+      delBtn.setAttribute('aria-label', 'Delete card');
+      delBtn.title = 'Delete card';
+
+      controls.append(dragBtn, labelBtn, noteBtn, delBtn);
+
+      controls.querySelectorAll('.card-action-link').forEach((link) => {
+        link.draggable = false;
+        bindOnce(link, 'NoNav', 'click', (event) => event.preventDefault());
+        bindOnce(link, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      });
+
+      bindOnce(labelBtn, 'Label', 'click', (event) => {
+        event.preventDefault();
+        openLabelDialog(card);
+      });
+
+      bindOnce(noteBtn, 'Note', 'click', (event) => {
+        event.preventDefault();
+        addOrEditNote(card);
+      });
+
+      bindOnce(delBtn, 'Delete', 'click', (event) => {
+        event.preventDefault();
+        const title = (card.querySelector('.card-title')?.textContent || 'this card').trim();
+        if (!window.confirm(`Delete ticket "${title}"? This cannot be undone.`)) return;
         card.remove();
         groupDoneInProgressCards();
         updateCounts();
@@ -1018,20 +1667,54 @@
 
     const ensureColumnControls = (column) => {
       const colHeader = column.querySelector('.col-header');
-      if (!colHeader || colHeader.querySelector('.col-controls')) return;
+      if (!colHeader) return;
+      const heading = colHeader.querySelector('h2');
 
-      const controls = document.createElement('div');
-      controls.className = 'col-controls';
+      let topRow = colHeader.querySelector('.col-header-top');
+      if (!topRow) {
+        topRow = document.createElement('div');
+        topRow.className = 'col-header-top';
+        colHeader.prepend(topRow);
+      }
 
-      const delBtn = document.createElement('button');
-      delBtn.type = 'button';
-      delBtn.className = 'card-btn';
-      delBtn.textContent = 'Delete column';
+      let controls = colHeader.querySelector('.col-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.className = 'col-controls';
+      }
+      if (controls.parentElement !== topRow) {
+        topRow.append(controls);
+      }
+
+      // Normalize previously saved markup: heading must sit below the link row.
+      if (heading && heading.parentElement === topRow) {
+        colHeader.insertBefore(heading, topRow.nextSibling);
+      }
+
+      controls.innerHTML = '';
+      const colorBtn = document.createElement('a');
+      colorBtn.href = '#';
+      colorBtn.className = 'col-action-link';
+      colorBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Change colour icon"><path d="M12 3C9 6.6 6 9.7 6 14a6 6 0 0 0 12 0c0-4.3-3-7.4-6-11z"/><path d="M12 5.2c2.1 2.8 4.4 5.5 4.4 8.8A4.4 4.4 0 0 1 12 18.4z" fill="currentColor" stroke="none"/><path d="M12 7.5V20"/></svg>';
+      colorBtn.setAttribute('aria-label', 'Edit column colour');
+      colorBtn.title = 'Change colour';
+      controls.append(colorBtn);
+
+      const delBtn = document.createElement('a');
+      delBtn.href = '#';
+      delBtn.className = 'col-action-link';
+      delBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Delete column icon"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';
       delBtn.setAttribute('aria-label', 'Delete column');
+      delBtn.title = 'Delete column';
       controls.append(delBtn);
-      colHeader.append(controls);
 
-      delBtn.addEventListener('click', () => {
+      bindOnce(colorBtn, 'EditColumnColour', 'click', (event) => {
+        event.preventDefault();
+        openColumnDialog(column);
+      });
+
+      bindOnce(delBtn, 'DeleteColumn', 'click', (event) => {
+        event.preventDefault();
         const title = (colHeader.querySelector('h2')?.textContent || 'this column').trim();
         const count = column.querySelectorAll('.col-body .card').length;
         const cardText = count === 1 ? 'card' : 'cards';
@@ -1045,10 +1728,38 @@
       });
     };
 
+    const setupColumnDrag = (column) => {
+      const header = column.querySelector('.col-header');
+      if (!header) return;
+      header.draggable = true;
+
+      bindOnce(header, 'ColumnDragStart', 'dragstart', (event) => {
+        if (draggedCard) {
+          event.preventDefault();
+          return;
+        }
+
+        draggedColumn = column;
+        column.classList.add('column-dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', 'column');
+      });
+
+      bindOnce(header, 'ColumnDragEnd', 'dragend', () => {
+        if (!draggedColumn) return;
+        column.classList.remove('column-dragging');
+        draggedColumn = null;
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
     const setupCard = (card) => {
       makeEditable(card);
       ensureControls(card);
       card.draggable = true;
+      if (card.__setupDone) return;
+      card.__setupDone = true;
 
       card.addEventListener('dragstart', (event) => {
         const active = document.activeElement;
@@ -1096,26 +1807,30 @@
       const colBody = column.querySelector('.col-body');
       if (!colBody) return;
       ensureColumnControls(column);
+      setupColumnDrag(column);
 
-      if (!colBody.querySelector('.add-card-btn')) {
-        const addBtn = document.createElement('button');
+      let addBtn = colBody.querySelector('.add-card-btn');
+      if (!addBtn) {
+        addBtn = document.createElement('button');
         addBtn.type = 'button';
         addBtn.className = 'add-card-btn';
         addBtn.textContent = '+ Add a card';
-        addBtn.addEventListener('click', () => {
-          const card = createCard();
-          colBody.append(card);
-          const title = card.querySelector('.card-title');
-          if (title) title.focus();
-          groupDoneInProgressCards();
-          updateCounts();
-          measureAndPlace();
-          saveBoardState();
-        });
         colBody.append(addBtn);
       }
 
-      colBody.addEventListener('dragover', (event) => {
+      bindOnce(addBtn, 'AddCard', 'click', () => {
+        const card = createCard();
+        colBody.append(card);
+        const title = card.querySelector('.card-title');
+        if (title) title.focus();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
+      bindOnce(colBody, 'DragOver', 'dragover', (event) => {
+        if (draggedColumn) return;
         event.preventDefault();
         colBody.classList.add('drag-over');
         if (!draggedCard) return;
@@ -1132,16 +1847,42 @@
         }
       });
 
-      colBody.addEventListener('dragleave', (event) => {
+      bindOnce(colBody, 'DragLeave', 'dragleave', (event) => {
         if (!colBody.contains(event.relatedTarget)) {
           colBody.classList.remove('drag-over');
         }
       });
 
-      colBody.addEventListener('drop', () => {
+      bindOnce(colBody, 'Drop', 'drop', () => {
         colBody.classList.remove('drag-over');
       });
     };
+
+    bindOnce(board, 'ColumnDragOver', 'dragover', (event) => {
+      if (!draggedColumn || draggedCard) return;
+      event.preventDefault();
+
+      const target = event.target.closest('.column');
+      if (!target || target === draggedColumn) return;
+
+      const box = target.getBoundingClientRect();
+      const before = event.clientY < box.top + box.height / 2 || event.clientX < box.left + box.width / 2;
+      if (before) {
+        board.insertBefore(draggedColumn, target);
+      } else if (target.nextElementSibling) {
+        board.insertBefore(draggedColumn, target.nextElementSibling);
+      } else {
+        board.append(draggedColumn);
+      }
+    });
+
+    bindOnce(board, 'ColumnDrop', 'drop', () => {
+      if (!draggedColumn) return;
+      draggedColumn.classList.remove('column-dragging');
+      draggedColumn = null;
+      measureAndPlace();
+      saveBoardState();
+    });
 
     const initializeBoard = () => {
       board.querySelectorAll('.card').forEach(setupCard);
@@ -1152,6 +1893,7 @@
 
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) board.innerHTML = saved;
+    ensureBoardActions();
     ensureDoneColumnExists();
 
     const rafMeasure = () => requestAnimationFrame(measureAndPlace);
@@ -1162,8 +1904,8 @@
       document.fonts.ready.then(rafMeasure);
     }
 
-    const observer = new ResizeObserver(rafMeasure);
-    board.querySelectorAll('.column').forEach((column) => observer.observe(column));
+    resizeObserver = new ResizeObserver(rafMeasure);
+    board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
     board.addEventListener('input', rafMeasure);
     initializeBoard();
     groupDoneInProgressCards();
