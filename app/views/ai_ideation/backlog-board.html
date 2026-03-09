@@ -401,11 +401,6 @@
     background: #fffef8;
   }
 
-  .col-header .editable[contenteditable="true"]:focus {
-    outline-color: rgba(255, 255, 255, 0.95);
-    background: rgba(0, 0, 0, 0.14);
-  }
-
   .col-body.drag-over {
     background: #f8f5ee;
     border-color: #b8b0a3;
@@ -1032,17 +1027,10 @@
 </div>
 
 <script>
-  window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state';
-</script>
-<script>
-  (async function () {
+  (function () {
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
-    // Optional shared endpoint for one canonical board state across all users.
-    // Example: window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state'
-    const SHARED_STATE_URL = window.BOARD_SHARED_STATE_URL || '';
-    const SHARED_SYNC_ENABLED = Boolean(SHARED_STATE_URL);
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
     const TAG_COLORS = {
@@ -1920,26 +1908,7 @@
       measureAndPlace();
     };
 
-<<<<<<< HEAD
-    const shared = await loadSharedState();
-<<<<<<< ours
-    const saved = SHARED_SYNC_ENABLED ? shared : localStorage.getItem(STORAGE_KEY);
-    if (SHARED_SYNC_ENABLED) {
-      if (shared) {
-        persistLocalState(shared);
-      } else {
-        // Shared mode is enabled but state could not be loaded yet.
-        // Do not fall back to local snapshots, to avoid per-user divergence.
-        console.warn('Shared board state unavailable. Using base board until shared state is reachable.');
-      }
-    }
-=======
     const saved = localStorage.getItem(STORAGE_KEY);
->>>>>>> parent of ad5a23a (Update backlog-board.html)
-=======
-    const saved = shared || localStorage.getItem(STORAGE_KEY);
-    if (shared) persistLocalState(shared);
->>>>>>> theirs
     if (saved) board.innerHTML = saved;
     ensureBoardActions();
     ensureDoneColumnExists();
