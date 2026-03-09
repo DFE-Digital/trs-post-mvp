@@ -1738,6 +1738,12 @@
           event.preventDefault();
           return;
         }
+        const active = document.activeElement;
+        const editingHeader = active && header.contains(active) && active.isContentEditable;
+        if (editingHeader) {
+          event.preventDefault();
+          return;
+        }
 
         draggedColumn = column;
         column.classList.add('column-dragging');
@@ -1808,6 +1814,17 @@
       if (!colBody) return;
       ensureColumnControls(column);
       setupColumnDrag(column);
+      const heading = column.querySelector('.col-header h2');
+      const meta = column.querySelector('.col-header .col-meta');
+      if (heading) makeElementEditable(heading);
+      if (meta) makeElementEditable(meta);
+      const colHeader = column.querySelector('.col-header');
+      if (colHeader) {
+        bindOnce(colHeader, 'HeaderInput', 'input', () => {
+          measureAndPlace();
+          saveBoardState();
+        });
+      }
 
       let addBtn = colBody.querySelector('.add-card-btn');
       if (!addBtn) {
