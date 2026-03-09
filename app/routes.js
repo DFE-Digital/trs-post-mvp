@@ -5,8 +5,64 @@
 
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
+const express = require('express')
+const fs = require('fs')
+const path = require('path')
 
 // Add your routes here
+
+const BOARD_STATE_PATH = path.join(__dirname, 'data', 'backlog-board-state.json')
+
+const ensureBoardStateFile = () => {
+  if (!fs.existsSync(BOARD_STATE_PATH)) {
+    fs.mkdirSync(path.dirname(BOARD_STATE_PATH), { recursive: true })
+    fs.writeFileSync(
+      BOARD_STATE_PATH,
+      JSON.stringify({ boardHtml: '', updatedAt: null }),
+      'utf8'
+    )
+  }
+}
+
+const readBoardState = () => {
+  ensureBoardStateFile()
+  try {
+    const raw = fs.readFileSync(BOARD_STATE_PATH, 'utf8')
+    const parsed = JSON.parse(raw || '{}')
+    return {
+      boardHtml: typeof parsed.boardHtml === 'string' ? parsed.boardHtml : '',
+      updatedAt: parsed.updatedAt || null
+    }
+  } catch (e) {
+    return { boardHtml: '', updatedAt: null }
+  }
+}
+
+const writeBoardState = (state) => {
+  ensureBoardStateFile()
+  fs.writeFileSync(BOARD_STATE_PATH, JSON.stringify(state), 'utf8')
+}
+
+router.use('/api/backlog-board-state', express.json({ limit: '5mb' }))
+
+router.get('/api/backlog-board-state', (req, res) => {
+  res.set('Cache-Control', 'no-store')
+  return res.json(readBoardState())
+})
+
+router.put('/api/backlog-board-state', (req, res) => {
+  const { boardHtml, updatedAt } = req.body || {}
+  if (typeof boardHtml !== 'string') {
+    return res.status(400).json({ error: 'boardHtml must be a string' })
+  }
+
+  const next = {
+    boardHtml,
+    updatedAt: updatedAt || new Date().toISOString()
+  }
+  writeBoardState(next)
+  return res.json({ ok: true, updatedAt: next.updatedAt })
+})
 
 
 /// ITRs duplicates merge record route
