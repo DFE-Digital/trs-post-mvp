@@ -1039,6 +1039,7 @@
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
+    const LOCAL_STORAGE_RESET_MARKER = 'trs.backlog.local.reset.v1';
     // Optional shared endpoint for one canonical board state across all users.
     // Example: window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state'
     const SHARED_STATE_URL = window.BOARD_SHARED_STATE_URL || '';
@@ -1073,6 +1074,17 @@
     let activeColumnDialog = null;
     let resizeObserver = null;
     let saveDebounceTimer = null;
+
+    // One-time local storage reset to remove stale per-user board snapshots.
+    // This helps force all users onto the shared server state.
+    try {
+      if (!localStorage.getItem(LOCAL_STORAGE_RESET_MARKER)) {
+        localStorage.clear();
+        localStorage.setItem(LOCAL_STORAGE_RESET_MARKER, '1');
+      }
+    } catch (error) {
+      // Ignore storage access errors.
+    }
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
