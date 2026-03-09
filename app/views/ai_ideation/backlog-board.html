@@ -1966,8 +1966,16 @@
     };
 
     const shared = await loadSharedState();
-    const saved = shared || localStorage.getItem(STORAGE_KEY);
-    if (shared) persistLocalState(shared);
+    const saved = SHARED_SYNC_ENABLED ? shared : localStorage.getItem(STORAGE_KEY);
+    if (SHARED_SYNC_ENABLED) {
+      if (shared) {
+        persistLocalState(shared);
+      } else {
+        // Shared mode is enabled but state could not be loaded yet.
+        // Do not fall back to local snapshots, to avoid per-user divergence.
+        console.warn('Shared board state unavailable. Using base board until shared state is reachable.');
+      }
+    }
     if (saved) board.innerHTML = saved;
     ensureBoardActions();
     ensureDoneColumnExists();
@@ -1987,7 +1995,11 @@
     groupDoneInProgressCards();
     updateCounts();
     measureAndPlace();
-    saveBoardState();
+    if (SHARED_SYNC_ENABLED) {
+      persistLocalState(board.innerHTML);
+    } else {
+      saveBoardState();
+    }
   })();
 </script>
 
