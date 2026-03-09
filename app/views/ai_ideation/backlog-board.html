@@ -1035,7 +1035,9 @@
   (function () {
     const board = document.querySelector('.board');
     if (!board) return;
-    const STORAGE_KEY = 'trs.backlog.board.v1';
+    const STATE_API_URL = '/api/backlog-board-state';
+    const POLL_INTERVAL_MS = 5000;
+    const SAVE_DEBOUNCE_MS = 500;
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
     const TAG_COLORS = {
@@ -1065,6 +1067,11 @@
     let activeLabelDialog = null;
     let activeColumnDialog = null;
     let resizeObserver = null;
+    let saveTimer = null;
+    let saveInFlight = false;
+    let saveQueued = false;
+    let isApplyingRemoteState = false;
+    let lastKnownUpdatedAt = null;
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
@@ -1078,8 +1085,62 @@
       });
     };
 
+    const persistBoardState = async () => {
+      if (saveInFlight) {
+        saveQueued = true;
+        return;
+      }
+
+      saveInFlight = true;
+      saveQueued = false;
+
+      try {
+        const response = await fetch(STATE_API_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          cache: 'no-store',
+          body: JSON.stringify({ boardHtml: board.innerHTML })
+        });
+
+        if (!response.ok) throw new Error(`Save failed: ${response.status}`);
+
+        const payload = await response.json();
+        if (payload && payload.updatedAt) lastKnownUpdatedAt = payload.updatedAt;
+      } catch (error) {
+        console.error('Failed to persist board state', error);
+      } finally {
+        saveInFlight = false;
+        if (saveQueued) scheduleSave(0);
+      }
+    };
+
+    const scheduleSave = (delayMs = SAVE_DEBOUNCE_MS) => {
+      if (isApplyingRemoteState) return;
+
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveTimer = null;
+        persistBoardState();
+      }, delayMs);
+    };
+
     const saveBoardState = () => {
-      localStorage.setItem(STORAGE_KEY, board.innerHTML);
+      scheduleSave();
+    };
+
+    const fetchBoardState = async () => {
+      try {
+        const response = await fetch(STATE_API_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+        const payload = await response.json();
+        return {
+          boardHtml: typeof payload.boardHtml === 'string' ? payload.boardHtml : '',
+          updatedAt: payload.updatedAt || null
+        };
+      } catch (error) {
+        console.error('Failed to fetch board state', error);
+        return null;
+      }
     };
 
     const updateCounts = () => {
@@ -1913,11 +1974,6 @@
       measureAndPlace();
     };
 
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) board.innerHTML = saved;
-    ensureBoardActions();
-    ensureDoneColumnExists();
-
     const rafMeasure = () => requestAnimationFrame(measureAndPlace);
     window.addEventListener('load', rafMeasure);
     window.addEventListener('resize', rafMeasure);
@@ -1927,13 +1983,60 @@
     }
 
     resizeObserver = new ResizeObserver(rafMeasure);
-    board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
     board.addEventListener('input', rafMeasure);
-    initializeBoard();
-    groupDoneInProgressCards();
-    updateCounts();
-    measureAndPlace();
-    saveBoardState();
+
+    const mountBoard = () => {
+      resizeObserver.disconnect();
+      ensureBoardActions();
+      ensureDoneColumnExists();
+      board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
+      initializeBoard();
+      groupDoneInProgressCards();
+      updateCounts();
+      measureAndPlace();
+    };
+
+    const applyRemoteState = (boardHtml, updatedAt) => {
+      if (typeof boardHtml !== 'string') return;
+      isApplyingRemoteState = true;
+      try {
+        board.innerHTML = boardHtml;
+        mountBoard();
+        if (updatedAt) lastKnownUpdatedAt = updatedAt;
+      } finally {
+        isApplyingRemoteState = false;
+      }
+    };
+
+    const pullLatestState = async () => {
+      const remoteState = await fetchBoardState();
+      if (!remoteState) return;
+
+      if (!remoteState.boardHtml) return;
+      const hasPendingLocalChanges = Boolean(saveTimer) || saveInFlight || saveQueued;
+      if (hasPendingLocalChanges) return;
+      if (remoteState.updatedAt && remoteState.updatedAt === lastKnownUpdatedAt) return;
+      if (remoteState.boardHtml === board.innerHTML) {
+        if (remoteState.updatedAt) lastKnownUpdatedAt = remoteState.updatedAt;
+        return;
+      }
+
+      applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+    };
+
+    const initializeFromSharedState = async () => {
+      const remoteState = await fetchBoardState();
+      if (remoteState && remoteState.boardHtml) {
+        applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+      } else {
+        mountBoard();
+        persistBoardState();
+      }
+
+      setInterval(pullLatestState, POLL_INTERVAL_MS);
+    };
+
+    initializeFromSharedState();
   })();
 </script>
 
