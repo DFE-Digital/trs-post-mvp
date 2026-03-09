@@ -1039,6 +1039,7 @@
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
+    const LOCAL_STORAGE_RESET_MARKER = 'trs.backlog.local.reset.v1';
     // Optional shared endpoint for one canonical board state across all users.
     // Example: window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state'
     const SHARED_STATE_URL = window.BOARD_SHARED_STATE_URL || '';
@@ -1074,6 +1075,17 @@
     let resizeObserver = null;
     let saveDebounceTimer = null;
 
+    // One-time local storage reset to remove stale per-user board snapshots.
+    // This helps force all users onto the shared server state.
+    try {
+      if (!localStorage.getItem(LOCAL_STORAGE_RESET_MARKER)) {
+        localStorage.clear();
+        localStorage.setItem(LOCAL_STORAGE_RESET_MARKER, '1');
+      }
+    } catch (error) {
+      // Ignore storage access errors.
+    }
+
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
       const rowSize = parseFloat(style.getPropertyValue('grid-auto-rows')) || 8;
@@ -1087,7 +1099,6 @@
     };
 
     const persistLocalState = (html) => {
-      if (SHARED_SYNC_ENABLED) return;
       localStorage.setItem(STORAGE_KEY, html);
     };
 
@@ -1126,7 +1137,7 @@
 
     const saveBoardState = () => {
       const html = board.innerHTML;
-      if (!SHARED_SYNC_ENABLED) persistLocalState(html);
+      persistLocalState(html);
 
       if (!SHARED_SYNC_ENABLED) return;
       if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
@@ -1969,7 +1980,9 @@
     const shared = await loadSharedState();
     const saved = SHARED_SYNC_ENABLED ? shared : localStorage.getItem(STORAGE_KEY);
     if (SHARED_SYNC_ENABLED) {
-      if (!shared) {
+      if (shared) {
+        persistLocalState(shared);
+      } else {
         // Shared mode is enabled but state could not be loaded yet.
         // Do not fall back to local snapshots, to avoid per-user divergence.
         console.warn('Shared board state unavailable. Using base board until shared state is reachable.');
@@ -1994,7 +2007,9 @@
     groupDoneInProgressCards();
     updateCounts();
     measureAndPlace();
-    if (!SHARED_SYNC_ENABLED) {
+    if (SHARED_SYNC_ENABLED) {
+      persistLocalState(board.innerHTML);
+    } else {
       saveBoardState();
     }
   })();
