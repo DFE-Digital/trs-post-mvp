@@ -494,6 +494,61 @@
     justify-content: flex-end;
     gap: 8px;
   }
+
+  .save-status-banner {
+    position: fixed;
+    top: 86px;
+    right: 24px;
+    z-index: 1200;
+    max-width: min(90vw, 360px);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: calc(0.6rem + 3px);
+    line-height: 1.35;
+    background: #fff;
+    color: #2f3a4a;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .save-status-banner.is-idle {
+    background: #f3f3f3;
+    border-color: #c8c8c8;
+    color: #444;
+  }
+
+  .save-status-banner.is-saving {
+    background: #fff3cd;
+    border-color: #e8b860;
+    color: #7a560a;
+  }
+
+  .save-status-banner.is-saved {
+    background: #e3f2e7;
+    border-color: #7bbd8b;
+    color: #1d6b35;
+  }
+
+  .save-status-banner.is-syncing {
+    background: #e8f4fd;
+    border-color: #90caf9;
+    color: #0f4f8a;
+  }
+
+  .save-status-banner.is-error {
+    background: #fde8e8;
+    border-color: #e88a8a;
+    color: #8a1f1f;
+  }
+
+  @media (max-width: 40.0525em) {
+    .save-status-banner {
+      top: 76px;
+      right: 12px;
+      left: 12px;
+      max-width: none;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1035,7 +1090,9 @@
   (function () {
     const board = document.querySelector('.board');
     if (!board) return;
-    const STORAGE_KEY = 'trs.backlog.board.v1';
+    const STATE_API_URL = '/api/backlog-board-state';
+    const POLL_INTERVAL_MS = 5000;
+    const SAVE_DEBOUNCE_MS = 500;
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
     const TAG_COLORS = {
@@ -1065,6 +1122,52 @@
     let activeLabelDialog = null;
     let activeColumnDialog = null;
     let resizeObserver = null;
+    let saveTimer = null;
+    let saveInFlight = false;
+    let saveQueued = false;
+    let isApplyingRemoteState = false;
+    let lastKnownUpdatedAt = null;
+    let statusResetTimer = null;
+    let statusBanner = null;
+
+    const setStatusBanner = (state, text, resetMs) => {
+      if (!statusBanner) return;
+      statusBanner.className = `save-status-banner is-${state}`;
+      statusBanner.textContent = text;
+      if (statusResetTimer) {
+        clearTimeout(statusResetTimer);
+        statusResetTimer = null;
+      }
+      if (resetMs) {
+        statusResetTimer = setTimeout(() => {
+          setStatusBanner('idle', 'Live sync connected');
+        }, resetMs);
+      }
+    };
+
+    const formatSavedTime = (isoTime) => {
+      if (!isoTime) return '';
+      const date = new Date(isoTime);
+      if (Number.isNaN(date.getTime())) return '';
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    };
+
+    const readErrorDetails = async (response) => {
+      const fallback = `HTTP ${response.status}`;
+      try {
+        const text = await response.text();
+        if (!text) return fallback;
+        try {
+          const parsed = JSON.parse(text);
+          if (parsed && parsed.error) return `HTTP ${response.status} - ${parsed.error}`;
+          return `HTTP ${response.status} - ${text.slice(0, 180)}`;
+        } catch (_) {
+          return `HTTP ${response.status} - ${text.slice(0, 180)}`;
+        }
+      } catch (_) {
+        return fallback;
+      }
+    };
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
@@ -1078,8 +1181,77 @@
       });
     };
 
+    const persistBoardState = async (options = {}) => {
+      if (saveInFlight && !options.force) {
+        saveQueued = true;
+        return;
+      }
+
+      saveInFlight = true;
+      saveQueued = false;
+      setStatusBanner('saving', 'Saving board...');
+
+      try {
+        const response = await fetch(STATE_API_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          cache: 'no-store',
+          keepalive: Boolean(options.keepalive),
+          body: board.innerHTML
+        });
+
+        if (!response.ok) {
+          const details = await readErrorDetails(response);
+          throw new Error(details);
+        }
+
+        const payload = await response.json();
+        if (payload && payload.updatedAt) {
+          lastKnownUpdatedAt = payload.updatedAt;
+          setStatusBanner('saved', `Saved at ${formatSavedTime(payload.updatedAt)}`, 2500);
+        } else {
+          setStatusBanner('saved', 'Saved', 2500);
+        }
+      } catch (error) {
+        console.error('Failed to persist board state', error);
+        setStatusBanner('error', `Save failed: ${error.message}`);
+      } finally {
+        saveInFlight = false;
+        if (saveQueued) scheduleSave(0);
+      }
+    };
+
+    const scheduleSave = (delayMs = SAVE_DEBOUNCE_MS) => {
+      if (isApplyingRemoteState) return;
+
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveTimer = null;
+        persistBoardState();
+      }, delayMs);
+    };
+
     const saveBoardState = () => {
-      localStorage.setItem(STORAGE_KEY, board.innerHTML);
+      scheduleSave();
+    };
+
+    const fetchBoardState = async () => {
+      try {
+        const response = await fetch(STATE_API_URL, { cache: 'no-store' });
+        if (!response.ok) {
+          const details = await readErrorDetails(response);
+          throw new Error(details);
+        }
+        const payload = await response.json();
+        return {
+          boardHtml: typeof payload.boardHtml === 'string' ? payload.boardHtml : '',
+          updatedAt: payload.updatedAt || null
+        };
+      } catch (error) {
+        console.error('Failed to fetch board state', error);
+        setStatusBanner('error', `Sync failed: ${error.message}`);
+        return null;
+      }
     };
 
     const updateCounts = () => {
@@ -1924,16 +2096,82 @@
     resizeObserver = new ResizeObserver(rafMeasure);
     board.addEventListener('input', rafMeasure);
 
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) board.innerHTML = saved;
-    ensureBoardActions();
-    ensureDoneColumnExists();
-    board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
-    initializeBoard();
-    groupDoneInProgressCards();
-    updateCounts();
-    measureAndPlace();
-    saveBoardState();
+    const mountBoard = () => {
+      resizeObserver.disconnect();
+      ensureBoardActions();
+      ensureDoneColumnExists();
+      board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
+      initializeBoard();
+      groupDoneInProgressCards();
+      updateCounts();
+      measureAndPlace();
+    };
+
+    const applyRemoteState = (boardHtml, updatedAt) => {
+      if (typeof boardHtml !== 'string') return;
+      isApplyingRemoteState = true;
+      try {
+        board.innerHTML = boardHtml;
+        mountBoard();
+        if (updatedAt) lastKnownUpdatedAt = updatedAt;
+      } finally {
+        isApplyingRemoteState = false;
+      }
+    };
+
+    const pullLatestState = async () => {
+      const remoteState = await fetchBoardState();
+      if (!remoteState || !remoteState.boardHtml) return;
+
+      const hasPendingLocalChanges = Boolean(saveTimer) || saveInFlight || saveQueued;
+      if (hasPendingLocalChanges) return;
+      if (remoteState.updatedAt && remoteState.updatedAt === lastKnownUpdatedAt) return;
+      if (remoteState.boardHtml === board.innerHTML) {
+        if (remoteState.updatedAt) lastKnownUpdatedAt = remoteState.updatedAt;
+        return;
+      }
+
+      applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+      setStatusBanner('syncing', 'Board updated from another session', 2500);
+    };
+
+    const flushPendingSave = () => {
+      if (saveTimer) {
+        clearTimeout(saveTimer);
+        saveTimer = null;
+      }
+      if (!isApplyingRemoteState) {
+        persistBoardState({ keepalive: true, force: true });
+      }
+    };
+
+    const initializeFromSharedState = async () => {
+      setStatusBanner('syncing', 'Connecting to shared board...');
+      const remoteState = await fetchBoardState();
+      if (remoteState && remoteState.boardHtml) {
+        applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+        setStatusBanner('idle', 'Live sync connected');
+      } else {
+        mountBoard();
+        persistBoardState();
+      }
+
+      setInterval(pullLatestState, POLL_INTERVAL_MS);
+    };
+
+    window.addEventListener('beforeunload', flushPendingSave);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flushPendingSave();
+    });
+
+    statusBanner = document.createElement('div');
+    statusBanner.className = 'save-status-banner is-idle';
+    statusBanner.setAttribute('role', 'status');
+    statusBanner.setAttribute('aria-live', 'polite');
+    statusBanner.textContent = 'Starting sync...';
+    document.body.append(statusBanner);
+
+    initializeFromSharedState();
   })();
 </script>
 

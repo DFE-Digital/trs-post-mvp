@@ -80,14 +80,12 @@ const ensureBacklogStateFile = async () => {
   }
 }
 
-const readJsonBody = async (req) => {
-  if (req.body && typeof req.body === 'object') return req.body
-
-  const raw = await new Promise((resolve, reject) => {
+const readRawBody = (req, maxBytes = 20 * 1024 * 1024) =>
+  new Promise((resolve, reject) => {
     let data = ''
     req.on('data', (chunk) => {
       data += chunk
-      if (data.length > 5 * 1024 * 1024) {
+      if (Buffer.byteLength(data, 'utf8') > maxBytes) {
         reject(new Error('Payload too large'))
         req.destroy()
       }
@@ -95,9 +93,6 @@ const readJsonBody = async (req) => {
     req.on('end', () => resolve(data))
     req.on('error', reject)
   })
-
-  return JSON.parse(raw || '{}')
-}
 
 router.get('/api/backlog-board-state', async (req, res) => {
   try {
@@ -117,14 +112,33 @@ router.get('/api/backlog-board-state', async (req, res) => {
 
 router.put('/api/backlog-board-state', async (req, res) => {
   try {
-    const payload = await readJsonBody(req)
-    if (typeof payload.boardHtml !== 'string') {
+    let boardHtml = null
+    let updatedAt = null
+
+    if (req.body && typeof req.body === 'object' && typeof req.body.boardHtml === 'string') {
+      boardHtml = req.body.boardHtml
+      updatedAt = req.body.updatedAt || null
+    } else if (typeof req.body === 'string' && req.body.length > 0) {
+      boardHtml = req.body
+    } else {
+      const raw = await readRawBody(req)
+      const contentType = String(req.headers['content-type'] || '').toLowerCase()
+      if (contentType.includes('application/json')) {
+        const parsed = JSON.parse(raw || '{}')
+        if (typeof parsed.boardHtml === 'string') boardHtml = parsed.boardHtml
+        updatedAt = parsed.updatedAt || null
+      } else {
+        boardHtml = raw
+      }
+    }
+
+    if (typeof boardHtml !== 'string' || boardHtml.length === 0) {
       return res.status(400).json({ error: 'boardHtml must be a string' })
     }
 
     const state = {
-      boardHtml: payload.boardHtml,
-      updatedAt: payload.updatedAt || new Date().toISOString()
+      boardHtml,
+      updatedAt: updatedAt || new Date().toISOString()
     }
 
     await ensureBacklogStateFile()
@@ -135,7 +149,7 @@ router.put('/api/backlog-board-state', async (req, res) => {
     res.set('Cache-Control', 'no-store')
     return res.json({ ok: true, updatedAt: state.updatedAt })
   } catch (error) {
-    if (error.message === 'Payload too large') {
+    if (error.type === 'entity.too.large' || error.message === 'Payload too large') {
       return res.status(413).json({ error: 'Payload too large' })
     }
     return res.status(400).json({ error: 'Invalid request body' })
