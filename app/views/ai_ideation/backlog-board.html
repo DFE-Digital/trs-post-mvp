@@ -1039,7 +1039,6 @@
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
-    const LOCAL_STORAGE_RESET_MARKER = 'trs.backlog.local.reset.v1';
     // Optional shared endpoint for one canonical board state across all users.
     // Example: window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state'
     const SHARED_STATE_URL = window.BOARD_SHARED_STATE_URL || '';
@@ -1073,18 +1072,6 @@
     let activeLabelDialog = null;
     let activeColumnDialog = null;
     let resizeObserver = null;
-    let saveDebounceTimer = null;
-
-    // One-time local storage reset to remove stale per-user board snapshots.
-    // This helps force all users onto the shared server state.
-    try {
-      if (!localStorage.getItem(LOCAL_STORAGE_RESET_MARKER)) {
-        localStorage.clear();
-        localStorage.setItem(LOCAL_STORAGE_RESET_MARKER, '1');
-      }
-    } catch (error) {
-      // Ignore storage access errors.
-    }
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
@@ -1098,52 +1085,8 @@
       });
     };
 
-    const persistLocalState = (html) => {
-      localStorage.setItem(STORAGE_KEY, html);
-    };
-
-    const pushSharedState = async (html) => {
-      if (!SHARED_SYNC_ENABLED) return;
-      try {
-        await fetch(SHARED_STATE_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            boardHtml: html,
-            updatedAt: new Date().toISOString()
-          })
-        });
-      } catch (error) {
-        // Keep working locally if shared sync is temporarily unavailable.
-      }
-    };
-
-    const loadSharedState = async () => {
-      if (!SHARED_SYNC_ENABLED) return null;
-      try {
-        const response = await fetch(SHARED_STATE_URL, { cache: 'no-store' });
-        if (!response.ok) return null;
-        const contentType = response.headers.get('content-type') || '';
-        if (contentType.includes('application/json')) {
-          const data = await response.json();
-          return typeof data?.boardHtml === 'string' ? data.boardHtml : null;
-        }
-        const text = await response.text();
-        return text || null;
-      } catch (error) {
-        return null;
-      }
-    };
-
     const saveBoardState = () => {
-      const html = board.innerHTML;
-      persistLocalState(html);
-
-      if (!SHARED_SYNC_ENABLED) return;
-      if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
-      saveDebounceTimer = setTimeout(() => {
-        pushSharedState(board.innerHTML);
-      }, 300);
+      localStorage.setItem(STORAGE_KEY, board.innerHTML);
     };
 
     const updateCounts = () => {
@@ -1977,7 +1920,9 @@
       measureAndPlace();
     };
 
+<<<<<<< HEAD
     const shared = await loadSharedState();
+<<<<<<< ours
     const saved = SHARED_SYNC_ENABLED ? shared : localStorage.getItem(STORAGE_KEY);
     if (SHARED_SYNC_ENABLED) {
       if (shared) {
@@ -1988,6 +1933,13 @@
         console.warn('Shared board state unavailable. Using base board until shared state is reachable.');
       }
     }
+=======
+    const saved = localStorage.getItem(STORAGE_KEY);
+>>>>>>> parent of ad5a23a (Update backlog-board.html)
+=======
+    const saved = shared || localStorage.getItem(STORAGE_KEY);
+    if (shared) persistLocalState(shared);
+>>>>>>> theirs
     if (saved) board.innerHTML = saved;
     ensureBoardActions();
     ensureDoneColumnExists();
@@ -2007,11 +1959,7 @@
     groupDoneInProgressCards();
     updateCounts();
     measureAndPlace();
-    if (SHARED_SYNC_ENABLED) {
-      persistLocalState(board.innerHTML);
-    } else {
-      saveBoardState();
-    }
+    saveBoardState();
   })();
 </script>
 
