@@ -1032,10 +1032,14 @@
 </div>
 
 <script>
-  (function () {
+  (async function () {
     const board = document.querySelector('.board');
     if (!board) return;
     const STORAGE_KEY = 'trs.backlog.board.v1';
+    // Optional shared endpoint for one canonical board state across all users.
+    // Example: window.BOARD_SHARED_STATE_URL = '/api/backlog-board-state'
+    const SHARED_STATE_URL = window.BOARD_SHARED_STATE_URL || '';
+    const SHARED_SYNC_ENABLED = Boolean(SHARED_STATE_URL);
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
     const TAG_COLORS = {
@@ -1065,6 +1069,7 @@
     let activeLabelDialog = null;
     let activeColumnDialog = null;
     let resizeObserver = null;
+    let saveDebounceTimer = null;
 
     const measureAndPlace = () => {
       const style = getComputedStyle(board);
@@ -1078,8 +1083,52 @@
       });
     };
 
+    const persistLocalState = (html) => {
+      localStorage.setItem(STORAGE_KEY, html);
+    };
+
+    const pushSharedState = async (html) => {
+      if (!SHARED_SYNC_ENABLED) return;
+      try {
+        await fetch(SHARED_STATE_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            boardHtml: html,
+            updatedAt: new Date().toISOString()
+          })
+        });
+      } catch (error) {
+        // Keep working locally if shared sync is temporarily unavailable.
+      }
+    };
+
+    const loadSharedState = async () => {
+      if (!SHARED_SYNC_ENABLED) return null;
+      try {
+        const response = await fetch(SHARED_STATE_URL, { cache: 'no-store' });
+        if (!response.ok) return null;
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await response.json();
+          return typeof data?.boardHtml === 'string' ? data.boardHtml : null;
+        }
+        const text = await response.text();
+        return text || null;
+      } catch (error) {
+        return null;
+      }
+    };
+
     const saveBoardState = () => {
-      localStorage.setItem(STORAGE_KEY, board.innerHTML);
+      const html = board.innerHTML;
+      persistLocalState(html);
+
+      if (!SHARED_SYNC_ENABLED) return;
+      if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
+      saveDebounceTimer = setTimeout(() => {
+        pushSharedState(board.innerHTML);
+      }, 300);
     };
 
     const updateCounts = () => {
@@ -1913,7 +1962,9 @@
       measureAndPlace();
     };
 
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const shared = await loadSharedState();
+    const saved = shared || localStorage.getItem(STORAGE_KEY);
+    if (shared) persistLocalState(shared);
     if (saved) board.innerHTML = saved;
     ensureBoardActions();
     ensureDoneColumnExists();
