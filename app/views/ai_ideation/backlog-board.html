@@ -1490,6 +1490,31 @@
       el.setAttribute('spellcheck', 'true');
     };
 
+    const insertPlainText = (target, text) => {
+      const selection = window.getSelection && window.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        target.textContent += text;
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(document.createTextNode(text));
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    };
+
+    const handlePaste = (event) => {
+      const target = event.target;
+      if (!target || !target.isContentEditable) return;
+      if (!target.classList.contains('editable')) return;
+      const text = event.clipboardData?.getData('text/plain');
+      if (typeof text !== 'string') return;
+      event.preventDefault();
+      insertPlainText(target, text);
+    };
+
     const makeEditable = (card) => {
       card.querySelectorAll('.card-title, .card-note').forEach(makeElementEditable);
       card.querySelectorAll('.dep-line').forEach(setupDepLine);
@@ -2167,6 +2192,7 @@
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') flushPendingSave();
     });
+    document.addEventListener('paste', handlePaste);
 
     statusBanner = document.createElement('div');
     statusBanner.className = 'save-status-banner is-idle';
