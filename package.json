@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "govuk-prototype-kit dev",
     "serve": "govuk-prototype-kit serve",
-    "start": "govuk-prototype-kit start"
+    "start": "govuk-prototype-kit start",
+    "pull-live-backlog": "node scripts/pull-live-backlog.js"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "2.0.1",
