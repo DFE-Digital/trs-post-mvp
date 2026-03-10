@@ -66,6 +66,12 @@ router.post("/match-teacher-id", function (req, res) {
 });
 
 const BACKLOG_STATE_FILE = path.join(__dirname, 'data', 'backlog-board-state.json')
+const LIVE_PROXY_URL = process.env.LIVE_PROXY_URL || 'https://trs-post-mvp-6853f9a5ac29.herokuapp.com'
+const LIVE_PROXY_PASSWORD = process.env.LIVE_PROXY_PASSWORD
+const LIVE_PROXY_COOKIE_TTL_MS = 5 * 60 * 1000
+
+let liveProxyCookie = null
+let liveProxyCookieSetAt = 0
 
 const ensureBacklogStateFile = async () => {
   try {
@@ -94,7 +100,55 @@ const readRawBody = (req, maxBytes = 20 * 1024 * 1024) =>
     req.on('error', reject)
   })
 
+const getLiveProxyCookie = async () => {
+  if (!LIVE_PROXY_PASSWORD) return null
+  const now = Date.now()
+  if (liveProxyCookie && now - liveProxyCookieSetAt < LIVE_PROXY_COOKIE_TTL_MS) {
+    return liveProxyCookie
+  }
+
+  const loginResponse = await fetch(`${LIVE_PROXY_URL}/manage-prototype/password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `password=${encodeURIComponent(LIVE_PROXY_PASSWORD)}`,
+    redirect: 'manual'
+  })
+
+  const getSetCookie = loginResponse.headers.getSetCookie
+  const cookies = typeof getSetCookie === 'function'
+    ? getSetCookie.call(loginResponse.headers)
+    : (loginResponse.headers.get('set-cookie') ? [loginResponse.headers.get('set-cookie')] : [])
+
+  const cookieHeader = cookies
+    .map((cookie) => String(cookie || '').split(';')[0])
+    .filter(Boolean)
+    .join('; ')
+
+  liveProxyCookie = cookieHeader || null
+  liveProxyCookieSetAt = now
+  return liveProxyCookie
+}
+
 router.get('/api/backlog-board-state', async (req, res) => {
+  if (LIVE_PROXY_PASSWORD) {
+    try {
+      const cookieHeader = await getLiveProxyCookie()
+      const upstream = await fetch(`${LIVE_PROXY_URL}/api/backlog-board-state`, {
+        headers: cookieHeader ? { Cookie: cookieHeader } : {},
+        cache: 'no-store'
+      })
+
+      const body = await upstream.text()
+      res.set('Cache-Control', 'no-store')
+      if (upstream.headers.get('content-type')) {
+        res.set('Content-Type', upstream.headers.get('content-type'))
+      }
+      return res.status(upstream.status).send(body)
+    } catch (error) {
+      return res.status(502).json({ error: `Live proxy failed: ${error.message || error}` })
+    }
+  }
+
   try {
     await ensureBacklogStateFile()
     const raw = await fs.promises.readFile(BACKLOG_STATE_FILE, 'utf8')
@@ -111,6 +165,32 @@ router.get('/api/backlog-board-state', async (req, res) => {
 })
 
 router.put('/api/backlog-board-state', async (req, res) => {
+  if (LIVE_PROXY_PASSWORD) {
+    try {
+      const cookieHeader = await getLiveProxyCookie()
+      const rawBody = await readRawBody(req)
+      const contentType = String(req.headers['content-type'] || 'text/plain; charset=utf-8')
+
+      const upstream = await fetch(`${LIVE_PROXY_URL}/api/backlog-board-state`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': contentType,
+          ...(cookieHeader ? { Cookie: cookieHeader } : {})
+        },
+        body: rawBody
+      })
+
+      const body = await upstream.text()
+      res.set('Cache-Control', 'no-store')
+      if (upstream.headers.get('content-type')) {
+        res.set('Content-Type', upstream.headers.get('content-type'))
+      }
+      return res.status(upstream.status).send(body)
+    } catch (error) {
+      return res.status(502).json({ error: `Live proxy failed: ${error.message || error}` })
+    }
+  }
+
   try {
     let boardHtml = null
     let updatedAt = null
