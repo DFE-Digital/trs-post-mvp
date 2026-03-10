@@ -1096,6 +1096,7 @@
     const SAVE_DEBOUNCE_MS = 500;
     const DONE_COLUMN_ID = 'done-in-progress-column';
     const DONE_LABEL = 'done / in progress';
+    const DEFAULT_COLUMN_COLOR = '#D2CBBF';
     const TAG_COLORS = {
       default: { bg: '#eceff3', border: '#b7c0cd', text: '#2f3a4a' },
       green: { bg: '#d4edda', border: '#6dbf85', text: '#1d6b35' },
@@ -1282,7 +1283,7 @@
 
     const createColumn = (titleText, backgroundColor) => {
       const title = (titleText || '').trim() || 'New column';
-      const bg = (backgroundColor || 'var(--col-notes)').trim();
+      const bg = (backgroundColor || DEFAULT_COLUMN_COLOR).trim();
       const column = document.createElement('div');
       column.className = 'column';
       column.innerHTML = [
@@ -1298,7 +1299,7 @@
 
     const rgbToHex = (rgb) => {
       const match = (rgb || '').match(/\d+/g);
-      if (!match || match.length < 3) return '#aca583';
+      if (!match || match.length < 3) return DEFAULT_COLUMN_COLOR;
       const [r, g, b] = match.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0'));
       return `#${r}${g}${b}`;
     };
@@ -1307,7 +1308,7 @@
       const clean = (value || '').trim();
       const withHash = clean.startsWith('#') ? clean : `#${clean}`;
       if (/^#[0-9a-fA-F]{6}$/.test(withHash)) return withHash.toLowerCase();
-      return fallback || '#aca583';
+      return fallback || DEFAULT_COLUMN_COLOR;
     };
 
     const closeColumnDialog = () => {
@@ -1321,10 +1322,12 @@
       const isEditing = Boolean(column);
       const header = column?.querySelector('.col-header');
       const initialTitle = (column?.querySelector('.col-header h2')?.textContent || '').trim();
-      const initialColor = normalizeHex(
-        header?.style?.backgroundColor || rgbToHex(getComputedStyle(header || document.body).backgroundColor),
-        '#aca583'
-      );
+      const initialColor = column
+        ? (normalizeHex(
+            header?.style?.backgroundColor || rgbToHex(getComputedStyle(header || document.body).backgroundColor),
+            DEFAULT_COLUMN_COLOR
+          ) || DEFAULT_COLUMN_COLOR)
+        : DEFAULT_COLUMN_COLOR;
 
       const backdrop = document.createElement('div');
       backdrop.className = 'label-dialog-backdrop';
@@ -1345,10 +1348,10 @@
       colorWrap.textContent = 'Background colour';
       const colorInput = document.createElement('input');
       colorInput.type = 'color';
-      colorInput.value = initialColor;
+      colorInput.value = initialColor || DEFAULT_COLUMN_COLOR;
       const hexInput = document.createElement('input');
       hexInput.type = 'text';
-      hexInput.value = initialColor;
+      hexInput.value = initialColor || DEFAULT_COLUMN_COLOR;
       hexInput.setAttribute('aria-label', 'Hex colour');
       colorWrap.append(colorInput, hexInput);
 
@@ -1400,9 +1403,9 @@
           ensureColumnControls(column);
         } else {
           const newColumn = createColumn(titleText, color);
-          const doneColumn = board.querySelector('#' + DONE_COLUMN_ID);
-          if (doneColumn) {
-            board.insertBefore(newColumn, doneColumn);
+          const firstColumn = board.querySelector('.column');
+          if (firstColumn) {
+            board.insertBefore(newColumn, firstColumn);
           } else {
             board.append(newColumn);
           }
