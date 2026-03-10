@@ -66,6 +66,12 @@ router.post("/match-teacher-id", function (req, res) {
 });
 
 const BACKLOG_STATE_FILE = path.join(__dirname, 'data', 'backlog-board-state.json')
+const LIVE_SYNC_URL = process.env.LIVE_SYNC_URL || 'https://trs-post-mvp-6853f9a5ac29.herokuapp.com'
+const LIVE_SYNC_PASSWORD = process.env.LIVE_SYNC_PASSWORD
+const LIVE_SYNC_INTERVAL_MS = Number(process.env.LIVE_SYNC_INTERVAL_MS || 60000)
+
+let liveSyncRunning = false
+let liveSyncStarted = false
 
 const ensureBacklogStateFile = async () => {
   try {
@@ -93,6 +99,86 @@ const readRawBody = (req, maxBytes = 20 * 1024 * 1024) =>
     req.on('end', () => resolve(data))
     req.on('error', reject)
   })
+
+const fetchLiveBoardState = async () => {
+  if (!LIVE_SYNC_PASSWORD) return null
+
+  const loginResponse = await fetch(`${LIVE_SYNC_URL}/manage-prototype/password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `password=${encodeURIComponent(LIVE_SYNC_PASSWORD)}`,
+    redirect: 'manual'
+  })
+
+  const getSetCookie = loginResponse.headers.getSetCookie
+  const cookies = typeof getSetCookie === 'function'
+    ? getSetCookie.call(loginResponse.headers)
+    : (loginResponse.headers.get('set-cookie') ? [loginResponse.headers.get('set-cookie')] : [])
+
+  const cookieHeader = cookies
+    .map((cookie) => String(cookie || '').split(';')[0])
+    .filter(Boolean)
+    .join('; ')
+
+  const stateResponse = await fetch(`${LIVE_SYNC_URL}/api/backlog-board-state`, {
+    headers: cookieHeader ? { Cookie: cookieHeader } : {},
+    cache: 'no-store'
+  })
+
+  if (!stateResponse.ok) {
+    const text = await stateResponse.text().catch(() => '')
+    throw new Error(`Live sync failed: HTTP ${stateResponse.status} ${text}`.trim())
+  }
+
+  return stateResponse.json()
+}
+
+const syncLiveBoardState = async () => {
+  if (liveSyncRunning) return
+  if (!LIVE_SYNC_PASSWORD) return
+
+  liveSyncRunning = true
+  try {
+    const remoteState = await fetchLiveBoardState()
+    if (!remoteState || typeof remoteState.boardHtml !== 'string' || !remoteState.boardHtml.trim()) return
+
+    await ensureBacklogStateFile()
+    const localRaw = await fs.promises.readFile(BACKLOG_STATE_FILE, 'utf8')
+    const localState = JSON.parse(localRaw || '{}')
+
+    if (remoteState.updatedAt && localState.updatedAt) {
+      const remoteTime = new Date(remoteState.updatedAt).getTime()
+      const localTime = new Date(localState.updatedAt).getTime()
+      if (Number.isFinite(remoteTime) && Number.isFinite(localTime) && remoteTime <= localTime) return
+    }
+
+    if (remoteState.boardHtml === localState.boardHtml) return
+
+    const nextState = {
+      boardHtml: remoteState.boardHtml,
+      updatedAt: remoteState.updatedAt || new Date().toISOString()
+    }
+
+    const tmpFile = `${BACKLOG_STATE_FILE}.tmp`
+    await fs.promises.writeFile(tmpFile, JSON.stringify(nextState), 'utf8')
+    await fs.promises.rename(tmpFile, BACKLOG_STATE_FILE)
+    console.log('[backlog-board] Live sync updated local state')
+  } catch (error) {
+    console.warn('[backlog-board] Live sync error:', error.message || error)
+  } finally {
+    liveSyncRunning = false
+  }
+}
+
+if (!liveSyncStarted) {
+  liveSyncStarted = true
+  if (!LIVE_SYNC_PASSWORD) {
+    console.warn('[backlog-board] Live sync disabled: set LIVE_SYNC_PASSWORD to enable')
+  } else {
+    setTimeout(syncLiveBoardState, 2000)
+    setInterval(syncLiveBoardState, LIVE_SYNC_INTERVAL_MS)
+  }
+}
 
 router.get('/api/backlog-board-state', async (req, res) => {
   try {
