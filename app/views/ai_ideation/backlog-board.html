@@ -155,7 +155,7 @@
   }
 
   .col-header .col-meta {
-    font-size: calc(0.6rem + 3px);
+    font-size: calc(0.6rem + 4px);
     opacity: 0.8;
     font-family: "GDS Transport", arial, sans-serif;
   }
@@ -1443,8 +1443,15 @@
 
     const makeElementEditable = (el) => {
       el.classList.add('editable');
-      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('contenteditable', 'plaintext-only');
       el.setAttribute('spellcheck', 'true');
+      normalizePlainText(el);
+    };
+
+    const normalizePlainText = (el) => {
+      if (!el) return;
+      const text = el.textContent || '';
+      el.textContent = text;
     };
 
     const insertPlainText = (target, text) => {
