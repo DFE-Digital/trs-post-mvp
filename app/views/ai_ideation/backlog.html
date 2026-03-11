@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feb 2026 – Remapping Ideas & Priorities</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ece4;
+    --surface: #e8e3d9;
+    --border: #cdc8bc;
+    --text: #2a2520;
+    --muted: #7a7368;
+    --tag-bg: #2a2520;
+    --tag-fg: #f0ece4;
+
+    /* Muted sticky-note palette closer to the PDF board */
+    --col-change-history:    #c642be;
+    --col-change-blocked:    #ab52c6;
+    --col-record-merging:    #c96c39;
+    --col-record-deletion:   #cb7e56;
+    --col-routes:            #c7ad63;
+    --col-alerts:            #807461;
+    --col-notes:             #aca583;
+    --col-task-vis:          #5762cf;
+    --col-access:            #5a8cd3;
+    --col-data:              #bfb78e;
+    --col-content:           #8fa3c2;
+    --col-ur:                #c07a80;
+    --col-legacy:            #9f7dba;
+    --col-deactivate:        #3f9b4a;
+    --col-done-group:        #2f8a45;
+  }
+
+  body {
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: calc(19px + 3px);
+    line-height: 1.31579;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 20px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--border);
+  }
+
+  header h1 {
+    font-family: "GDS Transport", arial, sans-serif;
+    font-weight: 600;
+    font-size: calc(1.4rem + 3px);
+    letter-spacing: -0.02em;
+  }
+
+  header span {
+    font-size: calc(0.75rem + 3px);
+    color: #9a9288;
+    font-style: italic;
+  }
+
+  .legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: calc(0.65rem + 3px);
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-auto-flow: dense;
+    grid-auto-rows: 8px;
+    gap: 16px;
+    width: min(100%, 2500px);
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+    align-items: flex-start;
+    min-height: calc(100vh - 110px);
+  }
+
+  /* Readjust column count once the board reaches 2500px width */
+  @media (min-width: 2564px) {
+    .board {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  .column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    grid-row-end: span 1;
+  }
+
+  .column.column-dragging {
+    opacity: 0.55;
+  }
+
+  .col-header {
+    border-radius: 6px 6px 0 0;
+    padding: 10px 14px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: grab;
+  }
+
+  .col-header:active {
+    cursor: grabbing;
+  }
+
+  .col-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .col-header h2 {
+    font-family: "GDS Transport", arial, sans-serif;
+    font-weight: 600;
+    font-size: calc(0.95rem + 3px);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .col-header .col-meta {
+    font-size: calc(0.6rem + 4px);
+    opacity: 0.8;
+    font-family: "GDS Transport", arial, sans-serif;
+  }
+
+  @media (max-width: 40.0525em) {
+    body {
+      font-size: calc(16px + 3px);
+      line-height: 1.25;
+    }
+  }
+
+  .col-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+    gap: 8px;
+  }
+
+  .col-action-link {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .col-action-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .col-action-link svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+
+  .col-body {
+    background: #f4f6f9;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card {
+    background: #f0f3f7;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 12px 12px;
+    font-size: calc(0.72rem + 3px);
+    line-height: 1.5;
+    position: relative;
+    transition: box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+
+  .card:hover {
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+
+  .card.dragging {
+    opacity: 0.45;
+    transform: rotate(1deg);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  .card-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .card-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+    border-radius: 4px;
+    font-size: calc(0.58rem + 3px);
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+  }
+
+  .card-btn:hover {
+    color: var(--text);
+    border-color: #a9a39a;
+  }
+
+  .card-action-link {
+    color: #5e6c84;
+    text-decoration: none;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .card-action-link:hover {
+    color: #5e6c84;
+    background: rgba(9, 30, 66, 0.08);
+  }
+
+  .card-action-link svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+
+  .drag-handle {
+    cursor: grab;
+  }
+
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+
+  .card-title {
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .card-note {
+    font-size: calc(0.63rem + 3px);
+    color: #6b6b6b;
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: calc(0.55rem + 1px);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .tag-remove {
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9em;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .tag-legacy    { background: #d9dee5; color: #3f4752; border: 1px solid #a3adba; }
+  .tag-done      { background: #d4edda; color: #1d6b35; border: 1px solid #6dbf85; }
+  .tag-blocked   { background: #fde8e8; color: #9b2020; border: 1px solid #e88a8a; }
+  .tag-priority  { background: #fde8c0; color: #8b5a10; border: 1px solid #e8b860; }
+  .tag-tocheck   { background: #e8eaf6; color: #3949ab; border: 1px solid #9fa8da; }
+  .tag-inprog    { background: #e0f2f1; color: #00695c; border: 1px solid #80cbc4; }
+  .tag-lowpri    { background: #f3f3f3; color: #666; border: 1px solid #ccc; }
+  .tag-duplicate { background: #fce4ec; color: #880e4f; border: 1px solid #f48fb1; }
+  .tag-park      { background: #ede7f6; color: #512da8; border: 1px solid #b39ddb; }
+  .tag-dep       { background: #e8f4fd; color: #1565c0; border: 1px solid #90caf9; }
+  .tag-custom    { background: #eceff3; color: #2f3a4a; border: 1px solid #b7c0cd; }
+
+  .dep-line {
+    font-size: calc(0.6rem + 3px);
+    color: #6b6b6b;
+    background: transparent;
+    border-left: none;
+    padding: 0;
+    border-radius: 0;
+    margin-top: 5px;
+    font-style: italic;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .dep-line-text {
+    flex: 1;
+    min-width: 0;
+    font-style: italic;
+  }
+
+  .dep-remove {
+    border: none;
+    background: transparent;
+    color: #1565c0;
+    cursor: pointer;
+    font-size: 0.9em;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .divider {
+    font-size: calc(0.6rem + 3px);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 4px 2px;
+    border-top: 1px dashed var(--border);
+    margin-top: 4px;
+  }
+
+  .count-badge {
+    font-size: calc(0.6rem + 3px);
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 1px 7px;
+    display: inline-block;
+    margin-top: 2px;
+    display: none;
+  }
+
+  .editable[contenteditable="true"] {
+    border-radius: 3px;
+    outline: 1px dashed transparent;
+    transition: outline-color 0.12s, background-color 0.12s;
+  }
+
+  .editable[contenteditable="true"]:focus {
+    outline-color: #a9a39a;
+    background: #fffef8;
+  }
+
+  .col-header .editable[contenteditable="true"]:focus {
+    outline-color: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.14);
+  }
+
+  .col-body.drag-over {
+    background: #f8f5ee;
+    border-color: #b8b0a3;
+  }
+
+  .add-card-btn {
+    border: 1px dashed #b8b0a3;
+    border-radius: 5px;
+    background: transparent;
+    color: #5f584d;
+    padding: 8px 10px;
+    font-size: calc(0.62rem + 3px);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .add-card-btn:hover {
+    background: #f6f2ea;
+  }
+
+  .board-actions {
+    width: min(100%, 2500px);
+    margin: 0 auto;
+    padding: 0 32px 8px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .add-column-btn {
+    border: 1px dashed #b8b0a3;
+    border-radius: 5px;
+    background: transparent;
+    color: #5f584d;
+    margin-top: 24px;
+    padding: 8px 10px;
+    font-size: calc(0.62rem + 3px);
+    cursor: pointer;
+  }
+
+  .add-column-btn:hover {
+    background: #f6f2ea;
+  }
+
+  .label-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+
+  .label-dialog {
+    width: min(420px, 100%);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .label-dialog h3 {
+    font-size: calc(0.95rem + 3px);
+    margin: 0;
+  }
+
+  .label-dialog label {
+    display: grid;
+    gap: 4px;
+    font-size: calc(0.62rem + 3px);
+  }
+
+  .label-dialog select,
+  .label-dialog input {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    font: inherit;
+  }
+
+  .label-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .save-status-banner {
+    position: fixed;
+    top: 86px;
+    right: 24px;
+    z-index: 1200;
+    max-width: min(90vw, 360px);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: calc(0.6rem + 3px);
+    line-height: 1.35;
+    background: #fff;
+    color: #2f3a4a;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .save-status-banner.is-idle {
+    background: #f3f3f3;
+    border-color: #c8c8c8;
+    color: #444;
+  }
+
+  .save-status-banner.is-saving {
+    background: #fff3cd;
+    border-color: #e8b860;
+    color: #7a560a;
+  }
+
+  .save-status-banner.is-saved {
+    background: #e3f2e7;
+    border-color: #7bbd8b;
+    color: #1d6b35;
+  }
+
+  .save-status-banner.is-syncing {
+    background: #e8f4fd;
+    border-color: #90caf9;
+    color: #0f4f8a;
+  }
+
+  .save-status-banner.is-error {
+    background: #fde8e8;
+    border-color: #e88a8a;
+    color: #8a1f1f;
+  }
+
+  @media (max-width: 40.0525em) {
+    .save-status-banner {
+      top: 76px;
+      right: 12px;
+      left: 12px;
+      max-width: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="content-root" data-content-src="./backlog-board-content.html"></div>
+  <noscript>JavaScript is required to load the backlog board content.</noscript>
+
+<script>
+  const CONTENT_ROOT_SELECTOR = '#content-root';
+  const CONTENT_SOURCE_ATTR = 'data-content-src';
+
+  const loadContent = async () => {
+    const root = document.querySelector(CONTENT_ROOT_SELECTOR);
+    if (!root) return null;
+    const src = root.getAttribute(CONTENT_SOURCE_ATTR);
+    if (!src) return root;
+    try {
+      const response = await fetch(src, { cache: 'no-cache' });
+      if (!response.ok) {
+        root.textContent = `Unable to load content (${response.status}).`;
+        return null;
+      }
+      root.innerHTML = await response.text();
+      return root;
+    } catch (error) {
+      root.textContent = 'Unable to load content.';
+      return null;
+    }
+  };
+
+  const startBoard = () => {
+    const board = document.querySelector('.board');
+    if (!board) return;
+    const STATE_API_URL = '/api/backlog-board-state';
+    const POLL_INTERVAL_MS = 5000;
+    const SAVE_DEBOUNCE_MS = 500;
+    const DONE_COLUMN_ID = 'done-in-progress-column';
+    const DONE_LABEL = 'done / in progress';
+    const DEFAULT_COLUMN_COLOR = '#D2CBBF';
+    const TAG_COLORS = {
+      default: { bg: '#eceff3', border: '#b7c0cd', text: '#2f3a4a' },
+      green: { bg: '#d4edda', border: '#6dbf85', text: '#1d6b35' },
+      blue: { bg: '#e8f4fd', border: '#90caf9', text: '#1565c0' },
+      amber: { bg: '#fde8c0', border: '#e8b860', text: '#8b5a10' },
+      pink: { bg: '#fce4ec', border: '#f48fb1', text: '#880e4f' },
+      purple: { bg: '#ede7f6', border: '#b39ddb', text: '#512da8' },
+      grey: { bg: '#f3f3f3', border: '#ccc', text: '#555' }
+    };
+    const PRESET_LABEL_COLORS = {
+      'done': 'green',
+      'in progress': 'green',
+      'done / in progress': 'green',
+      'blocked': 'pink',
+      'priority': 'amber',
+      'to check': 'blue',
+      'low priority': 'amber',
+      'duplicate tickets': 'pink',
+      'parked': 'purple',
+      'dependency': 'blue',
+      'legacy': 'grey'
+    };
+    let draggedCard = null;
+    let draggedColumn = null;
+    let activeLabelDialog = null;
+    let activeColumnDialog = null;
+    let resizeObserver = null;
+    let saveTimer = null;
+    let saveInFlight = false;
+    let saveQueued = false;
+    let isApplyingRemoteState = false;
+    let lastKnownUpdatedAt = null;
+    let statusResetTimer = null;
+    let statusBanner = null;
+
+    const setStatusBanner = (state, text, resetMs) => {
+      if (!statusBanner) return;
+      statusBanner.className = `save-status-banner is-${state}`;
+      statusBanner.textContent = text;
+      if (statusResetTimer) {
+        clearTimeout(statusResetTimer);
+        statusResetTimer = null;
+      }
+      if (resetMs) {
+        statusResetTimer = setTimeout(() => {
+          setStatusBanner('idle', 'Live sync connected');
+        }, resetMs);
+      }
+    };
+
+    const formatSavedTime = (isoTime) => {
+      if (!isoTime) return '';
+      const date = new Date(isoTime);
+      if (Number.isNaN(date.getTime())) return '';
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    };
+
+    const readErrorDetails = async (response) => {
+      const fallback = `HTTP ${response.status}`;
+      try {
+        const text = await response.text();
+        if (!text) return fallback;
+        try {
+          const parsed = JSON.parse(text);
+          if (parsed && parsed.error) return `HTTP ${response.status} - ${parsed.error}`;
+          return `HTTP ${response.status} - ${text.slice(0, 180)}`;
+        } catch (_) {
+          return `HTTP ${response.status} - ${text.slice(0, 180)}`;
+        }
+      } catch (_) {
+        return fallback;
+      }
+    };
+
+    const measureAndPlace = () => {
+      const style = getComputedStyle(board);
+      const rowSize = parseFloat(style.getPropertyValue('grid-auto-rows')) || 8;
+      const gap = parseFloat(style.getPropertyValue('row-gap')) || 0;
+
+      board.querySelectorAll('.column').forEach((column) => {
+        const height = column.getBoundingClientRect().height;
+        const span = Math.max(1, Math.ceil((height + gap) / (rowSize + gap)));
+        column.style.gridRowEnd = 'span ' + span;
+      });
+    };
+
+    const persistBoardState = async (options = {}) => {
+      if (saveInFlight && !options.force) {
+        saveQueued = true;
+        return;
+      }
+
+      saveInFlight = true;
+      saveQueued = false;
+      setStatusBanner('saving', 'Saving board...');
+
+      try {
+        const response = await fetch(STATE_API_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          cache: 'no-store',
+          keepalive: Boolean(options.keepalive),
+          body: board.innerHTML
+        });
+
+        if (!response.ok) {
+          const details = await readErrorDetails(response);
+          throw new Error(details);
+        }
+
+        const payload = await response.json();
+        if (payload && payload.updatedAt) {
+          lastKnownUpdatedAt = payload.updatedAt;
+          setStatusBanner('saved', `Saved at ${formatSavedTime(payload.updatedAt)}`, 2500);
+        } else {
+          setStatusBanner('saved', 'Saved', 2500);
+        }
+      } catch (error) {
+        console.error('Failed to persist board state', error);
+        setStatusBanner('error', `Save failed: ${error.message}`);
+      } finally {
+        saveInFlight = false;
+        if (saveQueued) scheduleSave(0);
+      }
+    };
+
+    const scheduleSave = (delayMs = SAVE_DEBOUNCE_MS) => {
+      if (isApplyingRemoteState) return;
+
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveTimer = null;
+        persistBoardState();
+      }, delayMs);
+    };
+
+    const saveBoardState = () => {
+      scheduleSave();
+    };
+
+    const fetchBoardState = async () => {
+      try {
+        const response = await fetch(STATE_API_URL, { cache: 'no-store' });
+        if (!response.ok) {
+          const details = await readErrorDetails(response);
+          throw new Error(details);
+        }
+        const payload = await response.json();
+        return {
+          boardHtml: typeof payload.boardHtml === 'string' ? payload.boardHtml : '',
+          updatedAt: payload.updatedAt || null
+        };
+      } catch (error) {
+        console.error('Failed to fetch board state', error);
+        setStatusBanner('error', `Sync failed: ${error.message}`);
+        return null;
+      }
+    };
+
+    const updateCounts = () => {
+      board.querySelectorAll('.column').forEach((column) => {
+        const count = column.querySelectorAll('.col-body .card').length;
+        const badge = column.querySelector('.count-badge');
+        if (badge) badge.textContent = count + (count === 1 ? ' ticket' : ' tickets');
+      });
+    };
+
+    const ensureDoneColumnExists = () => {
+      if (board.querySelector('#' + DONE_COLUMN_ID)) return;
+
+      const column = document.createElement('div');
+      column.className = 'column';
+      column.id = DONE_COLUMN_ID;
+      column.innerHTML = [
+        '<div class="col-header" style="background:var(--col-done-group)">',
+        '<h2>Done/In progress</h2>',
+        '<div class="col-meta">Grouped from cards tagged DONE / IN PROGRESS</div>',
+        '<div class="count-badge">0 tickets</div>',
+        '</div>',
+        '<div class="col-body"></div>'
+      ].join('');
+      board.append(column);
+    };
+
+    const createColumn = (titleText, backgroundColor) => {
+      const title = (titleText || '').trim() || 'New column';
+      const bg = (backgroundColor || DEFAULT_COLUMN_COLOR).trim();
+      const column = document.createElement('div');
+      column.className = 'column';
+      column.innerHTML = [
+        `<div class="col-header" style="background:${bg}">`,
+        `<h2>${title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h2>`,
+        '<div class="col-meta">New column</div>',
+        '<div class="count-badge">0 tickets</div>',
+        '</div>',
+        '<div class="col-body"></div>'
+      ].join('');
+      return column;
+    };
+
+    const rgbToHex = (rgb) => {
+      const match = (rgb || '').match(/\d+/g);
+      if (!match || match.length < 3) return DEFAULT_COLUMN_COLOR;
+      const [r, g, b] = match.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0'));
+      return `#${r}${g}${b}`;
+    };
+
+    const normalizeHex = (value, fallback) => {
+      const clean = (value || '').trim();
+      const withHash = clean.startsWith('#') ? clean : `#${clean}`;
+      if (/^#[0-9a-fA-F]{6}$/.test(withHash)) return withHash.toLowerCase();
+      return fallback || DEFAULT_COLUMN_COLOR;
+    };
+
+    const closeColumnDialog = () => {
+      if (!activeColumnDialog) return;
+      activeColumnDialog.remove();
+      activeColumnDialog = null;
+    };
+
+    const openColumnDialog = (column) => {
+      closeColumnDialog();
+      const isEditing = Boolean(column);
+      const header = column?.querySelector('.col-header');
+      const initialTitle = (column?.querySelector('.col-header h2')?.textContent || '').trim();
+      const initialColor = column
+        ? (normalizeHex(
+            header?.style?.backgroundColor || rgbToHex(getComputedStyle(header || document.body).backgroundColor),
+            DEFAULT_COLUMN_COLOR
+          ) || DEFAULT_COLUMN_COLOR)
+        : DEFAULT_COLUMN_COLOR;
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'label-dialog-backdrop';
+      const dialog = document.createElement('div');
+      dialog.className = 'label-dialog';
+
+      const title = document.createElement('h3');
+      title.textContent = isEditing ? 'Edit column' : 'Add column';
+
+      const titleWrap = document.createElement('label');
+      titleWrap.textContent = 'Column title';
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.value = initialTitle;
+      titleWrap.append(titleInput);
+
+      const colorWrap = document.createElement('label');
+      colorWrap.textContent = 'Background colour';
+      const colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.value = initialColor || DEFAULT_COLUMN_COLOR;
+      const hexInput = document.createElement('input');
+      hexInput.type = 'text';
+      hexInput.value = initialColor || DEFAULT_COLUMN_COLOR;
+      hexInput.setAttribute('aria-label', 'Hex colour');
+      colorWrap.append(colorInput, hexInput);
+
+      const actions = document.createElement('div');
+      actions.className = 'label-dialog-actions';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'card-btn';
+      cancelBtn.textContent = 'Cancel';
+      const saveBtn = document.createElement('button');
+      saveBtn.type = 'button';
+      saveBtn.className = 'card-btn';
+      saveBtn.textContent = isEditing ? 'Save column' : 'Add column';
+      actions.append(cancelBtn, saveBtn);
+
+      dialog.append(title, titleWrap, colorWrap, actions);
+      backdrop.append(dialog);
+      document.body.append(backdrop);
+      activeColumnDialog = backdrop;
+
+      colorInput.addEventListener('input', () => {
+        hexInput.value = colorInput.value;
+      });
+
+      hexInput.addEventListener('input', () => {
+        const normalized = normalizeHex(hexInput.value, colorInput.value);
+        if (normalized) colorInput.value = normalized;
+      });
+
+      const closeAndFocus = () => {
+        closeColumnDialog();
+      };
+
+      cancelBtn.addEventListener('click', closeAndFocus);
+      backdrop.addEventListener('click', (event) => {
+        if (event.target === backdrop) closeAndFocus();
+      });
+
+      saveBtn.addEventListener('click', () => {
+        const titleText = (titleInput.value || '').trim();
+        if (!titleText) return;
+        const color = normalizeHex(hexInput.value, colorInput.value);
+
+        if (isEditing && column) {
+          const heading = column.querySelector('.col-header h2');
+          if (heading) heading.textContent = titleText;
+          const colHeader = column.querySelector('.col-header');
+          if (colHeader) colHeader.style.background = color;
+          ensureColumnControls(column);
+        } else {
+          const newColumn = createColumn(titleText, color);
+          const firstColumn = board.querySelector('.column');
+          if (firstColumn) {
+            board.insertBefore(newColumn, firstColumn);
+          } else {
+            board.append(newColumn);
+          }
+          setupColumn(newColumn);
+          if (resizeObserver) resizeObserver.observe(newColumn);
+        }
+
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        closeAndFocus();
+      });
+
+      titleInput.focus();
+      titleInput.select();
+    };
+
+    const ensureBoardActions = () => {
+      let actions = document.querySelector('.board-actions');
+      if (!actions) {
+        actions = document.createElement('div');
+        actions.className = 'board-actions';
+        board.parentNode.insertBefore(actions, board);
+      }
+
+      let addColumnBtn = actions.querySelector('.add-column-btn');
+      if (!addColumnBtn) {
+        addColumnBtn = document.createElement('button');
+        addColumnBtn.type = 'button';
+        addColumnBtn.className = 'add-column-btn';
+        addColumnBtn.textContent = '+ Add a column';
+        actions.append(addColumnBtn);
+      }
+
+      bindOnce(addColumnBtn, 'AddColumn', 'click', () => {
+        openColumnDialog();
+      });
+    };
+
+    const isDoneInProgressCard = (card) => {
+      return [...card.querySelectorAll('.tag')].some((tag) => {
+        const text = (tag.querySelector('.tag-text')?.textContent || tag.textContent || '').trim().toLowerCase();
+        return text === DONE_LABEL;
+      });
+    };
+
+    const groupDoneInProgressCards = () => {
+      const doneColumn = board.querySelector('#' + DONE_COLUMN_ID);
+      if (!doneColumn) return;
+
+      const doneBody = doneColumn.querySelector('.col-body');
+      if (!doneBody) return;
+
+      const addBtn = doneBody.querySelector('.add-card-btn');
+      const cards = [...board.querySelectorAll('.column .col-body .card')];
+
+      cards.forEach((card) => {
+        if (!isDoneInProgressCard(card)) return;
+        if (doneBody.contains(card)) return;
+
+        if (addBtn) {
+          doneBody.insertBefore(card, addBtn);
+        } else {
+          doneBody.append(card);
+        }
+      });
+    };
+
+    const afterDragTarget = (container, y) => {
+      const cards = [...container.querySelectorAll('.card:not(.dragging)')];
+      return cards.reduce((closest, card) => {
+        const box = card.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) return { offset, element: card };
+        return closest;
+      }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+    };
+
+    const makeElementEditable = (el) => {
+      el.classList.add('editable');
+      el.setAttribute('contenteditable', 'plaintext-only');
+      el.setAttribute('spellcheck', 'true');
+      normalizePlainText(el);
+    };
+
+    const normalizePlainText = (el) => {
+      if (!el) return;
+      const text = el.textContent || '';
+      el.textContent = text;
+    };
+
+    const insertPlainText = (target, text) => {
+      const selection = window.getSelection && window.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        target.textContent += text;
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(document.createTextNode(text));
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    };
+
+    const handlePaste = (event) => {
+      const target = event.target;
+      if (!target || !target.isContentEditable) return;
+      if (!target.classList.contains('editable')) return;
+      const text = event.clipboardData?.getData('text/plain');
+      if (typeof text !== 'string') return;
+      event.preventDefault();
+      insertPlainText(target, text);
+    };
+
+    const makeEditable = (card) => {
+      card.querySelectorAll('.card-title, .card-note').forEach(makeElementEditable);
+      card.querySelectorAll('.dep-line').forEach(setupDepLine);
+      card.querySelectorAll('.tag').forEach(setupTag);
+    };
+
+    const bindOnce = (el, key, type, handler) => {
+      if (!el) return;
+      const flag = type + ':' + key;
+      if (!el.__boundHandlers) el.__boundHandlers = Object.create(null);
+      if (el.__boundHandlers[flag]) return;
+      el.addEventListener(type, handler);
+      el.__boundHandlers[flag] = true;
+    };
+
+    const applyTagColor = (tag, colorKey) => {
+      const key = colorKey || 'default';
+      const color = TAG_COLORS[key] || TAG_COLORS.default;
+      tag.dataset.colorKey = key;
+      tag.style.background = color.bg;
+      tag.style.borderColor = color.border;
+      tag.style.color = color.text;
+    };
+
+    const normalizedLabel = (label) => (label || '').trim().toLowerCase();
+
+    const collectExistingLabels = () => {
+      const labels = new Map();
+      board.querySelectorAll('.tag').forEach((tag) => {
+        const value = (tag.querySelector('.tag-text')?.textContent || '').trim();
+        if (!value) return;
+        const key = normalizedLabel(value);
+        if (!labels.has(key)) {
+          labels.set(key, {
+            text: value,
+            colorKey: PRESET_LABEL_COLORS[key] || tag.dataset.colorKey || 'default'
+          });
+        }
+      });
+      return [...labels.values()].sort((a, b) => a.text.localeCompare(b.text));
+    };
+
+    const closeLabelDialog = () => {
+      if (!activeLabelDialog) return;
+      activeLabelDialog.remove();
+      activeLabelDialog = null;
+    };
+
+    const openLabelDialog = (card, tag) => {
+      closeLabelDialog();
+      const labels = collectExistingLabels();
+      const initialText = (tag?.querySelector('.tag-text')?.textContent || '').trim();
+      const initialColor = PRESET_LABEL_COLORS[normalizedLabel(initialText)] || tag?.dataset.colorKey || 'default';
+      const isEditing = Boolean(tag);
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'label-dialog-backdrop';
+
+      const dialog = document.createElement('div');
+      dialog.className = 'label-dialog';
+
+      const title = document.createElement('h3');
+      title.textContent = isEditing ? 'Edit label' : 'Add label';
+
+      const labelSelectWrap = document.createElement('label');
+      labelSelectWrap.textContent = 'Choose existing label';
+      const labelSelect = document.createElement('select');
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = '-- Select --';
+      labelSelect.append(placeholder);
+      labels.forEach((label) => {
+        const option = document.createElement('option');
+        option.value = label.text;
+        option.textContent = label.text;
+        labelSelect.append(option);
+      });
+      labelSelectWrap.append(labelSelect);
+
+      const textWrap = document.createElement('label');
+      textWrap.textContent = 'Label text';
+      const textInput = document.createElement('input');
+      textInput.type = 'text';
+      textInput.value = initialText;
+      textWrap.append(textInput);
+
+      const colorWrap = document.createElement('label');
+      colorWrap.textContent = 'Label color';
+      const colorSelect = document.createElement('select');
+      Object.keys(TAG_COLORS).forEach((key) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = key[0].toUpperCase() + key.slice(1);
+        colorSelect.append(option);
+      });
+      colorSelect.value = TAG_COLORS[initialColor] ? initialColor : 'default';
+      colorWrap.append(colorSelect);
+
+      const actions = document.createElement('div');
+      actions.className = 'label-dialog-actions';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.type = 'button';
+      cancelBtn.className = 'card-btn';
+      cancelBtn.textContent = 'Cancel';
+      const saveBtn = document.createElement('button');
+      saveBtn.type = 'button';
+      saveBtn.className = 'card-btn';
+      saveBtn.textContent = isEditing ? 'Save label' : 'Add label';
+      actions.append(cancelBtn, saveBtn);
+
+      dialog.append(title, labelSelectWrap, textWrap, colorWrap, actions);
+      backdrop.append(dialog);
+      document.body.append(backdrop);
+      activeLabelDialog = backdrop;
+
+      if (initialText) labelSelect.value = initialText;
+      labelSelect.addEventListener('change', () => {
+        if (!labelSelect.value) return;
+        textInput.value = labelSelect.value;
+        const match = labels.find((item) => item.text === labelSelect.value);
+        if (match && TAG_COLORS[match.colorKey]) colorSelect.value = match.colorKey;
+      });
+
+      const closeAndFocus = () => {
+        closeLabelDialog();
+        const titleEl = card.querySelector('.card-title');
+        if (titleEl) titleEl.focus();
+      };
+
+      cancelBtn.addEventListener('click', closeAndFocus);
+      backdrop.addEventListener('click', (event) => {
+        if (event.target === backdrop) closeAndFocus();
+      });
+
+      saveBtn.addEventListener('click', () => {
+        const labelText = (textInput.value || '').trim();
+        if (!labelText) return;
+        const forcedColor = PRESET_LABEL_COLORS[normalizedLabel(labelText)];
+        const selectedColor = forcedColor || colorSelect.value;
+
+        let targetTag = tag;
+        if (!targetTag) {
+          let tags = card.querySelector('.tags');
+          if (!tags) {
+            tags = document.createElement('div');
+            tags.className = 'tags';
+            card.append(tags);
+          }
+          targetTag = document.createElement('span');
+          targetTag.className = 'tag tag-custom';
+          tags.append(targetTag);
+        }
+
+        const textEl = ensureTagStructure(targetTag);
+        textEl.textContent = labelText;
+        setupTag(targetTag);
+        applyTagColor(targetTag, selectedColor);
+
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        closeAndFocus();
+      });
+
+      textInput.focus();
+      textInput.select();
+    };
+
+    const ensureTagStructure = (tag) => {
+      let textEl = tag.querySelector('.tag-text');
+      if (textEl) return textEl;
+
+      textEl = document.createElement('span');
+      textEl.className = 'tag-text';
+      textEl.textContent = (tag.textContent || '').trim();
+      tag.textContent = '';
+      tag.append(textEl);
+      return textEl;
+    };
+
+    const ensureDepLineStructure = (depLine) => {
+      let textEl = depLine.querySelector('.dep-line-text');
+      if (textEl) return textEl;
+
+      textEl = document.createElement('span');
+      textEl.className = 'dep-line-text';
+      textEl.textContent = (depLine.textContent || '').trim();
+      depLine.textContent = '';
+      depLine.append(textEl);
+      return textEl;
+    };
+
+    const setupDepLine = (depLine) => {
+      const textEl = ensureDepLineStructure(depLine);
+      makeElementEditable(textEl);
+
+      let removeBtn = depLine.querySelector('.dep-remove');
+      if (!removeBtn) {
+        removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'dep-remove';
+        removeBtn.setAttribute('aria-label', 'Delete note');
+        removeBtn.textContent = '×';
+        depLine.append(removeBtn);
+      }
+
+      removeBtn.draggable = false;
+      bindOnce(removeBtn, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      bindOnce(removeBtn, 'DeleteNote', 'click', () => {
+        depLine.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const addOrEditNote = (card) => {
+      const existing = card.querySelector('.dep-line');
+      const existingText = (existing?.querySelector('.dep-line-text')?.textContent || existing?.textContent || '').trim();
+      const input = window.prompt('Add or edit note', existingText || '↳ ');
+      if (input === null) return;
+      const noteText = (input || '').trim();
+
+      if (!noteText) {
+        if (existing) existing.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+        return;
+      }
+
+      let depLine = existing;
+      if (!depLine) {
+        depLine = document.createElement('div');
+        depLine.className = 'dep-line';
+        card.append(depLine);
+      }
+
+      const textEl = ensureDepLineStructure(depLine);
+      textEl.textContent = noteText;
+      setupDepLine(depLine);
+      groupDoneInProgressCards();
+      updateCounts();
+      measureAndPlace();
+      saveBoardState();
+    };
+
+    const setupTag = (tag) => {
+      const textEl = ensureTagStructure(tag);
+      makeElementEditable(textEl);
+
+      if (tag.dataset.colorKey) applyTagColor(tag, tag.dataset.colorKey);
+
+      let removeBtn = tag.querySelector('.tag-remove');
+      if (!removeBtn) {
+        removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'tag-remove';
+        removeBtn.setAttribute('aria-label', 'Delete tag');
+        removeBtn.textContent = '×';
+        tag.append(removeBtn);
+      }
+
+      removeBtn.draggable = false;
+      bindOnce(removeBtn, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      bindOnce(removeBtn, 'DeleteTag', 'click', (event) => {
+        event.stopPropagation();
+        const tags = tag.closest('.tags');
+        tag.remove();
+        if (tags && !tags.querySelector('.tag')) tags.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
+      bindOnce(tag, 'EditTag', 'dblclick', (event) => {
+        if (event.target && event.target.closest('.tag-remove')) return;
+        event.preventDefault();
+        const card = tag.closest('.card');
+        if (!card) return;
+        openLabelDialog(card, tag);
+      });
+    };
+
+    const ensureControls = (card) => {
+      let controls = card.querySelector('.card-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.className = 'card-controls';
+        card.prepend(controls);
+      }
+
+      controls.innerHTML = '';
+
+      const dragBtn = document.createElement('a');
+      dragBtn.href = '#';
+      dragBtn.className = 'card-action-link drag-handle';
+      dragBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Drag icon"><path d="M12 3v18"/><path d="M12 3l-3 3"/><path d="M12 3l3 3"/><path d="M12 21l-3-3"/><path d="M12 21l3-3"/><path d="M3 12h18"/><path d="M3 12l3-3"/><path d="M3 12l3 3"/><path d="M21 12l-3-3"/><path d="M21 12l-3 3"/></svg>';
+      dragBtn.setAttribute('aria-label', 'Drag card');
+      dragBtn.title = 'Drag card';
+
+      const labelBtn = document.createElement('a');
+      labelBtn.href = '#';
+      labelBtn.className = 'card-action-link';
+      labelBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Label icon"><path d="M20 10l-8.5 8.5a2 2 0 0 1-2.8 0L3 12.8V4h8.8L20 10z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
+      labelBtn.setAttribute('aria-label', 'Add custom label');
+      labelBtn.title = 'Add label';
+
+      const noteBtn = document.createElement('a');
+      noteBtn.href = '#';
+      noteBtn.className = 'card-action-link';
+      noteBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Note icon"><path d="M4 5h16v12H9l-5 4V5z"/></svg>';
+      noteBtn.setAttribute('aria-label', 'Add or edit note');
+      noteBtn.title = 'Add or edit note';
+
+      const delBtn = document.createElement('a');
+      delBtn.href = '#';
+      delBtn.className = 'card-action-link';
+      delBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Delete icon"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';
+      delBtn.setAttribute('aria-label', 'Delete card');
+      delBtn.title = 'Delete card';
+
+      controls.append(dragBtn, labelBtn, noteBtn, delBtn);
+
+      controls.querySelectorAll('.card-action-link').forEach((link) => {
+        link.draggable = false;
+        bindOnce(link, 'NoNav', 'click', (event) => event.preventDefault());
+        bindOnce(link, 'NoDrag', 'dragstart', (event) => event.preventDefault());
+      });
+
+      bindOnce(labelBtn, 'Label', 'click', (event) => {
+        event.preventDefault();
+        openLabelDialog(card);
+      });
+
+      bindOnce(noteBtn, 'Note', 'click', (event) => {
+        event.preventDefault();
+        addOrEditNote(card);
+      });
+
+      bindOnce(delBtn, 'Delete', 'click', (event) => {
+        event.preventDefault();
+        const title = (card.querySelector('.card-title')?.textContent || 'this card').trim();
+        if (!window.confirm(`Delete ticket "${title}"? This cannot be undone.`)) return;
+        card.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const ensureColumnControls = (column) => {
+      const colHeader = column.querySelector('.col-header');
+      if (!colHeader) return;
+      const heading = colHeader.querySelector('h2');
+
+      let topRow = colHeader.querySelector('.col-header-top');
+      if (!topRow) {
+        topRow = document.createElement('div');
+        topRow.className = 'col-header-top';
+        colHeader.prepend(topRow);
+      }
+
+      let controls = colHeader.querySelector('.col-controls');
+      if (!controls) {
+        controls = document.createElement('div');
+        controls.className = 'col-controls';
+      }
+      if (controls.parentElement !== topRow) {
+        topRow.append(controls);
+      }
+
+      // Normalize previously saved markup: heading must sit below the link row.
+      if (heading && heading.parentElement === topRow) {
+        colHeader.insertBefore(heading, topRow.nextSibling);
+      }
+
+      controls.innerHTML = '';
+      const colorBtn = document.createElement('a');
+      colorBtn.href = '#';
+      colorBtn.className = 'col-action-link';
+      colorBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Change colour icon"><path d="M12 3C9 6.6 6 9.7 6 14a6 6 0 0 0 12 0c0-4.3-3-7.4-6-11z"/><path d="M12 5.2c2.1 2.8 4.4 5.5 4.4 8.8A4.4 4.4 0 0 1 12 18.4z" fill="currentColor" stroke="none"/><path d="M12 7.5V20"/></svg>';
+      colorBtn.setAttribute('aria-label', 'Edit column colour');
+      colorBtn.title = 'Change colour';
+      controls.append(colorBtn);
+
+      const delBtn = document.createElement('a');
+      delBtn.href = '#';
+      delBtn.className = 'col-action-link';
+      delBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Delete column icon"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';
+      delBtn.setAttribute('aria-label', 'Delete column');
+      delBtn.title = 'Delete column';
+      controls.append(delBtn);
+
+      bindOnce(colorBtn, 'EditColumnColour', 'click', (event) => {
+        event.preventDefault();
+        openColumnDialog(column);
+      });
+
+      bindOnce(delBtn, 'DeleteColumn', 'click', (event) => {
+        event.preventDefault();
+        const title = (colHeader.querySelector('h2')?.textContent || 'this column').trim();
+        const count = column.querySelectorAll('.col-body .card').length;
+        const cardText = count === 1 ? 'card' : 'cards';
+        if (!window.confirm(`Delete column "${title}" and its ${count} ${cardText}?`)) return;
+
+        column.remove();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const setupColumnDrag = (column) => {
+      const header = column.querySelector('.col-header');
+      if (!header) return;
+      header.draggable = true;
+
+      bindOnce(header, 'ColumnDragStart', 'dragstart', (event) => {
+        if (draggedCard) {
+          event.preventDefault();
+          return;
+        }
+        const active = document.activeElement;
+        const editingHeader = active && header.contains(active) && active.isContentEditable;
+        if (editingHeader) {
+          event.preventDefault();
+          return;
+        }
+
+        draggedColumn = column;
+        column.classList.add('column-dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', 'column');
+      });
+
+      bindOnce(header, 'ColumnDragEnd', 'dragend', () => {
+        if (!draggedColumn) return;
+        column.classList.remove('column-dragging');
+        draggedColumn = null;
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const setupCard = (card) => {
+      makeEditable(card);
+      ensureControls(card);
+      card.draggable = true;
+      if (card.__setupDone) return;
+      card.__setupDone = true;
+
+      card.addEventListener('dragstart', (event) => {
+        const active = document.activeElement;
+        const editingThisCard = active && active.closest && active.closest('.card') === card && active.isContentEditable;
+        if (editingThisCard) {
+          event.preventDefault();
+          return;
+        }
+
+        draggedCard = card;
+        card.classList.add('dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', 'card');
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        board.querySelectorAll('.col-body').forEach((colBody) => colBody.classList.remove('drag-over'));
+        draggedCard = null;
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
+      card.addEventListener('input', () => {
+        groupDoneInProgressCards();
+        measureAndPlace();
+        saveBoardState();
+      });
+    };
+
+    const createCard = () => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = [
+        '<div class="card-title">New card title</div>',
+        '<div class="card-note">Add details...</div>'
+      ].join('');
+      setupCard(card);
+      return card;
+    };
+
+    const setupColumn = (column) => {
+      const colBody = column.querySelector('.col-body');
+      if (!colBody) return;
+      ensureColumnControls(column);
+      setupColumnDrag(column);
+      const heading = column.querySelector('.col-header h2');
+      const meta = column.querySelector('.col-header .col-meta');
+      if (heading) makeElementEditable(heading);
+      if (meta) makeElementEditable(meta);
+      const colHeader = column.querySelector('.col-header');
+      if (colHeader) {
+        bindOnce(colHeader, 'HeaderInput', 'input', () => {
+          measureAndPlace();
+          saveBoardState();
+        });
+      }
+
+      let addBtn = colBody.querySelector('.add-card-btn');
+      if (!addBtn) {
+        addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'add-card-btn';
+        addBtn.textContent = '+ Add a card';
+        colBody.append(addBtn);
+      }
+
+      bindOnce(addBtn, 'AddCard', 'click', () => {
+        const card = createCard();
+        colBody.append(card);
+        const title = card.querySelector('.card-title');
+        if (title) title.focus();
+        groupDoneInProgressCards();
+        updateCounts();
+        measureAndPlace();
+        saveBoardState();
+      });
+
+      bindOnce(colBody, 'DragOver', 'dragover', (event) => {
+        if (draggedColumn) return;
+        event.preventDefault();
+        colBody.classList.add('drag-over');
+        if (!draggedCard) return;
+
+        const nextCard = afterDragTarget(colBody, event.clientY);
+        const addBtn = colBody.querySelector('.add-card-btn');
+
+        if (nextCard) {
+          colBody.insertBefore(draggedCard, nextCard);
+        } else if (addBtn) {
+          colBody.insertBefore(draggedCard, addBtn);
+        } else {
+          colBody.append(draggedCard);
+        }
+      });
+
+      bindOnce(colBody, 'DragLeave', 'dragleave', (event) => {
+        if (!colBody.contains(event.relatedTarget)) {
+          colBody.classList.remove('drag-over');
+        }
+      });
+
+      bindOnce(colBody, 'Drop', 'drop', () => {
+        colBody.classList.remove('drag-over');
+      });
+    };
+
+    bindOnce(board, 'ColumnDragOver', 'dragover', (event) => {
+      if (!draggedColumn || draggedCard) return;
+      event.preventDefault();
+
+      const target = event.target.closest('.column');
+      if (!target || target === draggedColumn) return;
+
+      const box = target.getBoundingClientRect();
+      const before = event.clientY < box.top + box.height / 2 || event.clientX < box.left + box.width / 2;
+      if (before) {
+        board.insertBefore(draggedColumn, target);
+      } else if (target.nextElementSibling) {
+        board.insertBefore(draggedColumn, target.nextElementSibling);
+      } else {
+        board.append(draggedColumn);
+      }
+    });
+
+    bindOnce(board, 'ColumnDrop', 'drop', () => {
+      if (!draggedColumn) return;
+      draggedColumn.classList.remove('column-dragging');
+      draggedColumn = null;
+      measureAndPlace();
+      saveBoardState();
+    });
+
+    const initializeBoard = () => {
+      board.querySelectorAll('.card').forEach(setupCard);
+      board.querySelectorAll('.column').forEach(setupColumn);
+      updateCounts();
+      measureAndPlace();
+    };
+
+    const rafMeasure = () => requestAnimationFrame(measureAndPlace);
+    window.addEventListener('load', rafMeasure);
+    window.addEventListener('resize', rafMeasure);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(rafMeasure);
+    }
+
+    resizeObserver = new ResizeObserver(rafMeasure);
+    board.addEventListener('input', rafMeasure);
+
+    const mountBoard = () => {
+      resizeObserver.disconnect();
+      ensureBoardActions();
+      ensureDoneColumnExists();
+      board.querySelectorAll('.column').forEach((column) => resizeObserver.observe(column));
+      initializeBoard();
+      groupDoneInProgressCards();
+      updateCounts();
+      measureAndPlace();
+    };
+
+    const applyRemoteState = (boardHtml, updatedAt) => {
+      if (typeof boardHtml !== 'string') return;
+      isApplyingRemoteState = true;
+      try {
+        board.innerHTML = boardHtml;
+        mountBoard();
+        if (updatedAt) lastKnownUpdatedAt = updatedAt;
+      } finally {
+        isApplyingRemoteState = false;
+      }
+    };
+
+    const pullLatestState = async () => {
+      const remoteState = await fetchBoardState();
+      if (!remoteState || !remoteState.boardHtml) return;
+
+      const hasPendingLocalChanges = Boolean(saveTimer) || saveInFlight || saveQueued;
+      if (hasPendingLocalChanges) return;
+      if (remoteState.updatedAt && remoteState.updatedAt === lastKnownUpdatedAt) return;
+      if (remoteState.boardHtml === board.innerHTML) {
+        if (remoteState.updatedAt) lastKnownUpdatedAt = remoteState.updatedAt;
+        return;
+      }
+
+      applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+      setStatusBanner('syncing', 'Board updated from another session', 2500);
+    };
+
+    const flushPendingSave = () => {
+      if (saveTimer) {
+        clearTimeout(saveTimer);
+        saveTimer = null;
+      }
+      if (!isApplyingRemoteState) {
+        persistBoardState({ keepalive: true, force: true });
+      }
+    };
+
+    const initializeFromSharedState = async () => {
+      setStatusBanner('syncing', 'Connecting to shared board...');
+      const remoteState = await fetchBoardState();
+      if (remoteState && remoteState.boardHtml) {
+        applyRemoteState(remoteState.boardHtml, remoteState.updatedAt);
+        setStatusBanner('idle', 'Live sync connected');
+      } else {
+        mountBoard();
+        persistBoardState();
+      }
+
+      setInterval(pullLatestState, POLL_INTERVAL_MS);
+    };
+
+    window.addEventListener('beforeunload', flushPendingSave);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flushPendingSave();
+    });
+    document.addEventListener('paste', handlePaste);
+
+    statusBanner = document.createElement('div');
+    statusBanner.className = 'save-status-banner is-idle';
+    statusBanner.setAttribute('role', 'status');
+    statusBanner.setAttribute('aria-live', 'polite');
+    statusBanner.textContent = 'Starting sync...';
+    document.body.append(statusBanner);
+
+    initializeFromSharedState();
+  };
+
+  const bootBoard = async () => {
+    await loadContent();
+    startBoard();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootBoard);
+  } else {
+    bootBoard();
+  }
+</script>
+</body>
+</html>
