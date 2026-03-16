@@ -1,0 +1,31 @@
+---
+description: 
+alwaysApply: true
+---
+
+# GOV.UK Prototype Kit Cursor Rules
+
+## General Principles
+- You are an expert in GDS (Government Digital Service) design standards and the GOV.UK Prototype Kit.
+- Prioritize accessibility (WCAG 2.1 AA) in all generated code.
+- Use the GOV.UK Design System components and patterns.
+
+## HTML & Nunjucks (.html)
+<!-- - Use Nunjucks templates (`.html` files) instead of raw HTML when possible.-->
+- Always extend `layouts/new-nav.html.html` (this project's base layout).
+<!-- - Use macros for components (e.g., `govukInput`, `govukButton`). -->
+- Do not create custom CSS for elements covered by the GOV.UK frontend library.
+
+## Styling & Components
+- Use `govuk-frontend` classes.
+- Use `govuk-!-margin-*` and `govuk-!-padding-*` helper classes for spacing, not custom CSS.
+- Ensure all forms use proper error handling and input validation styling.
+
+## Content
+- Use simple, direct language (Plain English).
+- Do not use exclamation marks.
+- Follow GOV.UK tone of voice.
+
+## Code Structure
+- Follow the structure of the `app` folder.
+- Keep `routes.js` clean; create new route files for specific user journeys if necessary.

@@ -1,0 +1,75 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Upload proof of your identity – Access your teaching qualifications – GOV.UK
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: "The file must be smaller than 10MB",
+          href: "#evidence-upload"
+        },
+        {
+          text: "The selected file must be a PDF, PNG or JPEG",
+          href: "#evidence-upload"
+        }
+      ]
+    }) }} -->
+
+    <h1 class="govuk-heading-xl">Upload proof of your identity</h1>
+
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">Documents we accept</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">We accept the following documents:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>passport</li>
+          <li>driving licence</li>
+          <li>birth certificate</li>
+        </ul>
+      </div>
+    </details>
+
+    <form method="post" action="check-your-details-support-request" enctype="multipart/form-data">
+
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--s" for="evidence-upload">
+          Upload a file
+        </label>
+        <div class="govuk-hint" id="evidence-upload-hint">
+          You can upload a PDF, PNG or JPEG file no larger than 10MB.
+        </div>
+       <!--  <p id="evidence-upload-error-1" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 10MB
+        </p>
+        <p id="evidence-upload-error-2" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span> The selected file must be a PDF, PNG or JPEG
+        </p> -->
+        <input class="govuk-file-upload govuk-file-upload--error" id="evidence-upload" name="evidenceUpload" type="file" accept=".pdf,.png,.jpg,.jpeg" aria-describedby="evidence-upload-hint evidence-upload-error-1 evidence-upload-error-2">
+      </div>
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

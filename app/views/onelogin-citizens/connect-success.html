@@ -1,0 +1,20 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  GOV.UK One Login connected
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Your GOV.UK One Login is now connected to your teaching record"
+      }) }}
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+      <p class="govuk-body">You can now <a class="govuk-link" href="/onelogin-citizens/view-teaching-qualifications">view your teaching qualifications</a>.</p>
+
+     
+    </div>
+  </div>
+{% endblock %}

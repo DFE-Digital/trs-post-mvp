@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Find your teaching record – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="sign-in">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-ayqt-2 .govuk-button { margin-top: 24px; }
+  .interruption-card { background: #1d70b8; color: #fff; padding: 2rem; margin-top: 1rem; border-radius: 2px; }
+  .interruption-card__heading { color: #fff; margin-top: 0; }
+  .interruption-card__content p { color: #fff; margin-bottom: 0.75rem; }
+  .interruption-card__actions { margin-top: 1.5rem; }
+  @media (min-width: 40rem) { .interruption-card { padding: 2.5rem; } }
+</style>
+
+<div class="onelogin-ayqt-2">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="interruption-card" role="region" aria-labelledby="find-record-heading">
+      <h1 id="find-record-heading" class="govuk-heading-xl interruption-card__heading">Find your teaching record</h1>
+
+      <div class="interruption-card__content">
+        <p class="govuk-body">You've signed in with GOV.UK One Login and verified your identity.</p>
+        <p class="govuk-body">We'll ask for your National Insurance number or teacher reference number (TRN) to find your teaching record.</p>
+        <p class="govuk-body">You'll only need to do this once.</p>
+
+        <div class="govuk-button-group interruption-card__actions">
+          <a href="know-nino" role="button" draggable="false" class="govuk-button govuk-button--inverse" data-module="govuk-button">
+            Find your teaching record
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

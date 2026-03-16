@@ -45,9 +45,6 @@ router.post("/verify-teacher-id-match", function (req, res) {
 
 
 
-
-
-
 /// OneLogin match
 router.post("/match-teacher-id", function (req, res) {
   var userChoice = req.session.data["connect"]; 
@@ -64,6 +61,90 @@ router.post("/match-teacher-id", function (req, res) {
     res.redirect("onelogin/id-verification/confirm-connect"); // nothing selected
   }
 });
+
+
+/// AYTQ ////
+/// OneLogin ID verified journeys (Figma flow)
+
+// Step 1: scenario selection — all scenarios start from find-your-record
+router.post('/onelogin-citizens/select-scenario', (req, res) => {
+  const scenario = req.body.idVerifiedScenario
+  if (scenario === 'svf-scenario-3') {
+    return res.redirect('/onelogin-citizens/more-info-needed')
+  }
+  return res.redirect('/onelogin-citizens/find-your-record')
+})
+
+// Step 2: know-nino
+// Scenario 1 (yes + match found)  → can-connect
+// Scenario 4 (yes + no match)     → dead-end-no-trn
+// Scenarios 2 & 3 (no)            → has-trn
+router.post('/onelogin-citizens/know-nino', (req, res) => {
+  const ninoKnown = req.session.data['nino-known']
+  const scenario = req.session.data['idVerifiedScenario']
+
+  if (ninoKnown === 'no') {
+    if (scenario === 'scenario-1' || scenario === 'scenario-4') {
+      return res.redirect('#')
+    }
+    return res.redirect('/onelogin-citizens/has-trn')
+   
+   // return res.redirect('/onelogin-citizens/can-connect')
+  }
+
+  if (ninoKnown === 'yes') {
+    if (scenario === 'scenario-1') {
+      return res.redirect('/onelogin-citizens/connect-success')
+    }
+    if (scenario === 'scenario-4' || scenario === 'svf-scenario-3') {
+      return res.redirect('/onelogin-citizens/has-trn')
+    }
+    return res.redirect('#')
+  }
+
+  return res.redirect('/onelogin-citizens/know-nino')
+})
+
+// Step 3: has-trn (reached only via scenarios 2 and 3)
+// Scenario 2 (yes + match found)  → can-connect
+// Scenario 3 (yes + no match)     → connect-fail
+// Any (no)                        → dead-end-no-trn
+router.post('/onelogin-citizens/has-trn', (req, res) => {
+  const hasTrn = req.session.data['hasTrn']
+  const scenario = req.session.data['idVerifiedScenario']
+
+  if (hasTrn === 'yes') {
+    
+    if (scenario === 'scenario-3') {
+      return res.redirect('/onelogin-citizens/connect-fail')
+    }
+
+    if (scenario === 'scenario-4') {
+      return res.redirect('/onelogin-citizens/dead-end-no-trn')
+    }
+
+    if (scenario === 'svf-scenario-3') {
+      return res.redirect('/onelogin-citizens/upload-evidence')
+    }
+
+  
+    
+    return res.redirect('/onelogin-citizens/connect-success')
+  }
+
+  if (hasTrn === 'no') {
+    if (scenario === 'svf-scenario-3') {
+      return res.redirect('/onelogin-citizens/dead-end-no-trn')
+    }
+    if (scenario === 'scenario-2' || scenario === 'scenario-3' || scenario === 'scenario-4') {
+      return res.redirect('#')
+    }
+    return res.redirect('/onelogin-citizens/dead-end-no-trn')
+  }
+
+  return res.redirect('/onelogin-citizens/has-trn')
+})
+
 
 const BACKLOG_STATE_FILE = path.join(__dirname, 'data', 'backlog-board-state.json')
 const LIVE_PROXY_URL = process.env.LIVE_PROXY_URL || 'https://trs-post-mvp-6853f9a5ac29.herokuapp.com'

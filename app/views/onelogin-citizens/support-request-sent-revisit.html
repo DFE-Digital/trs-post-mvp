@@ -1,0 +1,23 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  Support request sent
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Support request sent",
+        html: "We're looking into your request<br><br>Your reference number is<br><strong>HDJ2123F</strong>"
+      }) }}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">What happens next</h2>
+      <p class="govuk-body">We will contact you when we have an update.</p>
+      <p class="govuk-body">You will need your reference number if you need to contact support about your request.</p>
+      <p class="govuk-body">We will email you once your request is completed. Please do not submit another support request before then.</p>
+
+      <p class="govuk-body govuk-!-margin-top-9"><a class="govuk-link" href="/onelogin-citizens/index">Return to journey scenarios</a></p>
+    </div>
+  </div>
+{% endblock %}

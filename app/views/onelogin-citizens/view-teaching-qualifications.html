@@ -1,0 +1,119 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Teaching qualifications – Access your teaching qualifications – GOV.UK
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <!-- Left column: qualifications -->
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">Victoria Smith's</span>
+    <h1 class="govuk-heading-xl">Teaching qualifications</h1>
+
+    <!-- Induction summary card -->
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Induction</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Status</dt>
+            <dd class="govuk-summary-list__value">Pass</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Completed</dt>
+            <dd class="govuk-summary-list__value">1 November 2015</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Certificate</dt>
+            <dd class="govuk-summary-list__value">
+              <a class="govuk-link" href="#">Download induction certificate</a>
+            </dd>
+          </div>
+        </dl>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Induction history</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p class="govuk-body">No previous induction records found.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- MQ 1 summary card -->
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Mandatory Qualification (MQ): specialist teacher</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Awarded</dt>
+            <dd class="govuk-summary-list__value">30 September 2015</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Specialism</dt>
+            <dd class="govuk-summary-list__value">Visual impairment</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- MQ 2 summary card -->
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Mandatory Qualification (MQ): specialist teacher</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Awarded</dt>
+            <dd class="govuk-summary-list__value">30 September 2015</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Specialism</dt>
+            <dd class="govuk-summary-list__value">Visual impairment</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right column: your details sidebar -->
+  <div class="govuk-grid-column-one-third govuk-!-margin-top-9">
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-9 govuk-!-padding-top-2">Your details</h2>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <p class="govuk-body">Name on certificates</p>
+    <p class="govuk-body govuk-!-font-weight-bold">Victoria Smith</p>
+
+    <p class="govuk-body">Date of birth</p>
+    <p class="govuk-body govuk-!-font-weight-bold">14 June 1991</p>
+
+    <p class="govuk-body">Teacher Reference Number (TRN)</p>
+    <p class="govuk-body govuk-!-font-weight-bold">1851018</p>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="#">View and change details</a>
+    </p>
+
+  </div>
+
+</div>
+
+{% endblock %}

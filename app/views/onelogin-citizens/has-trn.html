@@ -1,0 +1,62 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  Do you have a teacher reference number (TRN)?
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/onelogin-citizens/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Do you have a teacher reference number (TRN)?</h1>
+
+      <form action="/onelogin-citizens/has-trn" method="post">
+        {{ govukDetails({
+          summaryText: "About TRNs",
+          html: "<p class='govuk-body'>You will have a TRN if you have ever trained, worked or been registered to teach in England or Wales.</p><p class='govuk-body'><a class='govuk-link' href='https://www.gov.uk/guidance/teacher-reference-number-trn'>Find out more about TRNs</a> or <a class='govuk-link' href='https://find-a-lost-trn.education.gov.uk/start'>find a lost TRN</a>.</p>"
+        }) }}
+
+        {{ govukRadios({
+          name: "hasTrn",
+          fieldset: {
+            legend: {
+              text: "Select one option",
+              classes: "govuk-visually-hidden"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              conditional: {
+                html: govukInput({
+                  id: "teacher-reference-number",
+                  name: "teacherReferenceNumber",
+                  label: {
+                    text: "Teacher reference number"
+                  },
+                  value: "3007468",
+                  classes: "govuk-input--width-10"
+                })
+              }
+            },
+            {
+              value: "no",
+              text: "No"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

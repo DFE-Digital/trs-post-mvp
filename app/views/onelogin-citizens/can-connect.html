@@ -1,0 +1,48 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  Can the account be connected?
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/onelogin-citizens/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Can you connect this GOV.UK One Login account to a record?</h1>
+
+      <p class="govuk-body">Use this decision point to route to connect success or connect fail.</p>
+
+      <form action="/onelogin-citizens/can-connect" method="post">
+        {{ govukRadios({
+          name: "canConnect",
+          fieldset: {
+            legend: {
+              text: "Select one option",
+              classes: "govuk-visually-hidden"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes, connect account"
+            },
+            {
+              value: "no",
+              text: "No, send support request"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

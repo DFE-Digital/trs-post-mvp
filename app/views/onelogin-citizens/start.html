@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Find your teaching record – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .onelogin-aytq .govuk-button { margin-top: 24px; }
+</style>
+
+<div class="onelogin-aytq">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <style>
+      .interruption-card { background: #1d70b8; color: #fff; padding: 2rem; margin-top: 1rem; border-radius: 2px; }
+      .interruption-card__heading { color: #fff; margin-top: 0; }
+      .interruption-card__content p { color: #fff; margin-bottom: 0.75rem; }
+      .interruption-card__actions { margin-top: 1.5rem; }
+      .interruption-card__button { background: #fff; color: #1d70b8; border: 0; padding: 0.5rem 1rem; text-decoration: none; display: inline-block; }
+      @media (min-width: 40rem) { .interruption-card { padding: 2.5rem; } }
+    </style>
+
+    <div class="interruption-card" role="region" aria-labelledby="find-record-heading">
+      <h1 id="find-record-heading" class="govuk-heading-xl interruption-card__heading">Find your teaching record</h1>
+
+      <div class="interruption-card__content">
+        <p class="govuk-body">You’ve signed in with GOV.UK One Login and verified your identity.</p>
+        <p class="govuk-body">We’ll ask for your National Insurance number or teacher reference number (TRN) to find your teaching record.</p>
+        <p class="govuk-body">You’ll only need to do this once.</p>
+
+      
+        <div class="govuk-button-group moj-interruption-card__actions">
+          <a href="know-nino" role="button" draggable="false" class="govuk-button govuk-button--inverse" data-module="govuk-button">
+            Find your teaching record
+          </a>
+          <!-- <a class="govuk-link govuk-link--inverse" href="#">Go back to application</a> -->
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

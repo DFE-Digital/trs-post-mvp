@@ -1,0 +1,132 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  ID verified journeys
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/"
+  }) }}
+{% endblock %}
+
+
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+
+      <h1 class="govuk-heading-l">One Login AYTQ: areas 1 and 2</h1>
+
+      <h2 class="govuk-heading-m">ID verified journeys (area 1)</h2>
+      <p class="govuk-body">Designs for citizens signing in to AYTQ with One Login, where One Login is able to verify the citizen's identity and they pass directly to AYTQ without needing to go through service verification instead.</p>
+
+
+
+      <form action="/onelogin-citizens/select-scenario" method="post">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+          <!--   <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              Which scenario do you want to test?
+            </legend> -->
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-1" name="idVerifiedScenario" type="radio" value="scenario-1">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-1">
+                  Scenario 1: NI number known, match found
+                </label>
+                <div id="idVerifiedScenario-hint" class="govuk-hint govuk-radios__hint">
+                  Know NI number → match found → connect success
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-2" name="idVerifiedScenario" type="radio" value="scenario-2">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-2">
+                  Scenario 2: NI number not known, TRN known, match found
+                </label>
+                <div id="idVerifiedScenario-2-hint" class="govuk-hint govuk-radios__hint">
+                  No NI number → TRN known → match found → connect success
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-3" name="idVerifiedScenario" type="radio" value="scenario-3">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-3">
+                  Scenario 3: NI number not known, TRN known, no match
+                </label>
+                <div id="idVerifiedScenario-3-hint" class="govuk-hint govuk-radios__hint">
+                  No NI number → TRN known → no match → connect fail (support request)
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-4" name="idVerifiedScenario" type="radio" value="scenario-4">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-4">
+                  Scenario 4: NI number known, no match
+                </label>
+                <div id="idVerifiedScenario-4-hint" class="govuk-hint govuk-radios__hint">
+                  Know NI number → no match → dead end (no TRN)
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+      
+
+
+
+    
+      <h2 class="govuk-heading-m">Service verification fallback (area 2)</h2>
+
+      <p class="govuk-body">Designs for citizens signing in to AYTQ with One Login, when One Login is not able to verify the citizen's identity and they are sent for service verification instead.</p>
+
+      
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="svfScenario-3" name="idVerifiedScenario" type="radio" value="svf-scenario-3">
+                <label class="govuk-label govuk-radios__label" for="svfScenario-3">
+                  Scenario for verification fallback - covers both cases below:
+                </label>
+                <div id="svfScenario-3-hint" class="govuk-hint govuk-radios__hint">
+                  <p class="govuk-hint">Need more information to verify your identity → Enter name  → Enter DOB  → NI number → TRN known → Upload proof of your identity → no match → connect fail (support request)</p>
+                  <p class="govuk-hint">Need more information to verify your identity → Enter name  → Enter DOB  → NI number → TRN not known → dead end</p>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Continue
+        </button>
+      </form>
+
+     <!--  <h2 class="govuk-heading-m govuk-!-margin-top-8">All Figma screens – area 1 (ID verified)</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/onelogin-citizens/find-your-record">Find your teaching record</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/has-trn">Teacher reference number (TRN)</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/connect-fail">Connect fail</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/check-your-details-support-request">Check your details</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent">Support request sent - first visit</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent-revisit">Support request sent - revisit</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/connect-success">Connect success</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/account-page-service-with-one-login">Account page: service with One Login</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/dead-end-no-trn">No TRN - dead end</a></li>
+      </ul>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">All Figma screens – area 2 (Service verification fallback)</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/onelogin-citizens/find-your-record">Find your teaching record</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/know-nino">Do you know your National Insurance number?</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/has-trn">Teacher reference number (TRN)</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/connect-fail">Connect fail</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/check-your-details-support-request">Check your details</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent">Support request sent - first visit</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent-revisit">Support request sent - revisit</a></li>
+      </ul> -->
+    </div>
+  </div>
+{% endblock %}

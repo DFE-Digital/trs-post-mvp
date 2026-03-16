@@ -1,0 +1,69 @@
+{% extends "layouts/new-nav.html.html" %}
+
+{% block pageTitle %}
+  ID verified journeys
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">ID verified journeys</h1>
+
+      <p class="govuk-body">Choose a scenario to run through the journey flow.</p>
+
+      <form action="/onelogin-citizens/select-scenario" method="post">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              Which scenario do you want to test?
+            </legend>
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario" name="idVerifiedScenario" type="radio" value="connect-fail">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario">
+                  Connect fail (send support request)
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-2" name="idVerifiedScenario" type="radio" value="connect-success">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-2">
+                  Connect success
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="idVerifiedScenario-3" name="idVerifiedScenario" type="radio" value="dead-end-no-trn">
+                <label class="govuk-label govuk-radios__label" for="idVerifiedScenario-3">
+                  Dead end (no TRN)
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Continue
+        </button>
+      </form>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">All Figma screens in this flow</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/onelogin-citizens/find-your-record">Find your teaching record</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/has-trn">Teacher reference number (TRN)</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/connect-fail">Connect fail</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/check-your-details-support-request">Check your details</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent">Support request sent - first visit</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/support-request-sent-revisit">Support request sent - revisit</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/connect-success">Connect success</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/account-page-service-with-one-login">Account page: service with One Login</a></li>
+        <li><a class="govuk-link" href="/onelogin-citizens/dead-end-no-trn">No TRN - dead end</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}
