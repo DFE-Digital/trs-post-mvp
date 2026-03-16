@@ -1,0 +1,40 @@
+{#
+For guidance on how to use layouts see:
+https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
+#}
+
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+
+
+{% block header %}
+  {% block header_content %}
+    {{ govukHeader({
+        serviceUrl: serviceUrl,
+        navigationClasses: "govuk-header__navigation--end",
+        navigation: [
+          {
+            href: '/account/sign-out',
+            text: 'Sign out',
+            current: (headerNavId == "signOut")
+          }
+        ]
+    }) }}
+
+ 
+    
+    {{ govukServiceNavigation({
+      serviceName: "Access your teaching qualifications",
+      serviceUrl: "../onelogin-citizens/index.html",
+      navigation: navItems
+    }) }}
+  {% endblock %}
+{% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    var AppFrontend = {}
+  </script>
+  <script src="/public/javascripts/components/filter-toggle-button.js"></script>
+{% endblock %} 

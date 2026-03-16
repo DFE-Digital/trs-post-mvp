@@ -1,4 +1,4 @@
-{% extends "layouts/new-nav.html.html" %}
+{% extends "layouts/nav-aytq.html" %}
 
 {% block pageTitle %}
   Do you have a teacher reference number (TRN)?
@@ -14,7 +14,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Do you have a teacher reference number (TRN)?</h1>
+      <h1 class="govuk-heading-xl">Do you have a teacher reference number (TRN)?</h1>
 
       <form action="/onelogin-citizens/has-trn" method="post">
         {{ govukDetails({
