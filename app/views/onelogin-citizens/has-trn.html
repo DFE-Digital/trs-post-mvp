@@ -17,45 +17,55 @@
       <h1 class="govuk-heading-xl">Do you have a teacher reference number (TRN)?</h1>
 
       <form action="/onelogin-citizens/has-trn" method="post">
-        {{ govukDetails({
-          summaryText: "About TRNs",
-          html: "<p class='govuk-body'>You will have a TRN if you have ever trained, worked or been registered to teach in England or Wales.</p><p class='govuk-body'><a class='govuk-link' href='https://www.gov.uk/guidance/teacher-reference-number-trn'>Find out more about TRNs</a> or <a class='govuk-link' href='https://find-a-lost-trn.education.gov.uk/start'>find a lost TRN</a>.</p>"
-        }) }}
 
-        {{ govukRadios({
-          name: "hasTrn",
-          fieldset: {
-            legend: {
-              text: "Select one option",
-              classes: "govuk-visually-hidden"
-            }
-          },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              conditional: {
-                html: govukInput({
-                  id: "teacher-reference-number",
-                  name: "teacherReferenceNumber",
-                  label: {
-                    text: "Teacher reference number"
-                  },
-                  value: "3007468",
-                  classes: "govuk-input--width-10"
-                })
-              }
-            },
-            {
-              value: "no",
-              text: "No"
-            }
-          ]
-        }) }}
 
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-visually-hidden">Select one option</legend>
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="hasTrn-1" name="hasTrn" type="radio" value="yes" data-aria-controls="conditional-hasTrn-1" aria-expanded="false">
+                <label class="govuk-label govuk-radios__label" for="hasTrn-1">Yes</label>
+              </div>
+              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-hasTrn-1">
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="teacher-reference-number">Teacher reference number</label>
+                  <input class="govuk-input govuk-input--width-10" id="teacher-reference-number" name="teacherReferenceNumber" type="text" value="3007468">
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="hasTrn-2" name="hasTrn" type="radio" value="no">
+                <label class="govuk-label govuk-radios__label" for="hasTrn-2">No</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">What is a TRN?</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p class="govuk-body">A teacher reference number (TRN) is a 7-digit number that uniquely identifies you in the education sector in England.
+            </p><p>
+              You’ll have a TRN if you:
+              <ul class="govuk-list govuk-list--bullet">
+                <li>hold qualified teacher status (QTS) in England or Wales</li>
+                <li>hold early years teacher status (EYTS) in England</li>
+                <li>hold a national professional qualification (NPQ)</li>
+                <li>are working towards QTS, EYTS or an NPQ</li>
+                <li>contribute to the Teachers’ Pension Scheme in England or Wales</li>
+                <li>have a relevant restriction in relation to teaching in England</li>
+              </ul>
+              You may not have one yet if you work in early years, further education or qualified as a teacher outside of England.
+              
+              </p>
+            <p class="govuk-body">
+              <a class="govuk-link" href="https://www.gov.uk/guidance/teacher-reference-number-trn" target="_blank">Learn about TRNs, including how to request one or find a lost TRN (opens in a new tab).</a></p>
+          </div>
+        </details>
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
       </form>
     </div>
   </div>
