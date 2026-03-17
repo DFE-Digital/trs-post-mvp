@@ -5,11 +5,21 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "#"
+    href: "javascript:window.history.back()"
   }) }}
 {% endblock %}
 
 {% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var saveBtn = document.getElementById('save-come-back');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          sessionStorage.setItem('trs-dennis-status', 'in-progress');
+        });
+      }
+    });
+  </script>
   <script>
     (function () {
       var addBtn = document.getElementById('add-note');
@@ -91,73 +101,11 @@
     <h1 class="govuk-heading-l">Dennis Berkamp</h1>
 
     <div class="govuk-!-margin-bottom-3">
-      <span class="govuk-tag govuk-tag--grey">In progress</span>
-      <span class="govuk-!-margin-left-2">Assigned to Patricia Miles</span>
-      <a class="govuk-link govuk-!-margin-left-2" href="#">Manage task</a>
+      <span class="govuk-tag govuk-tag--grey">Not started</span>
+      <span class="govuk-!-margin-left-2">Unassigned</span>
+      <a class="govuk-link govuk-!-margin-left-2" href="assign-task">Assign task</a>
     </div>
 
-    <button id="add-note" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-3" type="button">Add a note to this task</button>
-
-    <section id="notes-section" class="govuk-!-margin-bottom-6">
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">View notes</span>
-        </summary>
-        <div class="govuk-details__text">
-          <div class="govuk-timeline">
-            <ol id="notes-timeline" class="govuk-timeline__list govuk-!-margin-top-0 govuk-!-margin-bottom-0">
-              <li class="govuk-timeline__item govuk-!-margin-bottom-3">
-                <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-one-quarter">
-                    <p class="govuk-body-s govuk-!-font-weight-bold">19 Feb 2026</p>
-                  </div>
-                  <div class="govuk-grid-column-three-quarters">
-                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-                      <li><p class="govuk-body-s">Requested further documents — <strong>By K. Haidinger</strong></p></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="govuk-timeline__item govuk-!-margin-bottom-3">
-                <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-one-quarter">
-                    <p class="govuk-body-s govuk-!-font-weight-bold">18 Feb 2026</p>
-                  </div>
-                  <div class="govuk-grid-column-three-quarters">
-                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-                      <li><p class="govuk-body-s">Initial check complete — <strong>By A. Smith</strong></p></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="govuk-timeline__item">
-                <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-one-quarter">
-                    <p class="govuk-body-s govuk-!-font-weight-bold">05 Feb 2026</p>
-                  </div>
-                  <div class="govuk-grid-column-three-quarters">
-                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-                      <li><p class="govuk-body-s">Followed up with customer — <strong>By F. Brown</strong></p></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </details>
-
-      <div id="add-note-form" class="govuk-!-margin-top-3" style="display:none;">
-        <div class="govuk-form-group">
-          <label class="govuk-label" for="new-note">Add a note</label>
-          <textarea class="govuk-textarea" id="new-note" name="new-note" rows="4"></textarea>
-        </div>
-        <div class="govuk-button-group">
-          <button id="save-note" class="govuk-button" type="button">Save note</button>
-          <button id="cancel-note" class="govuk-button govuk-button--secondary" type="button">Cancel</button>
-        </div>
-      </div>
-    </section>
 
     <section class="govuk-!-margin-top-6" aria-labelledby="request-details-heading">
       <h2 id="request-details-heading" class="govuk-heading-m">Request details</h2>
@@ -182,13 +130,18 @@
           <dt class="govuk-summary-list__key">National Insurance number</dt>
           <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div id="proof-id" class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Proof of identity</dt>
           <dd class="govuk-summary-list__value">
             <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
-            <img class="govuk-!-margin-top-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAklEQVR4AewaftIAAATGSURBVO3BQY4cSRAEQc7/7+XK2pQ2W6jQvQkCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAv4r0N3Z7vje+X7nq6r5e9wAAQIECBAgQIAAAQIECBAgQIAAAQIECBAYG8C6gAAQIECBAgQIAAAQIECBAgQIAAAQIECBAg8G8AABAgQIECBAgAABAgQIECBAgAABAgQIEBhvwLqAAECBAgQIECAAAECBAgQIECAAAECBAgQIPBvAAAECBAgQIECAAAECBAgQIECAAAECBAgQG/G8AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQG/Bv/d2W8p9rBQgQIECAAAECBAgQIECAAAECBAgQIECAAAECL4E8DAgQIECAAAECBAgQIECAAAECBAgQIECAwG4FQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBUJAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIDAaAUNAQIECBAgQIAAAQIECBAgQIAAAQIECBAgMG4FQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBoBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBoBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQ0BAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBuBQkBAgQIECBAgAABAgQIECBD4D2wABAgQIECBAgAABAgQIECBAgAABAgQIECBAYwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQGMD+gAABAgQIECBAgAABAgQIECBAgAABAgQIEBgwP6AALp6X9wAAAABJRU5ErkJggg==" alt="passport thumbnail" style="max-width:300px; border:1px solid #e5e7eb; padding:6px;">
+            <div class="govuk-!-margin-top-2">
+              <img src="/public/images/test-passport.png" 
+                  alt="Uploaded proof of identity"
+                  class="govuk-!-width-one-half govuk-!-margin-top-1">
+            
+            </div>
           </dd>
-        </div>
+      </div>
       </dl>
 
       <fieldset class="govuk-fieldset" role="group" aria-labelledby="verify-heading">
@@ -211,7 +164,7 @@
 
       <div class="govuk-button-group govuk-!-margin-top-6">
         <button class="govuk-button govuk-button--primary" type="button">Continue</button>
-        <button class="govuk-button govuk-button--secondary" type="button">Save and come back later</button>
+        <a class="govuk-button govuk-button--secondary" href="task-list" id="save-come-back">Save and come back later</a>
         <a class="govuk-link" href="#">Cancel</a>
       </div>
 

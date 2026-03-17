@@ -1,0 +1,152 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Task management – Dennis Berkamp" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Task management</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+      Dennis Berkamp<br>
+      TRS-0000000
+    </h1>
+
+    <!-- Task details -->
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Task details</h2>
+
+    <dl class="govuk-summary-list govuk-!-margin-bottom-6">
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width--one-quarter">Owner</dt>
+        <dd class="govuk-summary-list__value">Patricia Miles</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="allocation-summary">Reassign task</a>
+        </dd>
+      </div>
+
+
+
+
+      
+
+
+
+
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width--one-quarter">Status</dt>
+        <dd class="govuk-summary-list__value">
+          <div class="govuk-radios govuk-radios--small govuk-radios--inline" data-module="govuk-radios">
+            <div class="govuk-radios__item govuk-!-width-two-thirds ">
+              <input class="govuk-radios__input" id="status-in-progress" name="status" type="radio" value="in-progress" checked>
+              <label class="govuk-label govuk-radios__label" for="status-in-progress">In progress</label>
+            </div>
+            <div class="govuk-radios__item govuk-!-width-two-thirds ">
+              <input class="govuk-radios__input" id="status-blocked" name="status" type="radio" value="blocked">
+              <label class="govuk-label govuk-radios__label" for="status-blocked">Blocked</label>
+            </div>
+          </div>
+        </dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div> 
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width--one-quarter">Notes</dt>
+        <dd class="govuk-summary-list__value">
+          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">View notes</span>
+            </summary>
+            <div class="govuk-details__text">
+              <ul class="govuk-list govuk-!-font-size-16">
+                <li><strong>19 Feb 2026</strong> — Requested further documents — <strong>K. Haidinger</strong></li>
+                <li><strong>18 Feb 2026</strong> — Initial check complete — <strong>A. Smith</strong></li>
+                <li><strong>05 Feb 2026</strong> — Followed up with customer — <strong>F. Brown</strong></li>
+              </ul>
+            </div>
+          </details>
+        </dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>
+
+    </dl>
+
+    <!-- Add note -->
+    <div class="govuk-form-group govuk-!-margin-bottom-6">
+      <label class="govuk-label govuk-label--m" for="add-note">
+        Add note
+      </label>
+      <textarea class="govuk-textarea" id="add-note" name="add-note" rows="5"></textarea>
+    </div>
+
+    <!-- ZenDesk tickets -->
+    <div class="govuk-form-group govuk-!-margin-bottom-6" id="zendesk-tickets-group">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+          Add links to ZenDesk tickets
+        </legend>
+
+        <div id="zendesk-tickets">
+          <div class="govuk-form-group govuk-!-margin-bottom-4 zendesk-ticket-entry">
+            <label class="govuk-label" for="ticket-1">
+              Link to ticket 1
+            </label>
+            <input class="govuk-input" id="ticket-1" name="ticket[1]" type="url" value="zenDesk.com/ticket#12ThY34999">
+          </div>
+          <div class="govuk-form-group govuk-!-margin-bottom-4 zendesk-ticket-entry">
+            <label class="govuk-label" for="ticket-2">
+              Link to ticket 2
+            </label>
+            <input class="govuk-input" id="ticket-2" name="ticket[2]" type="url" value="zenDesk.com/ticket#12aBl5151778">
+          </div>
+        </div>
+
+        <button class="govuk-button govuk-button--secondary govuk-!-margin-top-2" type="button" id="add-another-ticket">
+          Add another
+        </button>
+
+      </fieldset>
+    </div>
+
+    <!-- Actions -->
+    <div class="govuk-button-group govuk-!-margin-top-6">
+      <button class="govuk-button" type="submit">Update task details</button>
+      <a class="govuk-link" href="task-list">Cancel</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var ticketContainer = document.getElementById('zendesk-tickets');
+    var addAnotherBtn = document.getElementById('add-another-ticket');
+    var ticketCount = ticketContainer ? ticketContainer.querySelectorAll('.zendesk-ticket-entry').length : 2;
+
+    if (addAnotherBtn && ticketContainer) {
+      addAnotherBtn.addEventListener('click', function () {
+        ticketCount++;
+        var entry = document.createElement('div');
+        entry.className = 'govuk-form-group govuk-!-margin-bottom-4 zendesk-ticket-entry';
+        entry.innerHTML =
+          '<label class="govuk-label" for="ticket-' + ticketCount + '">' +
+            'Link to ticket ' + ticketCount +
+          '</label>' +
+          '<input class="govuk-input" id="ticket-' + ticketCount + '" name="ticket[' + ticketCount + ']" type="url">';
+        ticketContainer.appendChild(entry);
+        entry.querySelector('input').focus();
+      });
+    }
+  })();
+</script>
+
+{% endblock %}

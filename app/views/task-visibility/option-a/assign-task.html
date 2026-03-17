@@ -1,0 +1,129 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Allocation summary – Assign task" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "task-detail"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      var select = document.getElementById('assign-to');
+      var cards = document.querySelectorAll('.trs-allocation-card');
+
+      function highlightCard(selectedValue) {
+        cards.forEach(function (card) {
+          var cardName = card.getAttribute('data-member');
+          if (cardName === selectedValue) {
+            card.classList.add('trs-allocation-card--selected');
+          } else {
+            card.classList.remove('trs-allocation-card--selected');
+          }
+        });
+      }
+
+      if (select) {
+        highlightCard(select.value);
+        select.addEventListener('change', function () {
+          highlightCard(this.value);
+        });
+      }
+
+      cards.forEach(function (card) {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('click', function () {
+          var member = this.getAttribute('data-member');
+          if (member && select) {
+            select.value = member;
+            highlightCard(member);
+          }
+        });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            var member = this.getAttribute('data-member');
+            if (member && select) {
+              select.value = member;
+              highlightCard(member);
+            }
+          }
+        });
+      });
+    })();
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .trs-allocation-card {
+    border-top: 1px solid #b1b4b6;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-allocation-card__breakdown {
+    border-left: 4px solid #b1b4b6;
+    padding: 14px 25px;
+    margin-top: 8px;
+  }
+
+  .trs-allocation-card__breakdown p {
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Assign task</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      Dennis Berkamp<br>
+      TRS-0000000
+    </h1>
+
+    <dl class="govuk-summary-list govuk-!-margin-bottom-6">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Current task owner</dt>
+        <dd class="govuk-summary-list__value">Unassigned</dd>
+      </div>
+    </dl>
+
+    <div class="govuk-form-group govuk-!-margin-bottom-8">
+      <label class="govuk-label govuk-label--m" for="assign-to">
+        Who do you want to assign this task to?
+      </label>
+      <select class="govuk-select" id="assign-to" name="assign-to">
+        <option value="ferdinand-brown">Ferdinand Brown</option>
+        <option value="patricia-miles" selected>Patricia Miles</option>
+        <option value="maurice-villard">Maurice Villard</option>
+        <option value="alessandra-morais">Alessandra Morais</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="govuk-grid-row govuk-!-margin-top-6">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-button-group">
+      <button class="govuk-button" data-module="govuk-button" type="submit">
+        Continue
+      </button>
+      <a class="govuk-link" href="task-detail">Cancel</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

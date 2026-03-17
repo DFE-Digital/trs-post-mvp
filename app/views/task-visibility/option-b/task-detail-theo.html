@@ -1,0 +1,189 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Task detail" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var saveBtn = document.getElementById('save-come-back');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          sessionStorage.setItem('trs-dennis-status', 'in-progress');
+        });
+      }
+    });
+  </script>
+  <script>
+    (function () {
+      var addBtn = document.getElementById('add-note');
+      var form = document.getElementById('add-note-form');
+      var cancelBtn = document.getElementById('cancel-note');
+      var saveBtn = document.getElementById('save-note');
+      var textarea = document.getElementById('new-note');
+      var timeline = document.getElementById('notes-timeline');
+      var author = 'K. Haidinger';
+
+      function formatDate(d) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      }
+
+      if (addBtn) {
+        addBtn.addEventListener('click', function () {
+          form.style.display = '';
+          textarea.focus();
+        });
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function () {
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          var text = textarea.value.trim();
+          if (!text) return;
+
+          var li = document.createElement('li');
+          li.className = 'govuk-timeline__item govuk-!-margin-bottom-3';
+
+          var row = document.createElement('div'); row.className = 'govuk-grid-row';
+          var colDate = document.createElement('div'); colDate.className = 'govuk-grid-column-one-quarter';
+          var colContent = document.createElement('div'); colContent.className = 'govuk-grid-column-three-quarters';
+
+          var dateP = document.createElement('p'); dateP.className = 'govuk-body-s govuk-!-font-weight-bold';
+          dateP.textContent = formatDate(new Date());
+          colDate.appendChild(dateP);
+
+          var ul = document.createElement('ul'); ul.className = 'govuk-list govuk-list--bullet govuk-!-margin-bottom-0';
+          var item = document.createElement('li');
+          var p = document.createElement('p'); p.className = 'govuk-body-s';
+          p.innerHTML = text + ' — <strong>By ' + author + '</strong>';
+          item.appendChild(p);
+          ul.appendChild(item);
+          colContent.appendChild(ul);
+
+          row.appendChild(colDate);
+          row.appendChild(colContent);
+          li.appendChild(row);
+
+          // insert new note at top
+          if (timeline.firstChild) {
+            timeline.insertBefore(li, timeline.firstChild);
+          } else {
+            timeline.appendChild(li);
+          }
+
+          // reset form
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+    })();
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Important
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      You can view and add notes to this task but you can’t change ownership or complete any actions
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <h1 class="govuk-heading-l">Theodore Bell</h1>
+
+    <div class="govuk-!-margin-bottom-3">
+      <span class="govuk-tag govuk-tag--blue">In progress</span>
+      <span class="govuk-!-margin-left-2">Unassigned</span>
+      <a class="govuk-link govuk-!-margin-left-2" href="">Manage task</a>
+    </div>
+
+    <a id="add-note" class="govuk-button govuk-button--secondary" href="task-management" id="save-come-back">Add a note to this task</a>
+
+
+    <section class="govuk-!-margin-top-6" aria-labelledby="request-details-heading">
+      <h2 id="request-details-heading" class="govuk-heading-m">Request details</h2>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value">Theodore Bell</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value">Theodore.Bell@test.gov.uk</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value">2 September 1986</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">TRN</dt>
+          <dd class="govuk-summary-list__value">Not provided</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">National Insurance number</dt>
+          <dd class="govuk-summary-list__value">QQ 12 67 58 C</dd>
+        </div>
+        <div id="proof-id" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Proof of identity</dt>
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
+            <div class="govuk-!-margin-top-2">
+              <img src="/public/images/theos-id.png"alt="Uploaded proof of identity"
+                  class="govuk-!-width-one-halfgovuk-!-margin-top-1">
+            
+            </div>
+          </dd>
+      </div>
+      </dl>
+
+      <fieldset class="govuk-fieldset" role="group" aria-labelledby="verify-heading">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" id="verify-heading">
+          Can you verify this person's identity?
+        </legend>
+
+        <div class="govuk-radios govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-yes" name="verify" type="radio" value="yes">
+            <label class="govuk-label govuk-radios__label" for="verify-yes">Yes, find a matching record</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-no" name="verify" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="verify-no">No, reject this request</label>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        <button class="govuk-button govuk-button--primary" type="button">Continue</button>
+        <a class="govuk-button govuk-button--secondary" href="task-list" id="save-come-back">Save and come back later</a>
+        <a class="govuk-link" href="#">Cancel</a>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+{% endblock %}
