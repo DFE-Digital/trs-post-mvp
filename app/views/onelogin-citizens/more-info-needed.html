@@ -29,12 +29,20 @@
     </style>
 
     <div class="interruption-card" role="region" aria-labelledby="find-record-heading">
-      <h1 id="find-record-heading" class="govuk-heading-xl interruption-card__heading">We need more information to verify your identity</h1>
+      <h1 id="find-record-heading" class="govuk-heading-xl interruption-card__heading">We could not verify your identity</h1>
 
       <div class="interruption-card__content">
-        <p class="govuk-body">We’ll use these details to confirm your identity and match you to a teaching record.</p>
+        <p class="govuk-body">You can try to verify your identity again using GOV.UK One Login.</p>
+        <div class="govuk-button-group moj-interruption-card__actions">
+          <a href="enter-name.html" role="button" draggable="false" class="govuk-button govuk-button--inverse" data-module="govuk-button">
+            Verify with GOV.UK One Login
+          </a>
+          <!-- <a class="govuk-link govuk-link--inverse" href="#">Go back to application</a> -->
+        </div>
           <p class="govuk-body">
-            We’ll  ask for:
+            Alternatively, we will try to confirm your identity and match you to a teaching record using your personal details. This can take up to 5 working days.
+</p><p>
+We’ll  ask for:
             <ul class="govuk-list govuk-list--bullet">
               <li>your name</li>
               <li>your date of birth</li>
@@ -44,12 +52,11 @@
             </ul>
             </p>
       
-        <div class="govuk-button-group moj-interruption-card__actions">
-          <a href="enter-name.html" role="button" draggable="false" class="govuk-button govuk-button--inverse" data-module="govuk-button">
-            Continue
-          </a>
-          <!-- <a class="govuk-link govuk-link--inverse" href="#">Go back to application</a> -->
-        </div>
+            <a href="#" role="button" draggable="false" class="govuk-link--inverse" data-module="govuk-button">
+              Verify using my personal details
+            </a>
+
+            
 
 
       </div>
