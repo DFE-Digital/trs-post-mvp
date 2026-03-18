@@ -52,42 +52,17 @@
       <section class="govuk-tabs__panel" id="open-tasks">
 
         <!-- Filter bar -->
-        <div class="govuk-!-padding-3 govuk-!-margin-bottom-4" style="background-color: #f3f2f1;">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-2">Filter by</p>
-          <div class="govuk-checkboxes govuk-checkboxes--small trs-task-filters" data-module="govuk-checkboxes">
-            <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="filter-assigned" name="filter-assigned" type="checkbox" value="assigned">
-              <label class="govuk-label govuk-checkboxes__label" for="filter-assigned" style="white-space: nowrap;">
-                Assigned to me
-              </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="filter-unassigned" name="filter-unassigned" type="checkbox" value="unassigned">
-              <label class="govuk-label govuk-checkboxes__label" for="filter-unassigned">
-                Unassigned
-              </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="filter-all" name="filter-all" type="checkbox" value="all">
-              <label class="govuk-label govuk-checkboxes__label" for="filter-all">
-                All
-              </label>
-            </div>
-            <div class="govuk-checkboxes__item trs-task-filters__clear">
-              <a class="govuk-link" href="#" id="clear-filters-link">Clear all</a>
-            </div>
-          </div>
-        </div>
+       
 
         <!-- Table -->
-        <table class="govuk-table" id="open-tasks-table">
+        <table class="govuk-table" data-module="moj-sortable-table" id="open-tasks-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header" data-sort-key="name">Name and task ID</th>
-              <th scope="col" class="govuk-table__header" data-sort-key="requested">Requested on</th>
-              <th scope="col" class="govuk-table__header" data-sort-key="updated">Updated on</th>
-              <th scope="col" class="govuk-table__header" data-sort-key="status">Status</th>
-              <th scope="col" class="govuk-table__header" data-sort-key="owner">Owner</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Name and task ID</th>
+              <th scope="col" class="govuk-table__header" aria-sort="descending">Requested on</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Updated on</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Status</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Owner</th>
               <th scope="col" class="govuk-table__header">Action</th>
             </tr>
           </thead>
@@ -98,9 +73,9 @@
                 <a class="govuk-link" href="task-detail">Dennis Berkamp</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">14 Jan 2025</td>
-              <td class="govuk-table__cell">2 Dec 2025</td>
-              <td class="govuk-table__cell"><strong id="dennis-status-tag" class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-14">14 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-02">2 Dec 2025</td>
+              <td class="govuk-table__cell"><strong id="dennis-status-tag" class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Unassigned</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="assign-task">Assign task</a></td>
             </tr>
@@ -110,8 +85,8 @@
                 <a class="govuk-link" href="task-detail-theo">Theodore Bell</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0013000</span>
               </td>
-              <td class="govuk-table__cell">15 Jan 2025</td>
-              <td class="govuk-table__cell">2 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-15">15 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-02">2 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Ferdinand Brown</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -122,9 +97,9 @@
                 <a class="govuk-link" href="#">Mila Harrison</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000022</span>
               </td>
-              <td class="govuk-table__cell">20 Feb 2025</td>
-              <td class="govuk-table__cell">3 Dec 2025</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-02-20">20 Feb 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-03">3 Dec 2025</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Unassigned</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Assign task</a></td>
             </tr>
@@ -134,8 +109,8 @@
                 <a class="govuk-link" href="#">Oscar Hughes</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">1 Mar 2025</td>
-              <td class="govuk-table__cell">6 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-01">1 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-06">6 Mar 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -146,8 +121,8 @@
                 <a class="govuk-link" href="#">Aria Davis</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">6 Mar 2025</td>
-              <td class="govuk-table__cell">22 Nov 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-06">6 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-11-22">22 Nov 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -158,8 +133,8 @@
                 <a class="govuk-link" href="#">Max Robinson</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0019000</span>
               </td>
-              <td class="govuk-table__cell">12 Mar 2025</td>
-              <td class="govuk-table__cell">2 Nov 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-12">12 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-11-02">2 Nov 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -170,8 +145,8 @@
                 <a class="govuk-link" href="#">Grace Hall</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0208880</span>
               </td>
-              <td class="govuk-table__cell">18 Mar 2025</td>
-              <td class="govuk-table__cell">1 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-18">18 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-01">1 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -182,8 +157,8 @@
                 <a class="govuk-link" href="#">Layla Scott</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0203301</span>
               </td>
-              <td class="govuk-table__cell">22 Mar 2025</td>
-              <td class="govuk-table__cell">5 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-22">22 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-05">5 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -194,9 +169,9 @@
                 <a class="govuk-link" href="#">Harper Mitchell</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0004389</span>
               </td>
-              <td class="govuk-table__cell">28 Mar 2025</td>
-              <td class="govuk-table__cell">10 Dec 2025</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-28">28 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-10">10 Dec 2025</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Unassigned</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Assign task</a></td>
             </tr>
@@ -206,9 +181,9 @@
                 <a class="govuk-link" href="#">Ella Green</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">3 Apr 2025</td>
-              <td class="govuk-table__cell">12 Dec 2025</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-03">3 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-12">12 Dec 2025</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
             </tr>
@@ -218,8 +193,8 @@
                 <a class="govuk-link" href="#">Emilie Jean Autumn</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">8 Apr 2025</td>
-              <td class="govuk-table__cell">15 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-08">8 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-15">15 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Ferdinand Brown</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -230,8 +205,8 @@
                 <a class="govuk-link" href="#">Leo Bennett</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">14 Apr 2025</td>
-              <td class="govuk-table__cell">18 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-14">14 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-18">18 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Ferdinand Brown</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -242,9 +217,9 @@
                 <a class="govuk-link" href="#">Zoe Carter</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">20 Apr 2025</td>
-              <td class="govuk-table__cell">20 Dec 2025</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-20">20 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-20">20 Dec 2025</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
             </tr>
@@ -254,8 +229,8 @@
                 <a class="govuk-link" href="#">Liam O'Reilly</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">25 Apr 2025</td>
-              <td class="govuk-table__cell">22 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-25">25 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-22">22 Dec 2025</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -266,9 +241,9 @@
                 <a class="govuk-link" href="#">Logan White</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">2 May 2025</td>
-              <td class="govuk-table__cell">3 Jan 2026</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-02">2 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-03">3 Jan 2026</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Unassigned</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Assign task</a></td>
             </tr>
@@ -278,9 +253,9 @@
                 <a class="govuk-link" href="#">Nathan Brooks</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">9 May 2025</td>
-              <td class="govuk-table__cell">6 Jan 2026</td>
-              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-09">9 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-06">6 Jan 2026</td>
+              <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--yellow">Not started</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
             </tr>
@@ -290,8 +265,8 @@
                 <a class="govuk-link" href="#">Charlotte Evans</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">15 May 2025</td>
-              <td class="govuk-table__cell">8 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-15">15 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-08">8 Jan 2026</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -302,8 +277,8 @@
                 <a class="govuk-link" href="#">Jacob Moore</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">20 May 2025</td>
-              <td class="govuk-table__cell">10 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-20">20 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-10">10 Jan 2026</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Maurice Villard</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -314,8 +289,8 @@
                 <a class="govuk-link" href="#">Chloe Ahmed</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">27 May 2025</td>
-              <td class="govuk-table__cell">13 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-27">27 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-13">13 Jan 2026</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Maurice Villard</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -326,8 +301,8 @@
                 <a class="govuk-link" href="#">Bruni Guimaraes</a><br>
                 <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
               </td>
-              <td class="govuk-table__cell">3 Jun 2025</td>
-              <td class="govuk-table__cell">15 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="2025-06-03">3 Jun 2025</td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-15">15 Jan 2026</td>
               <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
               <td class="govuk-table__cell">Patricia Miles</td>
               <td class="govuk-table__cell"><a class="govuk-link" href="#">Reassign task</a></td>
@@ -390,208 +365,22 @@
     padding-top: 2px;
   }
 
-  #open-tasks-table thead th[data-sort-key] {
-    cursor: pointer;
-  }
-
-  #open-tasks-table thead th[data-sort-key][aria-sort="ascending"]::after {
-    content: " ▲";
-    font-size: 0.85em;
-  }
-
-  #open-tasks-table thead th[data-sort-key][aria-sort="descending"]::after {
-    content: " ▼";
-    font-size: 0.85em;
-  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var currentUserName = 'Patricia Miles';
-
-    var searchInput = document.getElementById('search');
-    var searchForm = document.getElementById('search-form');
-
-    var filterAssigned   = document.getElementById('filter-assigned');
-    var filterUnassigned = document.getElementById('filter-unassigned');
-    var filterAll        = document.getElementById('filter-all');
-    var clearFiltersLink = document.getElementById('clear-filters-link');
-
-    var table          = document.getElementById('open-tasks-table');
-    var tbody          = document.getElementById('open-tasks-tbody');
-    var noResults      = document.getElementById('no-results-message');
-
-    if (!table || !tbody) return;
-
-    var allRows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
-    var currentSortKey = null;
-    var currentSortDirection = 'ascending';
-
-    function getRowData(row) {
-      var cells = row.querySelectorAll('td');
-      return {
-        name:      cells[0] ? cells[0].innerText.trim() : '',
-        requested: cells[1] ? cells[1].innerText.trim() : '',
-        updated:   cells[2] ? cells[2].innerText.trim() : '',
-        status:    cells[3] ? cells[3].innerText.trim() : '',
-        owner:     cells[4] ? cells[4].innerText.trim() : ''
-      };
-    }
-
-    function matchesSearch(row, term) {
-      if (!term) return true;
-      return row.innerText.toLowerCase().indexOf(term) !== -1;
-    }
-
-    function matchesFilters(row) {
-      var data = getRowData(row);
-      var owner = (data.owner || '').toLowerCase();
-
-      if (filterAll && filterAll.checked) return true;
-
-      var assignedChecked   = filterAssigned   && filterAssigned.checked;
-      var unassignedChecked = filterUnassigned && filterUnassigned.checked;
-
-      if (!assignedChecked && !unassignedChecked) return true;
-
-      var isAssignedToMe = data.owner === currentUserName;
-      var isUnassigned   = owner === 'unassigned';
-
-      if (assignedChecked   && isAssignedToMe) return true;
-      if (unassignedChecked && isUnassigned)   return true;
-
-      return false;
-    }
-
-    function parseDate(text) {
-      var d = new Date(text);
-      return isNaN(d.getTime()) ? null : d;
-    }
-
-    function compareRows(a, b) {
-      if (!currentSortKey) return 0;
-      var da = getRowData(a);
-      var db = getRowData(b);
-      var valA, valB;
-
-      if (currentSortKey === 'requested' || currentSortKey === 'updated') {
-        valA = parseDate(da[currentSortKey]);
-        valB = parseDate(db[currentSortKey]);
-      } else {
-        valA = (da[currentSortKey] || '').toLowerCase();
-        valB = (db[currentSortKey] || '').toLowerCase();
-      }
-
-      if (valA === null && valB === null) return 0;
-      if (valA === null) return currentSortDirection === 'ascending' ?  1 : -1;
-      if (valB === null) return currentSortDirection === 'ascending' ? -1 :  1;
-      if (valA < valB)  return currentSortDirection === 'ascending' ? -1 :  1;
-      if (valA > valB)  return currentSortDirection === 'ascending' ?  1 : -1;
-      return 0;
-    }
-
-    function updateSortIndicators() {
-      var headers = table.querySelectorAll('thead th[data-sort-key]');
-      Array.prototype.forEach.call(headers, function (th) {
-        th.setAttribute('aria-sort',
-          th.getAttribute('data-sort-key') === currentSortKey
-            ? currentSortDirection
-            : 'none'
-        );
-      });
-    }
-
-    function renderTable() {
-      var searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
-
-      var visibleRows = allRows.filter(function (row) {
-        return matchesSearch(row, searchTerm) && matchesFilters(row);
-      });
-
-      if (currentSortKey) visibleRows.sort(compareRows);
-
-      while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
-      visibleRows.forEach(function (row) { tbody.appendChild(row); });
-
-      if (noResults) {
-        noResults.style.display = visibleRows.length === 0 ? '' : 'none';
-      }
-    }
-
-    // Sort on header click
-    var sortableHeaders = table.querySelectorAll('thead th[data-sort-key]');
-    Array.prototype.forEach.call(sortableHeaders, function (th) {
-      th.setAttribute('tabindex', '0');
-      th.setAttribute('aria-sort', 'none');
-
-      th.addEventListener('click', function () {
-        var key = th.getAttribute('data-sort-key');
-        if (currentSortKey === key) {
-          currentSortDirection = currentSortDirection === 'ascending' ? 'descending' : 'ascending';
-        } else {
-          currentSortKey = key;
-          currentSortDirection = 'ascending';
-        }
-        updateSortIndicators();
-        renderTable();
-      });
-
-      th.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); th.click(); }
-      });
-    });
-
-    // Search on submit and live input
-    if (searchForm) {
-      searchForm.addEventListener('submit', function (e) { e.preventDefault(); renderTable(); });
-    }
-    if (searchInput) {
-      searchInput.addEventListener('input', renderTable);
-    }
-
-    // Filter checkboxes
-    function onFilterChange(changed) {
-      if (changed === filterAll && filterAll && filterAll.checked) {
-        if (filterAssigned)   filterAssigned.checked   = false;
-        if (filterUnassigned) filterUnassigned.checked = false;
-      } else if (changed !== filterAll && filterAll && filterAll.checked) {
-        filterAll.checked = false;
-      }
-      renderTable();
-    }
-
-    if (filterAssigned)   filterAssigned.addEventListener('change',   function () { onFilterChange(filterAssigned); });
-    if (filterUnassigned) filterUnassigned.addEventListener('change', function () { onFilterChange(filterUnassigned); });
-    if (filterAll)        filterAll.addEventListener('change',        function () { onFilterChange(filterAll); });
-
-    // Clear all
-    if (clearFiltersLink) {
-      clearFiltersLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (filterAssigned)   filterAssigned.checked   = false;
-        if (filterUnassigned) filterUnassigned.checked = false;
-        if (filterAll)        filterAll.checked        = false;
-        renderTable();
-      });
-    }
-
-    // Pre-apply filter from URL query parameter
-    var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('filter') === 'assigned' && filterAssigned) {
-      filterAssigned.checked = true;
-    }
-
-    renderTable();
-  });
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    if (sessionStorage.getItem('trs-dennis-status') === 'in-progress') {
-      var tag = document.getElementById('dennis-status-tag');
-      if (tag) {
+    var tag = document.getElementById('dennis-status-tag');
+    if (tag) {
+      // Always start with "Not started" unless user has saved changes from task detail page
+      var savedStatus = sessionStorage.getItem('trs-dennis-status');
+      
+      if (savedStatus === 'in-progress') {
         tag.className = 'govuk-tag govuk-tag--blue';
         tag.textContent = 'In progress';
+      } else {
+        // Ensure it's always "Not started" by default
+        tag.className = 'govuk-tag govuk-tag--yellow';
+        tag.textContent = 'Not started';
       }
     }
   });
