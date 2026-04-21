@@ -1,0 +1,180 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Batch assign from list" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch"
+  }) }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<style>
+  .trs-allocation-card {
+    border-top: 1px solid #b1b4b6;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-allocation-card__breakdown {
+    border-left: 4px solid #b1b4b6;
+    padding: 14px 25px;
+    margin-top: 8px;
+  }
+
+  .trs-allocation-card__breakdown p {
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Bulk assignment</span>
+    <h1 class="govuk-heading-xl">Batch assign from list</h1>
+
+    <p class="govuk-body" id="batch-intro-with-tasks">
+      These are the tasks you selected on the all tasks overview. Choose who to assign them to. The allocation summary shows current load to help you rebalance.
+    </p>
+
+    
+    <div id="batch-selection-empty" class="govuk-inset-text govuk-!-margin-bottom-6" hidden>
+      <p class="govuk-body govuk-!-margin-bottom-2">No tasks were passed from the previous page.</p>
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <a class="govuk-link" href="all-tasks-overview-batch">Go to all tasks overview — batch assign</a> and select one or more tasks, then choose <strong>Batch assign</strong>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<form action="#" method="post" id="batch-assign-form">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+
+      <div id="batch-assign-fields" >
+        <div class="govuk-form-group govuk-!-margin-bottom-8">
+          <label class="govuk-label govuk-label--m" for="assign-to">
+            Who do you want to assign these tasks to?
+          </label>
+          <select class="govuk-select" id="assign-to" name="assign-to">
+            <option value="ferdinand-brown">Ferdinand Brown</option>
+            <option value="patricia-miles" selected>Patricia Miles</option>
+            <option value="maurice-villard">Maurice Villard</option>
+            <option value="alessandra-morais">Alessandra Morais</option>
+          </select>
+        </div>
+      </div>
+
+
+      
+      <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
+        <h2 class="govuk-heading-m">Selected tasks</h2>
+        <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Type</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="batch-selected-tasks-body">
+          </tbody>
+        </table>
+      </div>
+
+   
+
+    </div>
+
+
+    
+  </div>
+
+
+  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      
+
+      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                Ferdinand Brown
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                Ferdinand Brown
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                Ferdinand Brown
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-two-thirds">
+      <div id="batch-actions" class="govuk-button-group" hidden>
+        <button class="govuk-button" data-module="govuk-button" type="submit">Assign tasks</button>
+        <a class="govuk-link" href="manage-allocation">Cancel</a>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+{% endblock %}

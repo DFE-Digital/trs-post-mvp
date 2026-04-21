@@ -1,0 +1,414 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Batch assign from list" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var select = document.getElementById('assign-to');
+      var cards = document.querySelectorAll(
+        '#batch-allocation-summary-cards .trs-allocation-card, #batch-allocation-summary-cards-2 .trs-allocation-card'
+      );
+
+      function highlightCard(selectedValue) {
+        cards.forEach(function (card) {
+          var cardName = card.getAttribute('data-member');
+          var taskDetails = card.querySelector('.govuk-details');
+          if (cardName === selectedValue && selectedValue) {
+            card.classList.add('trs-allocation-card--selected');
+            if (taskDetails) taskDetails.open = true;
+          } else {
+            card.classList.remove('trs-allocation-card--selected');
+          }
+        });
+        var allocSummaryWrap = document.getElementById('batch-allocation-summary-cards-2');
+        if (allocSummaryWrap) {
+          var outerAllocationDetails = allocSummaryWrap.querySelector(':scope > details');
+          if (outerAllocationDetails && selectedValue) {
+            outerAllocationDetails.open = true;
+          }
+        }
+      }
+
+      if (select) {
+        highlightCard(select.value);
+        select.addEventListener('change', function () {
+          highlightCard(this.value);
+        });
+      }
+
+      cards.forEach(function (card) {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.govuk-details__summary, summary')) {
+            return;
+          }
+          var member = this.getAttribute('data-member');
+          if (member && select) {
+            select.value = member;
+            highlightCard(member);
+          }
+        });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            if (e.target.closest && e.target.closest('details')) {
+              return;
+            }
+            e.preventDefault();
+            var member = this.getAttribute('data-member');
+            if (member && select) {
+              select.value = member;
+              highlightCard(member);
+            }
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .trs-allocation-card {
+    border-top: 1px solid #b1b4b6;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-allocation-card__breakdown {
+    border-left: 4px solid #b1b4b6;
+    padding: 14px 25px;
+    margin-top: 8px;
+  }
+
+  .trs-allocation-card__breakdown p {
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Bulk assignment</span>
+    <h1 class="govuk-heading-xl">Batch assign from list</h1>
+
+    <p class="govuk-body" id="batch-intro-with-tasks">
+      These are the tasks you selected on the all tasks overview. Choose who to assign them to. The allocation summary shows current load to help you rebalance.
+    </p>
+
+    <div id="batch-selection-empty" class="govuk-inset-text govuk-!-margin-bottom-6" hidden>
+      <p class="govuk-body govuk-!-margin-bottom-2">No tasks were passed from the previous page.</p>
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <a class="govuk-link" href="all-tasks-overview-batch">Go to all tasks overview — batch assign</a> and select one or more tasks, then choose <strong>Batch assign</strong>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<form action="#" method="post" id="batch-assign-form">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
+        <h2 class="govuk-heading-m">Selected tasks</h2>
+        <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Type</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="batch-selected-tasks-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    
+  </div>
+
+
+  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <div id="batch-assign-fields" hidden>
+        <div class="govuk-form-group govuk-!-margin-bottom-8">
+          <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
+            Who do you want to assign these tasks to?
+          </label>
+          <select class="govuk-select" id="assign-to" name="assign-to">
+            <option value="" selected disabled>Select team member</option>
+            <option value="ferdinand-brown">Ferdinand Brown</option>
+            <option value="patricia-miles">Patricia Miles</option>
+            <option value="maurice-villard">Maurice Villard</option>
+            <option value="alessandra-morais">Alessandra Morais</option>
+          </select>
+          <br><br>  
+         
+            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
+            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
+          
+        </div>
+      </div>
+
+      <div id="batch-allocation-summary-cards-2" hidden>
+        <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Allocation summary</span>
+          </summary>
+          <div class="govuk-details__text">
+            <div class="trs-allocation-card" data-member="ferdinand-brown">
+              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Ferdinand Brown</p>
+
+              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">2 tasks</span>
+                </summary>
+                <div class="govuk-details__text trs-allocation-card__breakdown">
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Matched records – manual checks needed</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="trs-allocation-card" data-member="patricia-miles">
+              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Patricia Miles</p>
+              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">6 tasks</span>
+                </summary>
+                <div class="govuk-details__text trs-allocation-card__breakdown">
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> GOV.UK One Login</p>
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> NPQ TRN requests</p>
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> Potential duplicates via API</p>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="trs-allocation-card" data-member="maurice-villard">
+              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Maurice Villard <span class="govuk-tag govuk-tag--yellow">On leave</span></p>
+
+              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">2 tasks</span>
+                </summary>
+                <div class="govuk-details__text trs-allocation-card__breakdown">
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Potential duplicates via API</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="trs-allocation-card" data-member="alessandra-morais">
+              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Alessandra Morais</p>
+
+              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">2 tasks</span>
+                </summary>
+                <div class="govuk-details__text trs-allocation-card__breakdown">
+                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </details>
+      </div>
+
+
+
+
+      <div id="batch-allocation-summary-cards" hidden>
+        <h2 class="govuk-heading-s">Allocation summary</h2>
+        <div class="trs-allocation-card" data-member="ferdinand-brown">
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Ferdinand Brown</p>
+   
+          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">2 tasks</span>
+            </summary>
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Matched records – manual checks needed</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="trs-allocation-card" data-member="patricia-miles">
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Patricia Miles</p>
+          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">6 tasks</span>
+            </summary>
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> GOV.UK One Login</p>
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> NPQ TRN requests</p>
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> Potential duplicates via API</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="trs-allocation-card" data-member="maurice-villard">
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Maurice Villard <span class="govuk-tag govuk-tag--yellow">On leave</span></p>
+         
+          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">2 tasks</span>
+            </summary>
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Potential duplicates via API</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="trs-allocation-card" data-member="alessandra-morais">
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Alessandra Morais</p>
+       
+          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">2 tasks</span>
+            </summary>
+            <div class="govuk-details__text trs-allocation-card__breakdown">
+              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+<!--   <div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-two-thirds">
+      <div id="batch-actions" class="govuk-button-group" hidden>
+        <button class="govuk-button" data-module="govuk-button" type="submit">Assign tasks</button>
+        <a class="govuk-link" href="manage-allocation">Cancel</a>
+      </div>
+    </div>
+  </div> -->
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var STORAGE_KEY = 'trsBatchAssignTasks';
+    var tbody = document.getElementById('batch-selected-tasks-body');
+    var wrap = document.getElementById('batch-selected-tasks-wrap');
+    var empty = document.getElementById('batch-selection-empty');
+    var formFields = document.getElementById('batch-assign-fields');
+    var allocationCards = document.getElementById('batch-allocation-summary-cards');
+    var batchActions = document.getElementById('batch-actions');
+    var intro = document.getElementById('batch-intro-with-tasks');
+    var form = document.getElementById('batch-assign-form');
+    var tasks = [];
+
+    try {
+      var raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) tasks = JSON.parse(raw);
+      if (!Array.isArray(tasks)) tasks = [];
+    } catch (e) {
+      tasks = [];
+    }
+
+    if (!tasks.length) {
+      if (empty) empty.hidden = false;
+      if (intro) intro.hidden = true;
+      if (wrap) wrap.hidden = true;
+      if (formFields) formFields.hidden = true;
+      if (allocationCards) allocationCards.hidden = true;
+      if (batchActions) batchActions.hidden = true;
+      return;
+    }
+
+    function addCell(row, text) {
+      var td = document.createElement('td');
+      td.className = 'govuk-table__cell';
+      td.textContent = text || '';
+      row.appendChild(td);
+    }
+
+    tasks.forEach(function (t, i) {
+      var tr = document.createElement('tr');
+      tr.className = 'govuk-table__row';
+      tr.setAttribute(
+        'aria-label',
+        (t.name || 'Task') + (t.trsRef ? ', ' + t.trsRef : '')
+      );
+
+      addCell(tr, t.assignedTo);
+      addCell(tr, t.taskType);
+      addCell(tr, t.status);
+
+      tbody.appendChild(tr);
+
+      var hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'batch-task-trs';
+      hidden.value = t.trsRef || ('task-' + i);
+      if (form) form.appendChild(hidden);
+    });
+
+    if (wrap) wrap.hidden = false;
+    if (formFields) formFields.hidden = false;
+    if (allocationCards) allocationCards.hidden = false;
+    if (batchActions) batchActions.hidden = false;
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var assigneeEl = document.getElementById('assign-to');
+        if (!assigneeEl || !assigneeEl.value) {
+          if (assigneeEl) assigneeEl.focus();
+          return;
+        }
+        var agentName = assigneeEl.options[assigneeEl.selectedIndex]
+          ? assigneeEl.options[assigneeEl.selectedIndex].text.trim()
+          : '';
+        var overrides = {};
+        try {
+          var existing = sessionStorage.getItem('trsBatchAssignOverrides');
+          if (existing) overrides = JSON.parse(existing);
+          if (!overrides || typeof overrides !== 'object') overrides = {};
+        } catch (err) {
+          overrides = {};
+        }
+        tasks.forEach(function (t) {
+          if (t.trsRef) overrides[t.trsRef] = agentName;
+        });
+        try {
+          sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
+          sessionStorage.setItem(
+            'trsBatchAssignLastResult',
+            JSON.stringify({ agentName: agentName, count: tasks.length })
+          );
+          sessionStorage.removeItem('trsBatchAssignTasks');
+        } catch (err) {}
+        window.location.href = 'bulk-option-3-confirmation';
+      });
+    }
+  });
+</script>
+
+{% endblock %}

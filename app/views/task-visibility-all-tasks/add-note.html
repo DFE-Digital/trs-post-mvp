@@ -1,0 +1,161 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Add a note" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "manage-task"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">Task management</span>
+    <h1 class="govuk-heading-xl">Add a note</h1>
+    <p class="govuk-body">
+      <span class="govuk-!-font-weight-bold">Dennis Berkamp</span><br>
+      <span class="govuk-hint govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000000</span>
+    </p>
+
+    <form id="add-note-form" action="#" method="post" novalidate>
+      <div class="govuk-form-group" id="add-note-form-group">
+        <label class="govuk-label govuk-label--m" for="new-note">
+          Note
+        </label>
+        <div id="new-note-error" class="govuk-error-message govuk-!-margin-bottom-2" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Enter a note
+        </div>
+        <textarea class="govuk-textarea" id="new-note" name="new-note" rows="6" aria-describedby="new-note-hint"></textarea>
+        <div id="new-note-hint" class="govuk-hint">
+          This will appear in the notes timeline on the task.
+        </div>
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button" id="add-note-continue">
+          Continue
+        </button>
+        <a class="govuk-link govuk-link--no-visited-state" href="manage-task">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function () {
+      var DEFAULT_NOTES_TIMELINE_INNER =
+        '<div class="moj-timeline__item govuk-!-padding-bottom-6">' +
+        '<div class="moj-timeline__header">' +
+        '<h2 class="moj-timeline__title">By K. Haidinger added a note</h2>' +
+        '<p class="moj-timeline__date">' +
+        '<time datetime="2026-02-19T12:00:00.000Z">19 February 2026 at 12:00pm</time>' +
+        '</p></div>' +
+        '<div class="moj-timeline__description">Requested further documents</div></div>' +
+        '<div class="moj-timeline__item govuk-!-padding-bottom-6">' +
+        '<div class="moj-timeline__header">' +
+        '<h2 class="moj-timeline__title">By A. Smith added a note</h2>' +
+        '<p class="moj-timeline__date">' +
+        '<time datetime="2026-02-18T12:00:00.000Z">18 February 2026 at 12:00pm</time>' +
+        '</p></div>' +
+        '<div class="moj-timeline__description">Initial check complete</div></div>' +
+        '<div class="moj-timeline__item govuk-!-padding-bottom-6">' +
+        '<div class="moj-timeline__header">' +
+        '<h2 class="moj-timeline__title">By F. Brown added a note</h2>' +
+        '<p class="moj-timeline__date">' +
+        '<time datetime="2026-02-05T12:00:00.000Z">5 February 2026 at 12:00pm</time>' +
+        '</p></div>' +
+        '<div class="moj-timeline__description">Followed up with citizen</div></div>';
+
+      var author = 'K. Haidinger';
+
+      function formatNoteDateTime(d) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var h = d.getHours();
+        var ampm = h >= 12 ? 'pm' : 'am';
+        var hour12 = h % 12;
+        if (hour12 === 0) hour12 = 12;
+        var mins = d.getMinutes().toString().padStart(2, '0');
+        return {
+          iso: d.toISOString(),
+          display: d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ' at ' + hour12 + ':' + mins + ampm
+        };
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function buildNoteItemHtml(text) {
+        var now = new Date();
+        var dt = formatNoteDateTime(now);
+        return (
+          '<div class="moj-timeline__item govuk-!-padding-bottom-6">' +
+          '<div class="moj-timeline__header">' +
+          '<h2 class="moj-timeline__title">By ' + escapeHtml(author) + ' added a note</h2>' +
+          '<p class="moj-timeline__date">' +
+          '<time datetime="' + escapeHtml(dt.iso) + '">' + escapeHtml(dt.display) + '</time>' +
+          '</p></div>' +
+          '<div class="moj-timeline__description">' + escapeHtml(text) + '</div></div>'
+        );
+      }
+
+      var form = document.getElementById('add-note-form');
+      var textarea = document.getElementById('new-note');
+      var formGroup = document.getElementById('add-note-form-group');
+      var errEl = document.getElementById('new-note-error');
+
+      function showError(show) {
+        if (!formGroup || !errEl || !textarea) return;
+        if (show) {
+          formGroup.classList.add('govuk-form-group--error');
+          textarea.classList.add('govuk-textarea--error');
+          textarea.setAttribute('aria-invalid', 'true');
+          errEl.hidden = false;
+        } else {
+          formGroup.classList.remove('govuk-form-group--error');
+          textarea.classList.remove('govuk-textarea--error');
+          textarea.removeAttribute('aria-invalid');
+          errEl.hidden = true;
+        }
+      }
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var text = textarea ? textarea.value.trim() : '';
+          if (!text) {
+            showError(true);
+            if (textarea) textarea.focus();
+            return;
+          }
+          showError(false);
+
+          var existing = '';
+          try {
+            existing = sessionStorage.getItem('trs-task-notes-timeline-html') || '';
+          } catch (err) {}
+          if (!existing) {
+            existing = DEFAULT_NOTES_TIMELINE_INNER;
+          }
+
+          var combined = buildNoteItemHtml(text) + existing;
+          try {
+            sessionStorage.setItem('trs-task-notes-timeline-html', combined);
+          } catch (err) {}
+
+          window.location.href = 'manage-task#notes';
+        });
+      }
+    })();
+  </script>
+{% endblock %}

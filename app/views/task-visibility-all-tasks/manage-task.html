@@ -1,0 +1,530 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Task management" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function () {
+      var timeline = document.getElementById('notes-timeline');
+      var saved;
+      try {
+        saved = sessionStorage.getItem('trs-task-notes-timeline-html');
+      } catch (e) {}
+      if (timeline && saved) {
+        timeline.innerHTML = saved;
+      }
+      if (window.location.hash === '#notes') {
+        var details = document.querySelector('#notes .govuk-details');
+        if (details) {
+          details.open = true;
+        }
+      }
+      if (window.location.hash === '#zendesk-tickets') {
+        var zHeading = document.getElementById('zendesk-tickets');
+        if (zHeading) {
+          zHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var container = document.getElementById('ticket-fields-container');
+      var ZENDESK_TICKETS_STORAGE_KEY = 'trs-manage-task-zendesk-tickets';
+      var copyHideTimer = null;
+      var copyDismissHandler = null;
+
+      function normalizeUrlForHref(url) {
+        var t = (url || '').trim();
+        if (!t) return '#';
+        if (/^https?:\/\//i.test(t)) return t;
+        return 'https://' + t.replace(/^\/+/, '');
+      }
+
+      function getOrCreateCopyTooltip() {
+        var el = document.getElementById('zendesk-copy-tooltip');
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'zendesk-copy-tooltip';
+          el.className = 'zendesk-copy-tooltip';
+          el.setAttribute('role', 'status');
+          el.setAttribute('aria-live', 'polite');
+          el.hidden = true;
+          document.body.appendChild(el);
+        }
+        return el;
+      }
+
+      function hideCopyTooltip() {
+        if (copyHideTimer) {
+          clearTimeout(copyHideTimer);
+          copyHideTimer = null;
+        }
+        var el = document.getElementById('zendesk-copy-tooltip');
+        if (el) {
+          el.hidden = true;
+        }
+        if (copyDismissHandler) {
+          window.removeEventListener('scroll', copyDismissHandler, true);
+          window.removeEventListener('resize', copyDismissHandler, true);
+          copyDismissHandler = null;
+        }
+      }
+
+      function showCopyTooltip(anchorEl, msg) {
+        if (!anchorEl || !anchorEl.getBoundingClientRect) return;
+        var text = msg || 'Copied!';
+        var tooltip = getOrCreateCopyTooltip();
+        tooltip.textContent = text;
+
+        function place() {
+          var rect = anchorEl.getBoundingClientRect();
+          var gap = 8;
+          tooltip.style.left = Math.round(rect.left + rect.width / 2) + 'px';
+          tooltip.style.top = Math.round(rect.bottom + gap) + 'px';
+          tooltip.style.transform = 'translateX(-50%)';
+        }
+
+        place();
+        tooltip.hidden = false;
+
+        if (copyHideTimer) {
+          clearTimeout(copyHideTimer);
+        }
+        copyHideTimer = setTimeout(function () {
+          hideCopyTooltip();
+          copyHideTimer = null;
+        }, 2000);
+
+        if (!copyDismissHandler) {
+          copyDismissHandler = function () {
+            hideCopyTooltip();
+          };
+          window.addEventListener('scroll', copyDismissHandler, true);
+          window.addEventListener('resize', copyDismissHandler, true);
+        }
+      }
+
+      function copyUrlToClipboard(url, anchorEl) {
+        var text = normalizeUrlForHref(url);
+        if (text === '#') return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showCopyTooltip(anchorEl);
+          }).catch(function () {
+            fallbackCopy(text, anchorEl);
+          });
+        } else {
+          fallbackCopy(text, anchorEl);
+        }
+      }
+
+      function fallbackCopy(text, anchorEl) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showCopyTooltip(anchorEl);
+        } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      function buildSavedTicketRow(index, rawUrl) {
+        var row = document.createElement('tr');
+        row.className = 'govuk-table__row zendesk-ticket-saved';
+        row.setAttribute('data-ticket-index', String(index));
+
+        var href = normalizeUrlForHref(rawUrl);
+        var display = (rawUrl || '').trim() || href;
+
+        var tdLink = document.createElement('td');
+        tdLink.className = 'govuk-table__cell';
+        var a = document.createElement('a');
+        a.className = 'govuk-link';
+        a.href = href;
+        a.id = 'ticket-' + index + '-link';
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+        a.textContent = display;
+        tdLink.appendChild(a);
+
+        var tdAction = document.createElement('td');
+        tdAction.className = 'govuk-table__cell';
+
+        var actions = document.createElement('div');
+        actions.className = 'zendesk-ticket-actions';
+
+        var viewLink = document.createElement('a');
+        viewLink.className = 'govuk-link';
+        viewLink.href = href;
+        viewLink.setAttribute('target', '_blank');
+        viewLink.setAttribute('rel', 'noopener noreferrer');
+        viewLink.setAttribute('aria-label', 'View link for ticket ' + index + ' (opens in new tab)');
+        viewLink.textContent = 'View ticket';
+
+        var copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'govuk-button govuk-button--secondary';
+        copyBtn.setAttribute('data-zendesk-copy', href);
+        copyBtn.setAttribute('aria-label', 'Copy link for ticket ' + index + ' to clipboard');
+        copyBtn.textContent = 'Copy link';
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'govuk-button govuk-button--secondary';
+        removeBtn.setAttribute('data-action', 'remove-zendesk-ticket');
+        removeBtn.setAttribute('aria-label', 'Remove ticket ' + index);
+        removeBtn.textContent = 'Remove';
+
+      
+        actions.appendChild(copyBtn);
+        //actions.appendChild(removeBtn);
+        actions.appendChild(viewLink);
+        tdAction.appendChild(actions);
+
+        row.appendChild(tdLink);
+        row.appendChild(tdAction);
+
+        return row;
+      }
+
+      function persistZendeskTicketsFromDom() {
+        if (!container) return;
+        var rows = container.querySelectorAll('tr.zendesk-ticket-saved');
+        var urls = [];
+        rows.forEach(function (row) {
+          var a = row.querySelector('td:first-child a.govuk-link');
+          if (a) {
+            var href = a.getAttribute('href');
+            if (href) urls.push(href);
+          }
+        });
+        try {
+          sessionStorage.setItem(ZENDESK_TICKETS_STORAGE_KEY, JSON.stringify(urls));
+        } catch (e) {}
+      }
+
+      function initZendeskTicketsFromStorage() {
+        if (!container) return;
+        var raw = null;
+        try {
+          raw = sessionStorage.getItem(ZENDESK_TICKETS_STORAGE_KEY);
+        } catch (e) {}
+        if (raw === null || raw === '') return;
+        var parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch (e) {
+          return;
+        }
+        if (!Array.isArray(parsed)) return;
+        container.innerHTML = '';
+        if (!parsed.length) return;
+        parsed.forEach(function (url, idx) {
+          container.appendChild(buildSavedTicketRow(idx + 1, url));
+        });
+      }
+
+      initZendeskTicketsFromStorage();
+
+      if (container) {
+        container.addEventListener('click', function (e) {
+          var el = e.target;
+          if (!el || !el.closest) return;
+
+          var copyEl = el.closest('[data-zendesk-copy]');
+          if (copyEl) {
+            e.preventDefault();
+            copyUrlToClipboard(copyEl.getAttribute('data-zendesk-copy'), copyEl);
+            return;
+          }
+
+          var removeEl = el.closest('[data-action="remove-zendesk-ticket"]');
+          if (removeEl) {
+            e.preventDefault();
+            var rowToRemove = removeEl.closest('tr');
+            if (rowToRemove && rowToRemove.parentNode) {
+              rowToRemove.parentNode.removeChild(rowToRemove);
+              persistZendeskTicketsFromDom();
+            }
+            return;
+          }
+        });
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var form = document.getElementById('manage-task-form');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        window.location.href = 'all-tasks-overview-batch?taskDetailsUpdated=1';
+      });
+    })();
+  </script>
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+  #zendesk-copy-tooltip.zendesk-copy-tooltip {
+    position: fixed;
+    z-index: 10000;
+    margin: 0;
+    padding: 6px 12px;
+    max-width: 90vw;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+    background: #383838;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+  }
+  #zendesk-copy-tooltip.zendesk-copy-tooltip::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -6px;
+    border-style: solid;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent #383838 transparent;
+  }
+  .zendesk-ticket-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+  }
+  .zendesk-ticket-actions .govuk-button {
+    margin-bottom: 0;
+  }
+  .manage-task-status-select {
+    max-width: 20em;
+  }
+  .trs-manage-task-section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 1rem;
+    row-gap: 0.75rem;
+  }
+  .trs-manage-task-section-heading .govuk-button {
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">Task management</span>
+    <h1 class="govuk-heading-xl govuk-!-padding-bottom-0">Dennis Berkamp<br>TRS-0000000</h1>
+    <div class="govuk-inset-text govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        You are on the <strong>manage task</strong> page. Use this page to change ownership, status and add notes to a task.
+      </p>
+    
+    </div>
+
+    <form method="post" action="#" id="manage-task-form">
+      <h2 class="govuk-heading-m govuk-!-margin-top-0">Task details</h2>
+
+      <dl class="govuk-summary-list govuk-!-margin-bottom-6">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Assigned to
+          </dt>
+          <dd class="govuk-summary-list__value ">
+            <select class="govuk-select" id="assign-to" name="assign-to">
+              <option value="" selected disabled>Patricia Miles</option>
+              <option value="ferdinand-brown">Ferdinand Brown</option>
+              <option value="patricia-miles">Patricia Miles</option>
+              <option value="maurice-villard">Maurice Villard</option>
+              <option value="alessandra-morais">Alessandra Morais</option>
+            </select>
+      
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Status
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <label class="govuk-label govuk-visually-hidden" for="task-status">Task status</label>
+            <select class="govuk-select manage-task-status-select" id="task-status" name="status">
+              <option value="not-started">Not started</option>
+              <option value="in-progress" selected>In progress</option>
+              <option value="on-hold">On hold</option>
+            </select>
+          </dd>
+        </div>
+
+
+
+        <div id="assignment-history" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key govuk-!-width--one-quarter">Task history</dt>
+          <dd class="govuk-summary-list__value">
+            <section id="assignment-history-section" class="govuk-!-margin-bottom-0">
+        
+
+              <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                  <span class="govuk-details__summary-text">View activity</span>
+                </summary>
+                <div class="govuk-details__text">
+                  <div id="assignment-activity-timeline" class="moj-timeline">
+                    <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                      <div class="moj-timeline__header">
+                        <h2 class="moj-timeline__title">Assigned to Patricia Miles</h2>
+                        <p class="moj-timeline__date">
+                          <time datetime="2025-12-02T09:14:00">2 December 2025 at 9:14am</time>
+                        </p>
+                      </div>
+                      <div class="moj-timeline__description">Changed by Ferdinand Brown (reassigned from unassigned)</div>
+                    </div>
+                    <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                      <div class="moj-timeline__header">
+                        <h2 class="moj-timeline__title">Unassigned</h2>
+                        <p class="moj-timeline__date">
+                          <time datetime="2025-11-28T15:02:00">28 November 2025 at 3:02pm</time>
+                        </p>
+                      </div>
+                      <div class="moj-timeline__description">System (task created)</div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </section>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="trs-manage-task-section-heading govuk-!-margin-top-6">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Notes</h2>
+        <a id="add-note" class="govuk-button govuk-button--secondary" href="add-note">Add a note to this task</a>
+      </div>
+
+      <p class="govuk-body govuk-!-margin-bottom-4" >
+        View and add notes related to this task.
+      </p>
+
+     
+      <section id="notes-section" class="govuk-!-margin-bottom-0">
+        <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">View notes</span>
+          </summary>
+          <div class="govuk-details__text">
+            <div id="notes-timeline" class="moj-timeline">
+              <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                <div class="moj-timeline__header">
+                  <h2 class="moj-timeline__title">By K. Haidinger added a note</h2>
+                  <p class="moj-timeline__date">
+                    <time datetime="2026-02-19T12:00:00.000Z">19 February 2026 at 12:00pm</time>
+                  </p>
+                </div>
+                <div class="moj-timeline__description">Requested further documents</div>
+              </div>
+              <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                <div class="moj-timeline__header">
+                  <h2 class="moj-timeline__title">By A. Smith added a note</h2>
+                  <p class="moj-timeline__date">
+                    <time datetime="2026-02-18T12:00:00.000Z">18 February 2026 at 12:00pm</time>
+                  </p>
+                </div>
+                <div class="moj-timeline__description">Initial check complete</div>
+              </div>
+              <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                <div class="moj-timeline__header">
+                  <h2 class="moj-timeline__title">By F. Brown added a note</h2>
+                  <p class="moj-timeline__date">
+                    <time datetime="2026-02-05T12:00:00.000Z">5 February 2026 at 12:00pm</time>
+                  </p>
+                </div>
+                <div class="moj-timeline__description">Followed up with citizen</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <div class="trs-manage-task-section-heading govuk-!-margin-top-6" id="zendesk-tickets">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Zendesk tickets</h2>
+        <a class="govuk-button govuk-button--secondary" href="add-zendesk-tickets">Add Zendesk tickets</a>
+      </div>
+      <p class="govuk-body govuk-!-margin-bottom-4">
+       View and add Zendesk tickets related to this task.
+      </p>
+
+      <table class="govuk-table govuk-!-margin-bottom-6">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Link to ticket</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+          </tr>
+        </thead>
+        <tbody id="ticket-fields-container" class="govuk-table__body">
+          <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="1">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" id="ticket-1-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12ThY34999</a>
+            </td>
+            <td class="govuk-table__cell">
+              <div class="zendesk-ticket-actions">
+                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12ThY34999" aria-label="Copy link for ticket 1 to clipboard">Copy link</button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-action="remove-zendesk-ticket" aria-label="Remove ticket 1">Remove</button>
+                <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 1 (opens in new tab)">View ticket</a>
+              </div>
+            </td>
+          </tr>
+          <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="2">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" id="ticket-2-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12aBL5151778</a>
+            </td>
+            <td class="govuk-table__cell">
+              <div class="zendesk-ticket-actions">
+                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12aBL5151778" aria-label="Copy link for ticket 2 to clipboard">Copy link</button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-action="remove-zendesk-ticket" aria-label="Remove ticket 2">Remove</button>
+                <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 2 (opens in new tab)">View ticket</a>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        <button class="govuk-button" data-module="govuk-button" type="submit">
+          Update task details
+        </button>
+        <a class="govuk-link" href="javascript:window.history.back()">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

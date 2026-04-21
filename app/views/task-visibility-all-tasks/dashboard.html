@@ -1,0 +1,297 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% set pageName = "Console dashboard – records" %}
+
+{% block stylesheets %}
+  {{ super() }}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&display=swap">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full govuk-!-padding-0">
+    <h1 class="govuk-heading-l">Records</h1>
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Search for a record</h2>
+    <form class="govuk-!-margin-bottom-0">
+      <div class="govuk-form-group govuk-!-margin-bottom-0">
+        <div id="find-record-hint" class="govuk-hint">
+          Enter a name, email address, date of birth or teacher reference number (TRN)
+        </div>
+       
+        <div class="govuk-input__wrapper">
+          <input class="govuk-input govuk-!-width-two-thirds" id="record-search" name="record-search" type="search">
+          <button class="govuk-button govuk-!-margin-left-2" data-module="govuk-button" type="submit">
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    
+  <div id="variation1"  class="govuk-!-margin-bottom-8 govuk-!-padding-4" style="background-color: #f3f2f1;">
+    <div class="govuk-grid-row">  
+    <div class="govuk-grid-column-one-third">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4">My tasks</h2>
+      <div class=" govuk-!-margin-bottom-2">
+        <p class="govuk-body govuk-!-margin-bottom-0" style="display: flex; align-items: center; flex-wrap: wrap; column-gap: 12px; row-gap: 4px;">
+          <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 1;">7</span>
+          <a class="govuk-link" href="all-tasks-overview-batch?filter=assigned#active-tasks">Tasks assigned to me</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-column-two-thirds" style="border-left: 1px solid #cccccc;">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4 govuk-!-margin-left-4">Allocation</h2>
+  
+      <div class="govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-4" >
+        <p class="govuk-body govuk-!-margin-bottom-0" style="display: flex; align-items: center; column-gap: 12px; row-gap: 4px;">
+          <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 1;">8</span>
+          <a class="govuk-link" href="all-tasks-overview-batch?filter=unassigned">View unassigned tasks</a>
+        </p>
+      </div>
+      
+      <div class="govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-4" style="border-left: 1px solid #cccccc;">
+        <p class="govuk-body govuk-!-margin-top-2" style="display: flex; align-items: center;column-gap: 12px; row-gap: 4px;">
+          <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 1;"></span>
+          <a class="govuk-link" href="manage-allocation">View team allocation</a>
+        </p>
+      </div>
+    </div>
+  
+  </div>
+  </div>
+    
+
+  {# Variation 2: matches Figma "My tasks" / "Allocation" tiles (Post-MVP TRS) #}
+   <div id="variation2" class="govuk-!-margin-bottom-6 govuk-!-margin-top-6 govuk-!-padding-0" style="background-color: #fff;">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half govuk-!-padding-right-4" style="border-right: 0px solid #b1b4b6;">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-padding-left-0"><a class="govuk-link" href="all-tasks-overview-batch">Tasks</a></h2>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-!-padding-4 govuk-!-margin-bottom-2">
+                <div class="govuk-!-margin-bottom-4">
+                  <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                    <div class="govuk-grid-column-one-third">
+                      <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">7</span>
+                    </div>
+                    <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                      <div class="govuk-!-padding-top-1">
+                        <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                  <a class="govuk-link" href="all-tasks-overview-batch?filter=in-progress#active-tasks" style="white-space: nowrap;">My tasks in progress</a>
+                </p>
+              </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-!-padding-4 govuk-!-margin-bottom-2">
+                <div class="govuk-!-margin-bottom-4">
+                  <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                    <div class="govuk-grid-column-one-third">
+                      <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">3</span>
+                    </div>
+                    <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                      <div class="govuk-!-padding-top-1">
+                       <strong class="govuk-tag govuk-tag--grey">Not started</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                  <a class="govuk-link" href="all-tasks-overview-batch?filter=not-started#active-tasks">My pending tasks</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-column-one-half" style="border-left: 1px solid #b1b4b6;">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-padding-left-4">
+            <a class="govuk-link" href="manage-allocation">Allocation and activity</a></h2>
+          <div class="govuk-grid-row trs-dashboard-allocation-pair">
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-!-padding-4 govuk-!-margin-bottom-2 trs-dashboard-allocation-card">
+                <div class="govuk-!-margin-bottom-4">
+                  <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                    <div class="govuk-grid-column-one-third">
+                      <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">8</span>
+                    </div>
+                    <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                      <div class="govuk-!-padding-top-1">
+                        <strong class="govuk-tag govuk-tag--yellow">Unassigned</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-0 trs-dashboard-allocation-card__link">
+                  <a class="govuk-link" href="all-tasks-overview-batch?filter=unassigned#active-tasks" style="white-space: nowrap;">Manage unassigned tasks</a>
+                </p>
+              </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-!-padding-4 govuk-!-margin-bottom-2 trs-dashboard-allocation-card">
+                <div class="govuk-!-margin-bottom-4">
+                  <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                    <div class="govuk-grid-column-one-third">
+                      <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">6</span>
+                    </div>
+                    <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                      <div class="govuk-!-padding-top-1">
+                        <strong class="govuk-tag govuk-tag--yellow">On hold</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-0 trs-dashboard-allocation-card__link">
+                  <a class="govuk-link" href="all-tasks-overview-batch?filter=on-hold#active-tasks" style="white-space: nowrap;">Manage tasks on hold</a>
+                </p>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+    {# Variation 3: matches Figma "My tasks" / "Allocation" tiles (Post-MVP TRS) #}
+    <div id="variation3"  hidden class="govuk-!-margin-bottom-6 govuk-!-padding-0" style="background-color: #fff;">
+       <div class="govuk-grid-row">
+         <div class="govuk-grid-column-one-half govuk-!-padding-right-4" style="border-right: 0px solid #b1b4b6;">
+           <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-padding-left-2">My tasks</h2>
+           <div class="govuk-grid-row">
+             <div class="govuk-grid-column-one-half">
+               <div class="govuk-!-padding-4 govuk-!-margin-bottom-2" style="background-color: #ffffff;">
+                 <div class="govuk-!-margin-bottom-4">
+                   <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                     <div class="govuk-grid-column-one-third">
+                       <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">7</span>
+                     </div>
+                     <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                       <div class="govuk-!-padding-top-1">
+                         <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <p class="govuk-body govuk-!-margin-bottom-0">
+                   <a class="govuk-link" href="all-tasks-overview-batch?filter=in-progress#active-tasks" style="white-space: nowrap;">View tasks in progress</a>
+                 </p>
+               </div>
+             </div>
+             <div class="govuk-grid-column-one-half">
+               <div class="govuk-!-padding-4 govuk-!-margin-bottom-2" style="background-color: #ffffff;">
+                 <div class="govuk-!-margin-bottom-4">
+                   <div class="govuk-grid-row govuk-!-margin-bottom-0">
+                     <div class="govuk-grid-column-one-third">
+                       <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 50px;">3</span>
+                     </div>
+                     <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+                       <div class="govuk-!-padding-top-1">
+                        <strong class="govuk-tag govuk-tag--grey">Not started</strong>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <p class="govuk-body govuk-!-margin-bottom-0">
+                   <a class="govuk-link" href="all-tasks-overview-batch?filter=not-started#active-tasks">View pending tasks</a>
+                 </p>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="govuk-grid-column-one-half">
+           <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-padding-left-2">Allocation</h2>
+           <div class="govuk-grid-row trs-dashboard-allocation-pair">
+             <div class="govuk-grid-column-full">
+               <div class="govuk-!-padding-4 govuk-!-margin-bottom-2 trs-dashboard-allocation-card" style="background-color: #fff;">
+                 <div class="govuk-!-margin-bottom-4">
+                   <p class="govuk-body govuk-!-margin-bottom-0" style="display: flex; align-items: center; flex-wrap: nowrap; column-gap: 12px;">
+                     <span class="govuk-heading-xl govuk-!-margin-bottom-0" style="line-height: 1;">8</span>
+                     <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-bottom-0">Unassigned</strong>
+                   </p>
+                 </div>
+                 <p class="govuk-body govuk-!-margin-bottom-0 trs-dashboard-allocation-card__link">
+                   <a class="govuk-link govuk-!-margin-right-2" href="all-tasks-overview-batch?filter=unassigned#active-tasks" style="white-space: nowrap;">Manage unassigned tasks</a>
+                   <a class="govuk-link" href="manage-allocation">Manage allocation</a>
+ 
+                 </p>
+               </div>
+             </div>
+        
+           </div>
+         </div>
+       </div>
+   </div> 
+
+
+    <h2 class="govuk-heading-m">TRN requests</h2>
+    <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+      <a href="#" class="status-card status-card--in-training">
+        <span class="status-card__count">135</span>
+        <span class="status-card__status">NPQ TRN requests</span>
+      </a>
+
+      <a href="#" class="status-card status-card--in-training">
+        <span class="status-card__count">40</span>
+        <span class="status-card__status">Potential duplicates via API</span>
+      </a>
+
+      <a href="#" class="status-card status-card--in-training">
+        <span class="status-card__count">12</span>
+        <span class="status-card__status">Matched records – manual checks needed</span>
+      </a>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">Record management</h2>
+    <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+      <a href="#" class="status-card status-card--in-training">
+        <span class="status-card__count">27</span>
+        <span class="status-card__status">Name and date of birth change requests</span>
+      </a>
+
+      <a href="task-list-ol" class="status-card status-card--in-training">
+        <span class="status-card__count">18</span>
+        <span class="status-card__status">GOV.UK One Login</span>
+      </a>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">Third-party tasks</h2>
+    <div class="app-home-statuses app-home-statuses--3-up govuk-!-margin-bottom-4">
+      <a href="#" class="status-card status-card--incomplete">
+        <span class="status-card__status">Integration transaction records (ITRs)</span>
+      </a>
+
+      <a href="#" class="status-card status-card--incomplete">
+        <span class="status-card__count">6</span>
+        <span class="status-card__status">Potential duplicates via Teachers' Pensions</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      try {
+        sessionStorage.removeItem('trs-dennis-status');
+      } catch (e) {}
+    });
+  </script>
+{% endblock %}
+

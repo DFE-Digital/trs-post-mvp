@@ -1,0 +1,472 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "GOV.UK One Login – identity verification" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Record management</span>
+    <h1 class="govuk-heading-xl">GOV.UK One Login</h1>
+
+    <!-- Search -->
+    <form class="govuk-!-margin-bottom-6" id="search-form">
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--s" for="search">
+          Search
+        </label>
+        <div class="govuk-hint" id="search-hint">
+          Enter a name, email address or request date, for example 31 3 2025
+        </div>
+        <div class="govuk-input__wrapper">
+          <input class="govuk-input govuk-!-width-two-thirds" id="search" name="search" type="search" aria-describedby="search-hint">
+          <button class="govuk-button govuk-!-margin-bottom-0 govuk-!-margin-left-2" data-module="govuk-button" type="submit">
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+
+       <!-- Table -->
+       <table class="govuk-table" data-module="moj-sortable-table" id="open-tasks-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header" aria-sort="none">Name and task ID</th>
+            <th scope="col" class="govuk-table__header" aria-sort="descending">Requested on</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Updated on</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Status</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Assigned to</th>
+            <th scope="col" class="govuk-table__header">Action</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body" id="open-tasks-tbody">
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="task-detail-dennis">Dennis Berkamp</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000000</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2026-03-14">14 Mar 2026</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-02">2 Dec 2025</td>
+            <td class="govuk-table__cell"><strong id="dennis-status-tag" class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="manage-task.html">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="option-b/task-detail-theo">Theodore Bell</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0013000</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2026-02-15">15 Feb 2026</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-02">2 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Millie Harrison</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0004002</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-02-20">20 Feb 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-03">3 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Oscar Hughes</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000005</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-01">1 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-06">6 Mar 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Ari Davis</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000100</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-06">6 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-11-22">22 Nov 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Nia Davis</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000101</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-12">12 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-11-02">2 Nov 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--red">Blocked</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Priya Sharma</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000202</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-18">18 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-01">1 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">James Okafor</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000303</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-22">22 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-05">5 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Ferdinand Brown</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Sophie Clarke</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000404</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-03-28">28 Mar 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-10">10 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--red">Blocked</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Liam Patel</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000505</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-04-03">3 Apr 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-12">12 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Grace Nwosu</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000606</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-04-08">8 Apr 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-15">15 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Ferdinand Brown</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Ethan Walsh</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000707</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-04-14">14 Apr 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-18">18 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Amara Diallo</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000808</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-04-20">20 Apr 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-20">20 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Noah Kim</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0000909</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-04-25">25 Apr 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2025-12-22">22 Dec 2025</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--red">Blocked</strong></td>
+            <td class="govuk-table__cell">Ferdinand Brown</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Isla Mackenzie</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001010</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-05-02">2 May 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-03">3 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Ravi Menon</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001111</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-05-09">9 May 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-06">6 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Chloe Evans</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001212</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-05-15">15 May 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-08">8 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Marcus Thompson</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001313</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-05-20">20 May 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-10">10 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+            <td class="govuk-table__cell">Ferdinand Brown</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Yuki Tanaka</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001414</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-05-27">27 May 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-13">13 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--red">Blocked</strong></td>
+            <td class="govuk-table__cell">Patricia Miles</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Fatima Al-Hassan</a><br>
+              <span class="govuk-hint govuk-!-margin-top-1">TRS-0001515</span>
+            </td>
+            <td class="govuk-table__cell" data-sort-value="2025-06-03">3 Jun 2025</td>
+            <td class="govuk-table__cell" data-sort-value="2026-01-15">15 Jan 2026</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+            <td class="govuk-table__cell">Unassigned</td>
+            <td class="govuk-table__cell"><a class="govuk-link" href="#">Manage task</a></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+
+
+        <!-- Pagination -->
+        <nav class="govuk-pagination" role="navigation" aria-label="results" id="pagination-nav">
+          <ul class="govuk-pagination__list">
+            <li class="govuk-pagination__item govuk-pagination__item--current">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2">2</a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">3</a>
+            </li>
+            <li class="govuk-pagination__item govuk-pagination__item--next">
+              <a class="govuk-link govuk-pagination__link govuk-pagination__link--next" href="#" aria-label="Next page">
+                <span aria-hidden="true">Next</span>
+                <span class="govuk-visually-hidden"> page</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+
+  </div>
+</div>
+
+<style>
+  .trs-task-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 24px;
+  }
+
+  .trs-task-filters .govuk-checkboxes__item {
+    margin-bottom: 0;
+  }
+
+  .trs-task-filters__clear {
+    padding-top: 2px;
+  }
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var currentUserName = 'Patricia Miles';
+
+    var searchInput = document.getElementById('search');
+    var searchForm = document.getElementById('search-form');
+
+    var filterAssigned   = document.getElementById('filter-assigned');
+    var filterUnassigned = document.getElementById('filter-unassigned');
+    var filterAll        = document.getElementById('filter-all');
+    var clearFiltersLink = document.getElementById('clear-filters-link');
+
+    var table          = document.getElementById('open-tasks-table');
+    var tbody          = document.getElementById('open-tasks-tbody');
+    var noResults      = document.getElementById('no-results-message');
+
+    if (!table || !tbody) return;
+
+    var allRows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+
+    function getRowData(row) {
+      var cells = row.querySelectorAll('td');
+      return {
+        name:      cells[0] ? cells[0].innerText.trim() : '',
+        requested: cells[1] ? cells[1].innerText.trim() : '',
+        updated:   cells[2] ? cells[2].innerText.trim() : '',
+        status:    cells[3] ? cells[3].innerText.trim() : '',
+        owner:     cells[4] ? cells[4].innerText.trim() : ''
+      };
+    }
+
+    function matchesSearch(row, term) {
+      if (!term) return true;
+      return row.innerText.toLowerCase().indexOf(term) !== -1;
+    }
+
+    function matchesFilters(row) {
+      var data = getRowData(row);
+      var owner = (data.owner || '').toLowerCase();
+
+      if (filterAll && filterAll.checked) return true;
+
+      var assignedChecked   = filterAssigned   && filterAssigned.checked;
+      var unassignedChecked = filterUnassigned && filterUnassigned.checked;
+
+      if (!assignedChecked && !unassignedChecked) return true;
+
+      var isAssignedToMe = data.owner === currentUserName;
+      var isUnassigned   = owner === 'unassigned';
+
+      if (assignedChecked   && isAssignedToMe) return true;
+      if (unassignedChecked && isUnassigned)   return true;
+
+      return false;
+    }
+
+
+    function renderTable() {
+      var searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      var visibleRows = allRows.filter(function (row) {
+        return matchesSearch(row, searchTerm) && matchesFilters(row);
+      });
+
+
+      while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+      visibleRows.forEach(function (row) { tbody.appendChild(row); });
+
+      if (noResults) {
+        noResults.style.display = visibleRows.length === 0 ? '' : 'none';
+      }
+    }
+
+
+    // Search on submit and live input
+    if (searchForm) {
+      searchForm.addEventListener('submit', function (e) { e.preventDefault(); renderTable(); });
+    }
+    if (searchInput) {
+      searchInput.addEventListener('input', renderTable);
+    }
+
+    // Filter checkboxes
+    function onFilterChange(changed) {
+      if (changed === filterAll && filterAll && filterAll.checked) {
+        if (filterAssigned)   filterAssigned.checked   = false;
+        if (filterUnassigned) filterUnassigned.checked = false;
+      } else if (changed !== filterAll && filterAll && filterAll.checked) {
+        filterAll.checked = false;
+      }
+      renderTable();
+    }
+
+    if (filterAssigned)   filterAssigned.addEventListener('change',   function () { onFilterChange(filterAssigned); });
+    if (filterUnassigned) filterUnassigned.addEventListener('change', function () { onFilterChange(filterUnassigned); });
+    if (filterAll)        filterAll.addEventListener('change',        function () { onFilterChange(filterAll); });
+
+    // Clear all
+    if (clearFiltersLink) {
+      clearFiltersLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (filterAssigned)   filterAssigned.checked   = false;
+        if (filterUnassigned) filterUnassigned.checked = false;
+        if (filterAll)        filterAll.checked        = false;
+        renderTable();
+      });
+    }
+
+    // Pre-apply filter from URL query parameter
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('filter') === 'assigned' && filterAssigned) {
+      filterAssigned.checked = true;
+    }
+
+    renderTable();
+  });
+</script> 
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (sessionStorage.getItem('trs-dennis-status') === 'in-progress') {
+      var tag = document.getElementById('dennis-status-tag');
+      if (tag) {
+        tag.className = 'govuk-tag govuk-tag--blue';
+        tag.textContent = 'In progress';
+      }
+    }
+  });
+</script>
+
+{% endblock %}

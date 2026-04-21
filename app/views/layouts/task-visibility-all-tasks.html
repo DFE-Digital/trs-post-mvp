@@ -1,0 +1,16 @@
+{#
+  Same as layouts/main.html but service name in the header links to this journey’s dashboard.
+#}
+
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+{% block header %}
+
+    {{ govukHeader() }}
+    {{ govukServiceNavigation({
+        serviceName: serviceName,
+        serviceUrl: "/task-visibility-all-tasks/dashboard"
+    })}}
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Tasks assigned" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
+      <h1 class="govuk-panel__title">Tasks assigned</h1>
+    </div>
+
+    <p class="govuk-body govuk-!-font-size-24" id="batch-confirm-lead"></p>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="all-tasks-overview-batch" id="batch-confirm-link">Back to tasks overview</a>
+    </p>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('batch-confirm-lead');
+    if (!el) return;
+    var raw;
+    try {
+      raw = sessionStorage.getItem('trsBatchAssignLastResult');
+    } catch (e) {
+      raw = null;
+    }
+    if (!raw) {
+      el.textContent = 'Assignment details were not found. Use batch assign from the all tasks overview to assign tasks.';
+      return;
+    }
+    try {
+      var data = JSON.parse(raw);
+      var count = parseInt(data.count, 10) || 0;
+      var agent = data.agentName || 'the selected agent';
+      if (count === 1) {
+        el.textContent = 'The selected task is now assigned to ' + agent + '.';
+      } else if (count > 1) {
+        el.textContent = 'The ' + count + ' selected tasks are now assigned to ' + agent + '.';
+      } else {
+        el.textContent = 'The selected tasks are now assigned to ' + agent + '.';
+      }
+    } catch (e) {
+      el.textContent = 'The selected tasks are now assigned.';
+    }
+  });
+</script>
+
+{% endblock %}

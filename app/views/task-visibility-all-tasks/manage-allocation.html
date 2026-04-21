@@ -1,0 +1,272 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Manage allocation" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "option-b/dashboard"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Tasks and allocation</span>
+    <h1 class="govuk-heading-xl">Manage allocation</h1>
+
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      See team workload in one place. Assign or reassign tasks from the <a class="govuk-link" href="all-tasks-overview-batch">all tasks overview</a> or use bulk actions below.
+    </p>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+
+      <div class="govuk-grid-column-one-quarter">
+        <div class="govuk-!-padding-4 trs-alloc-tile--yellow">
+          <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-font-weight-bold">
+            <a class="govuk-link" href="all-tasks-overview-batch?filter=unassigned" aria-label="8 unassigned tasks, view in all tasks overview">Unassigned</a></p>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+              <span class="govuk-heading-xl govuk-!-margin-bottom-0">8</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="govuk-grid-column-one-quarter">
+        <div class="govuk-!-padding-4 trs-alloc-tile--yellow">
+          <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-font-weight-bold">
+            <a class="govuk-link" href="all-tasks-overview-batch?filter=on-hold#active-tasks" aria-label="23 tasks on hold, show only on hold tasks in all tasks overview">On hold</a></p>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+              <span class="govuk-heading-xl govuk-!-margin-bottom-0">23</span>
+          </p>
+        </div>
+      </div>
+      
+      <div class="govuk-grid-column-one-quarter">
+        <div class="govuk-!-padding-4 trs-alloc-tile--grey">
+          <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-font-weight-bold">            
+            <a class="govuk-link" href="all-tasks-overview-batch?filter=not-started#active-tasks" aria-label="124 not started tasks, view in all tasks overview">
+            Not started</a></p>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+              <span class="govuk-heading-xl govuk-!-margin-bottom-0">124</span>
+          </p>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-quarter">
+        <div class="govuk-!-padding-4 trs-alloc-tile--grey">
+          <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-font-weight-bold">
+            <a class="govuk-link" href="all-tasks-overview-batch?filter=in-progress#active-tasks" aria-label="58 tasks in progress, show only in progress tasks in all tasks overview">
+            In progress</a></p>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+              <span class="govuk-heading-xl govuk-!-margin-bottom-0">58</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {# Team workload: layout and expandable breakdown per Post-MVP TRS Figma (node 26128:40372). Task-type counts = active rows in all-tasks-overview-batch (tbody#active-tbody) by Assigned to + Type. #}
+    <h2 class="govuk-heading-m">Team allocation</h2>
+
+    <table class="govuk-table govuk-!-margin-bottom-6 trs-team-workload-table">
+      <colgroup>
+        <col class="trs-team-workload-table__col-member">
+        <col class="trs-team-workload-table__col-total">
+        <col class="trs-team-workload-table__col-breakdown-col">
+        <col class="trs-team-workload-table__col-actions">
+      </colgroup>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Team member</th>
+          <th scope="col" class="govuk-table__header trs-team-workload-table__header-total">Total tasks</th>
+          <th scope="col" class="govuk-table__header trs-team-workload-table__col-breakdown">Task breakdown</th>
+          <th scope="col" class="govuk-table__header">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Patricia Miles</td>
+          <td class="govuk-table__cell trs-team-workload-table__cell-total">6</td>
+          <td class="govuk-table__cell">
+            <details class="govuk-details govuk-!-margin-bottom-0 trs-team-workload-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Breakdown by type</span>
+              </summary>
+              <div class="govuk-details__text trs-team-workload-breakdown">
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> GOV.UK One Login</p>
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> NPQ TRN requests</p>
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> Potential duplicates via API</p>
+                <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+              </div>
+            </details>
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="all-tasks-overview-batch?owner=Patricia+Miles#active-tasks" aria-label="View Patricia Miles tasks in all tasks overview">View and reassign tasks</a>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Ferdinand Brown</td>
+          <td class="govuk-table__cell trs-team-workload-table__cell-total">2</td>
+          <td class="govuk-table__cell">
+            <details class="govuk-details govuk-!-margin-bottom-0 trs-team-workload-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Breakdown by type</span>
+              </summary>
+              <div class="govuk-details__text trs-team-workload-breakdown">
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+                <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Matched records – manual checks needed</p>
+              </div>
+            </details>
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="all-tasks-overview-batch?owner=Ferdinand+Brown#active-tasks" aria-label="View Ferdinand Brown tasks in all tasks overview">View and reassign tasks</a>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <span class="govuk-!-margin-right-2">Maurice Villard</span>
+            <span class="govuk-tag trs-tag-on-leave">On leave</span>
+          </td>
+          <td class="govuk-table__cell trs-team-workload-table__cell-total">2</td>
+          <td class="govuk-table__cell">
+            <details class="govuk-details govuk-!-margin-bottom-0 trs-team-workload-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Breakdown by type</span>
+              </summary>
+              <div class="govuk-details__text trs-team-workload-breakdown">
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
+                <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Potential duplicates via API</p>
+              </div>
+            </details>
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="all-tasks-overview-batch?owner=Maurice+Villard#active-tasks" aria-label="View Maurice Villard tasks in all tasks overview">View and reassign tasks</a>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Alessandra Morais</td>
+          <td class="govuk-table__cell trs-team-workload-table__cell-total">2</td>
+          <td class="govuk-table__cell">
+            <details class="govuk-details govuk-!-margin-bottom-0 trs-team-workload-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Breakdown by type</span>
+              </summary>
+              <div class="govuk-details__text trs-team-workload-breakdown">
+                <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
+                <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
+              </div>
+            </details>
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="all-tasks-overview-batch?owner=Alessandra+Morais#active-tasks" aria-label="View Alessandra Morais tasks in all tasks overview">View and reassign tasks</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+<!--     <h2 class="govuk-heading-m">Bulk assignment</h2>
+    <p class="govuk-body">Reassign multiple tasks when you need to rebalance workload across the team.</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="bulk-option-1">Quick batch assign</a> — assign several tasks to one agent by task type</li>
+      <li><a class="govuk-link" href="bulk-option-2">Batch assign – guided steps</a> — walk through agent, task type and count</li>
+      <li><a class="govuk-link" href="bulk-option-3">Batch assign from list</a> — tick tasks then assign</li>
+    </ul> -->
+
+  <!--   <h2 class="govuk-heading-m">Permissions (prototype)</h2>
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      Managers can assign and reassign any task. Agents in this prototype can also assign tasks to themselves or colleagues so ownership is visible without a manager.
+    </p> -->
+
+  </div>
+</div>
+
+<style>
+  /* Team workload table — expandable breakdown (Figma 26128:40372) */
+  .trs-team-workload-table {
+    table-layout: fixed;
+    width: 100%;
+    overflow-anchor: none;
+  }
+
+  .trs-team-workload-table col.trs-team-workload-table__col-member {
+    width: 24%;
+  }
+
+  .trs-team-workload-table col.trs-team-workload-table__col-total {
+    width: 15%;
+  }
+
+  .trs-team-workload-table col.trs-team-workload-table__col-breakdown-col {
+    width: 41%;
+  }
+
+  .trs-team-workload-table col.trs-team-workload-table__col-actions {
+    width: 20%;
+  }
+
+  .trs-team-workload-table thead .govuk-table__row .govuk-table__header,
+  .trs-team-workload-table tbody .govuk-table__row .govuk-table__cell {
+    vertical-align: top;
+  }
+
+  .trs-team-workload-table__header-total,
+  .trs-team-workload-table__cell-total {
+    text-align: left;
+  }
+
+  .trs-team-workload-table__header-total {
+    white-space: nowrap;
+  }
+
+  .trs-team-workload-details {
+    max-width: 100%;
+  }
+
+  .trs-team-workload-details .govuk-details__summary {
+    margin-bottom: 0;
+    scroll-margin: 0;
+  }
+
+  .trs-team-workload-breakdown {
+    border-left: 4px solid #b1b4b6;
+    padding: 14px 25px 14px 29px;
+    margin-top: 8px;
+  }
+
+  .trs-tag-on-leave {
+    background-color: #f4cdc6;
+    color: #2a0b06;
+    white-space: nowrap;
+  }
+
+  /* Whole-tile fills: unassigned uses yellow tag palette; in progress uses blue */
+  .trs-alloc-tile--yellow {
+    background-color: #fff7bf;
+    color: #594d00;
+  }
+
+  .trs-alloc-tile--blue {
+    background-color: #bbd4ea;
+    color: #0c2d4a;
+  }
+
+  .trs-alloc-tile--grey {
+    background-color: #f3f2f1;
+    color: #0c2d4a;
+  }
+
+
+  
+  .trs-alloc-tile--yellow .govuk-link:link,
+  .trs-alloc-tile--yellow .govuk-link:visited,
+  .trs-alloc-tile--blue .govuk-link:link,
+  .trs-alloc-tile--blue .govuk-link:visited {
+    color: #1d70b8;
+  }
+  .trs-alloc-tile--yellow .govuk-link:hover,
+  .trs-alloc-tile--blue .govuk-link:hover {
+    color: #003078;
+  }
+</style>
+
+{% endblock %}

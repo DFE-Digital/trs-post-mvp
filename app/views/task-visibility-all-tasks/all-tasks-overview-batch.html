@@ -1,0 +1,1080 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "All tasks overview — batch assign" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <div id="task-details-updated-banner" class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-bottom-6" role="alert" aria-labelledby="task-details-updated-banner-title" data-module="govuk-notification-banner" hidden>
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="task-details-updated-banner-title">
+          Success
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <h3 class="govuk-notification-banner__heading">
+          Task details updated
+        </h3>
+      </div>
+    </div>
+
+    <span class="govuk-caption-l">Tasks summary</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Tasks overview</h1>
+
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      View and filter tasks across all services. Select tasks using the checkboxes, then use <strong>Batch assign</strong> to assign several at once. Use <a class="govuk-link" href="manage-allocation">Manage allocation</a> to see team workload.
+    </p>
+
+    <details class="govuk-details govuk-!-margin-bottom-6" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">What do the task statuses mean?</span>
+      </summary>
+      <div class="govuk-details__text">
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong>Not started</strong> — the task is in the queue and nobody has opened it yet.</li>
+          <li><strong>In progress</strong> — someone is actively working on it.</li>
+          <li><strong>On hold</strong> — work is paused (for example waiting for evidence, a dependency, or a scheduled callback). The task is not being progressed until that condition is met.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">Tasks</h2>
+      <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="#active-tasks">Active tasks</a>
+        </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="#completed-tasks">Completed tasks</a>
+        </li>
+      </ul>
+
+      <section class="govuk-tabs__panel" id="active-tasks">
+
+        <div class="govuk-!-padding-4 govuk-!-margin-bottom-6" style="background-color: #f3f2f1;">
+          <h2 class="govuk-heading-m govuk-!-margin-top-0">Filter tasks</h2>
+
+          <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
+            <!-- <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Filter by status</legend> -->
+            <label class="govuk-label">Status</label>
+            <div class="govuk-checkboxes govuk-checkboxes--small trs-all-tasks-status-filters" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="f-assigned" type="checkbox" value="assigned">
+                <label class="govuk-label govuk-checkboxes__label" for="f-assigned">Assigned to me</label>
+              </div>
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="f-unassigned" type="checkbox" value="unassigned">
+                <label class="govuk-label govuk-checkboxes__label" for="f-unassigned">Unassigned</label>
+              </div>
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="f-in-progress" type="checkbox" value="in-progress">
+                <label class="govuk-label govuk-checkboxes__label" for="f-in-progress">In progress</label>
+              </div>
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="f-on-hold" type="checkbox" value="on-hold">
+                <label class="govuk-label govuk-checkboxes__label" for="f-on-hold">On hold</label>
+              </div>
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="f-not-started" type="checkbox" value="not-started">
+                <label class="govuk-label govuk-checkboxes__label" for="f-not-started">Not started</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-form-group govuk-!-margin-bottom-0">
+                <label class="govuk-label" for="filter-service">Task type</label>
+                <select class="govuk-select govuk-!-width-full" id="filter-service" name="filter-service">
+                  <option value="">All types</option>
+                  <option value="one-login">GOV.UK One Login</option>
+                  <option value="npq">NPQ TRN requests</option>
+                  <option value="duplicates-api">Potential duplicates via API</option>
+                  <option value="matched">Matched records – manual checks</option>
+                  <option value="name-dob">Name and date of birth change requests</option>
+                  <option value="itrs">Integration transaction records (ITRs)</option>
+                </select>
+              </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-form-group govuk-!-margin-bottom-0">
+                <label class="govuk-label" for="filter-owner">Owner</label>
+                <select class="govuk-select govuk-!-width-full" id="filter-owner" name="filter-owner">
+                  <option value="">All owners</option>
+                  <option value="Patricia Miles">Patricia Miles</option>
+                  <option value="Ferdinand Brown">Ferdinand Brown</option>
+                  <option value="Unassigned">Unassigned</option>
+                  <option value="Maurice Villard">Maurice Villard</option>
+                  <option value="Alessandra Morais">Alessandra Morais</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-0">
+            <a class="govuk-link govuk-link--no-visited-state" href="#" id="clear-all-filters">Clear all</a>
+          </p>
+        </div>
+
+        <table class="govuk-table" data-module="moj-sortable-table" id="active-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">
+                <span class="govuk-visually-hidden">Select task</span>
+              </th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Task</th>
+              <th scope="col" class="govuk-table__header" aria-sort="descending">Requested on</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Type</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Status</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="active-tbody">
+            {# If you change task rows, update team workload totals and type breakdowns on manage-allocation (and assign-single if used). #}
+
+            {# Dennis: workflow queue is on hold (On hold filter) but Status column shows Not started for this prototype scenario. #}
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Patricia Miles" data-service="one-login" data-trs-ref="TRS-0000000">
+              <td class="govuk-table__cell govuk-!-padding-right-0">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-1" type="checkbox" name="batch-task" value="1" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-1">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Dennis Berkamp">
+                <a class="govuk-link" href="task-detail-dennis">Dennis Berkamp</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000000</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-09-04">4 Sep 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td id="batch-task-dennis-status" class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Patricia Miles" data-service="one-login">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-2" type="checkbox" name="batch-task" value="2" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-2">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Theodore Bell">
+                <a class="govuk-link" href="#">Theodore Bell</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0013000</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-15">15 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Unassigned" data-service="one-login">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-3" type="checkbox" name="batch-task" value="3" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-3">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Millie Harrison">
+                <a class="govuk-link" href="#">Millie Harrison</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0004002</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-02-20">20 Feb 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Ferdinand Brown" data-service="matched">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-4" type="checkbox" name="batch-task" value="4" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-4">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Oscar Hughes">
+                <a class="govuk-link" href="#">Oscar Hughes</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000005</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-01">1 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Matched records – manual checks needed">Matched records – manual checks needed</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">
+                <a class="govuk-link" href="assign-single">Ferdinand Brown</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Patricia Miles" data-service="npq">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-5" type="checkbox" name="batch-task" value="5" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-5">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Ari Davis">
+                <a class="govuk-link" href="#">Ari Davis</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000100</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-06">6 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Patricia Miles" data-service="name-dob">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-6" type="checkbox" name="batch-task" value="6" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-6">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Nia Davis">
+                <a class="govuk-link" href="#">Nia Davis</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000101</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-12">12 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Unassigned" data-service="duplicates-api">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-7" type="checkbox" name="batch-task" value="7" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-7">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Priya Sharma">
+                <a class="govuk-link" href="#">Priya Sharma</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000202</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-18">18 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Ferdinand Brown" data-service="one-login">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-8" type="checkbox" name="batch-task" value="8" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-8">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="James Okafor">
+                <a class="govuk-link" href="#">James Okafor</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000303</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-03-22">22 Mar 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">
+                <a class="govuk-link" href="assign-single">Ferdinand Brown</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Unassigned" data-service="itrs">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-9" type="checkbox" name="batch-task" value="9" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-9">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Liam Patel">
+                <a class="govuk-link" href="#">Liam Patel</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000505</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-03">3 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Alessandra Morais" data-service="npq">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-10" type="checkbox" name="batch-task" value="10" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-10">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Anna Wright">
+                <a class="govuk-link" href="#">Anna Wright</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000606</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-10">10 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">
+                <a class="govuk-link" href="assign-single">Alessandra Morais</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Maurice Villard" data-service="one-login">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-11" type="checkbox" name="batch-task" value="11" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-11">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Ben Cole">
+                <a class="govuk-link" href="#">Ben Cole</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000707</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-24">24 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Maurice Villard">
+                <a class="govuk-link" href="assign-single">Maurice Villard</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Alessandra Morais" data-service="name-dob">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-12" type="checkbox" name="batch-task" value="12" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-12">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Clara Finn">
+                <a class="govuk-link" href="#">Clara Finn</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000808</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-04-30">30 Apr 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">
+                <a class="govuk-link" href="assign-single">Alessandra Morais</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Unassigned" data-service="itrs">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-13" type="checkbox" name="batch-task" value="13" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-13">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Devon Price">
+                <a class="govuk-link" href="#">Devon Price</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0000909</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-05">5 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Maurice Villard" data-service="duplicates-api">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-14" type="checkbox" name="batch-task" value="14" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-14">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Erin Stone">
+                <a class="govuk-link" href="#">Erin Stone</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001010</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-11">11 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Maurice Villard">
+                <a class="govuk-link" href="assign-single">Maurice Villard</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Unassigned" data-service="matched">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-15" type="checkbox" name="batch-task" value="15" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-15">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Finn Kelly">
+                <a class="govuk-link" href="#">Finn Kelly</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001111</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-19">19 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Matched records – manual checks needed">Matched records – manual checks needed</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Patricia Miles" data-service="npq">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-16" type="checkbox" name="batch-task" value="16" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-16">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Gina Frost">
+                <a class="govuk-link" href="#">Gina Frost</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001212</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-05-26">26 May 2025</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="on-hold" data-owner="Unassigned" data-service="one-login">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-17" type="checkbox" name="batch-task" value="17" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-17">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Hugo Marsh">
+                <a class="govuk-link" href="#">Hugo Marsh</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001313</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-06-01">1 Jun 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--yellow">On hold</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Unassigned" data-service="name-dob">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-18" type="checkbox" name="batch-task" value="18" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-18">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Iris Chen">
+                <a class="govuk-link" href="#">Iris Chen</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001414</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-06-08">8 Jun 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Unassigned" data-service="itrs">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-19" type="checkbox" name="batch-task" value="19" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-19">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Joel Singh">
+                <a class="govuk-link" href="#">Joel Singh</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001515</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-06-15">15 Jun 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Unassigned">
+                <a class="govuk-link" href="assign-single">Unassigned</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+            <tr class="govuk-table__row" data-status="in-progress" data-owner="Patricia Miles" data-service="duplicates-api">
+              <td class="govuk-table__cell govuk-!-padding-right-1">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input batch-task-checkbox" id="batch-task-select-20" type="checkbox" name="batch-task" value="20" />
+                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-left-1" for="batch-task-select-20">
+                      <span class="govuk-visually-hidden">Select this task</span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Kara Wells">
+                <a class="govuk-link" href="#">Kara Wells</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001616</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-06-22">22 Jun 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="2-in-progress"><strong class="govuk-tag govuk-tag--blue">In progress</strong></td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">
+                <a class="govuk-link" href="assign-single">Patricia Miles</a>
+              </td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="manage-task">Manage</a></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <p class="govuk-body" id="active-no-results" style="display: none;">No tasks match your filters.</p>
+
+        <nav class="govuk-pagination govuk-!-margin-top-6" role="navigation" aria-label="Pagination">
+          <ul class="govuk-pagination__list">
+            <li class="govuk-pagination__item govuk-pagination__item--current">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2">2</a>
+            </li>
+            <li class="govuk-pagination__item">
+              <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">3</a>
+            </li>
+            <li class="govuk-pagination__item govuk-pagination__item--next">
+              <a class="govuk-link govuk-pagination__link govuk-pagination__link--next" href="#">
+                Next<span class="govuk-visually-hidden"> page</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+      </section>
+
+      <section class="govuk-tabs__panel govuk-tabs__panel--hidden" id="completed-tasks">
+        <p class="govuk-body">
+          Completed tasks stay available for reference so you can check outcomes and avoid duplicating work.
+        </p>
+
+        <table class="govuk-table" data-module="moj-sortable-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header" aria-sort="none">Task</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Completed by</th>
+              <th scope="col" class="govuk-table__header" aria-sort="descending">Completed on</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Type</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Outcome</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" data-sort-value="Samira Khan">
+                <a class="govuk-link" href="option-b/task-detail">Samira Khan</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0002100</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-28">28 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="Identity verified">Identity verified</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" data-sort-value="Jordan Lee">
+                <a class="govuk-link" href="#">Jordan Lee</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001988</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-25">25 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="Duplicate merged">Duplicate merged</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" data-sort-value="Alex Morgan">
+                <a class="govuk-link" href="#">Alex Morgan</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001870</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-20">20 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="Change approved">Change approved</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" data-sort-value="Taylor Brooks">
+                <a class="govuk-link" href="#">Taylor Brooks</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001755</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-12">12 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="TRN issued">TRN issued</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+
+  </div>
+</div>
+
+<div
+  class="trs-batch-assign-banner"
+  id="batch-assign-toolbar"
+  role="region"
+  aria-label="Tasks selected for batch assign"
+  hidden
+>
+  <div class="govuk-width-container">
+    <div class="trs-batch-assign-banner__inner">
+      <p class="govuk-body govuk-!-margin-bottom-0 trs-batch-assign-banner__text">
+        <span class="trs-batch-assign-banner__label">Selection</span>
+        <span id="batch-assign-count" aria-live="polite"></span>
+      </p>
+      <button type="button" class="govuk-button govuk-button--inverse govuk-!-margin-bottom-0" data-module="govuk-button" id="batch-assign-button">
+        Assign selected tasks
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .trs-all-tasks-status-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+  }
+
+  .trs-all-tasks-status-filters .govuk-checkboxes__item {
+    margin-bottom: 0;
+  }
+
+  .trs-all-tasks-status-filters .govuk-checkboxes__label {
+    white-space: nowrap;
+  }
+
+  #active-tasks .govuk-table th:nth-child(4),
+  #active-tasks .govuk-table td:nth-child(4),
+  #completed-tasks .govuk-table th:nth-child(4),
+  #completed-tasks .govuk-table td:nth-child(4) {
+    max-width: 190px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Light blue row highlight when batch task selected */
+  #active-tbody tr.trs-batch-task-row--selected td {
+    background-color: #f0f4f9;
+  }
+
+  .trs-batch-assign-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: #1d70b8;
+    color: #ffffff;
+    box-shadow: 0 -4px 12px rgba(11, 12, 12, 0.25);
+  }
+
+  .trs-batch-assign-banner__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
+  .trs-batch-assign-banner__text {
+    color: #ffffff;
+  }
+
+  .trs-batch-assign-banner__label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  body.trs-batch-assign-banner-visible {
+    padding-bottom: 100px;
+  }
+
+  @media (min-width: 40.0625em) {
+    body.trs-batch-assign-banner-visible {
+      padding-bottom: 88px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('taskDetailsUpdated') === '1') {
+      var taskDetailsBanner = document.getElementById('task-details-updated-banner');
+      if (taskDetailsBanner) {
+        taskDetailsBanner.hidden = false;
+      }
+      urlParams.delete('taskDetailsUpdated');
+      var qs = urlParams.toString();
+      var cleanUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, '', cleanUrl);
+      }
+    }
+
+    try {
+      var dennisSaved = sessionStorage.getItem('trs-dennis-status');
+      if (dennisSaved === 'in-progress') {
+        var dennisRow = document.querySelector('#active-tbody tr[data-trs-ref="TRS-0000000"]');
+        var dennisStatusTd = document.getElementById('batch-task-dennis-status');
+        if (dennisRow && dennisStatusTd) {
+          dennisRow.setAttribute('data-status', 'in-progress');
+          dennisStatusTd.setAttribute('data-sort-value', '2-in-progress');
+          dennisStatusTd.innerHTML = '<strong class="govuk-tag govuk-tag--blue">In progress</strong>';
+        }
+      }
+    } catch (e) {}
+
+    var currentUser = 'Patricia Miles';
+    var tbody = document.getElementById('active-tbody');
+    var rows = tbody ? Array.prototype.slice.call(tbody.querySelectorAll('tr')) : [];
+    var noResults = document.getElementById('active-no-results');
+
+    var OVERRIDES_KEY = 'trsBatchAssignOverrides';
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function applyAssignedOverridesFromStorage() {
+      var raw;
+      try {
+        raw = sessionStorage.getItem(OVERRIDES_KEY);
+      } catch (e) {
+        return;
+      }
+      if (!raw) return;
+      var overrides;
+      try {
+        overrides = JSON.parse(raw);
+      } catch (e) {
+        return;
+      }
+      if (!overrides || typeof overrides !== 'object') return;
+
+      rows.forEach(function (row) {
+        var cells = row.querySelectorAll('td');
+        if (cells.length < 6) return;
+        var hint = cells[1].querySelector('.govuk-hint');
+        var trsRef = hint ? hint.textContent.trim() : '';
+        if (!trsRef || !Object.prototype.hasOwnProperty.call(overrides, trsRef)) return;
+        var owner = overrides[trsRef];
+        if (!owner) return;
+        var td = cells[5];
+        td.setAttribute('data-sort-value', owner);
+        td.innerHTML =
+          '<a class="govuk-link" href="assign-single">' + escapeHtml(owner) + '</a>';
+        row.setAttribute('data-owner', owner);
+      });
+    }
+
+    applyAssignedOverridesFromStorage();
+
+    var fAssigned = document.getElementById('f-assigned');
+    var fUnassigned = document.getElementById('f-unassigned');
+    var fInProgress = document.getElementById('f-in-progress');
+    var fOnHold = document.getElementById('f-on-hold');
+    var fNotStarted = document.getElementById('f-not-started');
+    var filterService = document.getElementById('filter-service');
+    var filterOwner = document.getElementById('filter-owner');
+    var clearLink = document.getElementById('clear-all-filters');
+    var filterCheckboxes = [fAssigned, fUnassigned, fInProgress, fOnHold, fNotStarted];
+    var batchToolbar = document.getElementById('batch-assign-toolbar');
+    var batchAssignBtn = document.getElementById('batch-assign-button');
+    var batchCountEl = document.getElementById('batch-assign-count');
+
+    function updateBatchToolbar() {
+      if (!batchToolbar) return;
+      var count = 0;
+      rows.forEach(function (row) {
+        if (row.style.display === 'none') return;
+        var cb = row.querySelector('.batch-task-checkbox');
+        if (cb && cb.checked) count++;
+      });
+      batchToolbar.hidden = count === 0;
+      document.body.classList.toggle('trs-batch-assign-banner-visible', count > 0);
+      if (batchCountEl) {
+        batchCountEl.textContent = count === 1 ? '1 task selected' : count + ' tasks selected';
+      }
+    }
+
+    function syncBatchRowHighlight(row) {
+      var cb = row.querySelector('.batch-task-checkbox');
+      if (!cb) return;
+      if (cb.checked) {
+        row.classList.add('trs-batch-task-row--selected');
+      } else {
+        row.classList.remove('trs-batch-task-row--selected');
+      }
+    }
+
+    function rowMatches(row) {
+      var st = row.getAttribute('data-status');
+      var owner = row.getAttribute('data-owner');
+      var service = row.getAttribute('data-service');
+
+      var hasOwnerFilter = (fAssigned && fAssigned.checked) || (fUnassigned && fUnassigned.checked);
+      if (hasOwnerFilter) {
+        var ownerMatches = false;
+        if (fAssigned && fAssigned.checked && owner === currentUser) ownerMatches = true;
+        if (fUnassigned && fUnassigned.checked && owner === 'Unassigned') ownerMatches = true;
+        if (!ownerMatches) return false;
+      }
+
+      var hasWorkflowFilter = (fInProgress && fInProgress.checked) || (fOnHold && fOnHold.checked) || (fNotStarted && fNotStarted.checked);
+      if (hasWorkflowFilter) {
+        var workflowMatches = false;
+        if (fInProgress && fInProgress.checked && st === 'in-progress') workflowMatches = true;
+        if (fOnHold && fOnHold.checked && st === 'on-hold') workflowMatches = true;
+        if (fNotStarted && fNotStarted.checked && st === 'not-started') workflowMatches = true;
+        if (!workflowMatches) return false;
+      }
+
+      if (filterService && filterService.value && service !== filterService.value) return false;
+
+      if (filterOwner && filterOwner.value && owner !== filterOwner.value) return false;
+
+      return true;
+    }
+
+    function refreshDennisPrototypeStatusLabel() {
+      var dennisStatusTd = document.getElementById('batch-task-dennis-status');
+      var dennisRow = document.querySelector('#active-tbody tr[data-trs-ref="TRS-0000000"]');
+      if (!dennisStatusTd || !dennisRow) return;
+      if (dennisRow.getAttribute('data-status') !== 'on-hold') return;
+      dennisStatusTd.setAttribute('data-sort-value', '3-on-hold');
+      dennisStatusTd.innerHTML = '<strong class="govuk-tag govuk-tag--grey">Not started</strong>';
+    }
+
+    function render() {
+      if (!tbody) return;
+      var visible = [];
+      rows.forEach(function (row) {
+        if (rowMatches(row)) {
+          row.style.display = '';
+          visible.push(row);
+        } else {
+          row.style.display = 'none';
+          var hideCb = row.querySelector('.batch-task-checkbox');
+          if (hideCb) hideCb.checked = false;
+          row.classList.remove('trs-batch-task-row--selected');
+        }
+      });
+      if (noResults) noResults.style.display = visible.length ? 'none' : '';
+      updateBatchToolbar();
+      refreshDennisPrototypeStatusLabel();
+    }
+
+    filterCheckboxes.forEach(function (el) {
+      if (el) el.addEventListener('change', function () { render(); });
+    });
+    if (filterService) filterService.addEventListener('change', function () { render(); });
+    if (filterOwner) filterOwner.addEventListener('change', function () { render(); });
+
+    if (tbody) {
+      tbody.addEventListener('change', function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains('batch-task-checkbox')) {
+          var row = e.target.closest('tr');
+          if (row) syncBatchRowHighlight(row);
+          updateBatchToolbar();
+        }
+      });
+    }
+
+    if (batchAssignBtn) {
+      batchAssignBtn.addEventListener('click', function () {
+        var selected = [];
+        rows.forEach(function (row) {
+          if (row.style.display === 'none') return;
+          var cb = row.querySelector('.batch-task-checkbox');
+          if (!cb || !cb.checked) return;
+          var cells = row.querySelectorAll('td');
+          if (cells.length < 7) return;
+          var taskLink = cells[1].querySelector('a');
+          var name = taskLink ? taskLink.textContent.trim() : '';
+          var hint = cells[1].querySelector('.govuk-hint');
+          var trsRef = hint ? hint.textContent.trim() : '';
+          var assignTd = cells[5];
+          var assignedTo = assignTd.getAttribute('data-sort-value');
+          if (!assignedTo) {
+            assignedTo = assignTd.textContent.replace(/\s+/g, ' ').trim();
+          }
+          var requestedOn = cells[2].textContent.trim();
+          var taskType = cells[3].textContent.trim();
+          var statusCell = cells[4];
+          var statusTag = statusCell.querySelector('.govuk-tag');
+          var statusText = statusTag ? statusTag.textContent.trim() : statusCell.textContent.trim();
+          selected.push({
+            name: name,
+            trsRef: trsRef,
+            assignedTo: assignedTo,
+            requestedOn: requestedOn,
+            taskType: taskType,
+            status: statusText
+          });
+        });
+        try {
+          sessionStorage.setItem('trsBatchAssignTasks', JSON.stringify(selected));
+        } catch (e) {}
+        window.location.href = 'assign-bulk';
+      });
+    }
+
+    if (clearLink) clearLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      filterCheckboxes.forEach(function (el) { if (el) el.checked = false; });
+      if (filterService) filterService.value = '';
+      if (filterOwner) filterOwner.value = '';
+      rows.forEach(function (row) {
+        var b = row.querySelector('.batch-task-checkbox');
+        if (b) b.checked = false;
+        row.classList.remove('trs-batch-task-row--selected');
+      });
+      render();
+    });
+
+    var params = new URLSearchParams(window.location.search);
+    var filterParam = (params.get('filter') || '').trim().toLowerCase().replace(/_/g, '-');
+    if (filterParam === 'onhold') filterParam = 'on-hold';
+    if (filterParam === 'inprogress') filterParam = 'in-progress';
+    if (filterParam) {
+      [fAssigned, fUnassigned, fInProgress, fOnHold, fNotStarted].forEach(function (el) {
+        if (el) el.checked = false;
+      });
+      if (filterParam === 'unassigned' && fUnassigned) fUnassigned.checked = true;
+      if (filterParam === 'assigned' && fAssigned) fAssigned.checked = true;
+      if (filterParam === 'in-progress' && fInProgress) fInProgress.checked = true;
+      if (filterParam === 'on-hold' && fOnHold) fOnHold.checked = true;
+      if ((filterParam === 'not-started' || filterParam === 'not-starteds') && fNotStarted) {
+        fNotStarted.checked = true;
+      }
+    }
+
+    var ownerParam = params.get('owner');
+    if (ownerParam && filterOwner) {
+      var ownerName = decodeURIComponent(ownerParam.replace(/\+/g, ' ')).trim();
+      var optionExists = Array.prototype.some.call(filterOwner.options, function (opt) {
+        return opt.value === ownerName;
+      });
+      if (optionExists) filterOwner.value = ownerName;
+    }
+
+    render();
+  });
+</script>
+
+{% endblock %}
