@@ -1,0 +1,146 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Completed task" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch#completed-tasks"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">GOV.UK One Login <br> TRS-0002100</span>
+    <h1 class="govuk-heading-xl govuk-!-padding-bottom-0">Samira Khan</h1>
+   
+    <div hidden class="govuk-inset-text govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        This task is finished. The summary below matches the completed tasks list. Other tasks may end with different outcomes, for example <strong>record matched</strong> or <strong>duplicate merged</strong>.
+      </p>
+    </div>
+
+    <h2 class="govuk-heading-m">Key details</h2>
+    <dl class="govuk-summary-list govuk-!-margin-bottom-8">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Outcome</dt>
+        <dd class="govuk-summary-list__value">
+          <strong class="govuk-tag govuk-tag--green">Identity verified</strong>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Type</dt>
+        <dd class="govuk-summary-list__value">GOV.UK One Login</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Completed on</dt>
+        <dd class="govuk-summary-list__value">
+          <time datetime="2026-03-28">28 March 2026</time>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Completed by</dt>
+        <dd class="govuk-summary-list__value">Patricia Miles</dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Task history</h2>
+    <p class="govuk-body govuk-!-margin-bottom-4">
+      Main steps for this task, newest first.
+    </p>
+    <div class="moj-timeline govuk-!-margin-bottom-8">
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task completed</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-28T16:30:00">28 March 2026 at 4:30pm</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Outcome recorded as identity verified. Closed by Patricia Miles.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Identity verification</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-27T11:15:00">27 March 2026 at 11:15am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Checks completed. Citizen record matched to the expected identity before verification was confirmed.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">In progress</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-15T09:00:00">15 February 2026 at 9:00am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Task assigned to Patricia Miles. Work started on GOV.UK One Login checks.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task created</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-10T08:42:00">10 February 2026 at 8:42am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Task raised from GOV.UK One Login. Initially unassigned.
+        </div>
+      </div>
+    </div>
+
+    <h2 class="govuk-heading-m">Notes</h2>
+    <p class="govuk-body govuk-!-margin-bottom-4">
+      Notes added while the task was open. They stay visible for audit and for anyone who needs context on how the outcome was reached.
+    </p>
+    <div class="moj-timeline">
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">By Patricia Miles added a note</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-27T14:20:00">27 March 2026 at 2:20pm</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Identity verified against passport details. Outcome set to identity verified; ready to complete.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">By Patricia Miles added a note</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-18T10:05:00">18 March 2026 at 10:05am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Requested proof of address. Document received and checked.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">By Patricia Miles added a note</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-20T16:40:00">20 February 2026 at 4:40pm</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          First review of GOV.UK One Login evidence. No issues flagged at this stage.
+        </div>
+      </div>
+    </div>
+
+    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-0">
+      <a class="govuk-link" href="all-tasks-overview-batch#completed-tasks">Return to completed tasks</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}
