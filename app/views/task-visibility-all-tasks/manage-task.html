@@ -182,16 +182,7 @@
         copyBtn.setAttribute('aria-label', 'Copy link for ticket ' + index + ' to clipboard');
         copyBtn.textContent = 'Copy link';
 
-        var removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'govuk-button govuk-button--secondary';
-        removeBtn.setAttribute('data-action', 'remove-zendesk-ticket');
-        removeBtn.setAttribute('aria-label', 'Remove ticket ' + index);
-        removeBtn.textContent = 'Remove';
-
-      
         actions.appendChild(copyBtn);
-        //actions.appendChild(removeBtn);
         actions.appendChild(viewLink);
         tdAction.appendChild(actions);
 
@@ -199,22 +190,6 @@
         row.appendChild(tdAction);
 
         return row;
-      }
-
-      function persistZendeskTicketsFromDom() {
-        if (!container) return;
-        var rows = container.querySelectorAll('tr.zendesk-ticket-saved');
-        var urls = [];
-        rows.forEach(function (row) {
-          var a = row.querySelector('td:first-child a.govuk-link');
-          if (a) {
-            var href = a.getAttribute('href');
-            if (href) urls.push(href);
-          }
-        });
-        try {
-          sessionStorage.setItem(ZENDESK_TICKETS_STORAGE_KEY, JSON.stringify(urls));
-        } catch (e) {}
       }
 
       function initZendeskTicketsFromStorage() {
@@ -249,17 +224,6 @@
           if (copyEl) {
             e.preventDefault();
             copyUrlToClipboard(copyEl.getAttribute('data-zendesk-copy'), copyEl);
-            return;
-          }
-
-          var removeEl = el.closest('[data-action="remove-zendesk-ticket"]');
-          if (removeEl) {
-            e.preventDefault();
-            var rowToRemove = removeEl.closest('tr');
-            if (rowToRemove && rowToRemove.parentNode) {
-              rowToRemove.parentNode.removeChild(rowToRemove);
-              persistZendeskTicketsFromDom();
-            }
             return;
           }
         });
@@ -380,47 +344,10 @@
               <option value="on-hold">On hold</option>
             </select>
           </dd>
-        </div>
-
-
-
-        <div id="assignment-history" class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key govuk-!-width--one-quarter">Task history</dt>
-          <dd class="govuk-summary-list__value">
-            <section id="assignment-history-section" class="govuk-!-margin-bottom-0">
-        
-
-              <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">View activity</span>
-                </summary>
-                <div class="govuk-details__text">
-                  <div id="assignment-activity-timeline" class="moj-timeline">
-                    <div class="moj-timeline__item govuk-!-padding-bottom-6">
-                      <div class="moj-timeline__header">
-                        <h2 class="moj-timeline__title">Assigned to Patricia Miles</h2>
-                        <p class="moj-timeline__date">
-                          <time datetime="2025-12-02T09:14:00">2 December 2025 at 9:14am</time>
-                        </p>
-                      </div>
-                      <div class="moj-timeline__description">Changed by Ferdinand Brown (reassigned from unassigned)</div>
-                    </div>
-                    <div class="moj-timeline__item govuk-!-padding-bottom-6">
-                      <div class="moj-timeline__header">
-                        <h2 class="moj-timeline__title">Unassigned</h2>
-                        <p class="moj-timeline__date">
-                          <time datetime="2025-11-28T15:02:00">28 November 2025 at 3:02pm</time>
-                        </p>
-                      </div>
-                      <div class="moj-timeline__description">System (task created)</div>
-                    </div>
-                  </div>
-                </div>
-              </details>
-            </section>
-          </dd>
-        </div>
+        </div> 
       </dl>
+
+
 
       <div class="trs-manage-task-section-heading govuk-!-margin-top-6">
         <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Notes</h2>
@@ -432,7 +359,7 @@
       </p>
 
      
-      <section id="notes-section" class="govuk-!-margin-bottom-0">
+      <section id="zendesk-section" class="govuk-!-margin-bottom-0">
         <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">View notes</span>
@@ -481,41 +408,86 @@
        View and add Zendesk tickets related to this task.
       </p>
 
-      <table class="govuk-table govuk-!-margin-bottom-6">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Link to ticket</th>
-            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
-          </tr>
-        </thead>
-        <tbody id="ticket-fields-container" class="govuk-table__body">
-          <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="1">
-            <td class="govuk-table__cell">
-              <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" id="ticket-1-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12ThY34999</a>
-            </td>
-            <td class="govuk-table__cell">
-              <div class="zendesk-ticket-actions">
-                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12ThY34999" aria-label="Copy link for ticket 1 to clipboard">Copy link</button>
-                <button type="button" class="govuk-button govuk-button--secondary" data-action="remove-zendesk-ticket" aria-label="Remove ticket 1">Remove</button>
-                <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 1 (opens in new tab)">View ticket</a>
-              </div>
-            </td>
-          </tr>
-          <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="2">
-            <td class="govuk-table__cell">
-              <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" id="ticket-2-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12aBL5151778</a>
-            </td>
-            <td class="govuk-table__cell">
-              <div class="zendesk-ticket-actions">
-                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12aBL5151778" aria-label="Copy link for ticket 2 to clipboard">Copy link</button>
-                <button type="button" class="govuk-button govuk-button--secondary" data-action="remove-zendesk-ticket" aria-label="Remove ticket 2">Remove</button>
-                <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 2 (opens in new tab)">View ticket</a>
 
+      <section id="zendesk-section" class="govuk-!-margin-bottom-0">
+        <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">View tickets</span>
+          </summary>
+          <div class="govuk-details__text">
+            <table class="govuk-table govuk-!-margin-bottom-6">
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Link to ticket</th>
+                  <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+                </tr>
+              </thead>
+              <tbody id="ticket-fields-container" class="govuk-table__body">
+                <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="1">
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" id="ticket-1-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12ThY34999</a>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <div class="zendesk-ticket-actions">
+                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12ThY34999" aria-label="Copy link for ticket 1 to clipboard">Copy link</button>
+                <a class="govuk-link" href="https://zendesk.com/ticket#12ThY34999" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 1 (opens in new tab)">View ticket</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row zendesk-ticket-saved" data-ticket-index="2">
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" id="ticket-2-link" target="_blank" rel="noopener noreferrer">zenDesk.com/ticket#12aBL5151778</a>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <div class="zendesk-ticket-actions">
+                <button type="button" class="govuk-button govuk-button--secondary" data-zendesk-copy="https://zendesk.com/ticket#12aBL5151778" aria-label="Copy link for ticket 2 to clipboard">Copy link</button>
+                <a class="govuk-link" href="https://zendesk.com/ticket#12aBL5151778" target="_blank" rel="noopener noreferrer" aria-label="View ticket for ticket 2 (opens in new tab)">View ticket</a>
+      
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-0">Task history</h2>
+      <section id="zendesk-section" class="govuk-!-margin-bottom-0">
+        <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">View activity</span>
+          </summary>
+          <div class="govuk-details__text">
+            <div id="assignment-activity-timeline" class="moj-timeline">
+              <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                <div class="moj-timeline__header">
+                  <h2 class="moj-timeline__title">Assigned to Patricia Miles</h2>
+                  <p class="moj-timeline__date">
+                    <time datetime="2025-12-02T09:14:00">2 December 2025 at 9:14am</time>
+                  </p>
+                </div>
+                <div class="moj-timeline__description">Changed by Ferdinand Brown (reassigned from unassigned)</div>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <div class="moj-timeline__item govuk-!-padding-bottom-6">
+                <div class="moj-timeline__header">
+                  <h2 class="moj-timeline__title">Unassigned</h2>
+                  <p class="moj-timeline__date">
+                    <time datetime="2025-11-28T15:02:00">28 November 2025 at 3:02pm</time>
+                  </p>
+                </div>
+                <div class="moj-timeline__description">System (task created)</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+
+
+   
 
       <div class="govuk-button-group govuk-!-margin-top-6">
         <button class="govuk-button" data-module="govuk-button" type="submit">
