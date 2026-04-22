@@ -922,10 +922,19 @@
       }
     }
 
+    function getRowStatusTagText(row) {
+      var cells = row.querySelectorAll('td');
+      if (cells.length < 5) return '';
+      var statusCell = cells[4];
+      var tag = statusCell.querySelector('.govuk-tag');
+      return tag ? tag.textContent.replace(/\s+/g, ' ').trim() : '';
+    }
+
     function rowMatches(row) {
       var st = row.getAttribute('data-status');
       var owner = row.getAttribute('data-owner');
       var service = row.getAttribute('data-service');
+      var statusTagText = getRowStatusTagText(row);
 
       var hasOwnerFilter = (fAssigned && fAssigned.checked) || (fUnassigned && fUnassigned.checked);
       if (hasOwnerFilter) {
@@ -940,7 +949,9 @@
         var workflowMatches = false;
         if (fInProgress && fInProgress.checked && st === 'in-progress') workflowMatches = true;
         if (fOnHold && fOnHold.checked && st === 'on-hold') workflowMatches = true;
-        if (fNotStarted && fNotStarted.checked && st === 'not-started') workflowMatches = true;
+        if (fNotStarted && fNotStarted.checked && (st === 'not-started' || statusTagText === 'Not started')) {
+          workflowMatches = true;
+        }
         if (!workflowMatches) return false;
       }
 
