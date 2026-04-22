@@ -142,8 +142,7 @@
           <tbody class="govuk-table__body" id="active-tbody">
             {# If you change task rows, update team workload totals and type breakdowns on manage-allocation (and assign-single if used). #}
 
-            {# Dennis: workflow queue is on hold (On hold filter) but Status column shows Not started for this prototype scenario. #}
-            <tr class="govuk-table__row" data-status="on-hold" data-owner="Patricia Miles" data-service="one-login" data-trs-ref="TRS-0000000">
+            <tr class="govuk-table__row" data-status="not-started" data-owner="Patricia Miles" data-service="one-login" data-trs-ref="TRS-0000000">
               <td class="govuk-table__cell govuk-!-padding-right-0">
                 <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                   <div class="govuk-checkboxes__item">
@@ -160,7 +159,7 @@
               </td>
               <td class="govuk-table__cell" data-sort-value="2025-09-04">4 Sep 2025</td>
               <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
-              <td id="batch-task-dennis-status" class="govuk-table__cell" data-sort-value="3-on-hold"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
+              <td id="batch-task-dennis-status" class="govuk-table__cell" data-sort-value="1-not-started"><strong class="govuk-tag govuk-tag--grey">Not started</strong></td>
               <td class="govuk-table__cell" data-sort-value="Patricia Miles">
                 <a class="govuk-link" href="assign-single">Patricia Miles</a>
               </td>
@@ -962,15 +961,6 @@
       return true;
     }
 
-    function refreshDennisPrototypeStatusLabel() {
-      var dennisStatusTd = document.getElementById('batch-task-dennis-status');
-      var dennisRow = document.querySelector('#active-tbody tr[data-trs-ref="TRS-0000000"]');
-      if (!dennisStatusTd || !dennisRow) return;
-      if (dennisRow.getAttribute('data-status') !== 'on-hold') return;
-      dennisStatusTd.setAttribute('data-sort-value', '3-on-hold');
-      dennisStatusTd.innerHTML = '<strong class="govuk-tag govuk-tag--grey">Not started</strong>';
-    }
-
     function render() {
       if (!tbody) return;
       var visible = [];
@@ -987,7 +977,6 @@
       });
       if (noResults) noResults.style.display = visible.length ? 'none' : '';
       updateBatchToolbar();
-      refreshDennisPrototypeStatusLabel();
     }
 
     filterCheckboxes.forEach(function (el) {

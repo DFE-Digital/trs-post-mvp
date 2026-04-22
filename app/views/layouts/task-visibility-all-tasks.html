@@ -1,8 +1,14 @@
 {#
   Same as layouts/main.html but service name in the header links to this journey’s dashboard.
+  Figma html-to-design capture (remove after importing screens to Figma).
 #}
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+
+{% block head %}
+  {{ super() }}
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+{% endblock %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% block header %}
