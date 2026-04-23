@@ -27,6 +27,20 @@
       </div>
     </div>
 
+    <div id="tasks-assigned-banner" class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-bottom-6" role="alert" aria-labelledby="tasks-assigned-banner-title" data-module="govuk-notification-banner" hidden>
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="tasks-assigned-banner-title">
+          Success
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <h3 class="govuk-notification-banner__heading">
+          Tasks assigned
+        </h3>
+        <p class="govuk-body govuk-!-margin-bottom-0" id="tasks-assigned-banner-body"></p>
+      </div>
+    </div>
+
     <span class="govuk-caption-l">Tasks summary</span>
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Tasks overview</h1>
 
@@ -818,6 +832,44 @@
       var cleanUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
       if (window.history && window.history.replaceState) {
         window.history.replaceState({}, '', cleanUrl);
+      }
+    }
+
+    if (urlParams.get('tasksAssigned') === '1') {
+      var tasksAssignedBanner = document.getElementById('tasks-assigned-banner');
+      var tasksAssignedBody = document.getElementById('tasks-assigned-banner-body');
+      var assignRaw;
+      try {
+        assignRaw = sessionStorage.getItem('trsBatchAssignLastResult');
+      } catch (e) {
+        assignRaw = null;
+      }
+      if (tasksAssignedBanner && tasksAssignedBody) {
+        if (assignRaw) {
+          try {
+            var assignData = JSON.parse(assignRaw);
+            var assignCount = parseInt(assignData.count, 10) || 0;
+            var assignAgent = assignData.agentName || 'the selected agent';
+            if (assignCount === 1) {
+              tasksAssignedBody.textContent = 'The selected task is now assigned to ' + assignAgent + '.';
+            } else if (assignCount > 1) {
+              tasksAssignedBody.textContent = 'The ' + assignCount + ' selected tasks are now assigned to ' + assignAgent + '.';
+            } else {
+              tasksAssignedBody.textContent = 'The selected tasks are now assigned to ' + assignAgent + '.';
+            }
+          } catch (e) {
+            tasksAssignedBody.textContent = 'The selected tasks have been assigned.';
+          }
+        } else {
+          tasksAssignedBody.textContent = 'Assignment details were not found. Use assign from the tasks overview to assign tasks.';
+        }
+        tasksAssignedBanner.hidden = false;
+      }
+      urlParams.delete('tasksAssigned');
+      var assignQs = urlParams.toString();
+      var assignCleanUrl = window.location.pathname + (assignQs ? '?' + assignQs : '') + window.location.hash;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, '', assignCleanUrl);
       }
     }
 

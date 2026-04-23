@@ -201,12 +201,47 @@
 <div class="govuk-grid-row govuk-!-margin-top-6">
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-button-group">
-      <button class="govuk-button" data-module="govuk-button" type="submit">
-        Continue
+      <button class="govuk-button" data-module="govuk-button" type="button" id="assign-single-continue">
+        Assign task
       </button>
       <a class="govuk-link" href="task-detail">Cancel</a>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var continueBtn = document.getElementById('assign-single-continue');
+    if (!continueBtn) return;
+    continueBtn.addEventListener('click', function () {
+      var assigneeEl = document.getElementById('assign-to');
+      if (!assigneeEl || !assigneeEl.value) {
+        if (assigneeEl) assigneeEl.focus();
+        return;
+      }
+      var agentName = assigneeEl.options[assigneeEl.selectedIndex]
+        ? assigneeEl.options[assigneeEl.selectedIndex].text.trim()
+        : '';
+      var trsRef = 'TRS-0000000';
+      var overrides = {};
+      try {
+        var existing = sessionStorage.getItem('trsBatchAssignOverrides');
+        if (existing) overrides = JSON.parse(existing);
+        if (!overrides || typeof overrides !== 'object') overrides = {};
+      } catch (err) {
+        overrides = {};
+      }
+      overrides[trsRef] = agentName;
+      try {
+        sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
+        sessionStorage.setItem(
+          'trsBatchAssignLastResult',
+          JSON.stringify({ agentName: agentName, count: 1 })
+        );
+      } catch (err) {}
+      window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
+    });
+  });
+</script>
 
 {% endblock %}
