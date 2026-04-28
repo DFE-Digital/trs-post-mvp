@@ -34,14 +34,13 @@
         </h2>
       </div>
       <div class="govuk-notification-banner__content">
-        <h3 class="govuk-notification-banner__heading">
+        <h3 class="govuk-notification-banner__heading" id="tasks-assigned-banner-heading">
           Tasks assigned
         </h3>
-        <p class="govuk-body govuk-!-margin-bottom-0" id="tasks-assigned-banner-body"></p>
       </div>
     </div>
 
-    <span class="govuk-caption-l">Tasks summary</span>
+    <span class="govuk-caption-l">Tasks</span>
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Tasks overview</h1>
 
     <p class="govuk-body govuk-!-margin-bottom-6">
@@ -49,13 +48,14 @@
 
     <details class="govuk-details govuk-!-margin-bottom-6" data-module="govuk-details">
       <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">What do the task statuses mean?</span>
+        <span class="govuk-details__summary-text">What each task status means</span>
       </summary>
       <div class="govuk-details__text">
         <ul class="govuk-list govuk-list--bullet">
-          <li><strong>Not started</strong> — the task is in the queue and nobody has opened it yet.</li>
-          <li><strong>In progress</strong> — someone is actively working on it.</li>
-          <li><strong>On hold</strong> — work is paused (for example waiting for evidence, a dependency, or a scheduled callback). The task is not being progressed until that condition is met.</li>
+          <li>Not started – the task has not been opened yet.</li>
+          <li>In progress – someone is actively working on the task.</li>
+          <li>On hold – the task is paused until other work is completed, for example getting evidence or a scheduled call.</li>
+
         </ul>
       </div>
     </details>
@@ -662,63 +662,273 @@
       </section>
 
       <section class="govuk-tabs__panel govuk-tabs__panel--hidden" id="completed-tasks">
-        <p class="govuk-body">
-          Completed tasks stay available for reference so you can check outcomes and avoid duplicating work.
-        </p>
+        <div class="govuk-!-padding-4 govuk-!-margin-bottom-6" style="background-color: #f3f2f1;">
+          <h2 class="govuk-heading-m govuk-!-margin-top-0">Search completed tasks</h2>
 
-        <table class="govuk-table" data-module="moj-sortable-table">
+          <div class="govuk-form-group govuk-!-margin-bottom-4">
+            <label class="govuk-label govuk-label--s" for="completed-search">
+              Enter a name, email address or request date, for example 31-3-2025
+            </label>
+            <div class="trs-completed-search">
+              <input class="govuk-input" id="completed-search" name="completed-search" type="search" spellcheck="false" autocomplete="off">
+              <button type="button" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button" id="completed-search-button">Search</button>
+            </div>
+          </div>
+
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-form-group govuk-!-margin-bottom-0">
+                <label class="govuk-label" for="completed-filter-service">Task type</label>
+                <select class="govuk-select govuk-!-width-full" id="completed-filter-service" name="completed-filter-service">
+                  <option value="">All types</option>
+                  <option value="one-login">GOV.UK One Login</option>
+                  <option value="npq">NPQ TRN requests</option>
+                  <option value="duplicates-api">Potential duplicates via API</option>
+                  <option value="matched">Matched records – manual checks</option>
+                  <option value="name-dob">Name and date of birth change requests</option>
+                  <option value="itrs">Integration transaction records (ITRs)</option>
+                </select>
+              </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-form-group govuk-!-margin-bottom-0">
+                <label class="govuk-label" for="completed-filter-owner">Assigned to</label>
+                <select class="govuk-select govuk-!-width-full" id="completed-filter-owner" name="completed-filter-owner">
+                  <option value="">All owners</option>
+                  <option value="Patricia Miles">Patricia Miles</option>
+                  <option value="Ferdinand Brown">Ferdinand Brown</option>
+                  <option value="Alessandra Morais">Alessandra Morais</option>
+                  <option value="Maurice Villard">Maurice Villard</option>
+                  <option value="Gita Patel">Gita Patel</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-0">
+            <a class="govuk-link govuk-link--no-visited-state" href="#" id="completed-clear-all-filters">Clear all</a>
+          </p>
+        </div>
+
+        <table class="govuk-table" data-module="moj-sortable-table" id="completed-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header" aria-sort="none">Task</th>
-              <th scope="col" class="govuk-table__header" aria-sort="none">Completed by</th>
               <th scope="col" class="govuk-table__header" aria-sort="descending">Completed on</th>
               <th scope="col" class="govuk-table__header" aria-sort="none">Type</th>
               <th scope="col" class="govuk-table__header" aria-sort="none">Outcome</th>
+              <th scope="col" class="govuk-table__header" aria-sort="none">Completed by</th>
             </tr>
           </thead>
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
+          <tbody class="govuk-table__body" id="completed-tbody">
+            <tr class="govuk-table__row" data-type="one-login" data-owner="Patricia Miles">
               <td class="govuk-table__cell" data-sort-value="Samira Khan">
                 <a class="govuk-link" href="task-detail-completed">Samira Khan</a><br>
                 <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0002100</span>
               </td>
-              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
               <td class="govuk-table__cell" data-sort-value="2026-03-28">28 Mar 2026</td>
               <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
               <td class="govuk-table__cell" data-sort-value="Identity verified">Identity verified</td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
             </tr>
-            <tr class="govuk-table__row">
+            <tr class="govuk-table__row" data-type="duplicates-api" data-owner="Ferdinand Brown">
               <td class="govuk-table__cell" data-sort-value="Jordan Lee">
                 <a class="govuk-link" href="#">Jordan Lee</a><br>
                 <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001988</span>
               </td>
-              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
               <td class="govuk-table__cell" data-sort-value="2026-03-25">25 Mar 2026</td>
               <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
               <td class="govuk-table__cell" data-sort-value="Duplicate merged">Duplicate merged</td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
             </tr>
-            <tr class="govuk-table__row">
+            <tr class="govuk-table__row" data-type="name-dob" data-owner="Alessandra Morais">
               <td class="govuk-table__cell" data-sort-value="Alex Morgan">
                 <a class="govuk-link" href="#">Alex Morgan</a><br>
                 <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001870</span>
               </td>
-              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
               <td class="govuk-table__cell" data-sort-value="2026-03-20">20 Mar 2026</td>
               <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
               <td class="govuk-table__cell" data-sort-value="Change approved">Change approved</td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
             </tr>
-            <tr class="govuk-table__row">
+            <tr class="govuk-table__row" data-type="npq" data-owner="Patricia Miles">
               <td class="govuk-table__cell" data-sort-value="Taylor Brooks">
                 <a class="govuk-link" href="#">Taylor Brooks</a><br>
                 <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001755</span>
               </td>
-              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
               <td class="govuk-table__cell" data-sort-value="2026-03-12">12 Mar 2026</td>
               <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
               <td class="govuk-table__cell" data-sort-value="TRN issued">TRN issued</td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="matched" data-owner="Maurice Villard">
+              <td class="govuk-table__cell" data-sort-value="Priya Nair">
+                <a class="govuk-link" href="#">Priya Nair</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001732</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-08">8 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Matched records – manual checks">Matched records – manual checks</td>
+              <td class="govuk-table__cell" data-sort-value="Record confirmed">Record confirmed</td>
+              <td class="govuk-table__cell" data-sort-value="Maurice Villard">Maurice Villard</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="itrs" data-owner="Gita Patel">
+              <td class="govuk-table__cell" data-sort-value="Owen Clarke">
+                <a class="govuk-link" href="#">Owen Clarke</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001704</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-03-03">3 Mar 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="Transaction reconciled">Transaction reconciled</td>
+              <td class="govuk-table__cell" data-sort-value="Gita Patel">Gita Patel</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="one-login" data-owner="Ferdinand Brown">
+              <td class="govuk-table__cell" data-sort-value="Mei Chen">
+                <a class="govuk-link" href="#">Mei Chen</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001688</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-27">27 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="Account matched">Account matched</td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="npq" data-owner="Patricia Miles">
+              <td class="govuk-table__cell" data-sort-value="Daniel Hughes">
+                <a class="govuk-link" href="#">Daniel Hughes</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001641</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-19">19 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="TRN found">TRN found</td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="duplicates-api" data-owner="Alessandra Morais">
+              <td class="govuk-table__cell" data-sort-value="Aisha Rahman">
+                <a class="govuk-link" href="#">Aisha Rahman</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001602</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-15">15 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="No duplicate found">No duplicate found</td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="name-dob" data-owner="Maurice Villard">
+              <td class="govuk-table__cell" data-sort-value="Lewis Green">
+                <a class="govuk-link" href="#">Lewis Green</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001567</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-10">10 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="Evidence accepted">Evidence accepted</td>
+              <td class="govuk-table__cell" data-sort-value="Maurice Villard">Maurice Villard</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="matched" data-owner="Gita Patel">
+              <td class="govuk-table__cell" data-sort-value="Emily Carter">
+                <a class="govuk-link" href="#">Emily Carter</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001519</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-02-02">2 Feb 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Matched records – manual checks">Matched records – manual checks</td>
+              <td class="govuk-table__cell" data-sort-value="Duplicate removed">Duplicate removed</td>
+              <td class="govuk-table__cell" data-sort-value="Gita Patel">Gita Patel</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="itrs" data-owner="Patricia Miles">
+              <td class="govuk-table__cell" data-sort-value="Noah Williams">
+                <a class="govuk-link" href="#">Noah Williams</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001480</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-29">29 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="ITR closed">ITR closed</td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="one-login" data-owner="Alessandra Morais">
+              <td class="govuk-table__cell" data-sort-value="Grace Evans">
+                <a class="govuk-link" href="#">Grace Evans</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001444</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-21">21 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="Identity verified">Identity verified</td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="npq" data-owner="Ferdinand Brown">
+              <td class="govuk-table__cell" data-sort-value="Yusuf Ali">
+                <a class="govuk-link" href="#">Yusuf Ali</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001398</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-15">15 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="TRN issued">TRN issued</td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="duplicates-api" data-owner="Gita Patel">
+              <td class="govuk-table__cell" data-sort-value="Charlotte King">
+                <a class="govuk-link" href="#">Charlotte King</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001355</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2026-01-09">9 Jan 2026</td>
+              <td class="govuk-table__cell" data-sort-value="Potential duplicates via API">Potential duplicates via API</td>
+              <td class="govuk-table__cell" data-sort-value="Duplicate merged">Duplicate merged</td>
+              <td class="govuk-table__cell" data-sort-value="Gita Patel">Gita Patel</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="name-dob" data-owner="Patricia Miles">
+              <td class="govuk-table__cell" data-sort-value="Harvey Scott">
+                <a class="govuk-link" href="#">Harvey Scott</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001321</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-18">18 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Name and date of birth change requests">Name and date of birth change requests</td>
+              <td class="govuk-table__cell" data-sort-value="Change approved">Change approved</td>
+              <td class="govuk-table__cell" data-sort-value="Patricia Miles">Patricia Miles</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="matched" data-owner="Ferdinand Brown">
+              <td class="govuk-table__cell" data-sort-value="Isla Turner">
+                <a class="govuk-link" href="#">Isla Turner</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001287</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-11">11 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Matched records – manual checks">Matched records – manual checks</td>
+              <td class="govuk-table__cell" data-sort-value="Record confirmed">Record confirmed</td>
+              <td class="govuk-table__cell" data-sort-value="Ferdinand Brown">Ferdinand Brown</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="itrs" data-owner="Alessandra Morais">
+              <td class="govuk-table__cell" data-sort-value="Leo Murphy">
+                <a class="govuk-link" href="#">Leo Murphy</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001239</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-12-04">4 Dec 2025</td>
+              <td class="govuk-table__cell" data-sort-value="Integration transaction records (ITRs)">Integration transaction records (ITRs)</td>
+              <td class="govuk-table__cell" data-sort-value="Transaction reconciled">Transaction reconciled</td>
+              <td class="govuk-table__cell" data-sort-value="Alessandra Morais">Alessandra Morais</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="one-login" data-owner="Maurice Villard">
+              <td class="govuk-table__cell" data-sort-value="Ruby Edwards">
+                <a class="govuk-link" href="#">Ruby Edwards</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001204</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-11-27">27 Nov 2025</td>
+              <td class="govuk-table__cell" data-sort-value="GOV.UK One Login">GOV.UK One Login</td>
+              <td class="govuk-table__cell" data-sort-value="Account matched">Account matched</td>
+              <td class="govuk-table__cell" data-sort-value="Maurice Villard">Maurice Villard</td>
+            </tr>
+            <tr class="govuk-table__row" data-type="npq" data-owner="Gita Patel">
+              <td class="govuk-table__cell" data-sort-value="Ethan Cooper">
+                <a class="govuk-link" href="#">Ethan Cooper</a><br>
+                <span class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">TRS-0001180</span>
+              </td>
+              <td class="govuk-table__cell" data-sort-value="2025-11-20">20 Nov 2025</td>
+              <td class="govuk-table__cell" data-sort-value="NPQ TRN requests">NPQ TRN requests</td>
+              <td class="govuk-table__cell" data-sort-value="TRN found">TRN found</td>
+              <td class="govuk-table__cell" data-sort-value="Gita Patel">Gita Patel</td>
             </tr>
           </tbody>
         </table>
+
+        <p class="govuk-body" id="completed-no-results" style="display: none;">No completed tasks match your filters.</p>
+
+        <nav class="govuk-pagination govuk-!-margin-top-6" role="navigation" aria-label="Completed tasks pagination" id="completed-pagination">
+          <ul class="govuk-pagination__list" id="completed-pagination-list"></ul>
+        </nav>
       </section>
 
     </div>
@@ -762,14 +972,36 @@
     white-space: nowrap;
   }
 
+  .trs-completed-search {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 520px;
+  }
+
+  .trs-completed-search .govuk-input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   #active-tasks .govuk-table th:nth-child(4),
   #active-tasks .govuk-table td:nth-child(4),
-  #completed-tasks .govuk-table th:nth-child(4),
-  #completed-tasks .govuk-table td:nth-child(4) {
+  #completed-tasks .govuk-table th:nth-child(3),
+  #completed-tasks .govuk-table td:nth-child(3) {
     max-width: 190px;
     box-sizing: border-box;
     overflow-wrap: break-word;
     word-wrap: break-word;
+  }
+
+  @media (max-width: 40.0525em) {
+    .trs-completed-search {
+      display: block;
+    }
+
+    .trs-completed-search .govuk-button {
+      margin-top: 8px;
+    }
   }
 
   /* Light blue row highlight when batch task selected */
@@ -837,31 +1069,31 @@
 
     if (urlParams.get('tasksAssigned') === '1') {
       var tasksAssignedBanner = document.getElementById('tasks-assigned-banner');
-      var tasksAssignedBody = document.getElementById('tasks-assigned-banner-body');
+      var tasksAssignedHeading = document.getElementById('tasks-assigned-banner-heading');
       var assignRaw;
       try {
         assignRaw = sessionStorage.getItem('trsBatchAssignLastResult');
       } catch (e) {
         assignRaw = null;
       }
-      if (tasksAssignedBanner && tasksAssignedBody) {
+      if (tasksAssignedBanner && tasksAssignedHeading) {
         if (assignRaw) {
           try {
             var assignData = JSON.parse(assignRaw);
             var assignCount = parseInt(assignData.count, 10) || 0;
             var assignAgent = assignData.agentName || 'the selected agent';
             if (assignCount === 1) {
-              tasksAssignedBody.textContent = 'The selected task is now assigned to ' + assignAgent + '.';
+              tasksAssignedHeading.textContent = 'Task assigned to ' + assignAgent + '';
             } else if (assignCount > 1) {
-              tasksAssignedBody.textContent = 'The ' + assignCount + ' selected tasks are now assigned to ' + assignAgent + '.';
+              tasksAssignedHeading.textContent = assignCount + ' tasks assigned to ' + assignAgent + '';
             } else {
-              tasksAssignedBody.textContent = 'The selected tasks are now assigned to ' + assignAgent + '.';
+              tasksAssignedHeading.textContent = 'tasks are now assigned to ' + assignAgent + '';
             }
           } catch (e) {
-            tasksAssignedBody.textContent = 'The selected tasks have been assigned.';
+            tasksAssignedHeading.textContent = 'The selected tasks have been assigned.';
           }
         } else {
-          tasksAssignedBody.textContent = 'Assignment details were not found. Use assign from the tasks overview to assign tasks.';
+          tasksAssignedHeading.textContent = 'Assignment details were not found. Use assign from the tasks overview to assign tasks.';
         }
         tasksAssignedBanner.hidden = false;
       }
@@ -1098,6 +1330,167 @@
       render();
     });
 
+    var completedTbody = document.getElementById('completed-tbody');
+    var completedRows = completedTbody ? Array.prototype.slice.call(completedTbody.querySelectorAll('tr')) : [];
+    var completedSearch = document.getElementById('completed-search');
+    var completedSearchButton = document.getElementById('completed-search-button');
+    var completedFilterService = document.getElementById('completed-filter-service');
+    var completedFilterOwner = document.getElementById('completed-filter-owner');
+    var completedClearLink = document.getElementById('completed-clear-all-filters');
+    var completedNoResults = document.getElementById('completed-no-results');
+    var completedPagination = document.getElementById('completed-pagination');
+    var completedPaginationList = document.getElementById('completed-pagination-list');
+    var completedPageSize = 10;
+    var completedCurrentPage = 1;
+
+    function normaliseCompletedSearchValue(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+    }
+
+    function getCompletedDateSearchText(row) {
+      var cells = row.querySelectorAll('td');
+      if (cells.length < 2) return '';
+
+      var completedOn = cells[1];
+      var sortValue = completedOn.getAttribute('data-sort-value') || '';
+      var parts = sortValue.split('-');
+      if (parts.length !== 3) return sortValue;
+
+      var year = parts[0];
+      var month = String(parseInt(parts[1], 10));
+      var day = String(parseInt(parts[2], 10));
+      var paddedMonth = parts[1];
+      var paddedDay = parts[2];
+
+      return [
+        sortValue,
+        day + '-' + month + '-' + year,
+        paddedDay + '-' + paddedMonth + '-' + year,
+        day + '/' + month + '/' + year,
+        paddedDay + '/' + paddedMonth + '/' + year
+      ].join(' ');
+    }
+
+    function completedRowMatches(row) {
+      var type = row.getAttribute('data-type');
+      var owner = row.getAttribute('data-owner');
+      var searchValue = completedSearch ? completedSearch.value.trim().toLowerCase() : '';
+      var compactSearchValue = normaliseCompletedSearchValue(searchValue);
+      var rowText = (row.textContent + ' ' + getCompletedDateSearchText(row)).replace(/\s+/g, ' ').trim().toLowerCase();
+      var compactRowText = normaliseCompletedSearchValue(rowText);
+
+      if (searchValue && rowText.indexOf(searchValue) === -1 && compactRowText.indexOf(compactSearchValue) === -1) return false;
+      if (completedFilterService && completedFilterService.value && type !== completedFilterService.value) return false;
+      if (completedFilterOwner && completedFilterOwner.value && owner !== completedFilterOwner.value) return false;
+
+      return true;
+    }
+
+    function createCompletedPaginationItem(page, label, isCurrent) {
+      var item = document.createElement('li');
+      item.className = 'govuk-pagination__item' + (isCurrent ? ' govuk-pagination__item--current' : '');
+
+      var link = document.createElement('a');
+      link.className = 'govuk-link govuk-pagination__link';
+      link.href = '#';
+      link.setAttribute('aria-label', 'Page ' + page);
+      link.setAttribute('data-page', page);
+      if (isCurrent) link.setAttribute('aria-current', 'page');
+      link.textContent = label;
+
+      item.appendChild(link);
+      return item;
+    }
+
+    function createCompletedNextItem(page) {
+      var item = document.createElement('li');
+      item.className = 'govuk-pagination__item govuk-pagination__item--next';
+
+      var link = document.createElement('a');
+      link.className = 'govuk-link govuk-pagination__link govuk-pagination__link--next';
+      link.href = '#';
+      link.setAttribute('data-page', page);
+      link.innerHTML = 'Next<span class="govuk-visually-hidden"> page</span>';
+
+      item.appendChild(link);
+      return item;
+    }
+
+    function renderCompletedPagination(totalPages) {
+      if (!completedPagination || !completedPaginationList) return;
+      completedPaginationList.innerHTML = '';
+
+      if (totalPages <= 1) {
+        completedPagination.style.display = 'none';
+        return;
+      }
+
+      completedPagination.style.display = '';
+      for (var i = 1; i <= totalPages; i++) {
+        completedPaginationList.appendChild(createCompletedPaginationItem(i, String(i), i === completedCurrentPage));
+      }
+
+      if (completedCurrentPage < totalPages) {
+        completedPaginationList.appendChild(createCompletedNextItem(completedCurrentPage + 1));
+      }
+    }
+
+    function renderCompletedTasks() {
+      if (!completedTbody) return;
+
+      var matchingRows = completedRows.filter(function (row) {
+        return completedRowMatches(row);
+      });
+      var totalPages = Math.max(1, Math.ceil(matchingRows.length / completedPageSize));
+
+      if (completedCurrentPage > totalPages) completedCurrentPage = totalPages;
+
+      var start = (completedCurrentPage - 1) * completedPageSize;
+      var end = start + completedPageSize;
+      var pageRows = matchingRows.slice(start, end);
+
+      completedRows.forEach(function (row) {
+        row.style.display = pageRows.indexOf(row) !== -1 ? '' : 'none';
+      });
+
+      if (completedNoResults) completedNoResults.style.display = matchingRows.length ? 'none' : '';
+      renderCompletedPagination(totalPages);
+    }
+
+    function resetCompletedPaginationAndRender() {
+      completedCurrentPage = 1;
+      renderCompletedTasks();
+    }
+
+    if (completedSearch) {
+      completedSearch.addEventListener('input', resetCompletedPaginationAndRender);
+      completedSearch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          resetCompletedPaginationAndRender();
+        }
+      });
+    }
+    if (completedSearchButton) completedSearchButton.addEventListener('click', resetCompletedPaginationAndRender);
+    if (completedFilterService) completedFilterService.addEventListener('change', resetCompletedPaginationAndRender);
+    if (completedFilterOwner) completedFilterOwner.addEventListener('change', resetCompletedPaginationAndRender);
+    if (completedClearLink) completedClearLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (completedSearch) completedSearch.value = '';
+      if (completedFilterService) completedFilterService.value = '';
+      if (completedFilterOwner) completedFilterOwner.value = '';
+      resetCompletedPaginationAndRender();
+    });
+    if (completedPaginationList) {
+      completedPaginationList.addEventListener('click', function (e) {
+        var target = e.target && e.target.closest ? e.target.closest('[data-page]') : null;
+        if (!target) return;
+        e.preventDefault();
+        completedCurrentPage = parseInt(target.getAttribute('data-page'), 10) || 1;
+        renderCompletedTasks();
+      });
+    }
+
     var params = new URLSearchParams(window.location.search);
     var filterParam = (params.get('filter') || '').trim().toLowerCase().replace(/_/g, '-');
     if (filterParam === 'onhold') filterParam = 'on-hold';
@@ -1125,6 +1518,7 @@
     }
 
     render();
+    renderCompletedTasks();
   });
 </script>
 
