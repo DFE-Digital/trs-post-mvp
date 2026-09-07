@@ -1,0 +1,162 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Completed task" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch#completed-tasks"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">GOV.UK One Login <br> TRS-0002100</span>
+    <h1 class="govuk-heading-xl govuk-!-padding-bottom-0">Samira Khan</h1>
+   
+    <div hidden class="govuk-inset-text govuk-!-margin-bottom-6">
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        This task is finished. The summary below matches the completed tasks list. Other tasks may end with different outcomes, for example <strong>record matched</strong> or <strong>duplicate merged</strong>.
+      </p>
+    </div>
+
+    <h2 class="govuk-heading-m">Key details</h2>
+    <dl class="govuk-summary-list govuk-!-margin-bottom-8">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Outcome</dt>
+        <dd class="govuk-summary-list__value">
+          <strong class="govuk-tag govuk-tag--green">Identity verified</strong>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Type</dt>
+        <dd class="govuk-summary-list__value">GOV.UK One Login</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Completed on</dt>
+        <dd class="govuk-summary-list__value">
+          <time datetime="2026-03-28">28 March 2026</time>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Completed by</dt>
+        <dd class="govuk-summary-list__value">Patricia Miles</dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Task history</h2>
+    <p class="govuk-body govuk-!-margin-bottom-4" hidden>
+      View all activity on this task and notes added while the task was open.    </p>
+    <div class="moj-timeline govuk-!-margin-bottom-8">
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task completed</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-28T14:22:00">28 March 2026 at 2:22pm</time>
+          </p>
+        </div>
+        <strong class="govuk-tag govuk-tag--green govuk-!-margin-top-2">Identity verified</strong>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Note added</h2>
+          <p class="moj-timeline__date">
+            By Patricia Miles on <time datetime="2026-03-28T14:20:00">28 March 2026 at 2:20pm</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Identity has now been successfully verified against valid passport details sent by email
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Status changed to On Hold</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-03-22T11:15:00">22 March 2026 at 11:15am</time>
+          </p>
+        </div>
+        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-bottom-0 govuk-!-margin-top-2">On hold</strong>
+        <div class="moj-timeline__description">
+          Patricia Miles put the task on hold.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Note added</h2>
+          <p class="moj-timeline__date">
+            By Patricia Miles on <time datetime="2026-03-22T11:09:00">22 March 2026 at 11:09am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Putting this task on hold until citizen provides a valid passport, as one provided previously had expired
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Status changed to In progress</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-14T10:10:00">14 February 2026 at 10:10am</time>
+          </p>
+        </div>
+        <strong class="govuk-tag govuk-tag--blue govuk-!-margin-bottom-0 govuk-!-margin-top-2">In progress</strong>
+        <div class="moj-timeline__description">
+          Patricia Miles started the task.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task assigned</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-12T09:01:00">12 February 2026 at 9:01am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Task assigned to Patricia Miles by Dave Stuart.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Note added</h2>
+          <p class="moj-timeline__date">
+            By Dave Stuart on <time datetime="2026-02-12T09:00:00">12 February 2026 at 9:00am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Reassigning this to Patricia as Maurice will be on annual leave from tomorrow
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task assigned</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-10T09:00:00">10 February 2026 at 9:00am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          Task assigned to Maurice Villard by Dave Stuart.
+        </div>
+      </div>
+      <div class="moj-timeline__item govuk-!-padding-bottom-6">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Task created</h2>
+          <p class="moj-timeline__date">
+            <time datetime="2026-02-09T08:42:00">9 February 2026 at 8:42am</time>
+          </p>
+        </div>
+        <div class="moj-timeline__description">
+          GOV.UK One Login task created.
+        </div>
+      </div>
+    </div>
+
+   
+
+    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-0">
+      <a class="govuk-link" href="all-tasks-overview-batch#completed-tasks">Return to completed tasks</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

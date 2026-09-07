@@ -1,0 +1,331 @@
+{% extends "layouts/new-nav.html.html" %}
+
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+
+{% block pageTitle %}
+ GOV.UK One Login &ndash; Connect to a record
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-two-thirds">
+
+  <span class="govuk-caption-l">Record management</span>
+     <h1 class="govuk-heading-l"> Check if this GOV.UK One Login account matches an existing record</h1>
+
+<div class="govuk-inset-text">
+  <p class="govuk-body">Details that do not match are <mark class="hods-highlight"><strong>highlighted</strong></mark> in the existing record</p>
+</div>
+
+</div>
+
+  </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          <div id="OneLogin summary" class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+              <h2 class="govuk-summary-card__title">
+                Request details
+              </h2>
+    
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Name
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    Dennis Berkamp
+                  </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Email adress
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                      dennis.berkamp@test.gov.uk
+                  </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Date of birth
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    15 August 1990
+                  </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    TRN
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    09765421
+                  </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    National Insurance number
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                  QQ 12 34 56 C 
+                  </dd>
+                </div>
+                
+              </dl>
+            </div>
+          </div>
+      </div>
+    </div> 
+
+          
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m govuk-!-margin-top-2">Potential matches</h2>
+        <!-- Record A -->
+        <div id="Record A summary" class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+              Record A
+            </h2>
+          <ul class="govuk-summary-card__actions">
+              <li class="govuk-summary-card__action">
+                <a class="govuk-link" href="#">View record (opens in a new tab)<span class="govuk-visually-hidden">Record A</span></a>
+              </li>  
+            </ul> 
+          </div>
+          <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            Dennis Berkamp
+          </dd>
+        </div>
+      
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Previous names
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <mark class="hods-highlight">
+              <strong>Dennis Blueford</strong>
+            </mark>
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Email adress
+          </dt>
+          <dd class="govuk-summary-list__value">
+              dennis.berkamp@test.gov.uk
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Date of birth
+          </dt>
+          <dd class="govuk-summary-list__value">
+            15 August 1990
+          </dd>
+        </div>
+
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            TRN
+          </dt>
+          <dd class="govuk-summary-list__value">
+            09765421
+          </dd>
+        </div>
+
+
+        
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            National Insurance number
+          </dt>
+          <dd class="govuk-summary-list__value">
+            QQ 12 34 56 C 
+            <mark class="hods-highlight">
+              <strong></strong></mark>
+          </dd>
+        </div>
+      </dl>
+          </div>
+        </div>
+
+        <!-- Record B -->
+        <div id="Record B summary" class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+              Record B
+            </h2>
+          <ul class="govuk-summary-card__actions">
+              <li class="govuk-summary-card__action">
+                <a class="govuk-link" href="#">View record (opens in a new tab)<span class="govuk-visually-hidden">Record A</span></a>
+              </li>  
+            </ul> 
+          </div>
+          <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+     
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name
+        </dt>
+        <dd class="govuk-summary-list__value">
+           <mark class="hods-highlight">
+            <strong>Dennis Blueford</strong>
+          </mark> 
+        </dd>
+      </div>
+      
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Previous names
+        </dt>
+        <dd class="govuk-summary-list__value">
+         Not applicable
+        </dd>
+      </div>
+
+       <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email adress
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <mark class="hods-highlight">
+            <strong>d.berkamp@icloud.com</strong>
+          </mark>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          15 August 1990
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          TRN
+        </dt>
+        <dd class="govuk-summary-list__value">
+             <mark class="hods-highlight">
+            <strong>1234575</strong>
+          </mark>
+          
+        </dd>
+      </div>
+
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          National Insurance number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <mark class="hods-highlight">
+            <strong>UU 98 76 54 E </strong></mark>
+        </dd>
+      </div>
+    </dl>
+          </div>
+        </div>
+
+  
+      </div>
+    </div>
+
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <!-- Foram action set on routes.js -->
+      <form method="post" novalidate action="/match-teacher-id">
+        <fieldset class="govuk-fieldset govuk-!-margin-bottom-6">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"> What do you want to do with this GOV.UK One Login account? </legend>
+
+          <div class="govuk-radios" data-module="govuk-radios">
+            
+              <!-- YES option - connect to suggested match -->
+            <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes" name="connect" type="radio"
+                value="yes">
+                <label class="govuk-label govuk-radios__label" for="connect-yes"> 
+                Connect it to Record A
+              </label>
+          </div> 
+
+          <div class="govuk-radios__item"> <input class="govuk-radios__input" id="connect-yes2" name="connect" type="radio"
+                value="b">
+                <label class="govuk-label govuk-radios__label" for="connect-yes2"> 
+                  Connect it to Record B
+              </label>
+          </div> 
+        
+          <!-- NO option - don't connect at all -->
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="connect-no" name="connect" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="connect-no">
+            Do not connect it to a record
+            </label>
+          </div>
+        
+          </div>
+        
+          </fieldset>
+      
+
+          <div class="govuk-button-group govuk-!-margin-top-6">
+            <a class="govuk-button" href="confirm-connect" id="">Continue</a>
+            <a class="govuk-button govuk-button--secondary" href="all-tasks-overview-batch" id="save-come-back">Save and come back later</a>
+            <a href="javascript:window.history.back()" class="govuk-link">Cancel</a>
+          </div>
+            
+       
+      </form>
+    </div>
+
+
+
+
+<!-- Ensure GOV.UK Frontend JS is initialised -->
+<script src="/govuk-frontend/govuk/all.js"></script>
+<script>
+  window.GOVUKFrontend.initAll()
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var saveComeBack = document.getElementById('save-come-back');
+    if (saveComeBack) {
+      saveComeBack.addEventListener('click', function () {
+        try {
+          sessionStorage.setItem('trs-dennis-status', 'in-progress');
+        } catch (e) {}
+      });
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,586 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Batch assign from list" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var input = document.getElementById('assign-to');
+      var hiddenInput = document.getElementById('assign-to-value');
+      var suggestions = document.getElementById('assign-to-suggestions');
+      var hint = document.getElementById('assign-to-hint');
+      var selectedSummary = document.getElementById('assign-to-selected');
+      var cardsContainer = document.getElementById('batch-allocation-summary-cards');
+      var form = document.getElementById('batch-assign-form');
+      var activeIndex = -1;
+      var MIN_CHARS = 2;
+
+      var taskTypes = [
+        'GOV.UK One Login',
+        'NPQ TRN requests',
+        'Potential duplicates via API',
+        'Name and date of birth change requests',
+        'Matched records – manual checks needed'
+      ];
+
+      var users = [
+        { id: 'ferdinand-brown', name: 'Ferdinand Brown', tasks: [1, 1, 0, 0, 0] },
+        { id: 'patricia-miles', name: 'Patricia Miles', tasks: [2, 2, 1, 1, 0] },
+        { id: 'maurice-villard', name: 'Maurice Villard', status: 'On leave', tasks: [1, 0, 1, 0, 0] },
+        { id: 'alessandra-morais', name: 'Alessandra Morais', tasks: [0, 1, 0, 1, 0] },
+        { id: 'amelia-brooks', name: 'Amelia Brooks', tasks: [1, 0, 0, 2, 0] },
+        { id: 'andrew-carter', name: 'Andrew Carter', tasks: [0, 2, 1, 0, 1] },
+        { id: 'beatrice-clarke', name: 'Beatrice Clarke', tasks: [2, 0, 0, 1, 1] },
+        { id: 'benjamin-cooper', name: 'Benjamin Cooper', tasks: [1, 1, 1, 0, 0] },
+        { id: 'camilla-davies', name: 'Camilla Davies', tasks: [0, 1, 2, 0, 1] },
+        { id: 'charles-evans', name: 'Charles Evans', tasks: [2, 1, 0, 0, 1] },
+        { id: 'charlotte-foster', name: 'Charlotte Foster', tasks: [1, 0, 1, 1, 0] },
+        { id: 'chloe-gibson', name: 'Chloe Gibson', tasks: [0, 2, 0, 1, 1] },
+        { id: 'daniel-graham', name: 'Daniel Graham', tasks: [2, 0, 1, 0, 0] },
+        { id: 'david-harris', name: 'David Harris', tasks: [1, 1, 0, 1, 1] },
+        { id: 'elena-hughes', name: 'Elena Hughes', tasks: [0, 1, 1, 2, 0] },
+        { id: 'elijah-hunt', name: 'Elijah Hunt', tasks: [1, 2, 0, 0, 1] },
+        { id: 'emily-jackson', name: 'Emily Jackson', tasks: [2, 0, 2, 0, 0] },
+        { id: 'ethan-james', name: 'Ethan James', tasks: [1, 1, 0, 1, 0] },
+        { id: 'florence-jones', name: 'Florence Jones', tasks: [0, 2, 1, 1, 0] },
+        { id: 'george-kelly', name: 'George Kelly', tasks: [2, 1, 0, 0, 1] },
+        { id: 'grace-king', name: 'Grace King', tasks: [1, 0, 1, 1, 1] },
+        { id: 'harry-knight', name: 'Harry Knight', tasks: [0, 1, 2, 0, 1] },
+        { id: 'hannah-lewis', name: 'Hannah Lewis', tasks: [2, 0, 1, 1, 0] },
+        { id: 'henry-marshall', name: 'Henry Marshall', tasks: [1, 2, 0, 0, 0] },
+        { id: 'isla-martin', name: 'Isla Martin', tasks: [0, 1, 1, 1, 1] },
+        { id: 'jack-mason', name: 'Jack Mason', tasks: [2, 0, 0, 2, 0] },
+        { id: 'james-matthews', name: 'James Matthews', tasks: [1, 1, 1, 0, 1] },
+        { id: 'jessica-morgan', name: 'Jessica Morgan', tasks: [0, 2, 1, 0, 1] },
+        { id: 'joe-morris', name: 'Joe Morris', tasks: [2, 1, 0, 1, 0] },
+        { id: 'julia-murphy', name: 'Julia Murphy', tasks: [1, 0, 2, 1, 0] },
+        { id: 'karen-nicholson', name: 'Karen Nicholson', tasks: [0, 1, 0, 2, 1] },
+        { id: 'laura-oakley', name: 'Laura Oakley', tasks: [2, 0, 1, 0, 1] },
+        { id: 'lewis-parker', name: 'Lewis Parker', tasks: [1, 2, 0, 1, 0] },
+        { id: 'lily-patterson', name: 'Lily Patterson', tasks: [0, 1, 1, 1, 2] },
+        { id: 'lucas-peacock', name: 'Lucas Peacock', tasks: [2, 1, 1, 0, 0] },
+        { id: 'madeleine-powell', name: 'Madeleine Powell', tasks: [1, 0, 0, 1, 2] },
+        { id: 'max-price', name: 'Max Price', tasks: [0, 2, 1, 1, 0] },
+        { id: 'mia-reid', name: 'Mia Reid', tasks: [2, 0, 1, 1, 1] },
+        { id: 'naomi-richards', name: 'Naomi Richards', tasks: [1, 1, 2, 0, 0] },
+        { id: 'nathan-roberts', name: 'Nathan Roberts', tasks: [0, 1, 0, 2, 1] },
+        { id: 'oliver-robinson', name: 'Oliver Robinson', tasks: [2, 2, 0, 0, 0] },
+        { id: 'olivia-ross', name: 'Olivia Ross', tasks: [1, 0, 1, 2, 0] },
+        { id: 'oscar-russell', name: 'Oscar Russell', tasks: [0, 2, 1, 0, 1] },
+        { id: 'poppy-scott', name: 'Poppy Scott', tasks: [2, 1, 0, 1, 0] },
+        { id: 'rebecca-shaw', name: 'Rebecca Shaw', tasks: [1, 0, 2, 0, 1] },
+        { id: 'sam-simpson', name: 'Sam Simpson', tasks: [0, 1, 1, 2, 0] },
+        { id: 'sarah-smith', name: 'Sarah Smith', tasks: [2, 0, 1, 0, 1] },
+        { id: 'sophie-taylor', name: 'Sophie Taylor', tasks: [1, 2, 0, 1, 0] },
+        { id: 'thomas-thompson', name: 'Thomas Thompson', tasks: [0, 1, 2, 1, 0] },
+        { id: 'victoria-turner', name: 'Victoria Turner', tasks: [2, 0, 0, 1, 1] }
+      ];
+
+      function totalTasks(user) {
+        return user.tasks.reduce(function (sum, count) { return sum + count; }, 0);
+      }
+
+      function createBreakdown(user) {
+        return user.tasks.map(function (count, index) {
+          if (!count) return '';
+          return '<p class="govuk-body govuk-!-margin-bottom-1"><strong>' +
+            count + '</strong> ' + taskTypes[index] + '</p>';
+        }).join('');
+      }
+
+      function renderAllocationSummary() {
+        cardsContainer.innerHTML = '<h2 class="govuk-heading-s">Allocation summary</h2>' +
+          users.map(function (user) {
+            return '<div class="trs-allocation-card" data-member="' + user.id + '">' +
+              '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
+                user.name +
+                (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
+              '</p>' +
+              '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+                '<summary class="govuk-details__summary">' +
+                  '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
+                '</summary>' +
+                '<div class="govuk-details__text trs-allocation-card__breakdown">' +
+                  createBreakdown(user) +
+                '</div>' +
+              '</details>' +
+            '</div>';
+          }).join('');
+      }
+
+      function escapeHtml(value) {
+        return value.replace(/[&<>"']/g, function (char) {
+          return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char];
+        });
+      }
+
+      function highlightMatch(name, query) {
+        var escapedName = escapeHtml(name);
+        var escapedQuery = escapeHtml(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        if (!escapedQuery) return escapedName;
+        return escapedName.replace(new RegExp('(' + escapedQuery + ')', 'ig'), '<strong>$1</strong>');
+      }
+
+      function getMatches(query) {
+        var normalised = query.trim().toLowerCase();
+        if (normalised.length < MIN_CHARS) return [];
+        return users.filter(function (user) {
+          return user.name.toLowerCase().indexOf(normalised) !== -1;
+        }).slice(0, 5);
+      }
+
+      function showSuggestions(matches, query) {
+        suggestions.innerHTML = '';
+        activeIndex = -1;
+
+        if (query.length < MIN_CHARS) {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          return;
+        }
+
+        if (!matches.length) {
+          var noResults = document.createElement('div');
+          noResults.className = 'trs-autocomplete__no-results';
+          noResults.textContent = 'No team members found';
+          suggestions.appendChild(noResults);
+          suggestions.hidden = false;
+          input.setAttribute('aria-expanded', 'true');
+          return;
+        }
+
+        matches.forEach(function (user, index) {
+          var option = document.createElement('button');
+          option.type = 'button';
+          option.className = 'trs-autocomplete__option';
+          option.id = 'assign-to-option-' + index;
+          option.setAttribute('role', 'option');
+          option.setAttribute('aria-selected', 'false');
+          option.dataset.userId = user.id;
+          option.innerHTML =
+            '<span class="trs-autocomplete__name">' + highlightMatch(user.name, query) + '</span>' +
+            '<span class="trs-autocomplete__summary">' +
+              totalTasks(user) + ' tasks' +
+              (user.status ? ' · ' + user.status : '') +
+            '</span>' +
+            '<span class="trs-autocomplete__breakdown">' +
+              user.tasks.map(function (count, taskIndex) {
+                return count ? '<span><strong>' + count + '</strong> ' + taskTypes[taskIndex] + '</span>' : '';
+              }).join('') +
+            '</span>';
+
+          option.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+          });
+
+          option.addEventListener('click', function () {
+            selectUser(user);
+          });
+
+          suggestions.appendChild(option);
+        });
+
+        suggestions.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+      }
+
+      function highlightOption(index) {
+        var options = suggestions.querySelectorAll('[role="option"]');
+        options.forEach(function (option, optionIndex) {
+          var isActive = optionIndex === index;
+          option.classList.toggle('trs-autocomplete__option--active', isActive);
+          option.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        activeIndex = index;
+        if (index >= 0 && options[index]) {
+          input.setAttribute('aria-activedescendant', options[index].id);
+        } else {
+          input.removeAttribute('aria-activedescendant');
+        }
+      }
+
+      function selectUser(user) {
+        input.value = user.name;
+        hiddenInput.value = user.id;
+        suggestions.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+
+        document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
+          var selected = card.getAttribute('data-member') === user.id;
+          card.classList.toggle('trs-allocation-card--selected', selected);
+          var details = card.querySelector('.govuk-details');
+          if (selected && details) details.open = true;
+        });
+
+        selectedSummary.hidden = false;
+        selectedSummary.textContent = user.name + ' selected';
+      }
+
+      input.addEventListener('input', function () {
+        hiddenInput.value = '';
+        selectedSummary.hidden = true;
+        var matches = getMatches(this.value);
+        showSuggestions(matches, this.value.trim());
+      });
+
+      input.addEventListener('keydown', function (event) {
+        var options = suggestions.querySelectorAll('[role="option"]');
+
+        if (event.key === 'ArrowDown' && !suggestions.hidden && options.length) {
+          event.preventDefault();
+          highlightOption(activeIndex < options.length - 1 ? activeIndex + 1 : 0);
+        } else if (event.key === 'ArrowUp' && !suggestions.hidden && options.length) {
+          event.preventDefault();
+          highlightOption(activeIndex > 0 ? activeIndex - 1 : options.length - 1);
+        } else if (event.key === 'Enter' && activeIndex >= 0 && options[activeIndex]) {
+          event.preventDefault();
+          var selected = users.find(function (user) {
+            return user.id === options[activeIndex].dataset.userId;
+          });
+          if (selected) selectUser(selected);
+        } else if (event.key === 'Escape') {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+        }
+      });
+
+      input.addEventListener('focus', function () {
+        if (this.value.trim().length >= MIN_CHARS) {
+          showSuggestions(getMatches(this.value), this.value.trim());
+        }
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!event.target.closest('.trs-autocomplete')) {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+        }
+      });
+
+      renderAllocationSummary();
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var tasks = window.trsBatchAssignTasksData || [];
+
+        if (!hiddenInput.value) {
+          hint.textContent = 'Select a team member from the suggestions';
+          hint.classList.add('govuk-error-message');
+          input.classList.add('govuk-input--error');
+          input.focus();
+          return;
+        }
+
+        var user = users.find(function (item) { return item.id === hiddenInput.value; });
+        if (!user) return;
+
+        var overrides = {};
+        try {
+          var existing = sessionStorage.getItem('trsBatchAssignOverrides');
+          if (existing) overrides = JSON.parse(existing);
+          if (!overrides || typeof overrides !== 'object') overrides = {};
+        } catch (err) {
+          overrides = {};
+        }
+
+        tasks.forEach(function (t) {
+          if (t.trsRef) overrides[t.trsRef] = user.name;
+        });
+
+        try {
+          sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
+          sessionStorage.setItem(
+            'trsBatchAssignLastResult',
+            JSON.stringify({ agentName: user.name, count: tasks.length })
+          );
+          sessionStorage.removeItem('trsBatchAssignTasks');
+        } catch (err) {}
+
+        window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .trs-autocomplete {
+    position: relative;
+    max-width: 600px;
+  }
+
+  .trs-autocomplete__input-wrap {
+    position: relative;
+  }
+
+  .trs-autocomplete__suggestions {
+    position: static;
+    width: 100%;
+    background: #fff;
+    border: 2px solid #0b0c0c;
+    border-top: 0;
+    box-sizing: border-box;
+    z-index: 10;
+  }
+
+  .trs-autocomplete__option {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: 0;
+    border-top: 1px solid #b1b4b6;
+    background: #fff;
+    color: #0b0c0c;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .trs-autocomplete__option:first-child {
+    border-top: 0;
+  }
+
+  .trs-autocomplete__option:hover,
+  .trs-autocomplete__option:focus,
+  .trs-autocomplete__option--active {
+    background: #f3f2f1;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .trs-autocomplete__name,
+  .trs-autocomplete__summary,
+  .trs-autocomplete__breakdown {
+    display: block;
+  }
+
+  .trs-autocomplete__name {
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  .trs-autocomplete__summary {
+    margin-top: 2px;
+    color: #505a5f;
+    font-size: 16px;
+  }
+
+  .trs-autocomplete__breakdown {
+    margin-top: 6px;
+    color: #505a5f;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .trs-autocomplete__breakdown span {
+    display: block;
+  }
+
+  .trs-autocomplete__no-results {
+    padding: 12px 15px;
+    color: #505a5f;
+    border-top: 1px solid #b1b4b6;
+  }
+
+  .trs-allocation-summary {
+    margin-top: 32px;
+  }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-allocation-card {
+    border-top: 1px solid #b1b4b6;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .trs-allocation-card__breakdown {
+    border-left: 4px solid #b1b4b6;
+    padding: 14px 25px;
+    margin-top: 8px;
+  }
+
+  .trs-allocation-card__breakdown p {
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Bulk assignment</span>
+    <h1 class="govuk-heading-xl">Assign tasks</h1>
+
+    <div id="batch-selection-empty" class="govuk-inset-text govuk-!-margin-bottom-6" hidden>
+      <p class="govuk-body govuk-!-margin-bottom-2">No tasks were passed from the previous page.</p>
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <a class="govuk-link" href="all-tasks-overview-batch">Go to all tasks overview — batch assign</a> and select one or more tasks, then choose <strong>Batch assign</strong>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<form action="all-tasks-overview-batch" method="post" id="batch-assign-form">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
+        <h2 class="govuk-heading-m">Selected tasks</h2>
+        <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Type</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="batch-selected-tasks-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    
+  </div>
+
+
+  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <div id="batch-assign-fields" hidden>
+        <div class="govuk-form-group govuk-!-margin-bottom-5">
+          <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
+            Who do you want to assign these tasks to?
+          </label>
+          <div class="trs-autocomplete">
+            <div class="govuk-hint" id="assign-to-hint">
+              Start typing a name. Enter at least 2 characters.
+            </div>
+            <div class="trs-autocomplete__input-wrap">
+              <input
+                class="govuk-input"
+                id="assign-to"
+                name="assign-to-search"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="assign-to-suggestions"
+                aria-expanded="false"
+                aria-describedby="assign-to-hint"
+                placeholder="Search team members"
+              >
+              <input type="hidden" id="assign-to-value" name="assign-to">
+              <div
+                id="assign-to-suggestions"
+                class="trs-autocomplete__suggestions"
+                role="listbox"
+                hidden
+              ></div>
+            </div>
+            <p id="assign-to-selected" class="govuk-body govuk-!-margin-top-2" hidden></p>
+          </div>
+          <br>  
+         
+            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
+            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
+          
+        </div>
+      </div>
+
+      <div id="batch-allocation-summary-cards" class="trs-allocation-summary" hidden></div>
+
+      
+    </div>
+  </div>
+
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var STORAGE_KEY = 'trsBatchAssignTasks';
+    var tbody = document.getElementById('batch-selected-tasks-body');
+    var wrap = document.getElementById('batch-selected-tasks-wrap');
+    var empty = document.getElementById('batch-selection-empty');
+    var formFields = document.getElementById('batch-assign-fields');
+    var allocationCards = document.getElementById('batch-allocation-summary-cards');
+    var batchActions = document.getElementById('batch-actions');
+    var intro = document.getElementById('batch-intro-with-tasks');
+    var form = document.getElementById('batch-assign-form');
+    var tasks = [];
+
+    try {
+      var raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) tasks = JSON.parse(raw);
+      if (!Array.isArray(tasks)) tasks = [];
+    } catch (e) {
+      tasks = [];
+    }
+
+    window.trsBatchAssignTasksData = tasks;
+
+    if (!tasks.length) {
+      if (empty) empty.hidden = false;
+      if (intro) intro.hidden = true;
+      if (wrap) wrap.hidden = true;
+      if (formFields) formFields.hidden = true;
+      if (allocationCards) allocationCards.hidden = true;
+      if (batchActions) batchActions.hidden = true;
+      return;
+    }
+
+    function addCell(row, text) {
+      var td = document.createElement('td');
+      td.className = 'govuk-table__cell';
+      td.textContent = text || '';
+      row.appendChild(td);
+    }
+
+    tasks.forEach(function (t, i) {
+      var tr = document.createElement('tr');
+      tr.className = 'govuk-table__row';
+      tr.setAttribute(
+        'aria-label',
+        (t.name || 'Task') + (t.trsRef ? ', ' + t.trsRef : '')
+      );
+
+      addCell(tr, t.assignedTo);
+      addCell(tr, t.taskType);
+      addCell(tr, t.status);
+
+      tbody.appendChild(tr);
+
+      var hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'batch-task-trs';
+      hidden.value = t.trsRef || ('task-' + i);
+      if (form) form.appendChild(hidden);
+    });
+
+    if (wrap) wrap.hidden = false;
+    if (formFields) formFields.hidden = false;
+    if (allocationCards) allocationCards.hidden = false;
+    if (batchActions) batchActions.hidden = false;
+
+  });
+</script>
+
+{% endblock %}
