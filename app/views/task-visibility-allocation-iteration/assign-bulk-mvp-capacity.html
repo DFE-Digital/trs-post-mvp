@@ -18,6 +18,7 @@
       var hint = document.getElementById('assign-to-hint');
       var selectedSummary = document.getElementById('assign-to-selected');
       var cardsContainer = document.getElementById('batch-allocation-summary-cards');
+      var teamFilter = document.getElementById('team-filter');
       var form = document.getElementById('batch-assign-form');
       var activeIndex = -1;
       var MIN_CHARS = 2;
@@ -30,64 +31,73 @@
         'Matched records – manual checks needed'
       ];
 
+      var taskStatuses = [
+        'Not started',
+        'In progress',
+        'Review',
+        'On hold',
+        'Complete'
+      ];
+
+      var teams = {
+        'team-a': { name: 'Team A', memberIds: ['ferdinand-brown', 'patricia-miles', 'maurice-villard', 'alessandra-morais', 'amelia-brooks'] },
+        'team-b': { name: 'Team B', memberIds: ['andrew-carter', 'beatrice-clarke', 'benjamin-cooper', 'camilla-davies', 'charles-evans'] },
+        'team-c': { name: 'Team C', memberIds: ['charlotte-foster', 'chloe-gibson', 'daniel-graham', 'david-harris', 'elena-hughes'] }
+      };
+
       var users = [
-        { id: 'ferdinand-brown', name: 'Ferdinand Brown', tasks: [1, 1, 0, 0, 0] },
-        { id: 'patricia-miles', name: 'Patricia Miles', tasks: [2, 2, 1, 1, 0] },
-        { id: 'maurice-villard', name: 'Maurice Villard', status: 'On leave', tasks: [1, 0, 1, 0, 0] },
-        { id: 'alessandra-morais', name: 'Alessandra Morais', tasks: [0, 1, 0, 1, 0] },
-        { id: 'amelia-brooks', name: 'Amelia Brooks', tasks: [1, 0, 0, 2, 0] },
-        { id: 'andrew-carter', name: 'Andrew Carter', tasks: [0, 2, 1, 0, 1] },
-        { id: 'beatrice-clarke', name: 'Beatrice Clarke', tasks: [2, 0, 0, 1, 1] },
-        { id: 'benjamin-cooper', name: 'Benjamin Cooper', tasks: [1, 1, 1, 0, 0] },
-        { id: 'camilla-davies', name: 'Camilla Davies', tasks: [0, 1, 2, 0, 1] },
-        { id: 'charles-evans', name: 'Charles Evans', tasks: [2, 1, 0, 0, 1] },
-        { id: 'charlotte-foster', name: 'Charlotte Foster', tasks: [1, 0, 1, 1, 0] },
-        { id: 'chloe-gibson', name: 'Chloe Gibson', tasks: [0, 2, 0, 1, 1] },
-        { id: 'daniel-graham', name: 'Daniel Graham', tasks: [2, 0, 1, 0, 0] },
-        { id: 'david-harris', name: 'David Harris', tasks: [1, 1, 0, 1, 1] },
-        { id: 'elena-hughes', name: 'Elena Hughes', tasks: [0, 1, 1, 2, 0] },
-        { id: 'elijah-hunt', name: 'Elijah Hunt', tasks: [1, 2, 0, 0, 1] },
-        { id: 'emily-jackson', name: 'Emily Jackson', tasks: [2, 0, 2, 0, 0] },
-        { id: 'ethan-james', name: 'Ethan James', tasks: [1, 1, 0, 1, 0] },
-        { id: 'florence-jones', name: 'Florence Jones', tasks: [0, 2, 1, 1, 0] },
-        { id: 'george-kelly', name: 'George Kelly', tasks: [2, 1, 0, 0, 1] },
-        { id: 'grace-king', name: 'Grace King', tasks: [1, 0, 1, 1, 1] },
-        { id: 'harry-knight', name: 'Harry Knight', tasks: [0, 1, 2, 0, 1] },
-        { id: 'hannah-lewis', name: 'Hannah Lewis', tasks: [2, 0, 1, 1, 0] },
-        { id: 'henry-marshall', name: 'Henry Marshall', tasks: [1, 2, 0, 0, 0] },
-        { id: 'isla-martin', name: 'Isla Martin', tasks: [0, 1, 1, 1, 1] },
-        { id: 'jack-mason', name: 'Jack Mason', tasks: [2, 0, 0, 2, 0] },
-        { id: 'james-matthews', name: 'James Matthews', tasks: [1, 1, 1, 0, 1] },
-        { id: 'jessica-morgan', name: 'Jessica Morgan', tasks: [0, 2, 1, 0, 1] },
-        { id: 'joe-morris', name: 'Joe Morris', tasks: [2, 1, 0, 1, 0] },
-        { id: 'julia-murphy', name: 'Julia Murphy', tasks: [1, 0, 2, 1, 0] },
-        { id: 'karen-nicholson', name: 'Karen Nicholson', tasks: [0, 1, 0, 2, 1] },
-        { id: 'laura-oakley', name: 'Laura Oakley', tasks: [2, 0, 1, 0, 1] },
-        { id: 'lewis-parker', name: 'Lewis Parker', tasks: [1, 2, 0, 1, 0] },
-        { id: 'lily-patterson', name: 'Lily Patterson', tasks: [0, 1, 1, 1, 2] },
-        { id: 'lucas-peacock', name: 'Lucas Peacock', tasks: [2, 1, 1, 0, 0] },
-        { id: 'madeleine-powell', name: 'Madeleine Powell', tasks: [1, 0, 0, 1, 2] },
-        { id: 'max-price', name: 'Max Price', tasks: [0, 2, 1, 1, 0] },
-        { id: 'mia-reid', name: 'Mia Reid', tasks: [2, 0, 1, 1, 1] },
-        { id: 'naomi-richards', name: 'Naomi Richards', tasks: [1, 1, 2, 0, 0] },
-        { id: 'nathan-roberts', name: 'Nathan Roberts', tasks: [0, 1, 0, 2, 1] },
-        { id: 'oliver-robinson', name: 'Oliver Robinson', tasks: [2, 2, 0, 0, 0] },
-        { id: 'olivia-ross', name: 'Olivia Ross', tasks: [1, 0, 1, 2, 0] },
-        { id: 'oscar-russell', name: 'Oscar Russell', tasks: [0, 2, 1, 0, 1] },
-        { id: 'poppy-scott', name: 'Poppy Scott', tasks: [2, 1, 0, 1, 0] },
-        { id: 'rebecca-shaw', name: 'Rebecca Shaw', tasks: [1, 0, 2, 0, 1] },
-        { id: 'sam-simpson', name: 'Sam Simpson', tasks: [0, 1, 1, 2, 0] },
-        { id: 'sarah-smith', name: 'Sarah Smith', tasks: [2, 0, 1, 0, 1] },
-        { id: 'sophie-taylor', name: 'Sophie Taylor', tasks: [1, 2, 0, 1, 0] },
-        { id: 'thomas-thompson', name: 'Thomas Thompson', tasks: [0, 1, 2, 1, 0] },
-        { id: 'victoria-turner', name: 'Victoria Turner', tasks: [2, 0, 0, 1, 1] }
+        { id: 'ferdinand-brown', name: 'Ferdinand Brown', team: 'team-a', status: '', tasks: [1, 1, 0, 0, 0], taskStatuses: [1, 0, 0, 0, 0] },
+        { id: 'patricia-miles', name: 'Patricia Miles', team: 'team-a', status: '', tasks: [2, 2, 1, 1, 0], taskStatuses: [2, 1, 1, 1, 0] },
+        { id: 'maurice-villard', name: 'Maurice Villard', team: 'team-a', status: '', tasks: [1, 0, 1, 0, 0], taskStatuses: [0, 0, 1, 0, 0] },
+        { id: 'alessandra-morais', name: 'Alessandra Morais', team: 'team-a', status: '', tasks: [0, 1, 0, 1, 0], taskStatuses: [0, 1, 0, 1, 0] },
+        { id: 'amelia-brooks', name: 'Amelia Brooks', team: 'team-a', status: '', tasks: [1, 0, 0, 2, 0], taskStatuses: [1, 0, 0, 2, 0] },
+        { id: 'andrew-carter', name: 'Andrew Carter', team: 'team-b', status: '', tasks: [0, 2, 1, 0, 1], taskStatuses: [0, 2, 1, 0, 0] },
+        { id: 'beatrice-clarke', name: 'Beatrice Clarke', team: 'team-b', status: '', tasks: [2, 0, 0, 1, 1], taskStatuses: [2, 0, 0, 1, 0] },
+        { id: 'benjamin-cooper', name: 'Benjamin Cooper', team: 'team-b', status: '', tasks: [1, 1, 1, 0, 0], taskStatuses: [1, 1, 1, 0, 0] },
+        { id: 'camilla-davies', name: 'Camilla Davies', team: 'team-b', status: '', tasks: [0, 1, 2, 0, 1], taskStatuses: [0, 1, 2, 0, 0] },
+        { id: 'charles-evans', name: 'Charles Evans', team: 'team-b', status: '', tasks: [2, 1, 0, 0, 1], taskStatuses: [2, 1, 0, 0, 0] },
+        { id: 'charlotte-foster', name: 'Charlotte Foster', team: 'team-c', status: '', tasks: [1, 0, 1, 1, 0], taskStatuses: [1, 0, 1, 1, 0] },
+        { id: 'chloe-gibson', name: 'Chloe Gibson', team: 'team-c', status: '', tasks: [0, 2, 0, 1, 1], taskStatuses: [0, 2, 0, 1, 0] },
+        { id: 'daniel-graham', name: 'Daniel Graham', team: 'team-c', status: '', tasks: [2, 0, 1, 0, 0], taskStatuses: [2, 0, 1, 0, 0] },
+        { id: 'david-harris', name: 'David Harris', team: 'team-c', status: '', tasks: [1, 1, 0, 1, 1], taskStatuses: [1, 1, 0, 1, 0] },
+        { id: 'elena-hughes', name: 'Elena Hughes', team: 'team-c', status: '', tasks: [0, 1, 1, 2, 0], taskStatuses: [0, 1, 1, 2, 0] }
       ];
 
       function totalTasks(user) {
         return user.tasks.reduce(function (sum, count) { return sum + count; }, 0);
       }
 
-      function createBreakdown(user) {
+      function getFilteredUsers() {
+        var selectedTeam = teamFilter.value;
+        if (selectedTeam === 'all') {
+          return users;
+        }
+        var teamMemberIds = teams[selectedTeam].memberIds;
+        return users.filter(function (user) {
+          return teamMemberIds.indexOf(user.id) !== -1;
+        });
+      }
+
+      function getCapacityPercent(user) {
+        var totalWorkload = totalTasks(user);
+        return Math.round((totalWorkload / 10) * 100);
+      }
+
+      function createCapacityBar(user) {
+        var capacity = getCapacityPercent(user);
+        var color = capacity < 30 ? '#2da44c' : capacity < 60 ? '#f0883e' : '#da3633';
+        return '<div class="trs-capacity-bar" style="background-color: ' + color + '; width: ' + capacity + '%"></div>';
+      }
+
+      function createTaskStatusBreakdown(user) {
+        return user.taskStatuses.map(function (count, index) {
+          if (!count) return '';
+          return '<span class="trs-status-badge trs-status-' + index + '">' +
+            count + ' ' + taskStatuses[index] + '</span>';
+        }).join('');
+      }
+
+      function createTaskTypeBreakdown(user) {
         return user.tasks.map(function (count, index) {
           if (!count) return '';
           return '<p class="govuk-body govuk-!-margin-bottom-1"><strong>' +
@@ -96,19 +106,43 @@
       }
 
       function renderAllocationSummary() {
-        cardsContainer.innerHTML = '<h2 class="govuk-heading-s">Allocation summary</h2>' +
-          users.map(function (user) {
+        var filtered = getFilteredUsers();
+
+        filtered.sort(function (a, b) {
+          return totalTasks(a) - totalTasks(b);
+        });
+
+        cardsContainer.innerHTML = '<h2 class="govuk-heading-s">Allocation summary (' + filtered.length + ' team members)</h2>' +
+          filtered.map(function (user) {
+            var capacity = getCapacityPercent(user);
             return '<div class="trs-allocation-card" data-member="' + user.id + '">' +
-              '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
-                user.name +
-                (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
-              '</p>' +
+              '<div class="trs-card-header">' +
+                '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
+                  user.name +
+                  (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
+                '</p>' +
+                '<span class="trs-capacity-label">' + totalTasks(user) + ' tasks</span>' +
+              '</div>' +
+              '<div class="trs-capacity-section">' +
+                '<div class="trs-capacity-percent">' + capacity + '%</div>' +
+                '<div class="trs-capacity-bar-container">' +
+                  createCapacityBar(user) +
+                '</div>' +
+              '</div>' +
               '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
                 '<summary class="govuk-details__summary">' +
-                  '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
+                  '<span class="govuk-details__summary-text">Status breakdown</span>' +
+                '</summary>' +
+                '<div class="govuk-details__text">' +
+                  createTaskStatusBreakdown(user) +
+                '</div>' +
+              '</details>' +
+              '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+                '<summary class="govuk-details__summary">' +
+                  '<span class="govuk-details__summary-text">By task type</span>' +
                 '</summary>' +
                 '<div class="govuk-details__text trs-allocation-card__breakdown">' +
-                  createBreakdown(user) +
+                  createTaskTypeBreakdown(user) +
                 '</div>' +
               '</details>' +
             '</div>';
@@ -131,7 +165,8 @@
       function getMatches(query) {
         var normalised = query.trim().toLowerCase();
         if (normalised.length < MIN_CHARS) return [];
-        return users.filter(function (user) {
+        var filtered = getFilteredUsers();
+        return filtered.filter(function (user) {
           return user.name.toLowerCase().indexOf(normalised) !== -1;
         }).slice(0, 5);
       }
@@ -167,7 +202,7 @@
           option.innerHTML =
             '<span class="trs-autocomplete__name">' + highlightMatch(user.name, query) + '</span>' +
             '<span class="trs-autocomplete__summary">' +
-              totalTasks(user) + ' tasks' +
+              totalTasks(user) + ' tasks · ' + getCapacityPercent(user) + '% capacity' +
               (user.status ? ' · ' + user.status : '') +
             '</span>' +
             '<span class="trs-autocomplete__breakdown">' +
@@ -216,13 +251,19 @@
         document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
           var selected = card.getAttribute('data-member') === user.id;
           card.classList.toggle('trs-allocation-card--selected', selected);
-          var details = card.querySelector('.govuk-details');
-          if (selected && details) details.open = true;
         });
 
         selectedSummary.hidden = false;
         selectedSummary.textContent = user.name + ' selected';
       }
+
+      teamFilter.addEventListener('change', function () {
+        renderAllocationSummary();
+        input.value = '';
+        hiddenInput.value = '';
+        selectedSummary.hidden = true;
+        suggestions.hidden = true;
+      });
 
       input.addEventListener('input', function () {
         hiddenInput.value = '';
@@ -242,7 +283,7 @@
           highlightOption(activeIndex > 0 ? activeIndex - 1 : options.length - 1);
         } else if (event.key === 'Enter' && activeIndex >= 0 && options[activeIndex]) {
           event.preventDefault();
-          var selected = users.find(function (user) {
+          var selected = getFilteredUsers().find(function (user) {
             return user.id === options[activeIndex].dataset.userId;
           });
           if (selected) selectUser(selected);
@@ -271,6 +312,8 @@
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
+
+        var tasks = window.trsBatchAssignTasksData || [];
 
         if (!hiddenInput.value) {
           hint.textContent = 'Select a team member from the suggestions';
@@ -305,7 +348,7 @@
           sessionStorage.removeItem('trsBatchAssignTasks');
         } catch (err) {}
 
-        form.submit();
+        window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
       });
     });
   </script>
@@ -396,16 +439,74 @@
     margin-top: 32px;
   }
 
-  .trs-allocation-card--selected {
-    border-left: 5px solid #1d70b8;
-    background-color: #f0f4f9;
-  }
-
   .trs-allocation-card {
     border-top: 1px solid #b1b4b6;
     padding: 20px;
     cursor: pointer;
   }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .trs-capacity-label {
+    color: #505a5f;
+    font-size: 16px;
+  }
+
+  .trs-capacity-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #f3f2f1;
+    border-radius: 2px;
+  }
+
+  .trs-capacity-percent {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b0c0c;
+    min-width: 45px;
+  }
+
+  .trs-capacity-bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e8e8e8;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .trs-capacity-bar {
+    height: 100%;
+    transition: width 0.2s ease;
+  }
+
+  .trs-status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-radius: 2px;
+    color: #0b0c0c;
+  }
+
+  .trs-status-0 { background-color: #f3e5ab; } /* Not started - yellow */
+  .trs-status-1 { background-color: #d4eef8; } /* In progress - blue */
+  .trs-status-2 { background-color: #e6f3e6; } /* Review - green */
+  .trs-status-3 { background-color: #fce4e6; } /* On hold - pink */
+  .trs-status-4 { background-color: #e0e0e0; } /* Complete - grey */
 
   .trs-allocation-card__breakdown {
     border-left: 4px solid #b1b4b6;
@@ -415,6 +516,21 @@
 
   .trs-allocation-card__breakdown p {
     margin-bottom: 0;
+  }
+
+  .team-filter-group {
+    margin-bottom: 20px;
+  }
+
+  .team-filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  .team-filter-group select {
+    padding: 8px;
+    border: 1px solid #0b0c0c;
   }
 </style>
 
@@ -434,7 +550,7 @@
   </div>
 </div>
 
-<form action="all-tasks-overview-batch?tasksAssigned=1" method="post" id="batch-assign-form">
+<form action="all-tasks-overview-batch" method="post" id="batch-assign-form">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
@@ -452,17 +568,22 @@
         </table>
       </div>
     </div>
-
-
-    
   </div>
 
-
-  
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
       <div id="batch-assign-fields" hidden>
+        <div class="team-filter-group">
+          <label for="team-filter">Filter by team:</label>
+          <select id="team-filter" class="govuk-select">
+            <option value="all">All teams</option>
+            <option value="team-a">Team A</option>
+            <option value="team-b">Team B</option>
+            <option value="team-c">Team C</option>
+          </select>
+        </div>
+
         <div class="govuk-form-group govuk-!-margin-bottom-5">
           <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
             Who do you want to assign these tasks to?
@@ -496,17 +617,14 @@
             </div>
             <p id="assign-to-selected" class="govuk-body govuk-!-margin-top-2" hidden></p>
           </div>
-          <br>  
-         
-            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
-            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
-          
+          <br>
+          <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
+          <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
         </div>
       </div>
 
       <div id="batch-allocation-summary-cards" class="trs-allocation-summary" hidden></div>
 
-      
     </div>
   </div>
 
@@ -532,6 +650,8 @@
     } catch (e) {
       tasks = [];
     }
+
+    window.trsBatchAssignTasksData = tasks;
 
     if (!tasks.length) {
       if (empty) empty.hidden = false;
