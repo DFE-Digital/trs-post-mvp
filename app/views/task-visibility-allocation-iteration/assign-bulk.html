@@ -12,64 +12,342 @@
 {% block scripts %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var select = document.getElementById('assign-to');
-      var cards = document.querySelectorAll(
-        '#batch-allocation-summary-cards .trs-allocation-card, #batch-allocation-summary-cards-2 .trs-allocation-card'
-      );
+      var input = document.getElementById('assign-to');
+      var clearButton = document.getElementById('assign-to-clear');
+      var hiddenInput = document.getElementById('assign-to-value');
+      var hint = document.getElementById('assign-to-hint');
+      var selectedSummary = document.getElementById('assign-to-selected');
+      var cardsContainer = document.getElementById('batch-allocation-summary-cards');
+      var form = document.getElementById('batch-assign-form');
+      var FAVOURITES_KEY = 'trsBatchAssignFavourites';
+      var searchQuery = '';
 
-      function highlightCard(selectedValue) {
-        cards.forEach(function (card) {
-          var cardName = card.getAttribute('data-member');
-          var taskDetails = card.querySelector('.govuk-details');
-          if (cardName === selectedValue && selectedValue) {
-            card.classList.add('trs-allocation-card--selected');
-            if (taskDetails) taskDetails.open = true;
-          } else {
-            card.classList.remove('trs-allocation-card--selected');
-          }
-        });
-        var allocSummaryWrap = document.getElementById('batch-allocation-summary-cards-2');
-        if (allocSummaryWrap) {
-          var outerAllocationDetails = allocSummaryWrap.querySelector(':scope > details');
-          if (outerAllocationDetails && selectedValue) {
-            outerAllocationDetails.open = true;
-          }
+      var favourites = {};
+      try {
+        var stored = localStorage.getItem(FAVOURITES_KEY);
+        if (stored) favourites = JSON.parse(stored);
+      } catch (e) {
+        favourites = {};
+      }
+
+      function toggleFavourite(userId) {
+        if (favourites[userId]) {
+          delete favourites[userId];
+        } else {
+          favourites[userId] = true;
         }
+        try {
+          localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favourites));
+        } catch (e) {}
+        renderAllocationSummary();
       }
 
-      if (select) {
-        highlightCard(select.value);
-        select.addEventListener('change', function () {
-          highlightCard(this.value);
+      function isFavourite(userId) {
+        return !!favourites[userId];
+      }
+
+      function getPinLabel(isPinned) {
+        return isPinned ? 'Unpin' : 'Pin to my team';
+      }
+
+      function getFavouriteUsers() {
+        return getFilteredUsers().filter(function (u) { return isFavourite(u.id); });
+      }
+
+      var taskTypes = [
+        'GOV.UK One Login',
+        'NPQ TRN requests',
+        'Potential duplicates via API',
+        'Name and date of birth change requests',
+        'Matched records – manual checks needed'
+      ];
+
+      var taskStatuses = [
+        'Not started',
+        'In progress',
+        'Review',
+        'On hold',
+        'Complete'
+      ];
+
+      var teams = {
+        'team-a': { name: 'Team A', memberIds: ['ferdinand-brown', 'patricia-miles', 'maurice-villard', 'alessandra-morais', 'amelia-brooks'] },
+        'team-b': { name: 'Team B', memberIds: ['andrew-carter', 'beatrice-clarke', 'benjamin-cooper', 'camilla-davies', 'charles-evans'] },
+        'team-c': { name: 'Team C', memberIds: ['charlotte-foster', 'chloe-gibson', 'daniel-graham', 'david-harris', 'elena-hughes'] }
+      };
+
+      var users = [
+        { id: 'ferdinand-brown', name: 'Ferdinand Brown', team: 'team-a', status: '', tasks: [1, 1, 0, 0, 0], taskStatuses: [1, 0, 0, 0, 0], skills: ['One Login', 'NPQ'] },
+        { id: 'patricia-miles', name: 'Patricia Miles', team: 'team-a', status: '', tasks: [2, 2, 1, 1, 0], taskStatuses: [2, 1, 1, 1, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
+        { id: 'maurice-villard', name: 'Maurice Villard', team: 'team-a', status: '', tasks: [1, 0, 1, 0, 0], taskStatuses: [0, 0, 1, 0, 0], skills: ['Duplicates'] },
+        { id: 'alessandra-morais', name: 'Alessandra Morais', team: 'team-a', status: '', tasks: [0, 1, 0, 1, 0], taskStatuses: [0, 1, 0, 1, 0], skills: ['NPQ', 'Names'] },
+        { id: 'amelia-brooks', name: 'Amelia Brooks', team: 'team-a', status: '', tasks: [1, 0, 0, 2, 0], taskStatuses: [1, 0, 0, 2, 0], skills: ['Names'] },
+        { id: 'andrew-carter', name: 'Andrew Carter', team: 'team-b', status: '', tasks: [0, 2, 1, 0, 1], taskStatuses: [0, 2, 1, 0, 0], skills: ['NPQ', 'Duplicates'] },
+        { id: 'beatrice-clarke', name: 'Beatrice Clarke', team: 'team-b', status: '', tasks: [2, 0, 0, 1, 1], taskStatuses: [2, 0, 0, 1, 0], skills: ['One Login', 'Names'] },
+        { id: 'benjamin-cooper', name: 'Benjamin Cooper', team: 'team-b', status: '', tasks: [1, 1, 1, 0, 0], taskStatuses: [1, 1, 1, 0, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
+        { id: 'camilla-davies', name: 'Camilla Davies', team: 'team-b', status: '', tasks: [0, 1, 2, 0, 1], taskStatuses: [0, 1, 2, 0, 0], skills: ['Duplicates'] },
+        { id: 'charles-evans', name: 'Charles Evans', team: 'team-b', status: '', tasks: [2, 1, 0, 0, 1], taskStatuses: [2, 1, 0, 0, 0], skills: ['One Login', 'NPQ'] },
+        { id: 'charlotte-foster', name: 'Charlotte Foster', team: 'team-c', status: '', tasks: [1, 0, 1, 1, 0], taskStatuses: [1, 0, 1, 1, 0], skills: ['Duplicates', 'Names'] },
+        { id: 'chloe-gibson', name: 'Chloe Gibson', team: 'team-c', status: '', tasks: [0, 2, 0, 1, 1], taskStatuses: [0, 2, 0, 1, 0], skills: ['NPQ'] },
+        { id: 'daniel-graham', name: 'Daniel Graham', team: 'team-c', status: '', tasks: [2, 0, 1, 0, 0], taskStatuses: [2, 0, 1, 0, 0], skills: ['One Login', 'Duplicates'] },
+        { id: 'david-harris', name: 'David Harris', team: 'team-c', status: '', tasks: [1, 1, 0, 1, 1], taskStatuses: [1, 1, 0, 1, 0], skills: ['One Login', 'Names'] },
+        { id: 'elena-hughes', name: 'Elena Hughes', team: 'team-c', status: '', tasks: [0, 1, 1, 2, 0], taskStatuses: [0, 1, 1, 2, 0], skills: ['NPQ', 'Names'] }
+      ];
+
+      function totalTasks(user) {
+        return user.tasks.reduce(function (sum, count) { return sum + count; }, 0);
+      }
+
+      function getFilteredUsers() {
+        var normalised = searchQuery.trim().toLowerCase();
+        if (!normalised) return users;
+        return users.filter(function (user) {
+          return user.name.toLowerCase().indexOf(normalised) !== -1;
         });
       }
 
-      cards.forEach(function (card) {
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.addEventListener('click', function (e) {
-          if (e.target.closest('.govuk-details__summary, summary')) {
-            return;
-          }
-          var member = this.getAttribute('data-member');
-          if (member && select) {
-            select.value = member;
-            highlightCard(member);
-          }
+      function getCapacityPercent(user) {
+        var totalWorkload = totalTasks(user);
+        return Math.round((totalWorkload / 10) * 100);
+      }
+
+      function createCapacityBar(user) {
+        var capacity = getCapacityPercent(user);
+        var color = capacity < 30 ? '#2da44c' : capacity < 60 ? '#f0883e' : '#da3633';
+        return '<div class="trs-capacity-bar" style="background-color: ' + color + '; width: ' + capacity + '%"></div>';
+      }
+
+      function createTaskStatusBreakdown(user) {
+        return user.taskStatuses.map(function (count, index) {
+          if (!count) return '';
+          return '<span class="trs-status-badge trs-status-' + index + '">' +
+            count + ' ' + taskStatuses[index] + '</span>';
+        }).join('');
+      }
+
+      function createTaskTypeBreakdown(user) {
+        return user.tasks.map(function (count, index) {
+          if (!count) return '';
+          return '<p class="govuk-body govuk-!-margin-bottom-1"><strong>' +
+            count + '</strong> ' + taskTypes[index] + '</p>';
+        }).join('');
+      }
+
+      function createAllocationCard(user) {
+        var isFav = isFavourite(user.id);
+        return '<div class="trs-allocation-card' + (isFav ? ' trs-allocation-card--favourite' : '') + '" data-member="' + user.id + '">' +
+          '<div class="trs-card-header">' +
+            '<div class="trs-card-title">' +
+              '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
+                user.name +
+                (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
+              '</p>' +
+              getCapacityTag(user) +
+            '</div>' +
+            '<button type="button" class="trs-favourite-btn" data-user-id="' + user.id + '" aria-label="' + getPinLabel(isFav) + '" title="' + getPinLabel(isFav) + '">' +
+              '<span aria-hidden="true">📌</span>' +
+              '<span class=govuk-link govuk-link--no-visited-state>' + getPinLabel(isFav) + '</span>' +
+            '</button>' +
+          '</div>' /* +
+          '<div class="trs-capacity-section">' +
+            '<div class="trs-capacity-bar-container">' +
+              createCapacityBar(user) +
+            '</div>' +
+          '</div>' + */ +
+          '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+            '<summary class="govuk-details__summary">' +
+              '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
+            '</summary>' +
+            '<div class="govuk-details__text">' +
+              '<p class="govuk-body-s"><strong>Status breakdown</strong></p>' +
+              createTaskStatusBreakdown(user) +
+              '<p class="govuk-body-s"><strong>By task type</strong></p>' +
+              createTaskTypeBreakdown(user) +
+            '</div>' +
+          '</details>' +
+        '</div>';
+      }
+
+      function getCapacityTag(user) {
+        var capacity = getCapacityPercent(user);
+        var tagClass = '';
+
+        if (capacity > 30) {
+          tagClass = 'govuk-tag--red';
+        } else if (capacity < 60) {
+          tagClass = 'govuk-tag--yellow';
+        } else {
+          tagClass = 'govuk-tag--green';
+        }
+
+        return '<span class="govuk-tag ' + tagClass + '">' + capacity + '% capacity</span>';
+      }
+
+      function renderMyTeamSidebar() {
+        var favs = getFavouriteUsers();
+        var sidebar = document.getElementById('my-team-sidebar');
+
+        favs.sort(function (a, b) {
+          return getCapacityPercent(b) - getCapacityPercent(a);
         });
-        card.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            if (e.target.closest && e.target.closest('details')) {
-              return;
-            }
+
+        if (!favs.length) {
+          sidebar.hidden = true;
+          return;
+        }
+
+        var html = '<div class="trs-sidebar-card">' +
+          '<h2 class="govuk-heading-m">My team (' + favs.length + ')</h2>' +
+          favs.map(function (user) {
+            var isFav = isFavourite(user.id);
+            return '<div class="trs-sidebar-member " data-member="' + user.id + '">' +
+              '<div class="trs-sidebar-member-header">' +
+                '<div class="trs-sidebar-member-title">' +
+                  '<p class="govuk-body-m govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + user.name + '</p>' +
+                  getCapacityTag(user) +
+                '</div>' +
+                '<button type="button" class="trs-favourite-btn trs-favourite-btn--sidebar" data-user-id="' + user.id + '" aria-label="Unpin" title="Unpin">' +
+                  '<span aria-hidden="true">📌</span>' +
+                  '<span class="govuk-link govuk-link--no-visited-state">Unpin</span>' +
+                '</button>' +
+              '</div>' +
+              '<details class="govuk-details govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+                '<summary class="govuk-details__summary">' +
+                  '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
+                '</summary>' +
+                '<div class="govuk-details__text trs-sidebar-breakdown">' +
+                  '<p><strong>Status breakdown</strong></p>' +
+                  createTaskStatusBreakdown(user) +
+                  '<p><strong>By task type</strong></p>' +
+                  createTaskTypeBreakdown(user) +
+                '</div>' +
+              '</details>' +
+            '</div>';
+          }).join('') +
+        '</div>';
+
+        sidebar.innerHTML = html;
+        sidebar.hidden = false;
+
+        document.querySelectorAll('.trs-favourite-btn--sidebar').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
             e.preventDefault();
-            var member = this.getAttribute('data-member');
-            if (member && select) {
-              select.value = member;
-              highlightCard(member);
-            }
-          }
+            toggleFavourite(this.getAttribute('data-user-id'));
+          });
         });
+      }
+
+      function renderAllocationSummary() {
+        var filtered = getFilteredUsers();
+        var favs = getFavouriteUsers();
+
+        filtered.sort(function (a, b) {
+          return totalTasks(a) - totalTasks(b);
+        });
+
+        var nonFavs = filtered.filter(function (u) { return !isFavourite(u.id); });
+        var remainingCount = nonFavs.length;
+        var html = '<h2 class="govuk-heading-s">Other teams (' + remainingCount + ')</h2>';
+        if (!filtered.length) {
+          html += '<p class="govuk-body">No team members found</p>';
+        } else {
+          html += nonFavs.map(createAllocationCard).join('');
+        }
+
+        cardsContainer.innerHTML = html;
+
+        document.querySelectorAll('.trs-favourite-btn').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleFavourite(this.getAttribute('data-user-id'));
+          });
+        });
+
+        document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
+          card.addEventListener('click', function (event) {
+            if (event.target.closest('button, details')) return;
+            var user = users.find(function (item) {
+              return item.id === card.getAttribute('data-member');
+            });
+            if (user) selectUser(user);
+          });
+        });
+
+        renderMyTeamSidebar();
+      }
+
+      function selectUser(user) {
+        input.value = user.name;
+        hiddenInput.value = user.id;
+
+        document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
+          var selected = card.getAttribute('data-member') === user.id;
+          card.classList.toggle('trs-allocation-card--selected', selected);
+        });
+
+        selectedSummary.hidden = false;
+        selectedSummary.textContent = user.name + ' selected';
+      }
+
+      input.addEventListener('input', function () {
+        hiddenInput.value = '';
+        selectedSummary.hidden = true;
+        searchQuery = this.value;
+        clearButton.hidden = !this.value;
+        renderAllocationSummary();
+      });
+
+      clearButton.addEventListener('click', function () {
+        input.value = '';
+        hiddenInput.value = '';
+        selectedSummary.hidden = true;
+        searchQuery = '';
+        clearButton.hidden = true;
+        renderAllocationSummary();
+        input.focus();
+      });
+
+      renderAllocationSummary();
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var tasks = window.trsBatchAssignTasksData || [];
+
+        if (!hiddenInput.value) {
+          hint.textContent = 'Start typing and select a team member from the filtered list below. ';
+          hint.classList.add('govuk-error-message');
+          input.classList.add('govuk-input--error');
+          input.focus();
+          return;
+        }
+
+        var user = users.find(function (item) { return item.id === hiddenInput.value; });
+        if (!user) return;
+
+        var overrides = {};
+        try {
+          var existing = sessionStorage.getItem('trsBatchAssignOverrides');
+          if (existing) overrides = JSON.parse(existing);
+          if (!overrides || typeof overrides !== 'object') overrides = {};
+        } catch (err) {
+          overrides = {};
+        }
+
+        tasks.forEach(function (t) {
+          if (t.trsRef) overrides[t.trsRef] = user.name;
+        });
+
+        try {
+          sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
+          sessionStorage.setItem(
+            'trsBatchAssignLastResult',
+            JSON.stringify({ agentName: user.name, count: tasks.length })
+          );
+          sessionStorage.removeItem('trsBatchAssignTasks');
+        } catch (err) {}
+
+        window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
       });
     });
   </script>
@@ -78,6 +356,95 @@
 {% block content %}
 
 <style>
+  .trs-autocomplete {
+    position: relative;
+    max-width: 600px;
+  }
+
+  .trs-autocomplete__input-wrap {
+    position: relative;
+  }
+
+  .trs-autocomplete__input-wrap .govuk-input {
+    padding-right: 48px;
+  }
+
+  .trs-autocomplete__clear {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #0b0c0c;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .trs-autocomplete__clear:hover {
+    color: #1d70b8;
+  }
+
+  .trs-autocomplete__clear:focus {
+    z-index: 1;
+  }
+
+  .trs-ai-suggestions {
+    background: #f0f4f9;
+    border-left: 4px solid #1d70b8;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+
+  .trs-suggestion-help {
+    color: #505a5f;
+    font-size: 16px;
+  }
+
+  .trs-suggestion-card {
+    display: flex;
+    gap: 16px;
+    background: white;
+    border: 1px solid #b1b4b6;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 2px;
+  }
+
+  .trs-suggestion-rank {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1d70b8;
+    min-width: 40px;
+  }
+
+  .trs-suggestion-content {
+    flex: 1;
+  }
+
+  .trs-suggestion-reason {
+    background: #f3f2f1;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 2px;
+  }
+
+  .trs-suggestion-reason p {
+    margin: 0;
+  }
+
+  .trs-suggestion-select {
+    margin-top: 8px;
+  }
+
+  .trs-allocation-summary {
+    margin-top: 32px;
+  }
+
   .trs-allocation-card {
     border-top: 1px solid #b1b4b6;
     padding: 20px;
@@ -89,6 +456,182 @@
     background-color: #f0f4f9;
   }
 
+  .trs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .trs-card-title {
+    flex: 1;
+  }
+
+  .trs-favourite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #1d70b8;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .trs-favourite-btn:hover {
+    transform: scale(1.15);
+  }
+
+  .trs-allocation-card--favourite {
+    background-color: #fef8f3;
+    border-left: 5px solid #d4a574;
+  }
+
+  .trs-my-team-section {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+  }
+
+  .trs-my-team-section .trs-allocation-card {
+    background-color: #fef8f3;
+    border-left: 5px solid #d4a574;
+  }
+
+  .trs-my-team-sidebar {
+    position: sticky;
+    top: 20px;
+  }
+
+  .trs-sidebar-card {
+    background: #f3f2f1;
+    border: 0px solid #b1b4b6;
+    padding: 20px;
+    border-radius: 2px;
+  }
+
+  .trs-sidebar-card h2 {
+    margin-bottom: 16px;
+  }
+
+  .trs-sidebar-member {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  .trs-sidebar-member:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .trs-sidebar-member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .trs-sidebar-member-header p {
+    margin: 0;
+    flex: 1;
+  }
+
+  .trs-sidebar-member-title {
+    flex: 1;
+  }
+
+  .trs-favourite-btn--sidebar {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .trs-sidebar-capacity {
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+
+  .trs-sidebar-breakdown {
+    font-size: 16px;
+  }
+
+  .trs-sidebar-breakdown p {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+
+  .trs-sidebar-breakdown .trs-status-badge {
+    font-size: 14px;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+  }
+
+  .govuk-details--small .govuk-details__summary {
+    padding: 6px 0;
+    margin-bottom: 4px;
+  }
+
+  .govuk-details--small .govuk-details__summary-text {
+    font-size: 14px;
+  }
+
+  .govuk-details--small .govuk-details__text {
+    padding: 4px 0 8px 0;
+    margin-bottom: 0;
+  }
+
+  .trs-capacity-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #f3f2f1;
+    border-radius: 2px;
+  }
+
+  .trs-capacity-percent {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b0c0c;
+    min-width: 45px;
+  }
+
+  .trs-capacity-bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e8e8e8;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .trs-capacity-bar {
+    height: 100%;
+    transition: width 0.2s ease;
+  }
+
+  .trs-status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-radius: 2px;
+    color: #0b0c0c;
+  }
+
+  .trs-status-0 { background-color: #f3e5ab; } /* Not started - yellow */
+  .trs-status-1 { background-color: #d4eef8; } /* In progress - blue */
+  .trs-status-2 { background-color: #e6f3e6; } /* Review - green */
+  .trs-status-3 { background-color: #fce4e6; } /* On hold - pink */
+  .trs-status-4 { background-color: #e0e0e0; } /* Complete - grey */
+
   .trs-allocation-card__breakdown {
     border-left: 4px solid #b1b4b6;
     padding: 14px 25px;
@@ -98,6 +641,7 @@
   .trs-allocation-card__breakdown p {
     margin-bottom: 0;
   }
+
 </style>
 
 <div class="govuk-grid-row">
@@ -116,7 +660,7 @@
   </div>
 </div>
 
-<form action="#" method="post" id="batch-assign-form">
+<form action="all-tasks-overview-batch" method="post" id="batch-assign-form">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
@@ -133,165 +677,51 @@
           </tbody>
         </table>
       </div>
-    </div>
-
-
-    
-  </div>
-
-
-  
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-
       <div id="batch-assign-fields" hidden>
         <div class="govuk-form-group govuk-!-margin-bottom-5">
           <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
-            Who do you want to assign these tasks to?
+            Or search for a team member
           </label>
-          <select class="govuk-select" id="assign-to" name="assign-to">
-            <option value="" selected disabled>Select team member</option>
-            <option value="ferdinand-brown">Ferdinand Brown</option>
-            <option value="patricia-miles">Patricia Miles</option>
-            <option value="maurice-villard">Maurice Villard</option>
-            <option value="alessandra-morais">Alessandra Morais</option>
-          </select>
-          <br><br>  
-         
-            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
-            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
-          
-        </div>
-      </div>
-
-      <div id="batch-allocation-summary-cards-2" hidden>
-        <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">Allocation summary</span>
-          </summary>
-          <div class="govuk-details__text">
-            <div class="trs-allocation-card" data-member="ferdinand-brown">
-              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Ferdinand Brown</p>
-
-              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">2 tasks</span>
-                </summary>
-                <div class="govuk-details__text trs-allocation-card__breakdown">
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Matched records – manual checks needed</p>
-                </div>
-              </details>
+          <div class="">
+            <div class="govuk-hint" id="assign-to-hint">
+              Start typing a name to filter the team members below.
             </div>
-
-            <div class="trs-allocation-card" data-member="patricia-miles">
-              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Patricia Miles</p>
-              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">6 tasks</span>
-                </summary>
-                <div class="govuk-details__text trs-allocation-card__breakdown">
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> GOV.UK One Login</p>
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> NPQ TRN requests</p>
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> Potential duplicates via API</p>
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
-                </div>
-              </details>
+            <div class="trs-autocomplete__input-wrap">
+              <input
+                class="govuk-input"
+                id="assign-to"
+                name="assign-to-search"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="assign-to-hint"
+                placeholder="Search team members"
+              >
+              <button type="button" id="assign-to-clear" class="trs-autocomplete__clear" aria-label="Clear search" title="Clear search" hidden>&times;</button>
+              <input type="hidden" id="assign-to-value" name="assign-to">
             </div>
-
-            <div class="trs-allocation-card" data-member="maurice-villard">
-              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Maurice Villard <span class="govuk-tag govuk-tag--yellow">On leave</span></p>
-
-              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">2 tasks</span>
-                </summary>
-                <div class="govuk-details__text trs-allocation-card__breakdown">
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Potential duplicates via API</p>
-                </div>
-              </details>
-            </div>
-
-            <div class="trs-allocation-card" data-member="alessandra-morais">
-              <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Alessandra Morais</p>
-
-              <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                  <span class="govuk-details__summary-text">2 tasks</span>
-                </summary>
-                <div class="govuk-details__text trs-allocation-card__breakdown">
-                  <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
-                </div>
-              </details>
-            </div>
+            <p id="assign-to-selected" class="govuk-body govuk-!-margin-top-2" hidden></p>
           </div>
-        </details>
-      </div>
-
-      <div id="batch-allocation-summary-cards" hidden>
-        <h2 class="govuk-heading-s">Allocation summary</h2>
-        <div class="trs-allocation-card" data-member="ferdinand-brown">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Ferdinand Brown</p>
-   
-          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">2 tasks</span>
-            </summary>
-            <div class="govuk-details__text trs-allocation-card__breakdown">
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Matched records – manual checks needed</p>
-            </div>
-          </details>
-        </div>
-
-        <div class="trs-allocation-card" data-member="patricia-miles">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Patricia Miles</p>
-          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">6 tasks</span>
-            </summary>
-            <div class="govuk-details__text trs-allocation-card__breakdown">
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> GOV.UK One Login</p>
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>2</strong> NPQ TRN requests</p>
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> Potential duplicates via API</p>
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
-            </div>
-          </details>
-        </div>
-
-        <div class="trs-allocation-card" data-member="maurice-villard">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Maurice Villard <span class="govuk-tag govuk-tag--yellow">On leave</span></p>
-         
-          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">2 tasks</span>
-            </summary>
-            <div class="govuk-details__text trs-allocation-card__breakdown">
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> GOV.UK One Login</p>
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Potential duplicates via API</p>
-            </div>
-          </details>
-        </div>
-
-        <div class="trs-allocation-card" data-member="alessandra-morais">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">Alessandra Morais</p>
-       
-          <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">2 tasks</span>
-            </summary>
-            <div class="govuk-details__text trs-allocation-card__breakdown">
-              <p class="govuk-body govuk-!-margin-bottom-1"><strong>1</strong> NPQ TRN requests</p>
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>1</strong> Name and date of birth change requests</p>
-            </div>
-          </details>
+          <br>
+          <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
+          <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
         </div>
       </div>
-
-      
+     
     </div>
+  </div>
+
+  <div class="govuk-grid-row">
+   <div id="my-team-sidebar" class="trs-my-team-sidebar" hidden></div>
+
+</div>
+
+  <div class="govuk-grid-row">
+   
+
+      <div id="batch-allocation-summary-cards" class="trs-allocation-summary" hidden></div>
+
+
   </div>
 
 </form>
@@ -304,6 +734,7 @@
     var empty = document.getElementById('batch-selection-empty');
     var formFields = document.getElementById('batch-assign-fields');
     var allocationCards = document.getElementById('batch-allocation-summary-cards');
+    var myTeamSidebar = document.getElementById('my-team-sidebar');
     var batchActions = document.getElementById('batch-actions');
     var intro = document.getElementById('batch-intro-with-tasks');
     var form = document.getElementById('batch-assign-form');
@@ -317,10 +748,13 @@
       tasks = [];
     }
 
+    window.trsBatchAssignTasksData = tasks;
+
     if (!tasks.length) {
       if (empty) empty.hidden = false;
       if (intro) intro.hidden = true;
       if (wrap) wrap.hidden = true;
+      if (myTeamSidebar) myTeamSidebar.hidden = true;
       if (formFields) formFields.hidden = true;
       if (allocationCards) allocationCards.hidden = true;
       if (batchActions) batchActions.hidden = true;
@@ -356,43 +790,11 @@
     });
 
     if (wrap) wrap.hidden = false;
+    if (myTeamSidebar) myTeamSidebar.hidden = false;
     if (formFields) formFields.hidden = false;
     if (allocationCards) allocationCards.hidden = false;
     if (batchActions) batchActions.hidden = false;
 
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var assigneeEl = document.getElementById('assign-to');
-        if (!assigneeEl || !assigneeEl.value) {
-          if (assigneeEl) assigneeEl.focus();
-          return;
-        }
-        var agentName = assigneeEl.options[assigneeEl.selectedIndex]
-          ? assigneeEl.options[assigneeEl.selectedIndex].text.trim()
-          : '';
-        var overrides = {};
-        try {
-          var existing = sessionStorage.getItem('trsBatchAssignOverrides');
-          if (existing) overrides = JSON.parse(existing);
-          if (!overrides || typeof overrides !== 'object') overrides = {};
-        } catch (err) {
-          overrides = {};
-        }
-        tasks.forEach(function (t) {
-          if (t.trsRef) overrides[t.trsRef] = agentName;
-        });
-        try {
-          sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
-          sessionStorage.setItem(
-            'trsBatchAssignLastResult',
-            JSON.stringify({ agentName: agentName, count: tasks.length })
-          );
-          sessionStorage.removeItem('trsBatchAssignTasks');
-        } catch (err) {}
-        window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
-      });
-    }
   });
 </script>
 

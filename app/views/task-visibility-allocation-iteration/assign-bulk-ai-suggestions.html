@@ -21,8 +21,39 @@
       var cardsContainer = document.getElementById('batch-allocation-summary-cards');
       var teamFilter = document.getElementById('team-filter');
       var form = document.getElementById('batch-assign-form');
+
+      if (teamFilter) teamFilter.value = 'all';
       var activeIndex = -1;
       var MIN_CHARS = 2;
+      var FAVOURITES_KEY = 'trsBatchAssignFavourites';
+
+      var favourites = {};
+      try {
+        var stored = localStorage.getItem(FAVOURITES_KEY);
+        if (stored) favourites = JSON.parse(stored);
+      } catch (e) {
+        favourites = {};
+      }
+
+      function toggleFavourite(userId) {
+        if (favourites[userId]) {
+          delete favourites[userId];
+        } else {
+          favourites[userId] = true;
+        }
+        try {
+          localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favourites));
+        } catch (e) {}
+        renderAllocationSummary();
+      }
+
+      function isFavourite(userId) {
+        return !!favourites[userId];
+      }
+
+      function getFavouriteUsers() {
+        return getFilteredUsers().filter(function (u) { return isFavourite(u.id); });
+      }
 
       var taskTypes = [
         'GOV.UK One Login',
@@ -128,18 +159,21 @@
           var capacity = getCapacityPercent(user);
           var availableCapacity = 100 - capacity;
           html += '<div class="trs-suggestion-card" data-suggestion-id="' + user.id + '">' +
-            '<div class="trs-suggestion-rank">#' + (index + 1) + '</div>' +
+           
             '<div class="trs-suggestion-content">' +
-              '<p class="govuk-body govuk-!-margin-bottom-2">' +
+              
+              '<span class="trs-suggestion-rank">#' + (index + 1) + '</span><span class="govuk-body govuk-!-margin-bottom-2">' +
                 '<strong>' + user.name + '</strong>' +
-              '</p>' +
-              '<div class="trs-suggestion-reason">' +
-                '<p class="govuk-body-s govuk-!-margin-bottom-1"><strong>Why suggested:</strong></p>' +
-                '<ul class="govuk-list govuk-list--bullet govuk-body-s govuk-!-margin-bottom-2">' +
-                  '<li>' + availableCapacity + '% available capacity</li>' +
+              '</span>' +
+              '<div class=" govuk-!-margin-top-2">' +
+                
+                '<strong class="govuk-tag govuk-tag--green">' + availableCapacity + '% available capacity</strong>' +
+                /* '<ul class="govuk-list govuk-list--bullet govuk-body-s govuk-!-margin-bottom-2 govuk-!-padding-0">' +
+                 
+                  '<strong class="govuk-tag govuk-tag--green">' + availableCapacity + '% available capacity</strong>' +
                   '<li>' + totalTasks(user) + ' current tasks</li>' +
                   (user.skills && user.skills.length > 0 ? '<li>Skills: ' + user.skills.join(', ') + '</li>' : '') +
-                '</ul>' +
+                '</ul>' + */
               '</div>' +
               '<button type="button" class="govuk-button govuk-button--secondary trs-suggestion-select" data-user-id="' + user.id + '" data-user-name="' + user.name + '">Select</button>' +
             '</div>' +
@@ -160,48 +194,104 @@
         });
       }
 
-      function renderAllocationSummary() {
-        var filtered = getFilteredUsers();
-
-        filtered.sort(function (a, b) {
-          return totalTasks(a) - totalTasks(b);
-        });
-
-        cardsContainer.innerHTML = '<h2 class="govuk-heading-s">Full team allocation (' + filtered.length + ' members)</h2>' +
-          filtered.map(function (user) {
-            var capacity = getCapacityPercent(user);
-            return '<div class="trs-allocation-card" data-member="' + user.id + '">' +
-              '<div class="trs-card-header">' +
+      function createAllocationCard(user) {
+        var capacity = getCapacityPercent(user);
+        var availableCapacity = 100 - capacity;
+        var isFav = isFavourite(user.id);
+        return '<div class="trs-allocation-card' + (isFav ? ' trs-allocation-card--favourite' : '') + '" data-member="' + user.id + '" style="display: flex; gap: 16px;">' +
+          '<input type="radio" name="team-member-select" value="' + user.id + '" class="trs-card-radio" style="flex-shrink: 0; margin-top: 2px; cursor: pointer;">' +
+          '<div style="flex: 1;">' +
+            '<div class="trs-card-header">' +
+              '<div class="trs-card-title">' +
                 '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
                   user.name +
                   (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
                 '</p>' +
                 '<span class="trs-capacity-label">' + totalTasks(user) + ' tasks</span>' +
               '</div>' +
-              '<div class="trs-capacity-section">' +
-                '<div class="trs-capacity-percent">' + capacity + '%</div>' +
-                '<div class="trs-capacity-bar-container">' +
-                  createCapacityBar(user) +
-                '</div>' +
-              '</div>' +
-              '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
-                '<summary class="govuk-details__summary">' +
-                  '<span class="govuk-details__summary-text">Status breakdown</span>' +
-                '</summary>' +
-                '<div class="govuk-details__text">' +
-                  createTaskStatusBreakdown(user) +
-                '</div>' +
-              '</details>' +
-              '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
-                '<summary class="govuk-details__summary">' +
-                  '<span class="govuk-details__summary-text">By task type</span>' +
-                '</summary>' +
-                '<div class="govuk-details__text trs-allocation-card__breakdown">' +
-                  createTaskTypeBreakdown(user) +
-                '</div>' +
-              '</details>' +
-            '</div>';
-          }).join('');
+              '<button type="button" class="trs-favourite-btn" data-user-id="' + user.id + '" aria-label="' + (isFav ? 'Remove from' : 'Add to') + ' my team">' +
+                (isFav ? '❤️' : '🤍') +
+              '</button>' +
+            '</div>' +
+          '<div class="trs-capacity-section">' +
+            '<div class="trs-capacity-percent">' + availableCapacity + '%</div>' +
+
+            '<div class="trs-capacity-bar-container">' +
+              createCapacityBar(user) +
+            '</div>' +
+          '</div>' +
+          /* '<p class="govuk-body-s" style="margin-bottom: 12px;">' + getCapacityTag(user) + '</p>' + */
+          '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+            '<summary class="govuk-details__summary">' +
+              '<span class="govuk-details__summary-text">Status breakdown</span>' +
+            '</summary>' +
+            '<div class="govuk-details__text">' +
+              createTaskStatusBreakdown(user) +
+            '</div>' +
+          '</details>' +
+          '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+            '<summary class="govuk-details__summary">' +
+              '<span class="govuk-details__summary-text">By task type</span>' +
+            '</summary>' +
+            '<div class="govuk-details__text trs-allocation-card__breakdown">' +
+              createTaskTypeBreakdown(user) +
+            '</div>' +
+          '</details>' +
+          '</div>' +
+        '</div>';
+      }
+
+      function getCapacityTag(user) {
+        var capacity = getCapacityPercent(user);
+        var availableCapacity = 100 - capacity;
+        var tagClass = '';
+        var tagLabel = '';
+
+        if (availableCapacity >= 80) {
+          tagClass = 'govuk-tag--green';
+          tagLabel = availableCapacity + '% available';
+        } else if (availableCapacity >= 39) {
+          tagClass = 'govuk-tag--yellow';
+          tagLabel = availableCapacity + '% available';
+        } else {
+          tagClass = 'govuk-tag--red';
+          tagLabel = availableCapacity + '% available';
+        }
+
+        return '<span class="govuk-tag ' + tagClass + '">' + tagLabel + '</span>';
+      }
+
+      function renderMyTeamSidebar() {
+        var favs = getFavouriteUsers();
+        var sidebar = document.getElementById('my-team-sidebar');
+
+        if (!favs.length) {
+          sidebar.hidden = true;
+          return;
+        }
+
+        var html = '<h2 class="govuk-heading-s">My team (' + favs.length + ')</h2>' +
+          favs.map(createAllocationCard).join('');
+
+        sidebar.innerHTML = html;
+        sidebar.hidden = false;
+      }
+
+      function renderAllocationSummary() {
+        var filtered = getFilteredUsers();
+        var favs = getFavouriteUsers();
+
+        filtered.sort(function (a, b) {
+          return totalTasks(a) - totalTasks(b);
+        });
+
+        var nonFavs = filtered.filter(function (u) { return !isFavourite(u.id); });
+        var remainingCount = nonFavs.length;
+        var html = '<h2 class="govuk-heading-s">Other team members (' + remainingCount + ')</h2>' +
+          nonFavs.map(createAllocationCard).join('');
+
+        cardsContainer.innerHTML = html;
+        renderMyTeamSidebar();
       }
 
       function escapeHtml(value) {
@@ -367,6 +457,28 @@
       renderAISuggestions();
       renderAllocationSummary();
 
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('.trs-favourite-btn')) {
+          e.preventDefault();
+          var btn = e.target.closest('.trs-favourite-btn');
+          toggleFavourite(btn.getAttribute('data-user-id'));
+        }
+      });
+
+      document.addEventListener('change', function (e) {
+        if (e.target.matches('input[name="team-member-select"]')) {
+          var userId = e.target.value;
+          var card = document.querySelector('[data-member="' + userId + '"]');
+          if (card) {
+            var userName = card.querySelector('.govuk-body.govuk-!-font-weight-bold').textContent.trim();
+            input.value = userName;
+            hiddenInput.value = userId;
+            selectedSummary.hidden = false;
+            selectedSummary.textContent = userName + ' selected';
+          }
+        }
+      });
+
       form.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -414,6 +526,10 @@
 {% block content %}
 
 <style>
+  .team-filter-group {
+    display: none;
+  }
+
   .trs-autocomplete {
     position: relative;
     max-width: 600px;
@@ -493,7 +609,7 @@
   }
 
   .trs-ai-suggestions {
-    background: #f0f4f9;
+    background: #fff;
     border-left: 4px solid #1d70b8;
     padding: 20px;
     margin-bottom: 32px;
@@ -508,7 +624,7 @@
     display: flex;
     gap: 16px;
     background: white;
-    border: 1px solid #b1b4b6;
+    /*border: 1px solid #b1b4b6;*/
     padding: 16px;
     margin-bottom: 12px;
     border-radius: 2px;
@@ -527,7 +643,7 @@
 
   .trs-suggestion-reason {
     background: #f3f2f1;
-    padding: 12px;
+    padding: 0px;
     margin-bottom: 12px;
     border-radius: 2px;
   }
@@ -548,18 +664,145 @@
     border-top: 1px solid #b1b4b6;
     padding: 20px;
     cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s ease;
   }
 
   .trs-allocation-card--selected {
-    border-left: 5px solid #1d70b8;
-    background-color: #f0f4f9;
+    background-color: #0b0c0c;
+    color: white;
+  }
+
+  .trs-allocation-card--selected .govuk-body,
+  .trs-allocation-card--selected .govuk-body-s,
+  .trs-allocation-card--selected .trs-capacity-label {
+    color: white;
+  }
+
+  .trs-allocation-card--selected .govuk-tag {
+    background-color: #1d70b8;
+    color: white;
   }
 
   .trs-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .trs-card-title {
+    flex: 1;
+  }
+
+  .trs-favourite-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .trs-favourite-btn:hover {
+    transform: scale(1.15);
+  }
+
+  .trs-allocation-card--favourite {
+    background-color: #f0f4f9;
+    /*border-left: 5px solid #d4a574;*/
+  }
+
+  .trs-my-team-section {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+  }
+
+  .trs-my-team-section .trs-allocation-card {
+    background-color: #fef8f3;
+    border-left: 5px solid #d4a574;
+  }
+
+  .trs-my-team-sidebar {
+   padding-bottom:40px;
+    top: 20px;
+  }
+
+  .trs-sidebar-card {
+    background: #fef8f3;
+    border: 2px solid #d4a574;
+    padding: 20px;
+    border-radius: 2px;
+  }
+
+  .trs-sidebar-card h2 {
+    margin-bottom: 16px;
+  }
+
+  .trs-sidebar-member {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e8dcc8;
+  }
+
+  .trs-sidebar-member:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .trs-sidebar-member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .trs-sidebar-member-header p {
+    margin: 0;
+    flex: 1;
+  }
+
+  .trs-favourite-btn--sidebar {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .trs-sidebar-capacity {
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+
+  .trs-sidebar-breakdown {
+    font-size: 14px;
+  }
+
+  .trs-sidebar-breakdown p {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  .trs-sidebar-breakdown .trs-status-badge {
+    font-size: 12px;
+    padding: 2px 6px;
+    margin-bottom: 4px;
+  }
+
+  .govuk-details--small .govuk-details__summary {
+    padding: 6px 0;
+    margin-bottom: 4px;
+  }
+
+  .govuk-details--small .govuk-details__summary-text {
+    font-size: 14px;
+  }
+
+  .govuk-details--small .govuk-details__text {
+    padding: 4px 0 8px 0;
+    margin-bottom: 0;
   }
 
   .trs-capacity-label {
@@ -614,7 +857,7 @@
   .trs-status-4 { background-color: #e0e0e0; } /* Complete - grey */
 
   .trs-allocation-card__breakdown {
-    border-left: 4px solid #b1b4b6;
+    border-left: 0px solid #b1b4b6;
     padding: 14px 25px;
     margin-top: 8px;
   }
@@ -657,7 +900,7 @@
 
 <form action="all-tasks-overview-batch" method="post" id="batch-assign-form">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
       <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
         <h2 class="govuk-heading-m">Selected tasks</h2>
         <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
@@ -672,15 +915,10 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-
-      <div id="batch-assign-fields" hidden>
+          <div id="batch-assign-fields" hidden>
         <div class="team-filter-group">
-          <label for="team-filter">Filter by team:</label>
+          <label for="team-filter" class=>Filter by team:</label>
           <select id="team-filter" class="govuk-select">
             <option value="all">All teams</option>
             <option value="team-a">Team A</option>
@@ -688,8 +926,6 @@
             <option value="team-c">Team C</option>
           </select>
         </div>
-
-        <div id="ai-suggestions-container" class="trs-ai-suggestions"></div>
 
         <div class="govuk-form-group govuk-!-margin-bottom-5">
           <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
@@ -730,7 +966,21 @@
         </div>
       </div>
 
+      <div id="my-team-sidebar" class="trs-my-team-sidebar" hidden></div>
+
       <div id="batch-allocation-summary-cards" class="trs-allocation-summary" hidden></div>
+
+      
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <div id="ai-suggestions-container" class=""></div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+  
 
     </div>
   </div>
@@ -745,6 +995,7 @@
     var empty = document.getElementById('batch-selection-empty');
     var formFields = document.getElementById('batch-assign-fields');
     var allocationCards = document.getElementById('batch-allocation-summary-cards');
+    var myTeamSidebar = document.getElementById('my-team-sidebar');
     var batchActions = document.getElementById('batch-actions');
     var intro = document.getElementById('batch-intro-with-tasks');
     var form = document.getElementById('batch-assign-form');
@@ -764,6 +1015,7 @@
       if (empty) empty.hidden = false;
       if (intro) intro.hidden = true;
       if (wrap) wrap.hidden = true;
+      if (myTeamSidebar) myTeamSidebar.hidden = true;
       if (formFields) formFields.hidden = true;
       if (allocationCards) allocationCards.hidden = true;
       if (batchActions) batchActions.hidden = true;
@@ -799,6 +1051,7 @@
     });
 
     if (wrap) wrap.hidden = false;
+    if (myTeamSidebar) myTeamSidebar.hidden = false;
     if (formFields) formFields.hidden = false;
     if (allocationCards) allocationCards.hidden = false;
     if (batchActions) batchActions.hidden = false;
