@@ -153,7 +153,7 @@
 
       function renderAISuggestions() {
         var suggestions = getAISuggestions();
-        var html = '<div class="trs-ai-suggestions"><h2 class="govuk-heading-s">AI suggested matches</h2><p class="govuk-body govuk-!-margin-bottom-4 trs-suggestion-help">Based on current capacity and expertise</p>';
+        var html = '<div class="trs-ai-suggestions"><h2 class="govuk-heading-s">Suggested matches</h2><p class="govuk-body govuk-!-margin-bottom-4 trs-suggestion-help">Based on current capacity and expertise</p>';
 
         suggestions.forEach(function (user, index) {
           var capacity = getCapacityPercent(user);
@@ -610,7 +610,7 @@
 
   .trs-ai-suggestions {
     background: #fff;
-    border-left: 4px solid #1d70b8;
+    border-left: 1px solid lightgray;
     padding: 20px;
     margin-bottom: 32px;
   }
@@ -664,23 +664,32 @@
     border-top: 1px solid #b1b4b6;
     padding: 20px;
     cursor: pointer;
-    background-color: white;
+    background-color: #ffffff;
     transition: background-color 0.2s ease;
   }
 
   .trs-allocation-card--selected {
-    background-color: #0b0c0c;
+    background-color: #1d70b8;
     color: white;
   }
 
   .trs-allocation-card--selected .govuk-body,
   .trs-allocation-card--selected .govuk-body-s,
-  .trs-allocation-card--selected .trs-capacity-label {
+  .trs-allocation-card--selected .trs-capacity-label,
+  .trs-allocation-card--selected .trs-capacity-percent {
     color: white;
   }
 
   .trs-allocation-card--selected .govuk-tag {
-    background-color: #1d70b8;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .trs-allocation-card--selected details {
+    color: white;
+  }
+
+  .trs-allocation-card--selected .govuk-details__summary {
     color: white;
   }
 

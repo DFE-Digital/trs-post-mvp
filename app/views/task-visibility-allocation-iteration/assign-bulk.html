@@ -186,6 +186,8 @@
       function renderMyTeamSidebar() {
         var favs = getFavouriteUsers();
         var sidebar = document.getElementById('my-team-sidebar');
+        var membersContainer = document.getElementById('my-team-members');
+        var heading = document.querySelector('#my-team-sidebar .govuk-heading-m');
 
         favs.sort(function (a, b) {
           return getCapacityPercent(b) - getCapacityPercent(a);
@@ -196,38 +198,36 @@
           return;
         }
 
-        var html = '<div class="trs-sidebar-card">' +
-          '<h2 class="govuk-heading-m">My team (' + favs.length + ')</h2>' +
-          favs.map(function (user) {
-            var isFav = isFavourite(user.id);
-            return '<div class="trs-sidebar-member " data-member="' + user.id + '">' +
-              '<div class="trs-sidebar-member-header">' +
-                '<div class="trs-sidebar-member-title">' +
-                  '<p class="govuk-body-m govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + user.name + '</p>' +
-                  getCapacityTag(user) +
-                '</div>' +
-                '<button type="button" class="trs-favourite-btn trs-favourite-btn--sidebar" data-user-id="' + user.id + '" aria-label="Unpin" title="Unpin">' +
-                  '<span aria-hidden="true">📌</span>' +
-                  '<span class="govuk-link govuk-link--no-visited-state">Unpin</span>' +
-                '</button>' +
-              '</div>' +
-              '<details class="govuk-details govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
-                '<summary class="govuk-details__summary">' +
-                  '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
-                '</summary>' +
-                '<div class="govuk-details__text trs-sidebar-breakdown">' +
-                  '<p><strong>Status breakdown</strong></p>' +
-                  createTaskStatusBreakdown(user) +
-                  '<p><strong>By task type</strong></p>' +
-                  createTaskTypeBreakdown(user) +
-                '</div>' +
-              '</details>' +
-            '</div>';
-          }).join('') +
-        '</div>';
+        heading.textContent = 'My team (' + favs.length + ')';
+        membersContainer.innerHTML = '';
 
-        sidebar.innerHTML = html;
+        var template = document.getElementById('sidebar-member-template');
+        favs.forEach(function (user) {
+          var clone = template.content.cloneNode(true);
+          clone.querySelector('[data-member]').setAttribute('data-member', user.id);
+          clone.querySelector('[data-user-id]').setAttribute('data-user-id', user.id);
+          clone.querySelector('.sidebar-capacity-tag').innerHTML = getCapacityTag(user);
+          clone.querySelector('.sidebar-member-name').textContent = user.name;
+          clone.querySelector('.sidebar-task-count').textContent = totalTasks(user) + ' tasks';
+          clone.querySelector('.sidebar-status-breakdown').innerHTML = createTaskStatusBreakdown(user);
+          clone.querySelector('.sidebar-task-type-breakdown').innerHTML = createTaskTypeBreakdown(user);
+          membersContainer.appendChild(clone);
+        });
+
         sidebar.hidden = false;
+
+        // Add click handlers to My Team cards (which are now trs-allocation-card elements)
+        var myTeamCards = document.querySelectorAll('#my-team-members .trs-allocation-card');
+        myTeamCards.forEach(function (card) {
+          card.addEventListener('click', function (event) {
+            if (event.target.closest('button, details')) return;
+            var userId = card.getAttribute('data-member');
+            var user = users.find(function (item) {
+              return item.id === userId;
+            });
+            if (user) selectUser(user);
+          });
+        });
 
         document.querySelectorAll('.trs-favourite-btn--sidebar').forEach(function (btn) {
           btn.addEventListener('click', function (e) {
@@ -285,6 +285,16 @@
           card.classList.toggle('trs-allocation-card--selected', selected);
         });
 
+        var assignmentBar = document.getElementById('user-assignment-bar');
+        var assignmentBarText = document.getElementById('user-assignment-bar-text');
+        var assignmentBarBtn = document.getElementById('user-assignment-bar-btn');
+
+        if (assignmentBar && assignmentBarText && assignmentBarBtn) {
+          assignmentBarText.textContent = 'Assign selected tasks to ' + user.name;
+          assignmentBar.hidden = false;
+          document.body.classList.add('trs-assignment-bar-visible');
+        }
+
         selectedSummary.hidden = false;
         selectedSummary.textContent = user.name + ' selected';
       }
@@ -292,6 +302,11 @@
       input.addEventListener('input', function () {
         hiddenInput.value = '';
         selectedSummary.hidden = true;
+        var assignmentBar = document.getElementById('user-assignment-bar');
+        if (assignmentBar) {
+          assignmentBar.hidden = true;
+          document.body.classList.remove('trs-assignment-bar-visible');
+        }
         searchQuery = this.value;
         clearButton.hidden = !this.value;
         renderAllocationSummary();
@@ -301,6 +316,11 @@
         input.value = '';
         hiddenInput.value = '';
         selectedSummary.hidden = true;
+        var assignmentBar = document.getElementById('user-assignment-bar');
+        if (assignmentBar) {
+          assignmentBar.hidden = true;
+          document.body.classList.remove('trs-assignment-bar-visible');
+        }
         searchQuery = '';
         clearButton.hidden = true;
         renderAllocationSummary();
@@ -308,6 +328,14 @@
       });
 
       renderAllocationSummary();
+
+      var assignmentBarBtn = document.getElementById('user-assignment-bar-btn');
+      if (assignmentBarBtn) {
+        assignmentBarBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit'));
+        });
+      }
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -452,7 +480,7 @@
   }
 
   .trs-allocation-card--selected {
-    border-left: 5px solid #1d70b8;
+    border-left: 0px solid #1d70b8;
     background-color: #f0f4f9;
   }
 
@@ -489,8 +517,8 @@
   }
 
   .trs-allocation-card--favourite {
-    background-color: #fef8f3;
-    border-left: 5px solid #d4a574;
+    /*background-color: #fef8f3;*/
+    /*border-left: 5px solid #d4a574;*/
   }
 
   .trs-my-team-section {
@@ -500,7 +528,7 @@
 
   .trs-my-team-section .trs-allocation-card {
     background-color: #fef8f3;
-    border-left: 5px solid #d4a574;
+    /*border-left: 5px solid #d4a574;*/
   }
 
   .trs-my-team-sidebar {
@@ -509,7 +537,7 @@
   }
 
   .trs-sidebar-card {
-    background: #f3f2f1;
+    /*background: #f3f2f1;*/
     border: 0px solid #b1b4b6;
     padding: 20px;
     border-radius: 2px;
@@ -559,6 +587,7 @@
 
   .trs-sidebar-breakdown {
     font-size: 16px;
+    padding-top:8px;
   }
 
   .trs-sidebar-breakdown p {
@@ -642,6 +671,43 @@
     margin-bottom: 0;
   }
 
+  .trs-user-assignment-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: #1d70b8;
+    color: #ffffff;
+    box-shadow: 0 -4px 12px rgba(11, 12, 12, 0.25);
+  }
+
+  .trs-user-assignment-bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
+  .trs-user-assignment-bar__text {
+    color: #ffffff;
+    margin-bottom: 0;
+    font-weight: 500;
+  }
+
+  body.trs-assignment-bar-visible {
+    padding-bottom: 100px;
+  }
+
+  @media (min-width: 40.0625em) {
+    body.trs-assignment-bar-visible {
+      padding-bottom: 88px;
+    }
+  }
+
 </style>
 
 <div class="govuk-grid-row">
@@ -703,18 +769,48 @@
             <p id="assign-to-selected" class="govuk-body govuk-!-margin-top-2" hidden></p>
           </div>
           <br>
-          <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
-          <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a>
+         <!--  <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Assign tasks</button>
+          <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch.html">Cancel</a> -->
         </div>
       </div>
      
     </div>
   </div>
 
-  <div class="govuk-grid-row">
-   <div id="my-team-sidebar" class="trs-my-team-sidebar" hidden></div>
+  <template id="sidebar-member-template">
+    <div class="trs-allocation-card trs-allocation-card--favourite" data-member="">
+      <div class="trs-card-header">
+        <div class="trs-card-title">
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+            <span class="sidebar-member-name"></span>
+          </p>
+          <span class="sidebar-capacity-tag"></span>
+        </div>
+        <button type="button" class="trs-favourite-btn trs-favourite-btn--sidebar" data-user-id="" aria-label="Unpin" title="Unpin">
+          <span aria-hidden="true">📌</span>
+          <span class="govuk-link govuk-link--no-visited-state">Unpin</span>
+        </button>
+      </div>
+      <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text sidebar-task-count"></span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body-s"><strong>Status breakdown</strong></p>
+          <div class="sidebar-status-breakdown"></div>
+          <p class="govuk-body-s"><strong>By task type</strong></p>
+          <div class="sidebar-task-type-breakdown"></div>
+        </div>
+      </details>
+    </div>
+  </template>
 
-</div>
+  <div class="govuk-grid-row">
+    <div id="my-team-sidebar" class="trs-my-team-sidebar trs-sidebar-card" hidden>
+      <h2 class="govuk-heading-m">My team</h2>
+      <div id="my-team-members"></div>
+    </div>
+  </div>
 
   <div class="govuk-grid-row">
    
@@ -725,6 +821,25 @@
   </div>
 
 </form>
+
+<div
+  class="trs-user-assignment-bar"
+  id="user-assignment-bar"
+  role="region"
+  aria-label="User selected for task assignment"
+  hidden
+>
+  <div class="govuk-width-container">
+    <div class="trs-user-assignment-bar__inner">
+      <p class="govuk-body trs-user-assignment-bar__text" id="user-assignment-bar-text">
+        Assign selected tasks to user
+      </p>
+      <button type="button" class="govuk-button govuk-button--inverse govuk-!-margin-bottom-0" data-module="govuk-button" id="user-assignment-bar-btn">
+        Confirm and assign tasks
+      </button>
+    </div>
+  </div>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
