@@ -111,11 +111,11 @@
         return Math.round((totalWorkload / 10) * 100);
       }
 
-      function createCapacityBar(user) {
+  /*     function createCapacityBar(user) {
         var capacity = getCapacityPercent(user);
         var color = capacity < 30 ? '#2da44c' : capacity < 60 ? '#f0883e' : '#da3633';
         return '<div class="trs-capacity-bar" style="background-color: ' + color + '; width: ' + capacity + '%"></div>';
-      }
+      } */
 
       function createTaskStatusBreakdown(user) {
         return user.taskStatuses.map(function (count, index) {
@@ -142,7 +142,7 @@
                 user.name +
                 (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
               '</p>' +
-              getCapacityTag(user) +
+            
             '</div>' +
             '<button type="button" class="trs-favourite-btn" data-user-id="' + user.id + '" aria-label="' + getPinLabel(isFav) + '" title="' + getPinLabel(isFav) + '">' +
               '<span aria-hidden="true">📌</span>' +
@@ -154,7 +154,7 @@
               createCapacityBar(user) +
             '</div>' +
           '</div>' + */ +
-          '<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">' +
+          '<details class="govuk-details govuk-!-margin-bottom-3" data-module="govuk-details">' +
             '<summary class="govuk-details__summary">' +
               '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
             '</summary>' +
@@ -165,6 +165,7 @@
               createTaskTypeBreakdown(user) +
             '</div>' +
           '</details>' +
+            getCapacityTag(user) +
         '</div>';
       }
 
@@ -172,7 +173,7 @@
         var capacity = getCapacityPercent(user);
         var tagClass = '';
 
-        if (capacity > 30) {
+        if (capacity < 30) {
           tagClass = 'govuk-tag--red';
         } else if (capacity < 60) {
           tagClass = 'govuk-tag--yellow';
@@ -180,7 +181,7 @@
           tagClass = 'govuk-tag--green';
         }
 
-        return '<span class="govuk-tag ' + tagClass + '">' + capacity + '% capacity</span>';
+        return '<span class="govuk-tag ' + tagClass + '">' + capacity + '% availability</span>';
       }
 
       function renderMyTeamSidebar() {
@@ -198,7 +199,7 @@
           return;
         }
 
-        heading.textContent = 'My team (' + favs.length + ')';
+        heading.innerHTML = '<span aria-hidden="true">⭐</span> My team (' + favs.length + ')';
         membersContainer.innerHTML = '';
 
         var template = document.getElementById('sidebar-member-template');
@@ -488,12 +489,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     gap: 12px;
   }
 
   .trs-card-title {
     flex: 1;
+    padding-bottom: 10px;
   }
 
   .trs-favourite-btn {
@@ -781,17 +783,18 @@
     <div class="trs-allocation-card trs-allocation-card--favourite" data-member="">
       <div class="trs-card-header">
         <div class="trs-card-title">
-          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
-            <span class="sidebar-member-name"></span>
+          
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+           <span class="sidebar-member-name"></span>
           </p>
-          <span class="sidebar-capacity-tag"></span>
+          
         </div>
         <button type="button" class="trs-favourite-btn trs-favourite-btn--sidebar" data-user-id="" aria-label="Unpin" title="Unpin">
           <span aria-hidden="true">📌</span>
           <span class="govuk-link govuk-link--no-visited-state">Unpin</span>
         </button>
       </div>
-      <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+      <details class="govuk-details govuk-!-margin-bottom-3" data-module="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text sidebar-task-count"></span>
         </summary>
@@ -802,12 +805,15 @@
           <div class="sidebar-task-type-breakdown"></div>
         </div>
       </details>
+      <span class="sidebar-capacity-tag "></span> 
+
+      
     </div>
   </template>
 
   <div class="govuk-grid-row">
     <div id="my-team-sidebar" class="trs-my-team-sidebar trs-sidebar-card" hidden>
-      <h2 class="govuk-heading-m">My team</h2>
+      <h2 class="govuk-heading-m"><span aria-hidden="true">⭐</span> My team</h2>
       <div id="my-team-members"></div>
     </div>
   </div>
