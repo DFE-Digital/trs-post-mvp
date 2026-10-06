@@ -21,11 +21,9 @@
         <tbody class="govuk-table__body">
           {% for team in teams %}
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">{{ team }}</th>
-              <td class="govuk-table__cell govuk-!-text-align-right">
-                <a href="/task-visibility-access-permissions-mvp/admin/change-team?team={{ loop.index0 }}" class="govuk-link">Change<span class="govuk-visually-hidden">{{ team }}</span></a>
-              </td>
-              <td class="govuk-table__cell govuk-!-text-align-right">
+              <td class="govuk-grid-column-one-half govuk-table__cell govuk-!-text-align-left">{{ team }}</td>
+              <td class="govuk-grid-column-one-quarter govuk-table__cell govuk-!-text-align-right">
+                 <a class="govuk-!-padding-right-4" href="/task-visibility-access-permissions-mvp/admin/change-team?team={{ loop.index0 }}" class="govuk-link">Change<span class="govuk-visually-hidden">{{ team }}</span></a>
                 <a href="/task-visibility-access-permissions-mvp/admin/delete-team?team={{ loop.index0 }}" class="govuk-link">Delete<span class="govuk-visually-hidden">{{ team }}</span></a>
               </td>
             </tr>

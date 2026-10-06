@@ -90,11 +90,12 @@
                     {% for permission in role.permissions %}
                       <td class="govuk-table__cell">
                         {% if permission == 'Edit' %}
-                          <span class="app-permission-tag app-permission-tag--edit">Edit</span>
+                        <strong class="govuk-tag govuk-tag--green">Edit</strong>
+    
                         {% elif permission == 'View' %}
-                          <span class="app-permission-tag app-permission-tag--view">View</span>
+                          <strong class="govuk-tag govuk-tag--blue">View</strong>
                         {% else %}
-                          <span class="app-permission-tag app-permission-tag--none">No</span>
+                         <strong class="govuk-tag govuk-tag--grey">No</strong>
                         {% endif %}
                       </td>
                     {% endfor %}
