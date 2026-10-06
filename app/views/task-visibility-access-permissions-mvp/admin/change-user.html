@@ -73,7 +73,8 @@
                   <th scope="col" class="govuk-table__header">Non-DBS alerts</th>
                   <th scope="col" class="govuk-table__header">DBS alerts</th>
                   <th scope="col" class="govuk-table__header">Manage users</th>
-                  <th scope="col" class="govuk-table__header">Support tasks</th>
+                  <th scope="col" class="govuk-table__header">Manage teams</th>
+                   <th scope="col" class="govuk-table__header">Support tasks</th>
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
@@ -95,7 +96,7 @@
                         {% elif permission == 'View' %}
                           <strong class="govuk-tag govuk-tag--blue">View</strong>
                         {% else %}
-                         <strong class="govuk-tag govuk-tag--grey">No</strong>
+                         <strong class="govuk-tag govuk-tag--grey">Edit</strong>
                         {% endif %}
                       </td>
                     {% endfor %}
