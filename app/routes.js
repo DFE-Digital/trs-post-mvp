@@ -316,3 +316,6 @@ router.put('/api/backlog-board-state', async (req, res) => {
     return res.status(400).json({ error: 'Invalid request body' })
   }
 })
+
+// Keep the access-permissions journey separate from the shared prototype routes.
+require('./assets/javascripts/task-visibility-access-permissions-mvp')(router)

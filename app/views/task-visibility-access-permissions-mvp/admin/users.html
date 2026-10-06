@@ -1,0 +1,136 @@
+{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+
+{% block pageTitle %}Add and manage users – Teaching Record System – GOV.UK{% endblock %}
+
+{% block content %}
+  <div class="app-admin-users-page">
+    <h1 class="govuk-heading-xl app-admin-users-title">Add and manage users</h1>
+    <p class="govuk-body app-admin-users-button-row">
+      <a class="govuk-button govuk-button--primary" href="/task-visibility-access-permissions-mvp/admin/add-user">Add a user</a>
+    </p>
+
+
+
+<div class="govuk-grid-row">  
+  <div class="govuk-grid-column-one-third">
+
+  <div class="moj-filter-layout__filter">
+        <form method="get" action="/users" novalidate="" autocomplete="off">
+            <div class="moj-filter">
+                <div class="moj-filter__header">
+                    <div class="moj-filter__header-title">
+                        <h2 class="govuk-heading-m">Filter</h2>
+                    </div>
+                </div>
+
+                <div class="moj-filter__options">
+                            
+        <div class="govuk-form-group"><label for="Keywords" class="govuk-label govuk-label--s">Search</label><input id="Keywords" type="text" class="govuk-input" autocomplete="off" inputmode="text" name="Keywords" spellcheck="false"></div>
+                            
+        <div class="govuk-form-group"><fieldset class="govuk-fieldset"><legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                Role
+            </legend><div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" data-govuk-checkboxes-init=""><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role" name="Role" type="checkbox" value="Viewer"><label for="trs-filters-Role" class="govuk-label govuk-checkboxes__label">
+                    Viewer (10)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role-2" name="Role" type="checkbox" value="RecordManager"><label for="trs-filters-Role-2" class="govuk-label govuk-checkboxes__label">
+                    Record manager (13)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role-3" name="Role" type="checkbox" value="AlertsManagerTra"><label for="trs-filters-Role-3" class="govuk-label govuk-checkboxes__label">
+                    Alerts manager (TRA decisions) (2)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role-4" name="Role" type="checkbox" value="AlertsManagerTraDbs"><label for="trs-filters-Role-4" class="govuk-label govuk-checkboxes__label">
+                    Alerts manager (TRA and DBS decisions) (0)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role-5" name="Role" type="checkbox" value="AccessManager"><label for="trs-filters-Role-5" class="govuk-label govuk-checkboxes__label">
+                    Access manager (7)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role-6" name="Role" type="checkbox" value="Administrator"><label for="trs-filters-Role-6" class="govuk-label govuk-checkboxes__label">
+                    Administrator (29)
+                </label></div></div></fieldset></div>
+
+                            
+        <div class="govuk-form-group"><fieldset class="govuk-fieldset"><legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                Status
+            </legend><div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" data-govuk-checkboxes-init=""><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Status" name="Status" type="checkbox" value="active"><label for="trs-filters-Status" class="govuk-label govuk-checkboxes__label">
+                    Active (67)
+                </label></div><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Status-2" name="Status" type="checkbox" value="deactivated"><label for="trs-filters-Status-2" class="govuk-label govuk-checkboxes__label">
+                    Deactivated (13)
+                </label></div></div></fieldset></div>
+
+
+                    <div class="govuk-button-group">
+                        <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">Find user</button>
+                        <a class="govuk-link govuk-link--no-visited-state" href="?">Clear filters</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+  </div>
+
+    <div class="govuk-grid-column-two-thirds">
+
+
+      
+  <section class="govuk-table" aria-label="Users list">
+          <div class="app-admin-users-results__list">
+            {% for user in users %}
+            <div class="app-user-row">
+              <div class="govuk-heading-m"><a href="/task-visibility-access-permissions-mvp/admin/change-user?user={{ user.id }}" class="govuk-link govuk-link--no-visited-state">{{ user.firstName }} {{ user.lastName }}</a></div>
+              <div class="app-user-row__details">
+                <div class="app-user-row__detail"><span class="govuk-!-font-weight-bold">Email address</span><span>{{ user.email }}</span></div>
+                <div class="app-user-row__detail"><span class="govuk-!-font-weight-bold">Role</span><span>{{ user.role }}</span></div>
+                <div class="app-user-row__detail"><span class="govuk-!-font-weight-bold">Status</span><span>{{ user.status or 'Active' }}</span></div>
+                <div class="app-user-row__detail"><span class="govuk-!-font-weight-bold">Team</span><span>{{ user.team or 'Not assigned' }}</span></div>
+              </div>
+            </div>
+            {% else %}
+            <p class="govuk-body">No users found.</p>
+            {% endfor %}
+          </div>
+
+
+  </section>
+
+  <nav class="govuk-pagination" aria-label="Pagination">
+  <div class="govuk-pagination__prev">
+    <a class="govuk-link govuk-pagination__link" href="#" rel="prev">
+      <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+        <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+      </svg>
+      <span class="govuk-pagination__link-title">
+        Previous<span class="govuk-visually-hidden"> page</span>
+      </span>
+    </a>
+  </div>
+  <ul class="govuk-pagination__list">
+    <li class="govuk-pagination__item">
+      <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1">
+        1
+      </a>
+    </li>
+    <li class="govuk-pagination__item govuk-pagination__item--current">
+      <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2" aria-current="page">
+        2
+      </a>
+    </li>
+    <li class="govuk-pagination__item">
+      <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">
+        3
+      </a>
+    </li>
+  </ul>
+  <div class="govuk-pagination__next">
+    <a class="govuk-link govuk-pagination__link" href="#" rel="next">
+      <span class="govuk-pagination__link-title">
+        Next<span class="govuk-visually-hidden"> page</span>
+      </span>
+      <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+        <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+      </svg>
+    </a>
+  </div>
+</nav>
+  
+  </div>
+</div>
+
+
+   
+  </div>
+{% endblock %}

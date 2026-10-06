@@ -1,0 +1,1096 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Batch assign from list" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "all-tasks-overview-batch"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var input = document.getElementById('assign-to');
+      var hiddenInput = document.getElementById('assign-to-value');
+      var hint = document.getElementById('assign-to-hint');
+      var suggestions = document.getElementById('assign-to-suggestions');
+      var dropdownButton = document.getElementById('assign-to-dropdown-button');
+      var workloadBody = document.getElementById('team-workload-body');
+      var workloadSortKey = 'tasks';
+      var workloadSortDirection = 'asc';
+      var cardsContainer = document.getElementById('batch-allocation-summary-cards');
+      var form = document.getElementById('batch-assign-form');
+      var FAVOURITES_KEY = 'trsBatchAssignFavourites';
+      var searchQuery = '';
+      var activeIndex = -1;
+      var MIN_CHARS = 1;
+
+      var favourites = {};
+      try {
+        var stored = localStorage.getItem(FAVOURITES_KEY);
+        if (stored) favourites = JSON.parse(stored);
+      } catch (e) {
+        favourites = {};
+      }
+
+      function toggleFavourite(userId) {
+        if (favourites[userId]) {
+          delete favourites[userId];
+        } else {
+          favourites[userId] = true;
+        }
+        try {
+          localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favourites));
+        } catch (e) {}
+        renderAllocationSummary();
+      }
+
+      function isFavourite(userId) {
+        return !!favourites[userId];
+      }
+
+      function getPinLabel(isPinned) {
+        return isPinned ? 'Unpin' : 'Pin to my team';
+      }
+
+      function getFavouriteUsers() {
+        return getFilteredUsers().filter(function (u) { return isFavourite(u.id); });
+      }
+
+      var taskTypes = [
+        'GOV.UK One Login',
+        'NPQ TRN requests',
+        'Potential duplicates via API',
+        'Name and date of birth change requests',
+        'Matched records – manual checks needed'
+      ];
+
+      var taskStatuses = [
+        'Not started',
+        'In progress',
+        'Review',
+        'On hold',
+        'Complete'
+      ];
+
+      var teams = {
+        'team-a': { name: 'Team A', memberIds: ['ferdinand-brown', 'patricia-miles', 'maurice-villard', 'alessandra-morais', 'amelia-brooks'] },
+        'team-b': { name: 'Team B', memberIds: ['andrew-carter', 'beatrice-clarke', 'benjamin-cooper', 'camilla-davies', 'charles-evans'] },
+        'team-c': { name: 'Team C', memberIds: ['charlotte-foster', 'chloe-gibson', 'daniel-graham', 'david-harris', 'elena-hughes'] }
+      };
+
+      var users = [
+        { id: 'ferdinand-brown', name: 'Ferdinand Brown', team: 'team-a', status: '', tasks: [1, 1, 0, 0, 0], taskStatuses: [1, 0, 0, 0, 0], skills: ['One Login', 'NPQ'] },
+        { id: 'patricia-miles', name: 'Patricia Miles', team: 'team-a', status: '', tasks: [2, 2, 1, 1, 0], taskStatuses: [2, 1, 1, 1, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
+        { id: 'maurice-villard', name: 'Maurice Villard', team: 'team-a', status: '', tasks: [1, 0, 1, 0, 0], taskStatuses: [0, 0, 1, 0, 0], skills: ['Duplicates'] },
+        { id: 'alessandra-morais', name: 'Alessandra Morais', team: 'team-a', status: '', tasks: [0, 1, 0, 1, 0], taskStatuses: [0, 1, 0, 1, 0], skills: ['NPQ', 'Names'] },
+        { id: 'amelia-brooks', name: 'Amelia Brooks', team: 'team-a', status: '', tasks: [1, 0, 0, 2, 0], taskStatuses: [1, 0, 0, 2, 0], skills: ['Names'] },
+        { id: 'andrew-carter', name: 'Andrew Carter', team: 'team-b', status: '', tasks: [0, 2, 1, 0, 1], taskStatuses: [0, 2, 1, 0, 0], skills: ['NPQ', 'Duplicates'] },
+        { id: 'beatrice-clarke', name: 'Beatrice Clarke', team: 'team-b', status: '', tasks: [2, 0, 0, 1, 1], taskStatuses: [2, 0, 0, 1, 0], skills: ['One Login', 'Names'] },
+        { id: 'benjamin-cooper', name: 'Benjamin Cooper', team: 'team-b', status: '', tasks: [1, 1, 1, 0, 0], taskStatuses: [1, 1, 1, 0, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
+        { id: 'camilla-davies', name: 'Camilla Davies', team: 'team-b', status: '', tasks: [0, 1, 2, 0, 1], taskStatuses: [0, 1, 2, 0, 0], skills: ['Duplicates'] },
+        { id: 'charles-evans', name: 'Charles Evans', team: 'team-b', status: '', tasks: [2, 1, 0, 0, 1], taskStatuses: [2, 1, 0, 0, 0], skills: ['One Login', 'NPQ'] },
+        { id: 'charlotte-foster', name: 'Charlotte Foster', team: 'team-c', status: '', tasks: [1, 0, 1, 1, 0], taskStatuses: [1, 0, 1, 1, 0], skills: ['Duplicates', 'Names'] },
+        { id: 'chloe-gibson', name: 'Chloe Gibson', team: 'team-c', status: '', tasks: [0, 2, 0, 1, 1], taskStatuses: [0, 2, 0, 1, 0], skills: ['NPQ'] },
+        { id: 'daniel-graham', name: 'Daniel Graham', team: 'team-c', status: '', tasks: [2, 0, 1, 0, 0], taskStatuses: [2, 0, 1, 0, 0], skills: ['One Login', 'Duplicates'] },
+        { id: 'david-harris', name: 'David Harris', team: 'team-c', status: '', tasks: [1, 1, 0, 1, 1], taskStatuses: [1, 1, 0, 1, 0], skills: ['One Login', 'Names'] },
+        { id: 'elena-hughes', name: 'Elena Hughes', team: 'team-c', status: '', tasks: [0, 1, 1, 2, 0], taskStatuses: [0, 1, 1, 2, 0], skills: ['NPQ', 'Names'] }
+      ];
+
+      function totalTasks(user) {
+        return user.tasks.reduce(function (sum, count) { return sum + count; }, 0);
+      }
+
+      function renderTeamWorkload() {
+        var sortedUsers = users.slice().sort(function (first, second) {
+          var comparison = workloadSortKey === 'name'
+            ? first.name.localeCompare(second.name)
+            : totalTasks(first) - totalTasks(second);
+          return workloadSortDirection === 'asc' ? comparison : -comparison;
+        });
+
+        workloadBody.innerHTML = '';
+        sortedUsers.forEach(function (user) {
+          var row = document.createElement('tr');
+          row.className = 'govuk-table__row';
+
+          var memberCell = document.createElement('td');
+          memberCell.className = 'govuk-table__cell';
+          memberCell.textContent = user.name;
+          row.appendChild(memberCell);
+
+          var workloadCell = document.createElement('td');
+          workloadCell.className = 'govuk-table__cell';
+          var count = totalTasks(user);
+
+          if (!count) {
+            var emptyCount = document.createElement('span');
+            emptyCount.className = 'trs-team-workload__empty-count';
+            emptyCount.textContent = '0 tasks assigned';
+            workloadCell.appendChild(emptyCount);
+          } else {
+            var breakdown = document.createElement('details');
+            breakdown.className = 'trs-team-workload__breakdown';
+            var summary = document.createElement('summary');
+            var countLink = document.createElement('span');
+            countLink.className = 'govuk-link';
+            countLink.textContent = count + (count === 1 ? ' task' : ' tasks');
+            summary.appendChild(countLink);
+            breakdown.appendChild(summary);
+
+            var breakdownContent = document.createElement('div');
+            breakdownContent.className = 'trs-team-workload__breakdown-content';
+            user.tasks.forEach(function (taskCount, index) {
+              if (!taskCount) return;
+              var taskType = document.createElement('p');
+              taskType.className = 'govuk-body govuk-!-margin-bottom-1';
+              var taskCountLabel = document.createElement('strong');
+              taskCountLabel.textContent = taskCount;
+              taskType.appendChild(taskCountLabel);
+              taskType.appendChild(document.createTextNode(' ' + taskTypes[index]));
+              breakdownContent.appendChild(taskType);
+            });
+            breakdown.appendChild(breakdownContent);
+            workloadCell.appendChild(breakdown);
+          }
+
+          row.appendChild(workloadCell);
+          workloadBody.appendChild(row);
+        });
+
+        document.querySelectorAll('[data-workload-sort]').forEach(function (button) {
+          var key = button.getAttribute('data-workload-sort');
+          var header = button.closest('th');
+          var indicator = button.querySelector('.trs-team-workload__sort-indicator');
+          var isActive = key === workloadSortKey;
+          header.setAttribute('aria-sort', isActive
+            ? (workloadSortDirection === 'asc' ? 'ascending' : 'descending')
+            : 'none');
+          indicator.textContent = isActive
+            ? (workloadSortDirection === 'asc' ? '▲' : '▼')
+            : '↕';
+        });
+      }
+
+      document.querySelectorAll('[data-workload-sort]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var key = this.getAttribute('data-workload-sort');
+          if (key === workloadSortKey) {
+            workloadSortDirection = workloadSortDirection === 'asc' ? 'desc' : 'asc';
+          } else {
+            workloadSortKey = key;
+            workloadSortDirection = 'asc';
+          }
+          renderTeamWorkload();
+        });
+      });
+
+      function getFilteredUsers() {
+        var normalised = searchQuery.trim().toLowerCase();
+        if (!normalised) return users;
+        return users.filter(function (user) {
+          return user.name.toLowerCase().indexOf(normalised) !== -1;
+        });
+      }
+
+      function createTaskStatusBreakdown(user) {
+        return user.taskStatuses.map(function (count, index) {
+          if (!count) return '';
+          return '<span class="trs-status-badge trs-status-' + index + '">' +
+            count + ' ' + taskStatuses[index] + '</span>';
+        }).join('');
+      }
+
+      function createTaskTypeBreakdown(user) {
+        return user.tasks.map(function (count, index) {
+          if (!count) return '';
+          return '<p class="govuk-body govuk-!-margin-bottom-1"><strong>' +
+            count + '</strong> ' + taskTypes[index] + '</p>';
+        }).join('');
+      }
+
+      function createAllocationCard(user) {
+        var isFav = isFavourite(user.id);
+        return '<div class="trs-allocation-card' + (isFav ? ' trs-allocation-card--favourite' : '') + '" data-member="' + user.id + '">' +
+          '<div class="trs-card-header">' +
+            '<div class="trs-card-title">' +
+              '<p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">' +
+                user.name +
+                (user.status ? ' <span class="govuk-tag govuk-tag--yellow">' + user.status + '</span>' : '') +
+              '</p>' +
+            
+            '</div>' +
+            '<button type="button" class="trs-favourite-btn" data-user-id="' + user.id + '" aria-label="' + getPinLabel(isFav) + '" title="' + getPinLabel(isFav) + '">' +
+              '<span aria-hidden="true">📌</span>' +
+              '<span class=govuk-link govuk-link--no-visited-state>' + getPinLabel(isFav) + '</span>' +
+            '</button>' +
+          '</div>' +
+          '<details class="govuk-details govuk-!-margin-bottom-3" data-module="govuk-details">' +
+            '<summary class="govuk-details__summary">' +
+              '<span class="govuk-details__summary-text">' + totalTasks(user) + ' tasks</span>' +
+            '</summary>' +
+            '<div class="govuk-details__text">' +
+              '<p class="govuk-body-s"><strong>Status breakdown</strong></p>' +
+              createTaskStatusBreakdown(user) +
+              '<p class="govuk-body-s"><strong>By task type</strong></p>' +
+              createTaskTypeBreakdown(user) +
+            '</div>' +
+          '</details>' +
+        '</div>';
+      }
+
+      function renderMyTeamSidebar() {
+        var favs = getFavouriteUsers();
+        var sidebar = document.getElementById('my-team-sidebar');
+        var membersContainer = document.getElementById('my-team-members');
+        var heading = document.querySelector('#my-team-sidebar .govuk-heading-m');
+
+        favs.sort(function (a, b) {
+          return a.name.localeCompare(b.name);
+        });
+
+        if (!favs.length) {
+          sidebar.hidden = true;
+          return;
+        }
+
+        heading.innerHTML = '<span aria-hidden="true">⭐</span> My team (' + favs.length + ')';
+        membersContainer.innerHTML = '';
+
+        var template = document.getElementById('sidebar-member-template');
+        favs.forEach(function (user) {
+          var clone = template.content.cloneNode(true);
+          clone.querySelector('[data-member]').setAttribute('data-member', user.id);
+          clone.querySelector('[data-user-id]').setAttribute('data-user-id', user.id);
+          clone.querySelector('.sidebar-member-name').textContent = user.name;
+          clone.querySelector('.sidebar-task-count').textContent = totalTasks(user) + ' tasks';
+          clone.querySelector('.sidebar-status-breakdown').innerHTML = createTaskStatusBreakdown(user);
+          clone.querySelector('.sidebar-task-type-breakdown').innerHTML = createTaskTypeBreakdown(user);
+          membersContainer.appendChild(clone);
+        });
+
+        sidebar.hidden = false;
+
+        // Add click handlers to My Team cards (which are now trs-allocation-card elements)
+        var myTeamCards = document.querySelectorAll('#my-team-members .trs-allocation-card');
+        myTeamCards.forEach(function (card) {
+          card.addEventListener('click', function (event) {
+            if (event.target.closest('button, details')) return;
+            var userId = card.getAttribute('data-member');
+            var user = users.find(function (item) {
+              return item.id === userId;
+            });
+            if (user) selectUser(user);
+          });
+        });
+
+        document.querySelectorAll('.trs-favourite-btn--sidebar').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleFavourite(this.getAttribute('data-user-id'));
+          });
+        });
+      }
+
+      function renderAllocationSummary() {
+        var filtered = getFilteredUsers();
+        var favs = getFavouriteUsers();
+
+        filtered.sort(function (a, b) {
+          return totalTasks(a) - totalTasks(b);
+        });
+
+        var nonFavs = filtered.filter(function (u) { return !isFavourite(u.id); });
+        var remainingCount = nonFavs.length;
+        var html = '<h2 class="govuk-heading-s">Other teams (' + remainingCount + ')</h2>';
+        if (!filtered.length) {
+          html += '<p class="govuk-body">No team members found</p>';
+        } else {
+          html += nonFavs.map(createAllocationCard).join('');
+        }
+
+        cardsContainer.innerHTML = html;
+
+        document.querySelectorAll('.trs-favourite-btn').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleFavourite(this.getAttribute('data-user-id'));
+          });
+        });
+
+        document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
+          card.addEventListener('click', function (event) {
+            if (event.target.closest('button, details')) return;
+            var user = users.find(function (item) {
+              return item.id === card.getAttribute('data-member');
+            });
+            if (user) selectUser(user);
+          });
+        });
+
+        renderMyTeamSidebar();
+      }
+
+      function selectUser(user) {
+        input.value = user.name;
+        hiddenInput.value = user.id;
+        hint.hidden = true;
+        hint.classList.remove('govuk-error-message');
+        input.classList.remove('govuk-input--error');
+        suggestions.innerHTML = '';
+        suggestions.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        dropdownButton.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+
+        document.querySelectorAll('.trs-allocation-card').forEach(function (card) {
+          var selected = card.getAttribute('data-member') === user.id;
+          card.classList.toggle('trs-allocation-card--selected', selected);
+        });
+      }
+
+      function showSuggestions(query, showAll) {
+        suggestions.innerHTML = '';
+        activeIndex = -1;
+
+        if (query.length < MIN_CHARS && !showAll) {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          dropdownButton.setAttribute('aria-expanded', 'false');
+          return;
+        }
+
+        var matches = (query ? getFilteredUsers() : users).slice(0, showAll ? users.length : 5);
+        if (!matches.length) {
+          var noResults = document.createElement('div');
+          noResults.className = 'trs-autocomplete__no-results';
+          noResults.textContent = 'No team members found';
+          suggestions.appendChild(noResults);
+        } else {
+          matches.forEach(function (user, index) {
+            var option = document.createElement('button');
+            var name = document.createElement('span');
+            var matchStart = user.name.toLowerCase().indexOf(query.toLowerCase());
+            var matchEnd = matchStart + query.length;
+
+            option.type = 'button';
+            option.className = 'trs-autocomplete__option';
+            option.id = 'assign-to-option-' + index;
+            option.setAttribute('role', 'option');
+            option.setAttribute('aria-selected', 'false');
+            option.dataset.userId = user.id;
+            name.className = 'trs-autocomplete__name';
+
+            if (query && matchStart >= 0) {
+              name.appendChild(document.createTextNode(user.name.slice(0, matchStart)));
+              var match = document.createElement('strong');
+              match.textContent = user.name.slice(matchStart, matchEnd);
+              name.appendChild(match);
+              name.appendChild(document.createTextNode(user.name.slice(matchEnd)));
+            } else {
+              name.textContent = user.name;
+            }
+
+            option.appendChild(name);
+            option.addEventListener('mousedown', function (event) {
+              event.preventDefault();
+            });
+            option.addEventListener('click', function () {
+              selectUser(user);
+            });
+            suggestions.appendChild(option);
+          });
+        }
+
+        suggestions.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        dropdownButton.setAttribute('aria-expanded', 'true');
+      }
+
+      dropdownButton.addEventListener('click', function () {
+        if (suggestions.hidden) {
+          input.focus();
+          showSuggestions(input.value.trim(), true);
+        } else {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          dropdownButton.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+        }
+      });
+
+      function highlightSuggestion(index) {
+        var options = suggestions.querySelectorAll('[role="option"]');
+        options.forEach(function (option, optionIndex) {
+          var active = optionIndex === index;
+          option.classList.toggle('trs-autocomplete__option--active', active);
+          option.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        activeIndex = index;
+        if (options[index]) {
+          input.setAttribute('aria-activedescendant', options[index].id);
+        } else {
+          input.removeAttribute('aria-activedescendant');
+        }
+      }
+
+      input.addEventListener('input', function () {
+        hiddenInput.value = '';
+        hint.hidden = true;
+        hint.classList.remove('govuk-error-message');
+        input.classList.remove('govuk-input--error');
+        searchQuery = this.value;
+        showSuggestions(searchQuery.trim());
+        renderAllocationSummary();
+      });
+
+      input.addEventListener('keydown', function (event) {
+        var options = suggestions.querySelectorAll('[role="option"]');
+        if (event.key === 'ArrowDown' && !suggestions.hidden && options.length) {
+          event.preventDefault();
+          highlightSuggestion(activeIndex < options.length - 1 ? activeIndex + 1 : 0);
+        } else if (event.key === 'ArrowUp' && !suggestions.hidden && options.length) {
+          event.preventDefault();
+          highlightSuggestion(activeIndex > 0 ? activeIndex - 1 : options.length - 1);
+        } else if (event.key === 'Enter' && activeIndex >= 0 && options[activeIndex]) {
+          event.preventDefault();
+          var selected = users.find(function (user) {
+            return user.id === options[activeIndex].dataset.userId;
+          });
+          if (selected) selectUser(selected);
+        } else if (event.key === 'Escape') {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          dropdownButton.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+        }
+      });
+
+      input.addEventListener('focus', function () {
+        if (this.value.trim().length >= MIN_CHARS) showSuggestions(this.value.trim());
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!event.target.closest('.trs-autocomplete')) {
+          suggestions.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+          dropdownButton.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+        }
+      });
+
+      renderAllocationSummary();
+      renderTeamWorkload();
+
+      var assignmentBarBtn = document.getElementById('user-assignment-bar-btn');
+      if (assignmentBarBtn) {
+        assignmentBarBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit'));
+        });
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var tasks = window.trsBatchAssignTasksData || [];
+
+        if (!hiddenInput.value) {
+          hint.textContent = 'Select a team member from the suggestions.';
+          hint.hidden = false;
+          hint.classList.add('govuk-error-message');
+          input.classList.add('govuk-input--error');
+          input.focus();
+          return;
+        }
+
+        var user = users.find(function (item) { return item.id === hiddenInput.value; });
+        if (!user) return;
+
+        var overrides = {};
+        try {
+          var existing = sessionStorage.getItem('trsBatchAssignOverrides');
+          if (existing) overrides = JSON.parse(existing);
+          if (!overrides || typeof overrides !== 'object') overrides = {};
+        } catch (err) {
+          overrides = {};
+        }
+
+        tasks.forEach(function (t) {
+          if (t.trsRef) overrides[t.trsRef] = user.name;
+        });
+
+        try {
+          sessionStorage.setItem('trsBatchAssignOverrides', JSON.stringify(overrides));
+          sessionStorage.setItem(
+            'trsBatchAssignLastResult',
+            JSON.stringify({ agentName: user.name, count: tasks.length })
+          );
+          sessionStorage.removeItem('trsBatchAssignTasks');
+        } catch (err) {}
+
+        window.location.href = 'all-tasks-overview-batch?tasksAssigned=1';
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .trs-autocomplete {
+    position: relative;
+  }
+
+  .trs-autocomplete__input-wrap {
+    position: relative;
+  }
+
+  .trs-autocomplete__input-wrap .govuk-input {
+    padding-right: 48px;
+  }
+
+  .trs-autocomplete__dropdown-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #0b0c0c;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .trs-autocomplete__dropdown-button:focus {
+    outline: 3px solid transparent;
+    box-shadow: inset 0 0 0 3px #ffdd00;
+  }
+
+  .trs-autocomplete__suggestions {
+    width: 100%;
+    background: #fff;
+    border: 2px solid #0b0c0c;
+    border-top: 0;
+    box-sizing: border-box;
+    z-index: 10;
+  }
+
+  .trs-autocomplete__option {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: 0;
+    border-top: 1px solid #b1b4b6;
+    background: #fff;
+    color: #0b0c0c;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .trs-autocomplete__option:first-child {
+    border-top: 0;
+  }
+
+  .trs-autocomplete__option:hover,
+  .trs-autocomplete__option:focus,
+  .trs-autocomplete__option--active {
+    background: #f3f2f1;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .trs-autocomplete__name {
+    display: block;
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  .trs-autocomplete__no-results {
+    padding: 12px 15px;
+    border-top: 1px solid #b1b4b6;
+  }
+
+  .trs-team-workload {
+    max-width: 760px;
+    margin-top: 48px;
+  }
+
+  .trs-team-workload__heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #1d70b8;
+    font-size: 24px;
+    font-weight: 700;
+   
+    text-underline-offset: 4px;
+  }
+
+  .trs-team-workload__heading-icon {
+    font-size: 18px;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .trs-team-workload:not([open]) .trs-team-workload__heading-icon {
+    transform: rotate(-90deg);
+  }
+
+  .trs-team-workload__table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .trs-team-workload__table th:first-child,
+  .trs-team-workload__table td:first-child {
+    width: 40%;
+  }
+
+  .trs-team-workload__sort {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #005ea5;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .trs-team-workload__sort:hover {
+    text-decoration: underline;
+  }
+
+  .trs-team-workload__sort-indicator {
+    padding-left: 4px;
+    font-size: 14px;
+  }
+
+  .trs-team-workload__empty-count {
+    color: #717b8c;
+  }
+
+  .trs-team-workload__breakdown summary {
+    color: #005ea5;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .trs-team-workload__breakdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .trs-team-workload__breakdown summary::before {
+    display: inline-block;
+    width: 24px;
+    color: #1d70b8;
+    content: '\25B6';
+    font-size: 15px;
+  }
+
+  .trs-team-workload__breakdown[open] summary::before {
+    content: '\25BC';
+  }
+
+  .trs-team-workload__breakdown summary .govuk-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .trs-team-workload__breakdown-content {
+    margin-top: 8px;
+    padding: 12px 16px 4px 24px;
+    border-left: 4px solid #b1b4b6;
+  }
+
+  .trs-allocation-summary {
+    margin-top: 32px;
+    padding:20px;
+  }
+
+  .trs-allocation-card {
+    border-top: 1px solid #b1b4b6;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-allocation-card--favourite.trs-allocation-card--selected {
+    border-left: 5px solid #1d70b8;
+    background-color: #f0f4f9;
+  }
+
+  .trs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0px;
+    gap: 12px;
+  }
+
+  .trs-card-title {
+    flex: 1;
+    padding-bottom: 10px;
+  }
+
+  .trs-favourite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #1d70b8;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .trs-favourite-btn:hover {
+    transform: scale(1.15);
+  }
+
+  .trs-allocation-card--favourite {
+   background-color:none;
+    border-left: 0px solid #1d70b8;
+  }
+
+  .trs-my-team-sidebar {
+    position: sticky;
+    top: 20px;
+  }
+
+  .trs-sidebar-card {
+    background: #f3f2f1;
+    border: 0px solid #b1b4b6;
+    padding: 16px;
+    margin: 16px;
+    border-radius: 2px;
+  }
+
+  .trs-sidebar-card h2 {
+    margin-bottom: 16px;
+  }
+
+  .trs-favourite-btn--sidebar {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .trs-status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-radius: 2px;
+    color: #0b0c0c;
+  }
+
+  .trs-status-0 { background-color: #f3e5ab; } /* Not started - yellow */
+  .trs-status-1 { background-color: #d4eef8; } /* In progress - blue */
+  .trs-status-2 { background-color: #e6f3e6; } /* Review - green */
+  .trs-status-3 { background-color: #fce4e6; } /* On hold - pink */
+  .trs-status-4 { background-color: #e0e0e0; } /* Complete - grey */
+
+  .trs-user-assignment-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: #1d70b8;
+    color: #ffffff;
+    box-shadow: 0 -4px 12px rgba(11, 12, 12, 0.25);
+  }
+
+  .trs-user-assignment-bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
+  .trs-user-assignment-bar__text {
+    color: #ffffff;
+    margin-bottom: 0;
+    font-weight: 500;
+  }
+
+  body.trs-assignment-bar-visible {
+    padding-bottom: 100px;
+  }
+
+  .trs-allocation-summary,
+  .trs-my-team-sidebar {
+    display: none !important;
+  }
+
+  @media (min-width: 40.0625em) {
+    body.trs-assignment-bar-visible {
+      padding-bottom: 88px;
+    }
+  }
+
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-l">Bulk assignment</span>
+    <h1 class="govuk-heading-xl">Assign tasks</h1>
+
+    <div id="batch-selection-empty" class="govuk-inset-text govuk-!-margin-bottom-6" hidden>
+      <p class="govuk-body govuk-!-margin-bottom-2">No tasks were passed from the previous page.</p>
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <a class="govuk-link" href="all-tasks-overview-batch">Go to all tasks overview — batch assign</a> and select one or more tasks, then choose <strong>Batch assign</strong>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<form action="all-tasks-overview-batch" method="post" id="batch-assign-form">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
+        <h2 class="govuk-heading-m">Selected tasks</h2>
+        <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Type</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body" id="batch-selected-tasks-body">
+          </tbody>
+        </table>
+      </div>
+      <div id="batch-assign-fields" hidden>
+        <div class="govuk-form-group govuk-!-margin-bottom-0">
+          <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
+            Who do you want to assign these tasks to?
+          </label>
+          <div class="trs-autocomplete">
+            <div class="govuk-hint" id="assign-to-hint" role="alert" hidden></div>
+            <div class="trs-autocomplete__input-wrap">
+              <input
+                class="govuk-input"
+                id="assign-to"
+                name="assign-to-search"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="assign-to-suggestions"
+                aria-expanded="false"
+                aria-describedby="assign-to-hint"
+              >
+              <button
+                type="button"
+                id="assign-to-dropdown-button"
+                class="trs-autocomplete__dropdown-button"
+                aria-label="Show all team members"
+                aria-controls="assign-to-suggestions"
+                aria-expanded="false"
+              ><span aria-hidden="true">▼</span></button>
+              <input type="hidden" id="assign-to-value" name="assign-to">
+              <div
+                id="assign-to-suggestions"
+                class="trs-autocomplete__suggestions"
+                role="listbox"
+                hidden
+              ></div>
+            </div>
+          </div>
+          <div class="govuk-button-group govuk-!-margin-top-6">
+            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Continue</button>
+            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch">Cancel and return to tasks</a>
+          </div>
+        </div>
+
+        <details class="trs-team-workload govuk-!-margin-bottom-6" >
+          <summary class="trs-team-workload__heading">
+            <span class="trs-team-workload__heading-icon" aria-hidden="true">▼</span>
+            <span class="govuk-link">Team workload</span>
+          </summary>
+          <table class="govuk-table trs-team-workload__table govuk-!-margin-top-4">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header" aria-sort="none">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="name">
+                    Team member <span class="trs-team-workload__sort-indicator" aria-hidden="true">↕</span>
+                  </button>
+                </th>
+                <th scope="col" class="govuk-table__header" aria-sort="ascending">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="tasks">
+                    Tasks <span class="trs-team-workload__sort-indicator" aria-hidden="true">▲</span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body" id="team-workload-body"></tbody>
+          </table>
+        </details>
+      </div>
+     
+    </div>
+  </div>
+
+  <template id="sidebar-member-template">
+    <div class="trs-allocation-card trs-allocation-card--favourite" data-member="">
+      <div class="trs-card-header">
+        <div class="trs-card-title">
+          
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+           <span class="sidebar-member-name"></span>
+          </p>
+          
+        </div>
+        <button type="button" class="trs-favourite-btn trs-favourite-btn--sidebar" data-user-id="" aria-label="Unpin" title="Unpin">
+          <span aria-hidden="true">📌</span>
+          <span class="govuk-link govuk-link--no-visited-state">Unpin</span>
+        </button>
+      </div>
+      <details class="govuk-details govuk-!-margin-bottom-3" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text sidebar-task-count"></span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body-s"><strong>Status breakdown</strong></p>
+          <div class="sidebar-status-breakdown"></div>
+          <p class="govuk-body-s"><strong>By task type</strong></p>
+          <div class="sidebar-task-type-breakdown"></div>
+        </div>
+      </details>
+    </div>
+  </template>
+
+  <div class="govuk-grid-row">
+    <div id="my-team-sidebar" class="trs-my-team-sidebar trs-sidebar-card" hidden>
+      <h2 class="govuk-heading-m"><span aria-hidden="true">⭐</span> My team</h2>
+      <div id="my-team-members"></div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+   
+
+      <div id="batch-allocation-summary-cards" class="trs-allocation-summary" hidden></div>
+
+
+  </div>
+
+</form>
+
+<div
+  class="trs-user-assignment-bar"
+  id="user-assignment-bar"
+  role="region"
+  aria-label="User selected for task assignment"
+  hidden
+>
+  <div class="govuk-width-container">
+    <div class="trs-user-assignment-bar__inner">
+      <p class="govuk-body trs-user-assignment-bar__text" id="user-assignment-bar-text">
+        Assign selected tasks to user
+      </p>
+      <button type="button" class="govuk-button govuk-button--inverse govuk-!-margin-bottom-0" data-module="govuk-button" id="user-assignment-bar-btn">
+        Confirm and assign tasks
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var STORAGE_KEY = 'trsBatchAssignTasks';
+    var tbody = document.getElementById('batch-selected-tasks-body');
+    var wrap = document.getElementById('batch-selected-tasks-wrap');
+    var empty = document.getElementById('batch-selection-empty');
+    var formFields = document.getElementById('batch-assign-fields');
+    var allocationCards = document.getElementById('batch-allocation-summary-cards');
+    var myTeamSidebar = document.getElementById('my-team-sidebar');
+    var batchActions = document.getElementById('batch-actions');
+    var intro = document.getElementById('batch-intro-with-tasks');
+    var form = document.getElementById('batch-assign-form');
+    var tasks = [];
+
+    try {
+      var raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) tasks = JSON.parse(raw);
+      if (!Array.isArray(tasks)) tasks = [];
+    } catch (e) {
+      tasks = [];
+    }
+
+    window.trsBatchAssignTasksData = tasks;
+
+    if (!tasks.length) {
+      if (empty) empty.hidden = false;
+      if (intro) intro.hidden = true;
+      if (wrap) wrap.hidden = true;
+      if (myTeamSidebar) myTeamSidebar.hidden = true;
+      if (formFields) formFields.hidden = true;
+      if (allocationCards) allocationCards.hidden = true;
+      if (batchActions) batchActions.hidden = true;
+      return;
+    }
+
+    function addCell(row, text) {
+      var td = document.createElement('td');
+      td.className = 'govuk-table__cell';
+      td.textContent = text || '';
+      row.appendChild(td);
+    }
+
+    tasks.forEach(function (t, i) {
+      var tr = document.createElement('tr');
+      tr.className = 'govuk-table__row';
+      tr.setAttribute(
+        'aria-label',
+        (t.name || 'Task') + (t.trsRef ? ', ' + t.trsRef : '')
+      );
+
+      addCell(tr, t.assignedTo);
+      addCell(tr, t.taskType);
+      addCell(tr, t.status);
+
+      tbody.appendChild(tr);
+
+      var hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'batch-task-trs';
+      hidden.value = t.trsRef || ('task-' + i);
+      if (form) form.appendChild(hidden);
+    });
+
+    if (wrap) wrap.hidden = false;
+    if (myTeamSidebar) myTeamSidebar.hidden = false;
+    if (formFields) formFields.hidden = false;
+    if (allocationCards) allocationCards.hidden = false;
+    if (batchActions) batchActions.hidden = false;
+
+  });
+</script>
+
+{% endblock %}

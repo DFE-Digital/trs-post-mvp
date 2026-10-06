@@ -1,0 +1,242 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Task detail" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var notesTimeline = document.getElementById('notes-timeline');
+      var savedNotesHtml;
+      try {
+        savedNotesHtml = sessionStorage.getItem('trs-task-notes-timeline-html');
+      } catch (e) {}
+      if (notesTimeline && savedNotesHtml) {
+        notesTimeline.innerHTML = savedNotesHtml;
+      }
+
+      var saveBtn = document.getElementById('save-come-back');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          sessionStorage.setItem('trs-dennis-status', 'in-progress');
+        });
+      }
+    });
+  </script>
+  <script>
+    (function () {
+      var addBtn = document.getElementById('add-note');
+      var form = document.getElementById('add-note-form');
+      var cancelBtn = document.getElementById('cancel-note');
+      var saveBtn = document.getElementById('save-note');
+      var textarea = document.getElementById('new-note');
+      var timeline = document.getElementById('notes-timeline');
+      var author = 'K. Haidinger';
+
+      function formatNoteDateTime(d) {
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        var h = d.getHours();
+        var ampm = h >= 12 ? 'pm' : 'am';
+        var hour12 = h % 12;
+        if (hour12 === 0) hour12 = 12;
+        var mins = d.getMinutes().toString().padStart(2, '0');
+        return {
+          iso: d.toISOString(),
+          display: d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ' at ' + hour12 + ':' + mins + ampm
+        };
+      }
+
+      if (addBtn) {
+        addBtn.addEventListener('click', function () {
+          form.style.display = '';
+          textarea.focus();
+        });
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function () {
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          var text = textarea.value.trim();
+          if (!text) return;
+
+          var now = new Date();
+          var dt = formatNoteDateTime(now);
+
+          var item = document.createElement('div');
+          item.className = 'moj-timeline__item govuk-!-padding-bottom-6';
+
+          var header = document.createElement('div');
+          header.className = 'moj-timeline__header';
+
+          var title = document.createElement('h2');
+          title.className = 'moj-timeline__title';
+          title.textContent = 'By ' + author + ' added a note';
+
+          var dateP = document.createElement('p');
+          dateP.className = 'moj-timeline__date';
+          var timeEl = document.createElement('time');
+          timeEl.setAttribute('datetime', dt.iso);
+          timeEl.textContent = dt.display;
+          dateP.appendChild(timeEl);
+
+          header.appendChild(title);
+          header.appendChild(dateP);
+
+          var desc = document.createElement('div');
+          desc.className = 'moj-timeline__description';
+          desc.textContent = text;
+
+          item.appendChild(header);
+          item.appendChild(desc);
+
+          if (timeline.firstChild) {
+            timeline.insertBefore(item, timeline.firstChild);
+          } else {
+            timeline.appendChild(item);
+          }
+
+          try {
+            if (timeline) {
+              sessionStorage.setItem('trs-task-notes-timeline-html', timeline.innerHTML);
+            }
+          } catch (e) {}
+
+          textarea.value = '';
+          form.style.display = 'none';
+        });
+      }
+    })();
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">GOV.UK One Login <br> TRS-0000000</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Dennis Berkamp</h1>
+    <div class="govuk-!-margin-bottom-3 govuk-body ">
+      <strong class="govuk-tag govuk-tag--grey">Not started</strong>
+      <span class="govuk-!-margin-left-2">Assigned to Patricia Miles</span>
+      <a class="govuk-link govuk-!-margin-left-2" href="manage-task">Manage task</a>
+    </div>
+
+
+
+
+    <section id="notes-section" class="govuk-!-margin-bottom-6">
+      <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">View notes</span>
+        </summary>
+        <div class="govuk-details__text">
+          <div id="notes-timeline" class="moj-timeline">
+            <div class="moj-timeline__item govuk-!-padding-bottom-6">
+              <div class="moj-timeline__header">
+                <h2 class="moj-timeline__title">By K. Haidinger added a note</h2>
+                <p class="moj-timeline__date">
+                  <time datetime="2026-02-19T12:00:00.000Z">19 February 2026 at 12:00pm</time>
+                </p>
+              </div>
+              <div class="moj-timeline__description">Requested further documents</div>
+            </div>
+            <div class="moj-timeline__item govuk-!-padding-bottom-6">
+              <div class="moj-timeline__header">
+                <h2 class="moj-timeline__title">By A. Smith added a note</h2>
+                <p class="moj-timeline__date">
+                  <time datetime="2026-02-18T12:00:00.000Z">18 February 2026 at 12:00pm</time>
+                </p>
+              </div>
+              <div class="moj-timeline__description">Initial check complete</div>
+            </div>
+            <div class="moj-timeline__item govuk-!-padding-bottom-6">
+              <div class="moj-timeline__header">
+                <h2 class="moj-timeline__title">By F. Brown added a note</h2>
+                <p class="moj-timeline__date">
+                  <time datetime="2026-02-05T12:00:00.000Z">5 February 2026 at 12:00pm</time>
+                </p>
+              </div>
+              <div class="moj-timeline__description">Followed up with citizen</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="govuk-!-margin-top-6" aria-labelledby="request-details-heading">
+      <h2 id="request-details-heading" class="govuk-heading-m">Request details</h2>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value">Dennis Berkamp</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value">dennis.berkamp@test.gov.uk</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value">15 August 1990</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">TRN</dt>
+          <dd class="govuk-summary-list__value">Not provided</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">National Insurance number</dt>
+          <dd class="govuk-summary-list__value">QQ 12 34 56 C</dd>
+        </div>
+        <div id="proof-id" class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Proof of identity</dt>
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="#">my_passport.png (opens in new tab)</a>
+            <div class="govuk-!-margin-top-2">
+              <img src="/public/images/test-passport.png" 
+                  alt="Uploaded proof of identity"
+                  class="govuk-!-width-three-quarters govuk-!-margin-top-1">
+            
+            </div>
+          </dd>
+      </div>
+      </dl>
+
+      <fieldset class="govuk-fieldset" role="group" aria-labelledby="verify-heading">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" id="verify-heading">
+          Can you verify this person's identity?
+        </legend>
+
+        <div class="govuk-radios govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-yes" name="verify" type="radio" value="yes">
+            <label class="govuk-label govuk-radios__label" for="verify-yes">Yes, find a matching record</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="verify-no" name="verify" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="verify-no">No, reject this request</label>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        <a class="govuk-button" href="task-view-match-multi">Continue</a>
+        <a class="govuk-link" href="#">Cancel</a>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+{% endblock %}

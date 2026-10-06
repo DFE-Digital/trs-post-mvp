@@ -1,0 +1,37 @@
+{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+
+{% block pageTitle %}Add and manage teams – Teaching Record System – GOV.UK{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if successMessage %}
+        {{ govukNotificationBanner({
+          type: "success",
+          titleText: "Success",
+          text: successMessage
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">Add and manage teams</h1>
+      <p><a class="govuk-button" href="/task-visibility-access-permissions-mvp/admin/add-team">Add a team</a></p>
+
+      <table class="govuk-table">
+        <caption class="govuk-visually-hidden">Teams</caption>
+        <tbody class="govuk-table__body">
+          {% for team in teams %}
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">{{ team }}</th>
+              <td class="govuk-table__cell govuk-!-text-align-right">
+                <a href="/task-visibility-access-permissions-mvp/admin/change-team?team={{ loop.index0 }}" class="govuk-link">Change<span class="govuk-visually-hidden">{{ team }}</span></a>
+              </td>
+              <td class="govuk-table__cell govuk-!-text-align-right">
+                <a href="/task-visibility-access-permissions-mvp/admin/delete-team?team={{ loop.index0 }}" class="govuk-link">Delete<span class="govuk-visually-hidden">{{ team }}</span></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

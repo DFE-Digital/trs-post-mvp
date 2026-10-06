@@ -1,0 +1,35 @@
+{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}Add a team – Teaching Record System – GOV.UK{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/task-visibility-access-permissions-mvp/admin/teams" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorMessage %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: errorMessage, href: "#teamName" }]
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">Add a team</h1>
+      <form action="/task-visibility-access-permissions-mvp/admin/add-team" method="post">
+        {{ govukInput({
+          id: "teamName",
+          name: "teamName",
+          label: { text: "Team name" },
+          value: data.teamName,
+          errorMessage: { text: errorMessage } if errorMessage
+        }) }}
+        {{ govukButton({ text: "Add team" }) }}
+        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}

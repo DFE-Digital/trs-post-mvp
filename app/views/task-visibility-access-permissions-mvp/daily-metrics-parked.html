@@ -1,0 +1,43 @@
+{% extends "layouts/task-visibility-all-tasks.html" %}
+
+{% set pageName = "Daily task metrics (parked)" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "option-b/dashboard"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Performance</span>
+    <h1 class="govuk-heading-xl">Daily task completion metrics</h1>
+
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Parked
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+          This view is not in scope for the current prototype.
+        </p>
+        <p class="govuk-body">
+          In a future iteration, managers will see how many tasks were completed each day to track performance. No live data is connected here.
+        </p>
+      </div>
+    </div>
+
+    <p class="govuk-body">
+      Placeholder for charts or summary numbers (for example tasks completed today, rolling 7-day average). Link back to <a class="govuk-link" href="manage-allocation">Manage allocation</a> or the <a class="govuk-link" href="all-tasks-overview">all tasks overview</a>.
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "/",
+    serviceName: "Teaching Record System"
+  }) }}
+  {{ govukServiceNavigation({
+    serviceName: "Teaching Record System",
+    serviceUrl: "/task-visibility-access-permissions-mvp/dashboard",
+    navigation: [
+      { href: "/task-visibility-access-permissions-mvp/dashboard", text: "Records" },
+      { href: "/task-visibility-access-permissions-mvp/admin/users", text: "Add and manage users", active: activeAdminPage == "users" },
+      { href: "/task-visibility-access-permissions-mvp/admin/teams", text: "Add and manage teams", active: activeAdminPage == "teams" },
+      { href: "/task-visibility-access-permissions-mvp/admin/application-users", text: "Application users", active: activeAdminPage == "application-users" }
+    ]
+  }) }}
+{% endblock %}

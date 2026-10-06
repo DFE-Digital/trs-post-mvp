@@ -1,0 +1,67 @@
+{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}Change a team – Teaching Record System – GOV.UK{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/task-visibility-access-permissions-mvp/admin/teams" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorMessage %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: errorMessage, href: "#teamIndex" }]
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">Change a team</h1>
+      <form action="/task-visibility-access-permissions-mvp/admin/change-team" method="post">
+        
+        {{ govukSelect({
+          id: "teamIndex",
+          name: "teamIndex",
+          label: { text: "Team to change" },
+          items: teamOptions,
+          errorMessage: { text: errorMessage } if errorMessage == "Select a team"
+        }) }}
+
+        
+ <input type="hidden" name="teamIndex" value="{{ teamIndex }}">
+ 
+        
+        {{ govukInput({
+          value: selectedTeamName,
+          id: "newTeamName",
+          name: "newTeamName",
+          label: { text: "New team name" },
+          errorMessage: { text: errorMessage } if errorMessage and errorMessage != "Select a team"
+        }) }}
+        {{ govukButton({ text: "Change team" }) }}
+        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const teamSelect = document.getElementById('teamIndex')
+      const teamNameInput = document.getElementById('newTeamName')
+
+      function setTeamName () {
+        const selectedOption = teamSelect.options[teamSelect.selectedIndex]
+        teamNameInput.value = selectedOption.value ? selectedOption.text : ''
+      }
+
+      setTeamName()
+      teamSelect.addEventListener('change', setTeamName)
+    })
+  </script>
+{% endblock %}

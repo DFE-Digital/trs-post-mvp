@@ -1,4 +1,41 @@
 
+.app-accent-text {
+  color: #d4004c;
+}
+
+.app-permission-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 400;
+
+  &--edit {
+    background-color: #cce2d8;
+    color: #005a30;
+  }
+
+  &--view {
+    background-color: #d2e2f1;
+    color: #144e81;
+  }
+
+  &--none {
+    background-color: transparent;
+    color: #505a5f;
+  }
+}
+
+.app-permissions-table {
+  &__role-col {
+    min-width: 180px;
+  }
+
+  .govuk-table__header,
+  .govuk-table__cell {
+    vertical-align: middle;
+  }
+}
 
 .app-record-list {
   list-style: none;
@@ -46,6 +83,204 @@
   font-size: 14px;
 }
 
+.app-admin-users-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 0 32px;
+}
+
+.app-admin-users-title {
+  margin: 26px 0 18px;
+  font-size: 3rem;
+  line-height: 1.08;
+}
+
+.app-admin-users-button-row {
+  margin: 0 0 22px;
+}
+
+.app-admin-users-layout {
+  display: flex;
+  gap: 38px;
+  align-items: flex-start;
+}
+
+.app-admin-users-filter-panel {
+  width: 230px;
+  flex-shrink: 0;
+  padding-top: 0;
+}
+
+.app-admin-users-filter-panel__header {
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+
+.app-admin-users-filter-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-admin-users-filter {
+  border: 1px solid #b1b4b6;
+  background: #f3f2f1;
+  padding: 16px 14px 10px;
+}
+
+.app-admin-users-form-group {
+  margin-bottom: 20px;
+}
+
+.app-admin-users-input {
+  border: 2px solid #0b0c0c;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.app-admin-users-filter-group {
+  border-top: 1px solid #b1b4b6;
+  padding-top: 12px;
+  margin: 0 0 18px;
+}
+
+.app-admin-users-filter-group--team {
+  margin-bottom: 14px;
+}
+
+.app-admin-users-filter-group-title {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.app-admin-users-checkboxes {
+  margin: 0;
+}
+
+.app-admin-users-checkboxes .govuk-checkboxes__item {
+  min-height: 26px;
+  margin-bottom: 8px;
+}
+
+.app-admin-users-checkboxes .govuk-checkboxes__label {
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.app-admin-users-checkboxes .govuk-checkboxes__input + .govuk-checkboxes__label::before {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #0b0c0c;
+  background: #fff;
+}
+
+.app-admin-users-checkboxes .govuk-checkboxes__input:checked + .govuk-checkboxes__label::after {
+  left: 4px;
+  width: 6px;
+  height: 12px;
+}
+
+.app-admin-users-actions {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #b1b4b6;
+}
+
+.app-admin-users-find-button {
+  margin-bottom: 12px;
+  background: #00703c;
+}
+
+.app-admin-users-clear-link {
+  display: inline-block;
+  margin-left: 0;
+}
+
+.app-admin-users-results {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-admin-users-results__list {
+  margin-top: 0;
+}
+
+.app-user-row {
+  border-top: 1px solid #b1b4b6;
+  padding: 12px 0 10px;
+}
+
+.app-user-row:first-child {
+  border-top: 1px solid #b1b4b6;
+}
+
+.app-user-row__name {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.app-user-row__name a {
+  color: #1d70b8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.app-user-row__details {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  row-gap: 2px;
+  column-gap: 12px;
+  align-items: center;
+}
+
+.app-user-row__detail {
+  display: contents;
+}
+
+.app-user-row__label {
+  color: #505a5f;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.app-user-row__value {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #0b0c0c;
+}
+
+.app-pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 10px;
+}
+
+.app-pagination__link {
+  min-width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #0b0c0c;
+  text-decoration: none;
+}
+
+.app-pagination__link--current {
+  background: #1d70b8;
+  color: #fff;
+  font-weight: 700;
+}
+
+.app-pagination__link--next {
+  margin-left: 8px;
+}
+
 @media (max-width: 640px) {
   .app-record-list__row {
     flex-direction: column;
@@ -54,6 +289,19 @@
   .app-record-list__column--right {
     text-align: left;
     margin-top: 1rem;
+  }
+
+  .app-admin-users-layout {
+    flex-direction: column;
+  }
+
+  .app-admin-users-filter-panel,
+  .app-admin-users-results {
+    width: 100%;
+  }
+
+  .app-user-row__details {
+    grid-template-columns: 1fr;
   }
 }
 

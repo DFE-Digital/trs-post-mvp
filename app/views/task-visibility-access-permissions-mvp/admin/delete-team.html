@@ -1,0 +1,22 @@
+{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+
+
+{% block pageTitle %}Delete a team – Teaching Record System – GOV.UK{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/task-visibility-access-permissions-mvp/admin/teams" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Delete a team</h1>
+      <form action="/task-visibility-access-permissions-mvp/admin/delete-team" method="post">
+        <input type="hidden" name="teamIndex" value="{{ teamIndex }}">
+        <h2 class="govuk-heading-m">Are you sure you want to delete the team {{ teamName }}?</h2>
+        {{ govukButton({ text: "Delete team", classes: "govuk-button--warning" }) }}
+        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
