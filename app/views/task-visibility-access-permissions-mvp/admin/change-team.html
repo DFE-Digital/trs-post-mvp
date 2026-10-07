@@ -1,4 +1,4 @@
-{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+{% extends "layouts/task-visibility-all-tasks.html" %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -20,6 +20,7 @@
       {% endif %}
 
       <h1 class="govuk-heading-l">Change a team</h1>
+      
       <form action="/task-visibility-access-permissions-mvp/admin/change-team" method="post">
         
  <input type="hidden" name="teamIndex" value="{{ teamIndex }}">
@@ -33,10 +34,54 @@
           errorMessage: { text: errorMessage } if errorMessage and errorMessage != "Select a team"
         }) }}
         {{ govukButton({ text: "Change team" }) }}
-        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+   <a class="govuk-link govuk-button govuk-button--secondary govuk-!-margin-left-3" href="teams">Cancel and return to teams</a>
+
+        
       </form>
+
+      
     </div>
   </div>
+
+
+  <!-- Members on this team -->
+  <details class="govuk-details">
+  <summary class="govuk-details__summary govuk-!-heading-s">
+    <span class="govuk-link ">
+      Members on this team
+    </span>
+  </summary>
+  <div class="govuk-details__text" open>
+   <table class="govuk-table">
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Andrew EMLEY</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Chris Brown</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Ferdinand Brown</td>
+    </tr>
+      <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Andy Crawshaw</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Patricia Miles</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Maurice Villard</td>
+    </tr>
+      <tr class="govuk-table__row">
+      <td class="govuk-table__cell">Alessandra Morais</td>
+
+  </tbody>
+</table>
+  </div>
+  </details>
+
+
+
 {% endblock %}
 
 {% block scripts %}

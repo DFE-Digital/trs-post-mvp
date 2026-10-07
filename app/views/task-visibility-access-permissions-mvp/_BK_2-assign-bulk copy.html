@@ -975,39 +975,36 @@
        </div>
       </fieldset>
 
-    <!-- Ends Show my team members only --> 
-    <div class="govuk-button-group govuk-!-margin-top-6">
-      <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Continue</button>
-      <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch">Cancel and return to tasks</a>
-    </div>
-  </div>
+  <!-- Ends Show my team members only --> 
+          <div class="govuk-button-group govuk-!-margin-top-6">
+            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Continue</button>
+            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch">Cancel and return to tasks</a>
+          </div>
+        </div>
 
-  <!-- Team workload details --> 
-  <details class="trs-team-workload govuk-!-margin-bottom-6" >
-    <summary class="trs-team-workload__heading">
-      <span class="trs-team-workload__heading-icon" aria-hidden="true">▼</span>
-      <span class="govuk-link">Your team workload</span>
-    </summary>
-    <table class="govuk-table trs-team-workload__table govuk-!-margin-top-4">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header" aria-sort="none">
-            <button type="button" class="trs-team-workload__sort" data-workload-sort="name">
-              Team member <span class="trs-team-workload__sort-indicator" aria-hidden="true">↕</span>
-            </button>
-          </th>
-          <th scope="col" class="govuk-table__header" aria-sort="ascending">
-            <button type="button" class="trs-team-workload__sort" data-workload-sort="tasks">
-              Tasks <span class="trs-team-workload__sort-indicator" aria-hidden="true">▲</span>
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body" id="team-workload-body"></tbody>
-    </table>
-  </details>
-
-
+        <details class="trs-team-workload govuk-!-margin-bottom-6" >
+          <summary class="trs-team-workload__heading">
+            <span class="trs-team-workload__heading-icon" aria-hidden="true">▼</span>
+            <span class="govuk-link">Team workload</span>
+          </summary>
+          <table class="govuk-table trs-team-workload__table govuk-!-margin-top-4">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header" aria-sort="none">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="name">
+                    Team member <span class="trs-team-workload__sort-indicator" aria-hidden="true">↕</span>
+                  </button>
+                </th>
+                <th scope="col" class="govuk-table__header" aria-sort="ascending">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="tasks">
+                    Tasks <span class="trs-team-workload__sort-indicator" aria-hidden="true">▲</span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body" id="team-workload-body"></tbody>
+          </table>
+        </details>
       </div>
      
     </div>

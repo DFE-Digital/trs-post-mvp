@@ -1,10 +1,10 @@
-{% extends "task-visibility-access-permissions-mvp/admin/layout.html" %}
+{% extends "layouts/task-visibility-all-tasks.html" %}
 
 
 {% block pageTitle %}Delete a team – Teaching Record System – GOV.UK{% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({ text: "Back", href: "/task-visibility-access-permissions-mvp/admin/teams" }) }}
+  {{ govukBackLink({ text: "Back", href: "teams" }) }}
 {% endblock %}
 
 {% block content %}
@@ -15,8 +15,46 @@
         <input type="hidden" name="teamIndex" value="{{ teamIndex }}">
         <h2 class="govuk-heading-m">Are you sure you want to delete the team {{ teamName }}?</h2>
         {{ govukButton({ text: "Delete team", classes: "govuk-button--warning" }) }}
-        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+        <a class="govuk-link govuk-button govuk-button--secondary govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
       </form>
+
+        <!-- Members on this team -->
+      <details class="govuk-details">
+      <summary class="govuk-details__summary govuk-!-heading-s">
+        <span class="govuk-link ">
+          Members on this team
+        </span>
+      </summary>
+      <div class="govuk-details__text" open>
+      <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Andrew EMLEY</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Chris Brown</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Ferdinand Brown</td>
+        </tr>
+          <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Andy Crawshaw</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Patricia Miles</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Maurice Villard</td>
+        </tr>
+          <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Alessandra Morais</td>
+
+      </tbody>
+    </table>
+      </div>
+      </details>
+
+
     </div>
   </div>
 {% endblock %}

@@ -26,8 +26,6 @@
       var searchQuery = '';
       var activeIndex = -1;
       var MIN_CHARS = 1;
-      var MY_TEAM_MEMBERS = ['ferdinand-brown', 'patricia-miles', 'maurice-villard', 'alessandra-morais', 'amelia-brooks', 'andrew-carter', 'beatrice-clarke', 'benjamin-cooper', 'camilla-davies', 'charles-evans', 'charlotte-foster', 'chloe-gibson', 'daniel-graham', 'david-harris', 'elena-hughes'];
-      var myTeamOnly = true;
 
       var favourites = {};
       try {
@@ -98,27 +96,7 @@
         { id: 'chloe-gibson', name: 'Chloe Gibson', team: 'team-c', status: '', tasks: [0, 2, 0, 1, 1], taskStatuses: [0, 2, 0, 1, 0], skills: ['NPQ'] },
         { id: 'daniel-graham', name: 'Daniel Graham', team: 'team-c', status: '', tasks: [2, 0, 1, 0, 0], taskStatuses: [2, 0, 1, 0, 0], skills: ['One Login', 'Duplicates'] },
         { id: 'david-harris', name: 'David Harris', team: 'team-c', status: '', tasks: [1, 1, 0, 1, 1], taskStatuses: [1, 1, 0, 1, 0], skills: ['One Login', 'Names'] },
-        { id: 'elena-hughes', name: 'Elena Hughes', team: 'team-c', status: '', tasks: [0, 1, 1, 2, 0], taskStatuses: [0, 1, 1, 2, 0], skills: ['NPQ', 'Names'] },
-        { id: 'francesca-james', name: 'Francesca James', team: 'team-d', status: '', tasks: [1, 2, 0, 1, 1], taskStatuses: [1, 2, 0, 1, 0], skills: ['One Login', 'NPQ'] },
-        { id: 'gabriel-king', name: 'Gabriel King', team: 'team-d', status: '', tasks: [2, 0, 1, 0, 1], taskStatuses: [2, 0, 1, 0, 0], skills: ['Duplicates', 'Names'] },
-        { id: 'grace-lee', name: 'Grace Lee', team: 'team-e', status: '', tasks: [0, 1, 2, 1, 0], taskStatuses: [0, 1, 2, 1, 0], skills: ['One Login', 'Duplicates'] },
-        { id: 'henry-martin', name: 'Henry Martin', team: 'team-e', status: '', tasks: [1, 0, 0, 2, 1], taskStatuses: [1, 0, 0, 2, 0], skills: ['NPQ', 'Names'] },
-        { id: 'isabella-nguyen', name: 'Isabella Nguyen', team: 'team-d', status: '', tasks: [2, 1, 1, 0, 0], taskStatuses: [2, 1, 1, 0, 0], skills: ['One Login', 'Duplicates'] },
-        { id: 'jacob-oliver', name: 'Jacob Oliver', team: 'team-e', status: '', tasks: [1, 1, 2, 0, 1], taskStatuses: [1, 1, 2, 0, 0], skills: ['NPQ', 'Names', 'Duplicates'] },
-        { id: 'jessica-palmer', name: 'Jessica Palmer', team: 'team-d', status: '', tasks: [0, 2, 1, 1, 0], taskStatuses: [0, 2, 1, 1, 0], skills: ['One Login', 'NPQ'] },
-        { id: 'kevin-quinn', name: 'Kevin Quinn', team: 'team-e', status: '', tasks: [2, 0, 0, 1, 2], taskStatuses: [2, 0, 0, 1, 0], skills: ['Duplicates'] },
-        { id: 'laura-rhodes', name: 'Laura Rhodes', team: 'team-d', status: '', tasks: [1, 0, 2, 1, 0], taskStatuses: [1, 0, 2, 1, 0], skills: ['Names', 'Duplicates'] },
-        { id: 'michael-smith', name: 'Michael Smith', team: 'team-e', status: '', tasks: [0, 1, 1, 2, 1], taskStatuses: [0, 1, 1, 2, 0], skills: ['One Login', 'NPQ'] },
-        { id: 'natasha-turner', name: 'Natasha Turner', team: 'team-d', status: '', tasks: [2, 1, 0, 0, 1], taskStatuses: [2, 1, 0, 0, 0], skills: ['One Login', 'Names'] },
-        { id: 'oliver-vance', name: 'Oliver Vance', team: 'team-e', status: '', tasks: [1, 2, 1, 1, 0], taskStatuses: [1, 2, 1, 1, 0], skills: ['NPQ', 'Duplicates'] },
-        { id: 'patricia-walsh', name: 'Patricia Walsh', team: 'team-d', status: '', tasks: [0, 0, 2, 2, 0], taskStatuses: [0, 0, 2, 2, 0], skills: ['Names'] },
-        { id: 'quentin-xavier', name: 'Quentin Xavier', team: 'team-e', status: '', tasks: [2, 1, 0, 1, 1], taskStatuses: [2, 1, 0, 1, 0], skills: ['One Login', 'Duplicates'] },
-        { id: 'rachel-young', name: 'Rachel Young', team: 'team-d', status: '', tasks: [1, 1, 1, 0, 2], taskStatuses: [1, 1, 1, 0, 0], skills: ['NPQ', 'Names'] },
-        { id: 'samuel-zeller', name: 'Samuel Zeller', team: 'team-e', status: '', tasks: [0, 2, 0, 1, 2], taskStatuses: [0, 2, 0, 1, 0], skills: ['One Login'] },
-        { id: 'tina-anderson', name: 'Tina Anderson', team: 'team-d', status: '', tasks: [2, 0, 2, 0, 0], taskStatuses: [2, 0, 2, 0, 0], skills: ['Duplicates'] },
-        { id: 'umesh-bhat', name: 'Umesh Bhat', team: 'team-e', status: '', tasks: [1, 1, 0, 2, 1], taskStatuses: [1, 1, 0, 2, 0], skills: ['NPQ', 'Names'] },
-        { id: 'vera-collins', name: 'Vera Collins', team: 'team-d', status: '', tasks: [0, 1, 2, 1, 1], taskStatuses: [0, 1, 2, 1, 0], skills: ['One Login', 'Duplicates'] },
-        { id: 'william-davies', name: 'William Davies', team: 'team-e', status: '', tasks: [2, 2, 0, 0, 0], taskStatuses: [2, 2, 0, 0, 0], skills: ['NPQ'] }
+        { id: 'elena-hughes', name: 'Elena Hughes', team: 'team-c', status: '', tasks: [0, 1, 1, 2, 0], taskStatuses: [0, 1, 1, 2, 0], skills: ['NPQ', 'Names'] }
       ];
 
       function totalTasks(user) {
@@ -209,15 +187,10 @@
         });
       });
 
-      function getBasePool() {
-        return myTeamOnly ? users.filter(function (u) { return MY_TEAM_MEMBERS.indexOf(u.id) !== -1; }) : users;
-      }
-
       function getFilteredUsers() {
-        var pool = getBasePool();
         var normalised = searchQuery.trim().toLowerCase();
-        if (!normalised) return pool;
-        return pool.filter(function (user) {
+        if (!normalised) return users;
+        return users.filter(function (user) {
           return user.name.toLowerCase().indexOf(normalised) !== -1;
         });
       }
@@ -389,8 +362,7 @@
           return;
         }
 
-        var base = getBasePool();
-        var matches = (query ? getFilteredUsers() : base).slice(0, showAll ? base.length : 5);
+        var matches = (query ? getFilteredUsers() : users).slice(0, showAll ? users.length : 5);
         if (!matches.length) {
           var noResults = document.createElement('div');
           noResults.className = 'trs-autocomplete__no-results';
@@ -511,15 +483,6 @@
 
       renderAllocationSummary();
       renderTeamWorkload();
-
-      var myTeamFilterCheckbox = document.getElementById('my-team-filter-1');
-      myTeamFilterCheckbox.addEventListener('change', function () {
-        myTeamOnly = this.checked;
-        if (!suggestions.hidden) {
-          showSuggestions(input.value.trim(), suggestions.querySelectorAll('[role="option"]').length > 5);
-        }
-        renderAllocationSummary();
-      });
 
       var assignmentBarBtn = document.getElementById('user-assignment-bar-btn');
       if (assignmentBarBtn) {
@@ -926,88 +889,68 @@
           <label class="govuk-label govuk-label--m govuk-!-margin-bottom-4" for="assign-to">
             Who do you want to assign these tasks to?
           </label>
-          <div class="govuk-form-group">
-
-      <!-- Autocomplete team selection -->
-      <div class="trs-autocomplete">
-        <div class="govuk-hint" id="assign-to-hint" role="alert" hidden></div>
-        <div class="trs-autocomplete__input-wrap">
-          <input
-            class="govuk-input"
-            id="assign-to"
-            name="assign-to-search"
-            type="text"
-            autocomplete="off"
-            spellcheck="false"
-            role="combobox"
-            aria-autocomplete="list"
-            aria-controls="assign-to-suggestions"
-            aria-expanded="false"
-            aria-describedby="assign-to-hint"
-          >
-          <button
-            type="button"
-            id="assign-to-dropdown-button"
-            class="trs-autocomplete__dropdown-button"
-            aria-label="Show all team members"
-            aria-controls="assign-to-suggestions"
-            aria-expanded="false"
-          ><span aria-hidden="true">▼</span></button>
-          <input type="hidden" id="assign-to-value" name="assign-to">
-          <div
-            id="assign-to-suggestions"
-            class="trs-autocomplete__suggestions"
-            role="listbox"
-            hidden
-          ></div>
-        </div>
-      </div>
-
-      <!-- Show my team members only -->
-      <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
-        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="my-team-filter-1" name="my-team-filter" type="checkbox" value="my team" checked>
-            <label class="govuk-label govuk-checkboxes__label" for="my-team-filter-1">
-              Show my team members only
-            </label>
+          <div class="trs-autocomplete">
+            <div class="govuk-hint" id="assign-to-hint" role="alert" hidden></div>
+            <div class="trs-autocomplete__input-wrap">
+              <input
+                class="govuk-input"
+                id="assign-to"
+                name="assign-to-search"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="assign-to-suggestions"
+                aria-expanded="false"
+                aria-describedby="assign-to-hint"
+              >
+              <button
+                type="button"
+                id="assign-to-dropdown-button"
+                class="trs-autocomplete__dropdown-button"
+                aria-label="Show all team members"
+                aria-controls="assign-to-suggestions"
+                aria-expanded="false"
+              ><span aria-hidden="true">▼</span></button>
+              <input type="hidden" id="assign-to-value" name="assign-to">
+              <div
+                id="assign-to-suggestions"
+                class="trs-autocomplete__suggestions"
+                role="listbox"
+                hidden
+              ></div>
+            </div>
           </div>
-       </div>
-      </fieldset>
+          <div class="govuk-button-group govuk-!-margin-top-6">
+            <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Continue</button>
+            <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch">Cancel and return to tasks</a>
+          </div>
+        </div>
 
-    <!-- Ends Show my team members only --> 
-    <div class="govuk-button-group govuk-!-margin-top-6">
-      <button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Continue</button>
-      <a class="govuk-link govuk-button govuk-button--secondary" href="all-tasks-overview-batch">Cancel and return to tasks</a>
-    </div>
-  </div>
-
-  <!-- Team workload details --> 
-  <details class="trs-team-workload govuk-!-margin-bottom-6" >
-    <summary class="trs-team-workload__heading">
-      <span class="trs-team-workload__heading-icon" aria-hidden="true">▼</span>
-      <span class="govuk-link">Your team workload</span>
-    </summary>
-    <table class="govuk-table trs-team-workload__table govuk-!-margin-top-4">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header" aria-sort="none">
-            <button type="button" class="trs-team-workload__sort" data-workload-sort="name">
-              Team member <span class="trs-team-workload__sort-indicator" aria-hidden="true">↕</span>
-            </button>
-          </th>
-          <th scope="col" class="govuk-table__header" aria-sort="ascending">
-            <button type="button" class="trs-team-workload__sort" data-workload-sort="tasks">
-              Tasks <span class="trs-team-workload__sort-indicator" aria-hidden="true">▲</span>
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body" id="team-workload-body"></tbody>
-    </table>
-  </details>
-
-
+        <details class="trs-team-workload govuk-!-margin-bottom-6" >
+          <summary class="trs-team-workload__heading">
+            <span class="trs-team-workload__heading-icon" aria-hidden="true">▼</span>
+            <span class="govuk-link">Team workload</span>
+          </summary>
+          <table class="govuk-table trs-team-workload__table govuk-!-margin-top-4">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header" aria-sort="none">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="name">
+                    Team member <span class="trs-team-workload__sort-indicator" aria-hidden="true">↕</span>
+                  </button>
+                </th>
+                <th scope="col" class="govuk-table__header" aria-sort="ascending">
+                  <button type="button" class="trs-team-workload__sort" data-workload-sort="tasks">
+                    Tasks <span class="trs-team-workload__sort-indicator" aria-hidden="true">▲</span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body" id="team-workload-body"></tbody>
+          </table>
+        </details>
       </div>
      
     </div>
