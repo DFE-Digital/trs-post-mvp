@@ -2,17 +2,19 @@
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% block header %}
-  {{ govukHeader({
-    homepageUrl: "/",
-    serviceName: ""
-  }) }}
+  <div style="position: relative;">
+    {{ govukHeader({
+      homepageUrl: "/",
+      serviceName: ""
+    }) }}
+    <a href="#" class="govuk-header__link" style="position: absolute; top: 15px; right: 15px; color: white; text-decoration: underline;">Sign out</a>
+  </div>
   {{ govukServiceNavigation({
     serviceName: "Teaching Record System",
-    serviceUrl: "/task-visibility-access-permissions-mvp/dashboard",
+    serviceUrl: "/task-visibility-all-tasks/dashboard",
     navigation: [
-      { href: "/task-visibility-access-permissions-mvp/dashboard", text: "Records", active: activeAdminPage == "dashboard" },
-      { href: "/task-visibility-access-permissions-mvp/admin/users", text: "Add and manage users", active: activeAdminPage == "users" },
-      { href: "/task-visibility-access-permissions-mvp/admin/teams", text: "Add and manage teams", active: activeAdminPage == "teams" },
+      { href: "/task-visibility-all-tasks/dashboard", text: "Records", active: activeAdminPage == "dashboard" },
+      { href: "#", text: "Add and manage users", active: activeAdminPage == "users" },
       { href: "#", text: "Application users", active: activeAdminPage == "application-users" }
     ]
   }) }}
