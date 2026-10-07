@@ -1,30 +1,19 @@
-{#
-  Same as layouts/main.html but service name in the header links to this journey’s dashboard.
-  Figma html-to-design capture (remove after importing screens to Figma).
-#}
-
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
-
-{% block head %}
-  {{ super() }}
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-{% endblock %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% block header %}
-
-    {{ govukHeader() }}
-   
-
-    <section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service information" data-govuk-service-navigation-init=""><div class="govuk-width-container"><div class="govuk-service-navigation__container"><span class="govuk-service-navigation__service-name"><a class="govuk-service-navigation__link" href="dashboard">Teaching record system</a></span><nav class="govuk-service-navigation__wrapper" aria-label="Menu"><button class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" type="button" aria-controls="navigation" hidden="" aria-hidden="true">Menu</button><ul class="govuk-service-navigation__list" id="navigation"><li class="govuk-service-navigation__item govuk-service-navigation__item--active"><a class="govuk-service-navigation__link" href="/" aria-current="page"><strong class="govuk-service-navigation__active-fallback">
-                    Records
-                </strong></a></li>
-                <li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="admin/add-user">Add and manage users</a></li>
-                <li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="admin/add-team">Add and manage teams</a></li>
-                <li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="#">Application users</a></li>
-              </ul></nav>
-            </div></div></section>
-
+  {{ govukHeader({
+    homepageUrl: "/",
+    serviceName: ""
+  }) }}
+  {{ govukServiceNavigation({
+    serviceName: "Teaching Record System",
+    serviceUrl: "/task-visibility-access-permissions-mvp/dashboard",
+    navigation: [
+      { href: "/task-visibility-access-permissions-mvp/dashboard", text: "Records", active: activeAdminPage == "dashboard" },
+      { href: "/task-visibility-access-permissions-mvp/admin/users", text: "Add and manage users", active: activeAdminPage == "users" },
+      { href: "/task-visibility-access-permissions-mvp/admin/teams", text: "Add and manage teams", active: activeAdminPage == "teams" },
+      { href: "#", text: "Application users", active: activeAdminPage == "application-users" }
+    ]
+  }) }}
 {% endblock %}
-
-
