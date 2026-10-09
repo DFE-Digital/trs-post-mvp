@@ -85,7 +85,7 @@
 
       var users = [
         { id: 'ferdinand-brown', name: 'Ferdinand Brown', team: 'team-a', status: '', tasks: [1, 1, 0, 0, 0], taskStatuses: [1, 0, 0, 0, 0], skills: ['One Login', 'NPQ'] },
-        { id: 'patricia-miles', name: 'Patricia Miles', team: 'team-a', status: '', tasks: [2, 2, 1, 1, 0], taskStatuses: [2, 1, 1, 1, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
+        { id: 'patricia-miles', name: 'Myself', team: 'team-a', status: '', tasks: [2, 2, 1, 1, 0], taskStatuses: [2, 1, 1, 1, 0], skills: ['One Login', 'NPQ', 'Duplicates'] },
         { id: 'maurice-villard', name: 'Maurice Villard', team: 'team-a', status: '', tasks: [1, 0, 1, 0, 0], taskStatuses: [0, 0, 1, 0, 0], skills: ['Duplicates'] },
         { id: 'alessandra-morais', name: 'Alessandra Morais', team: 'team-a', status: '', tasks: [0, 1, 0, 1, 0], taskStatuses: [0, 1, 0, 1, 0], skills: ['NPQ', 'Names'] },
         { id: 'amelia-brooks', name: 'Amelia Brooks', team: 'team-a', status: '', tasks: [1, 0, 0, 2, 0], taskStatuses: [1, 0, 0, 2, 0], skills: ['Names'] },
@@ -656,7 +656,7 @@
 
   .trs-team-workload {
     max-width: 760px;
-    margin-top: 48px;
+    margin-top: 24px;
   }
 
   .trs-team-workload__heading {
@@ -909,12 +909,16 @@
     <div class="govuk-grid-column-full">
       <div id="batch-selected-tasks-wrap" class="govuk-!-margin-bottom-6" hidden>
         <h2 class="govuk-heading-m">Selected tasks</h2>
+
+        
         <table class="govuk-table" id="batch-selected-tasks-table" aria-describedby="batch-intro-with-tasks">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Assigned to</th>
+              <th scope="col" class="govuk-table__header">Task</th>
+              <th scope="col" class="govuk-table__header">Requested on</th>
               <th scope="col" class="govuk-table__header">Type</th>
               <th scope="col" class="govuk-table__header">Status</th>
+              <th scope="col" class="govuk-table__header">Assigned to</th>
             </tr>
           </thead>
           <tbody class="govuk-table__body" id="batch-selected-tasks-body">
@@ -1128,9 +1132,35 @@
         (t.name || 'Task') + (t.trsRef ? ', ' + t.trsRef : '')
       );
 
-      addCell(tr, t.assignedTo);
+      var taskCell = document.createElement('td');
+      taskCell.className = 'govuk-table__cell';
+      var link = document.createElement('a');
+      link.className = 'govuk-link';
+      link.href = t.href || '#';
+      link.textContent = t.name || 'Task';
+      taskCell.appendChild(link);
+      if (t.trsRef) {
+        var ref = document.createElement('a');
+        ref.className = 'govuk-link govuk-body-s govuk-!-display-block govuk-!-margin-top-1 govuk-!-margin-bottom-0';
+        ref.href = t.href || '#';
+        ref.textContent = t.trsRef;
+        taskCell.appendChild(ref);
+      }
+      tr.appendChild(taskCell);
+
+      addCell(tr, t.requestedOn);
       addCell(tr, t.taskType);
-      addCell(tr, t.status);
+
+      var statusCell = document.createElement('td');
+      statusCell.className = 'govuk-table__cell';
+      var tag = document.createElement('strong');
+      var status = t.status || '';
+      tag.className = t.statusClass || ('govuk-tag ' + (status === 'Not started' ? 'govuk-tag--grey' : 'govuk-tag--blue'));
+      tag.textContent = status;
+      statusCell.appendChild(tag);
+      tr.appendChild(statusCell);
+
+      addCell(tr, t.assignedTo);
 
       tbody.appendChild(tr);
 
