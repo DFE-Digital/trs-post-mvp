@@ -56,3 +56,18 @@ body {
   width: 100%;
   padding-right: 0; /* ensures link isn't cut off */
 }
+
+.app-status-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+
+  .govuk-checkboxes__item {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+
+  .govuk-checkboxes__label {
+    white-space: nowrap;
+  }
+}
