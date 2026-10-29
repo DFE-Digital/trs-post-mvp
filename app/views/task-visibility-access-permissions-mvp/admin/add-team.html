@@ -17,7 +17,7 @@
           errorList: [{ text: errorMessage, href: "#teamName" }]
         }) }}
       {% endif %}
-
+      <span class="govuk-caption-l">Add and manage teams</span>
       <h1 class="govuk-heading-l">Add a team</h1>
       <form action="/task-visibility-access-permissions-mvp/admin/add-team" method="post">
         {{ govukInput({
@@ -27,8 +27,8 @@
           value: data.teamName,
           errorMessage: { text: errorMessage } if errorMessage
         }) }}
-        {{ govukButton({ text: "Add team" }) }}
-        <a class="govuk-link govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel</a>
+        {{ govukButton({ text: "Confirm and add team" }) }}
+        <a class="govuk-button govuk-button--secondary govuk-!-margin-left-3" href="/task-visibility-access-permissions-mvp/admin/teams">Cancel and return to teams</a>
       </form>
     </div>
   </div>
