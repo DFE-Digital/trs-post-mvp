@@ -4,12 +4,12 @@ module.exports = (router) => {
   const adminPath = '/task-visibility-access-permissions-mvp/admin'
   const defaultTeams = ['Register', 'TRA', 'Team C']
   const roles = [
-    { name: 'Viewer', permissions: ['View', 'View', 'View', 'No', 'No', 'No'] },
-    { name: 'Record manager', permissions: ['Edit', 'Edit', 'View', 'No', 'No', 'Edit'] },
-    { name: 'Alerts manager (TRA decisions)', permissions: ['Edit', 'View', 'Edit', 'View', 'No', 'No'] },
-    { name: 'Alerts manager (TRA and DBS decisions)', permissions: ['Edit', 'View', 'Edit', 'Edit', 'No', 'No'] },
-    { name: 'Access manager', permissions: ['Edit', 'Edit', 'View', 'No', 'Edit', 'Edit'] },
-    { name: 'Administrator', permissions: ['Edit', 'Edit', 'Edit', 'Edit', 'Edit', 'Edit'] }
+    { name: 'Viewer', permissions: ['View', 'View', 'View', 'No', 'No', 'No', 'No'] },
+    { name: 'Record manager', permissions: ['Edit', 'Edit', 'View', 'No', 'No', 'No', 'Edit'] },
+    { name: 'Alerts manager (TRA decisions)', permissions: ['Edit', 'View', 'Edit', 'View', 'No', 'No', 'No'] },
+    { name: 'Alerts manager (TRA and DBS decisions)', permissions: ['Edit', 'View', 'Edit', 'Edit', 'No', 'No', 'No'] },
+    { name: 'Access manager', permissions: ['Edit', 'Edit', 'View', 'No', 'Edit', 'Edit', 'Edit'] },
+    { name: 'Administrator', permissions: ['Edit', 'Edit', 'Edit', 'Edit', 'Edit', 'Edit', 'Edit'] }
   ]
   const defaultUsers = [
     { id: '1', firstName: 'Aamina', lastName: 'Patel', email: 'aamina.patel@example.gov.uk', team: 'Register', role: 'Record manager' },

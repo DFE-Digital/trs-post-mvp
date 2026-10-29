@@ -73,8 +73,8 @@
                   <th scope="col" class="govuk-table__header">Non-DBS alerts</th>
                   <th scope="col" class="govuk-table__header">DBS alerts</th>
                   <th scope="col" class="govuk-table__header">Manage users</th>
-                   <th scope="col" class="govuk-table__header">Support tasks</th>
-                   <th scope="col" class="govuk-table__header">Manage teams</th>
+                  <th scope="col" class="govuk-table__header">Manage teams</th>
+                  <th scope="col" class="govuk-table__header">Support tasks</th>
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
@@ -91,12 +91,11 @@
                     {% for permission in role.permissions %}
                       <td class="govuk-table__cell">
                         {% if permission == 'Edit' %}
-                        <strong class="govuk-tag govuk-tag--green">Edit</strong>
-    
+                          <strong class="govuk-tag govuk-tag--green"><span class="govuk-visually-hidden">Permission: </span>Edit</strong>
                         {% elif permission == 'View' %}
-                          <strong class="govuk-tag govuk-tag--blue">View</strong>
+                          <strong class="govuk-tag govuk-tag--blue"><span class="govuk-visually-hidden">Permission: </span>View</strong>
                         {% else %}
-                         <strong class="govuk-tag govuk-tag--grey">Edit</strong>
+                          <strong class="govuk-tag govuk-tag--grey"><span class="govuk-visually-hidden">Permission: </span>No</strong>
                         {% endif %}
                       </td>
                     {% endfor %}
@@ -110,7 +109,7 @@
         <div class="govuk-button-group govuk-!-margin-top-4">
           <button class="govuk-button" data-module="govuk-button">Save changes</button>
           <button class="govuk-button govuk-button--secondary" data-module="govuk-button" type="button">Deactivate user</button>
-          <a class="govuk-link" href="/task-visibility-access-permissions-mvp/admin/users">Cancel and return to users</a>
+          <a class="govuk-button govuk-button--secondary" href="/task-visibility-access-permissions-mvp/admin/users">Cancel and return to users</a>
         </div>
 
       </form>
