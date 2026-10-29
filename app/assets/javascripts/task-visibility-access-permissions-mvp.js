@@ -2,7 +2,7 @@
 // Kept separate from app/routes.js so this journey can be maintained in one place.
 module.exports = (router) => {
   const adminPath = '/task-visibility-access-permissions-mvp/admin'
-  const defaultTeams = ['Register', 'TRA', 'Team C']
+  const defaultTeams = ['Register', 'TRA', 'Support and Operations']
   const roles = [
     { name: 'Viewer', permissions: ['View', 'View', 'View', 'No', 'No', 'No', 'No'] },
     { name: 'Record manager', permissions: ['Edit', 'Edit', 'View', 'No', 'No', 'No', 'Edit'] },
@@ -14,14 +14,14 @@ module.exports = (router) => {
   const defaultUsers = [
     { id: '1', firstName: 'Aamina', lastName: 'Patel', email: 'aamina.patel@example.gov.uk', team: 'Register', role: 'Record manager' },
     { id: '2', firstName: 'Alison', lastName: 'Hey', email: 'alison.hey@example.gov.uk', team: 'TRA', role: 'Viewer' },
-    { id: '3', firstName: 'Angela', lastName: 'Borman', email: 'angela.borman@example.gov.uk', team: 'Team C', role: 'Senior record manager' },
+    { id: '3', firstName: 'Angela', lastName: 'Borman', email: 'angela.borman@example.gov.uk', team: 'Support and Operations', role: 'Senior record manager' },
     { id: '4', firstName: 'Alistair', lastName: 'Wright', email: 'alistair.wright@example.gov.uk', team: 'Register', role: 'Viewer' },
     { id: '5', firstName: 'Ben', lastName: 'Thornton', email: 'ben.thornton@example.gov.uk', team: 'TRA', role: 'Access manager' },
     { id: '6', firstName: 'Clare', lastName: 'Okafor', email: 'clare.okafor@example.gov.uk', team: 'Register', role: 'Administrator' },
-    { id: '7', firstName: 'David', lastName: 'Singh', email: 'david.singh@example.gov.uk', team: 'Team C', role: 'Viewer' },
+    { id: '7', firstName: 'David', lastName: 'Singh', email: 'david.singh@example.gov.uk', team: 'Support and Operations', role: 'Viewer' },
     { id: '8', firstName: 'Emma', lastName: 'Walsh', email: 'emma.walsh@example.gov.uk', team: 'TRA', role: 'Record manager', status: 'Deactivated' },
     { id: '9', firstName: 'Fatima', lastName: 'Ahmed', email: 'fatima.ahmed@example.gov.uk', team: 'Register', role: 'Alerts manager (TRA decisions)' },
-    { id: '10', firstName: 'George', lastName: 'Mbeki', email: 'george.mbeki@example.gov.uk', team: 'Team C', role: 'Administrator' }
+    { id: '10', firstName: 'George', lastName: 'Mbeki', email: 'george.mbeki@example.gov.uk', team: 'Support and Operations', role: 'Administrator' }
   ]
 
   const getTeams = (req) => {

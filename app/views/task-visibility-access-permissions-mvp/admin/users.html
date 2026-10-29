@@ -15,7 +15,7 @@
   <div class="govuk-grid-column-one-third">
 
   <div class="moj-filter-layout__filter">
-        <form method="get" action="/users" novalidate="" autocomplete="off">
+        <form method="get" action="/task-visibility-access-permissions-mvp/admin/users" novalidate="" autocomplete="off">
             <div class="moj-filter">
                 <div class="moj-filter__header">
                     <div class="moj-filter__header-title">
@@ -27,6 +27,8 @@
                             
         <div class="govuk-form-group"><label for="Keywords" class="govuk-label govuk-label--s">Search</label><input id="Keywords" type="text" class="govuk-input" autocomplete="off" inputmode="text" name="Keywords" spellcheck="false"></div>
                             
+       
+
         <div class="govuk-form-group"><fieldset class="govuk-fieldset"><legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                 Role
             </legend><div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" data-govuk-checkboxes-init=""><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Role" name="Role" type="checkbox" value="Viewer"><label for="trs-filters-Role" class="govuk-label govuk-checkboxes__label">
@@ -52,7 +54,11 @@
                     Deactivated (13)
                 </label></div></div></fieldset></div>
 
-
+ <div class="govuk-form-group"><fieldset class="govuk-fieldset"><legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                Your teams
+            </legend><div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" data-govuk-checkboxes-init=""><div class="govuk-checkboxes__item"><input class="govuk-checkboxes__input" id="trs-filters-Team" name="team" type="checkbox" value="Support and Operations" {% if selectedTeam == 'Support and Operations' %}checked{% endif %}><label for="trs-filters-Team" class="govuk-label govuk-checkboxes__label">
+                    Support and Operations
+                </label></div></div></fieldset></div>
                     <div class="govuk-button-group">
                         <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">Find user</button>
                         <a class="govuk-link govuk-link--no-visited-state" href="?">Clear filters</a>

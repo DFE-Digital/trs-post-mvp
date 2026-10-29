@@ -10,19 +10,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      {% if errorMessage %}
-        <div class="govuk-error-summary" data-module="govuk-error-summary">
-          <div role="alert">
-            <h2 class="govuk-error-summary__title">There is a problem</h2>
-            <div class="govuk-error-summary__body">
-              <ul class="govuk-list govuk-error-summary__list">
-                <li><a href="#email">{{ errorMessage }}</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
       <span class="govuk-caption-l">Add and manage users</span>
       <h1 class="govuk-heading-l">Change {{ user.firstName }} {{ user.lastName }}'s details</h1>
 
@@ -32,12 +19,9 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
 
-            <div class="govuk-form-group {% if errorMessage %}govuk-form-group--error{% endif %}">
+            <div class="govuk-form-group">
               <label class="govuk-label" for="email">Email address</label>
-              {% if errorMessage %}
-                <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ errorMessage }}</p>
-              {% endif %}
-              <input class="govuk-input {% if errorMessage %}govuk-input--error{% endif %}" id="email" name="email" type="email" autocomplete="email" spellcheck="false" value="{{ user.email }}">
+              <input class="govuk-input" id="email" name="email" type="email" autocomplete="email" spellcheck="false" value="{{ user.email }}">
             </div>
 
             <div class="govuk-form-group">
